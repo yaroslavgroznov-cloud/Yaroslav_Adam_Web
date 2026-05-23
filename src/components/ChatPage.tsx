@@ -1,16 +1,19 @@
 // Основная страница чата.
-// Sprint C, 2026-05-23.
+// Sprint C + D2 welcome, 2026-05-23.
 import React, { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 
 import { Header } from './Header'
 import { MessageList } from './MessageList'
 import { MessageInput } from './MessageInput'
+import { WelcomeScreen } from './WelcomeScreen'
 
 import { useChat } from '../store/chat'
 import { readProfileFromCfAccess } from '../lib/profile'
 import { adamChatRequest } from '../api/adam'
 import type { AdamProfile, ChatMessage } from '../types'
+
+const ONBOARD_KEY = 'adam-onboarded-v1'
 
 function uid(): string {
   return Math.random().toString(36).slice(2) + Date.now().toString(36)
@@ -18,6 +21,18 @@ function uid(): string {
 
 export function ChatPage(): React.ReactElement {
   const [profile, setProfile] = useState<AdamProfile>({ email: null, displayName: null })
+  const [showWelcome, setShowWelcome] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(ONBOARD_KEY) !== '1'
+    } catch {
+      return true
+    }
+  })
+
+  const closeWelcome = (): void => {
+    try { localStorage.setItem(ONBOARD_KEY, '1') } catch { /* ignore */ }
+    setShowWelcome(false)
+  }
   const messages = useChat((s) => s.messages)
   const isTyping = useChat((s) => s.isTyping)
   const appendMessage = useChat((s) => s.appendMessage)
@@ -67,6 +82,10 @@ export function ChatPage(): React.ReactElement {
   }
 
   const userLabel = profile.displayName ?? profile.email ?? 'Я'
+
+  if (showWelcome) {
+    return <WelcomeScreen onStart={closeWelcome} />
+  }
 
   return (
     <div className="flex flex-col h-full">
