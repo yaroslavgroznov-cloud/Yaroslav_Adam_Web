@@ -1,5 +1,5 @@
-// Тонкий хедер: «Adam» + аватар + текущий пользователь.
-// Sprint C, 2026-05-23.
+// Тонкий хедер: «Adam» + аватар + кнопки «на главную» и «очистить».
+// Sprint C + D-fix, 2026-05-24.
 import React from 'react'
 import { Avatar } from './Avatar'
 import type { AdamProfile } from '../types'
@@ -7,9 +7,14 @@ import type { AdamProfile } from '../types'
 interface HeaderProps {
   profile: AdamProfile
   onClearHistory: () => void
+  onBackToWelcome: () => void
 }
 
-export function Header({ profile, onClearHistory }: HeaderProps): React.ReactElement {
+export function Header({
+  profile,
+  onClearHistory,
+  onBackToWelcome,
+}: HeaderProps): React.ReactElement {
   const userLabel = profile.displayName ?? profile.email ?? null
   return (
     <header
@@ -20,15 +25,27 @@ export function Header({ profile, onClearHistory }: HeaderProps): React.ReactEle
         borderColor: 'var(--color-pine-900)',
       }}
     >
-      <div className="flex items-center gap-3">
+      <button
+        type="button"
+        onClick={onBackToWelcome}
+        className="flex items-center gap-3 text-left transition hover:opacity-90 active:translate-y-px"
+        aria-label="На главную"
+      >
         <Avatar size={36} />
         <div className="flex flex-col leading-tight">
           <span className="text-base font-semibold">Adam</span>
           <span className="text-[11px] opacity-70">опора, не подстройка</span>
         </div>
-      </div>
+      </button>
       <div className="flex items-center gap-3 text-right">
         {userLabel && <span className="text-xs opacity-80 hidden sm:block">{userLabel}</span>}
+        <button
+          type="button"
+          onClick={onBackToWelcome}
+          className="text-[11px] underline opacity-70 hover:opacity-100"
+        >
+          ← на главную
+        </button>
         <button
           type="button"
           onClick={onClearHistory}

@@ -33,6 +33,10 @@ export function ChatPage(): React.ReactElement {
     try { localStorage.setItem(ONBOARD_KEY, '1') } catch { /* ignore */ }
     setShowWelcome(false)
   }
+
+  const backToWelcome = (): void => {
+    setShowWelcome(true)
+  }
   const messages = useChat((s) => s.messages)
   const isTyping = useChat((s) => s.isTyping)
   const appendMessage = useChat((s) => s.appendMessage)
@@ -89,7 +93,11 @@ export function ChatPage(): React.ReactElement {
 
   return (
     <div className="flex flex-col h-full">
-      <Header profile={profile} onClearHistory={reset} />
+      <Header
+        profile={profile}
+        onClearHistory={reset}
+        onBackToWelcome={backToWelcome}
+      />
       <MessageList messages={messages} isTyping={isTyping} userLabel={userLabel} />
       <MessageInput onSend={handleSend} disabled={chatMutation.isPending} />
     </div>
