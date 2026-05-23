@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* Adam Mobile Interface — палитра «тёплая земля».
+   Терракот / тёмный хвойный / кремовый. Sprint C, 2026-05-23. */
+
+@theme {
+  /* Терракот — акценты, кнопки, аватар */
+  --color-terracotta-50:  #FBEEE6;
+  --color-terracotta-100: #F4D6C1;
+  --color-terracotta-300: #DC8E66;
+  --color-terracotta-500: #C04F2A;
+  --color-terracotta-700: #8C361C;
+  --color-terracotta-900: #4D1D0F;
+
+  /* Тёмный хвойный — фон тёмной темы, header, рамки */
+  --color-pine-50:  #E7EEEB;
+  --color-pine-100: #C7D6CE;
+  --color-pine-300: #6E8C7D;
+  --color-pine-500: #3D5A4B;
+  --color-pine-700: #1F3A2E;
+  --color-pine-900: #0F2118;
+
+  /* Кремовый — фон светлой темы, листы сообщений */
+  --color-cream-50:  #FBF5EC;
+  --color-cream-100: #F5EBDD;
+  --color-cream-200: #ECDFC9;
+  --color-cream-300: #E0D1B6;
+
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream-100);
+  color: var(--color-pine-900);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--color-pine-900);
+    color: var(--color-cream-100);
+  }
+}
+
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-terracotta-500);
+  outline-offset: 2px;
+}
+
+/* Тонкая анимация "typing" точек */
+@keyframes typing-pulse {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-3px); }
+}
+.typing-dot {
+  animation: typing-pulse 1.2s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
