@@ -1,0 +1,15 @@
+// Cloudflare Pages — переопределяем настройки UI.
+// Файл читается CF Pages при каждом deploy и имеет приоритет над UI Settings.
+//
+// Причина: при первичном создании проекта CF спутал «Vite» и «VitePress»
+// (визуально похожи в списке framework presets), запустил `npx vitepress build`
+// и собрал документационный сайт вместо нашего React PWA. Этот файл фиксит
+// правильную команду без участия пользователя в UI.
+//
+// Подпись: СС, КВРИО Ярослав Грознов, Sprint C deploy-fix, 2026-05-23.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "yaroslav-adam-web",
+  "compatibility_date": "2026-01-01",
+  "pages_build_output_dir": "./dist"
+}
