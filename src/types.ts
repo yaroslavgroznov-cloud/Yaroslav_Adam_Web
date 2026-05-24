@@ -1,16 +1,8 @@
-// Adam Mobile Interface — типы.
-// Sprint C, 2026-05-23.
+// Adam Mobile Interface — типы. Sprint D unification, 2026-05-24.
 
 export interface ChatMessage {
-  id: string
-  role: 'user' | 'adam'
+  role: 'user' | 'assistant'
   content: string
-  timestamp: string  // ISO
-}
-
-export interface AdamProfile {
-  email: string | null
-  displayName: string | null
 }
 
 export interface AdamChatResponse {

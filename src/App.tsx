@@ -1,7 +1,6 @@
-// Adam Mobile Interface — App.
-// Sprint C, 2026-05-23.
-import { ChatPage } from './components/ChatPage'
+// Adam Mobile Interface — App. Sprint D unification, 2026-05-24.
+import { ChatInterface } from './components/ChatInterface'
 
 export default function App() {
-  return <ChatPage />
+  return <ChatInterface />
 }
