@@ -1,5 +1,11 @@
-// API клиент для /adam/* (DRUG backend через CF Tunnel).
-// Sprint D unification, 2026-05-24.
+// API клиент для /adam/* (DRUG backend через CF Pages Function proxy).
+// Sprint E Single OTP fix, 2026-05-24.
+//
+// На production VITE_ADAM_API_BASE пустой → relative URL `/adam/...` →
+// browser идёт на adam.groznov.uk/adam/... → Pages Function проксирует
+// на adam-api.groznov.uk (с inject X-Adam-User-Email + X-Adam-Proxy-Secret).
+//
+// Same-origin — один OTP на adam.groznov.uk покрывает всё, iOS Safari работает.
 import type { ChatMessage, AdamChatResponse } from '../types'
 
 const BASE = (import.meta.env.VITE_ADAM_API_BASE as string | undefined) ?? ''
