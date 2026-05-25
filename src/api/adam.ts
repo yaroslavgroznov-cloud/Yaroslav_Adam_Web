@@ -68,6 +68,82 @@ export async function adamGetRooms(): Promise<RoomsResponse> {
   return (await res.json()) as RoomsResponse
 }
 
+export interface StreamCallbacks {
+  onDelta: (text: string) => void
+  onDone: () => void
+  onError: (detail: string) => void
+}
+
+// SSE-стрим ответа Адама. Парсит "data: {json}\n\n" события.
+// Возвращает abort-функцию, чтобы фронт мог отменить стрим.
+export function adamChatStream(
+  content: string,
+  room: string | undefined,
+  cb: StreamCallbacks,
+): () => void {
+  const controller = new AbortController()
+  const body: Record<string, string> = { content }
+  if (room) body.room = room
+
+  void (async () => {
+    try {
+      const res = await fetch(`${BASE}/adam/chat/stream`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      })
+      if (!res.ok || !res.body) {
+        let detail = `HTTP ${res.status}`
+        try {
+          const j = await res.json()
+          if (j && typeof j.detail === 'string') detail = j.detail
+        } catch { /* not json */ }
+        cb.onError(detail)
+        return
+      }
+      const reader = res.body.pipeThrough(new TextDecoderStream()).getReader()
+      let buffer = ''
+      while (true) {
+        const { value, done } = await reader.read()
+        if (done) break
+        buffer += value
+        // Парсим целые SSE-кадры (data: ...\n\n).
+        let sep: number
+        while ((sep = buffer.indexOf('\n\n')) !== -1) {
+          const frame = buffer.slice(0, sep)
+          buffer = buffer.slice(sep + 2)
+          if (!frame.startsWith('data: ')) continue
+          const json = frame.slice(6)
+          let evt: { type?: string; text?: string; detail?: string }
+          try {
+            evt = JSON.parse(json)
+          } catch {
+            continue
+          }
+          if (evt.type === 'delta' && typeof evt.text === 'string') {
+            cb.onDelta(evt.text)
+          } else if (evt.type === 'done') {
+            cb.onDone()
+            return
+          } else if (evt.type === 'error') {
+            cb.onError(evt.detail ?? 'stream error')
+            return
+          }
+        }
+      }
+      // Стрим закрылся без done — считаем за ok-завершение.
+      cb.onDone()
+    } catch (err) {
+      if ((err as Error).name === 'AbortError') return
+      cb.onError(err instanceof Error ? err.message : 'stream failure')
+    }
+  })()
+
+  return () => controller.abort()
+}
+
 export async function adamHealthRequest(): Promise<{ status: string; sprint: string }> {
   const res = await fetch(`${BASE}/adam/health`, { credentials: 'include' })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)

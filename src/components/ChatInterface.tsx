@@ -8,7 +8,7 @@ import clsx from 'clsx'
 
 import { MessageBubble } from './MessageBubble'
 import { TypingIndicator } from './TypingIndicator'
-import { adamChatRequest, adamGetActive, adamGetRooms } from '../api/adam'
+import { adamChatStream, adamGetActive, adamGetRooms } from '../api/adam'
 import type { RoomInfo } from '../api/adam'
 import type { ChatMessage } from '../types'
 
@@ -135,14 +135,46 @@ export function ChatInterface(): React.ReactElement {
     setMessages((prev) => [...prev, { role: 'user', content: userMessage }])
     setIsLoading(true)
 
-    try {
-      const data = await adamChatRequest(userMessage, currentRoom)
-      setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }])
-    } catch (err) {
-      showToast(err instanceof Error ? err.message : 'Что-то пошло не так.')
-    } finally {
-      setIsLoading(false)
-    }
+    // Резервируем пустой assistant-bubble, который будет расти по дельтам.
+    // Первый токен → isLoading=false (TypingIndicator уходит, появляется текст).
+    let firstDeltaSeen = false
+    let assistantStarted = false
+
+    await new Promise<void>((resolve) => {
+      adamChatStream(userMessage, currentRoom, {
+        onDelta: (text) => {
+          if (!firstDeltaSeen) {
+            firstDeltaSeen = true
+            setIsLoading(false)
+          }
+          setMessages((prev) => {
+            if (!assistantStarted) {
+              assistantStarted = true
+              return [...prev, { role: 'assistant', content: text }]
+            }
+            const next = prev.slice()
+            const last = next[next.length - 1]
+            if (last && last.role === 'assistant') {
+              next[next.length - 1] = { role: 'assistant', content: last.content + text }
+            }
+            return next
+          })
+        },
+        onDone: () => {
+          setIsLoading(false)
+          resolve()
+        },
+        onError: (detail) => {
+          setIsLoading(false)
+          showToast(detail || 'Что-то пошло не так.')
+          // Если ничего не успело прийти — убираем пустой assistant bubble.
+          if (!assistantStarted) {
+            // ничего не добавляли — ничего не убираем
+          }
+          resolve()
+        },
+      })
+    })
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>): void {
