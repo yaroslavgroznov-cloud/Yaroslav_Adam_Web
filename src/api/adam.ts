@@ -42,9 +42,12 @@ export async function adamGetActive(room?: string): Promise<ActiveConversationRe
   return (await res.json()) as ActiveConversationResponse
 }
 
-export async function adamChatRequest(content: string, room?: string): Promise<AdamChatResponse> {
-  const body: Record<string, string> = { content }
+export async function adamChatRequest(
+  content: string, room?: string, attachmentId?: number | null,
+): Promise<AdamChatResponse> {
+  const body: Record<string, unknown> = { content }
   if (room) body.room = room
+  if (attachmentId != null) body.attachment_id = attachmentId
   const res = await fetch(`${BASE}/adam/chat`, {
     method: 'POST',
     credentials: 'include',
@@ -90,12 +93,14 @@ export function adamChatStream(
   room: string | undefined,
   cb: StreamCallbacks,
   opts: StreamOptions = {},
+  attachmentId?: number | null,
 ): () => void {
   const maxRetries = opts.retries ?? 2
   const backoffMs = opts.retryBackoffMs ?? 1000
   const controller = new AbortController()
-  const body: Record<string, string> = { content }
+  const body: Record<string, unknown> = { content }
   if (room) body.room = room
+  if (attachmentId != null) body.attachment_id = attachmentId
 
   let attempt = 0
 

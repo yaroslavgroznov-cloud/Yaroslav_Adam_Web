@@ -7,6 +7,14 @@ export interface ChatConversation {
   room: string
 }
 
+export interface ChatAttachment {
+  id: number
+  mime_type: string
+  original_name: string
+  public_url: string | null
+  is_image: boolean
+}
+
 export interface ChatMessage {
   id: number
   by_email: string
@@ -14,6 +22,7 @@ export interface ChatMessage {
   content: string
   created_at: string
   is_adam: boolean
+  attachment?: ChatAttachment | null
 }
 
 async function jsonOrError<T>(res: Response): Promise<T> {
@@ -45,13 +54,15 @@ export async function familyChatMessages(
 }
 
 export async function familyChatPostMessage(
-  cid: number, content: string,
+  cid: number, content: string, attachmentId?: number | null,
 ): Promise<ChatMessage[]> {
+  const body: Record<string, unknown> = { content }
+  if (attachmentId != null) body.attachment_id = attachmentId
   const res = await fetch(`${BASE}/family/chat/${cid}/message`, {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content }),
+    body: JSON.stringify(body),
   })
   return jsonOrError<ChatMessage[]>(res)
 }

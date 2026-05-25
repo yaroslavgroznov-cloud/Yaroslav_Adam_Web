@@ -10,6 +10,9 @@ import {
 } from '../api/familyChat'
 import type { ChatMessage, ChatConversation } from '../api/familyChat'
 import { adminWhoami } from '../api/admin'
+import { filesConfig, uploadFile } from '../api/files'
+import type { FileMeta, FilesConfig } from '../api/files'
+import { AttachmentChip } from './AttachmentChip'
 
 function formatTime(iso: string): string {
   const d = new Date(iso)
@@ -49,6 +52,9 @@ function MessageRow({ msg, isDark, isMine }: {
         }}
       >
         {msg.content}
+        {msg.attachment && (
+          <AttachmentChip attachment={msg.attachment} isDark={isDark} />
+        )}
       </div>
     </div>
   )
@@ -63,8 +69,14 @@ export function FamilyChatPanel(): React.ReactElement {
   const [adamThinking, setAdamThinking] = useState(false)
   const [error, setError] = useState('')
   const [currentUserEmail, setCurrentUserEmail] = useState('')
+  // F.11: attachment state
+  const [filesCfg, setFilesCfg] = useState<FilesConfig | null>(null)
+  const [pendingFile, setPendingFile] = useState<FileMeta | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [dragOver, setDragOver] = useState(false)
   const endRef = useRef<HTMLDivElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   const lastIdRef = useRef<number>(0)
 
   useEffect(() => {
@@ -72,7 +84,7 @@ export function FamilyChatPanel(): React.ReactElement {
     setIsDark(hour >= 19 || hour < 7)
   }, [])
 
-  // Mount: загружаем whoami + беседу + историю
+  // Mount: загружаем whoami + беседу + историю + files config
   useEffect(() => {
     void (async () => {
       try {
@@ -80,6 +92,9 @@ export function FamilyChatPanel(): React.ReactElement {
           const w = await adminWhoami()
           setCurrentUserEmail(w.email)
         } catch { /* без whoami isMine не определится — не критично */ }
+        try {
+          setFilesCfg(await filesConfig())
+        } catch { /* files отключены — кнопка скрепки спрячется */ }
         const list = await familyChatList()
         if (list.length === 0) {
           setError('Беседы не найдены.')
@@ -138,18 +153,39 @@ export function FamilyChatPanel(): React.ReactElement {
     el.style.height = Math.min(el.scrollHeight, maxHeight) + 'px'
   }
 
+  async function handleFilePick(file: File): Promise<void> {
+    if (!filesCfg?.enabled) return
+    if (file.size > filesCfg.max_bytes) {
+      setError(`Файл больше ${(filesCfg.max_bytes / 1024 / 1024).toFixed(0)} MB.`)
+      return
+    }
+    setUploading(true)
+    setError('')
+    try {
+      const meta = await uploadFile(file)
+      setPendingFile(meta)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Не удалось загрузить')
+    } finally {
+      setUploading(false)
+    }
+  }
+
   async function handleSend(): Promise<void> {
     if (!conv) return
     const content = input.trim()
-    if (!content || busy) return
+    if ((!content && !pendingFile) || busy) return
+    // Если только файл без текста — даём пустую "."
+    const effectiveContent = content || (pendingFile ? '📎' : '')
     setInput('')
     if (textareaRef.current) textareaRef.current.style.height = 'auto'
+    const attId = pendingFile?.id ?? null
+    setPendingFile(null)
     setBusy(true)
-    // Эвристика: если пользователь сам зовёт Адама — покажем "Адам думает"
-    const willTriggerAdam = /(?:^|[\s.,!?:;])(@?\s*(adam|адам))(?:$|[\s.,!?:;])/iu.test(content)
+    const willTriggerAdam = /(?:^|[\s.,!?:;])(@?\s*(adam|адам))(?:$|[\s.,!?:;])/iu.test(effectiveContent)
     if (willTriggerAdam) setAdamThinking(true)
     try {
-      const newMsgs = await familyChatPostMessage(conv.id, content)
+      const newMsgs = await familyChatPostMessage(conv.id, effectiveContent, attId)
       setMessages((prev) => [...prev, ...newMsgs])
       if (newMsgs.length > 0) {
         lastIdRef.current = newMsgs[newMsgs.length - 1].id
@@ -162,6 +198,13 @@ export function FamilyChatPanel(): React.ReactElement {
     } finally {
       setBusy(false)
     }
+  }
+
+  function handleDrop(e: React.DragEvent): void {
+    e.preventDefault()
+    setDragOver(false)
+    const f = e.dataTransfer.files?.[0]
+    if (f) void handleFilePick(f)
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>): void {
@@ -209,8 +252,13 @@ export function FamilyChatPanel(): React.ReactElement {
         </a>
       </header>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-10">
+      {/* Messages — с drag-and-drop overlay */}
+      <div
+        className="flex-1 overflow-y-auto py-6 px-4 sm:px-10 relative"
+        onDragOver={(e) => { if (filesCfg?.enabled) { e.preventDefault(); setDragOver(true) } }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={handleDrop}
+      >
         {error && (
           <p className="italic text-center mt-8" style={{ color: 'var(--color-terracotta-dark)' }}>
             {error}
@@ -253,13 +301,91 @@ export function FamilyChatPanel(): React.ReactElement {
           )}
           <div ref={endRef} />
         </div>
+        {dragOver && (
+          <div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none rounded"
+            style={{
+              backgroundColor: 'rgba(192,98,63,0.10)',
+              border: '2px dashed var(--color-terracotta-dark)',
+            }}
+          >
+            <p className="italic" style={{ color: 'var(--color-terracotta-dark)', fontSize: '16px' }}>
+              Брось файл — прикреплю к сообщению
+            </p>
+          </div>
+        )}
       </div>
+
+      {/* Pending attachment preview */}
+      {pendingFile && (
+        <div
+          className="shrink-0 border-t px-4 sm:px-10 py-2 flex items-center gap-3"
+          style={{
+            borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+            backgroundColor: isDark ? 'rgba(168,140,95,0.10)' : 'rgba(168,140,95,0.06)',
+          }}
+        >
+          <span className="italic" style={{ fontSize: '13px',
+            color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
+            прикреплено:
+          </span>
+          <span style={{ fontSize: '13px' }}>
+            {pendingFile.is_image ? '🖼' : '📎'} {pendingFile.original_name}
+          </span>
+          <button
+            onClick={() => setPendingFile(null)}
+            className="italic underline underline-offset-4 decoration-1 ml-auto"
+            style={{ fontSize: '12px',
+              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
+          >
+            убрать
+          </button>
+        </div>
+      )}
 
       {/* Input */}
       <div
         className="shrink-0 border-t py-4 px-4 sm:px-10 flex items-stretch gap-2 sm:gap-3"
         style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
       >
+        {/* Hidden file input + clip button */}
+        {filesCfg?.enabled && (
+          <>
+            <input
+              ref={fileInputRef}
+              type="file"
+              className="hidden"
+              accept="image/*,application/pdf"
+              onChange={(e) => {
+                const f = e.target.files?.[0]
+                if (f) void handleFilePick(f)
+                e.target.value = ''
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading || busy}
+              className="shrink-0 inline-flex items-center justify-center rounded-md border disabled:opacity-50"
+              style={{
+                width: 54, height: 54,
+                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                backgroundColor: 'transparent',
+              }}
+              aria-label="Прикрепить файл"
+              title="Прикрепить файл"
+            >
+              {uploading ? (
+                <span className="italic" style={{ fontSize: '11px' }}>…</span>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                </svg>
+              )}
+            </button>
+          </>
+        )}
         <textarea
           ref={textareaRef}
           rows={1}

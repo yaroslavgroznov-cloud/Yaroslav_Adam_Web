@@ -19,6 +19,8 @@ import { adminGetState, adminWhoami } from '../api/admin'
 import type { SystemState, Whoami } from '../api/admin'
 import { familyCallSeen, familyCallsReceived } from '../api/family'
 import type { FamilyCall } from '../api/family'
+import { filesConfig, uploadFile } from '../api/files'
+import type { FileMeta, FilesConfig } from '../api/files'
 import { usePush } from '../hooks/usePush'
 import type { ChatMessage } from '../types'
 
@@ -66,6 +68,11 @@ export function ChatInterface(): React.ReactElement {
   const push = usePush()
   // P2: ref на abort-функцию текущего стрима, чтобы Cancel мог его прервать
   const streamAbortRef = useRef<(() => void) | null>(null)
+  // F.11: file attachment state
+  const [filesCfg, setFilesCfg] = useState<FilesConfig | null>(null)
+  const [pendingFile, setPendingFile] = useState<FileMeta | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const searchInputRef = useRef<HTMLInputElement | null>(null)
@@ -110,8 +117,30 @@ export function ChatInterface(): React.ReactElement {
         setFrozenState(s)
       } catch { /* state недоступен — продолжаем как обычно */ }
     })()
+    void (async () => {
+      try {
+        setFilesCfg(await filesConfig())
+      } catch { /* files отключены */ }
+    })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  async function handleFilePick(file: File): Promise<void> {
+    if (!filesCfg?.enabled) return
+    if (file.size > filesCfg.max_bytes) {
+      showToast(`Файл больше ${(filesCfg.max_bytes / 1024 / 1024).toFixed(0)} MB.`)
+      return
+    }
+    setUploading(true)
+    try {
+      const meta = await uploadFile(file)
+      setPendingFile(meta)
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : 'Не удалось загрузить')
+    } finally {
+      setUploading(false)
+    }
+  }
 
   // Polling входящих звонков каждые 30 секунд (F.7).
   useEffect(() => {
@@ -194,11 +223,14 @@ export function ChatInterface(): React.ReactElement {
 
   async function handleSend(): Promise<void> {
     const userMessage = input.trim()
-    if (!userMessage || isLoading) return
+    if ((!userMessage && !pendingFile) || isLoading) return
 
+    const effectiveContent = userMessage || (pendingFile ? '📎' : '')
+    const attId = pendingFile?.id ?? null
+    setPendingFile(null)
     setInput('')
     if (textareaRef.current) textareaRef.current.style.height = 'auto'
-    setMessages((prev) => [...prev, { role: 'user', content: userMessage }])
+    setMessages((prev) => [...prev, { role: 'user', content: effectiveContent }])
     setIsLoading(true)
 
     // Резервируем пустой assistant-bubble, который будет расти по дельтам.
@@ -207,7 +239,7 @@ export function ChatInterface(): React.ReactElement {
     let assistantStarted = false
 
     await new Promise<void>((resolve) => {
-      const abort = adamChatStream(userMessage, currentRoom, {
+      const abort = adamChatStream(effectiveContent, currentRoom, {
         onDelta: (text) => {
           if (!firstDeltaSeen) {
             firstDeltaSeen = true
@@ -241,7 +273,7 @@ export function ChatInterface(): React.ReactElement {
           }
           resolve()
         },
-      })
+      }, {}, attId)
       streamAbortRef.current = abort
     })
   }
@@ -681,6 +713,13 @@ export function ChatInterface(): React.ReactElement {
         onTouchMove={handlePtrTouchMove}
         onTouchEnd={handlePtrTouchEnd}
         onTouchCancel={handlePtrTouchEnd}
+        onDragOver={(e) => { if (filesCfg?.enabled) e.preventDefault() }}
+        onDrop={(e) => {
+          if (!filesCfg?.enabled) return
+          e.preventDefault()
+          const f = e.dataTransfer.files?.[0]
+          if (f) void handleFilePick(f)
+        }}
       >
         {pullDistance > 0 && (
           <div
@@ -800,11 +839,74 @@ export function ChatInterface(): React.ReactElement {
           </div>
         </div>
       ) : (
+      <>
+      {/* F.11: pending attachment preview */}
+      {pendingFile && (
+        <div
+          className="shrink-0 border-t px-4 sm:px-10 py-2 flex items-center gap-3"
+          style={{
+            borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+            backgroundColor: isDark ? 'rgba(168,140,95,0.10)' : 'rgba(168,140,95,0.06)',
+          }}
+        >
+          <span className="italic" style={{ fontSize: '13px',
+            color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
+            прикреплено:
+          </span>
+          <span style={{ fontSize: '13px' }}>
+            {pendingFile.is_image ? '🖼' : '📎'} {pendingFile.original_name}
+          </span>
+          <button
+            onClick={() => setPendingFile(null)}
+            className="italic underline underline-offset-4 decoration-1 ml-auto"
+            style={{ fontSize: '12px',
+              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
+          >
+            убрать
+          </button>
+        </div>
+      )}
       <div
         className="shrink-0 border-t py-4 sm:py-5 transition-colors duration-700 ease-in-out"
         style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
       >
         <div className="w-full px-4 sm:px-10 flex items-stretch gap-2 sm:gap-3">
+          {filesCfg?.enabled && (
+            <>
+              <input
+                ref={fileInputRef}
+                type="file"
+                className="hidden"
+                accept="image/*,application/pdf"
+                onChange={(e) => {
+                  const f = e.target.files?.[0]
+                  if (f) void handleFilePick(f)
+                  e.target.value = ''
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading || isLoading || isHydrating}
+                className="shrink-0 inline-flex items-center justify-center rounded-md border disabled:opacity-50"
+                style={{
+                  width: 'clamp(48px, 9vw, 60px)',
+                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                }}
+                aria-label="Прикрепить файл"
+                title="Прикрепить файл"
+              >
+                {uploading ? (
+                  <span className="italic" style={{ fontSize: '11px' }}>…</span>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                  </svg>
+                )}
+              </button>
+            </>
+          )}
           <textarea
             ref={textareaRef}
             rows={1}
@@ -830,7 +932,7 @@ export function ChatInterface(): React.ReactElement {
           />
           <button
             onClick={() => void handleSend()}
-            disabled={!input.trim() || isLoading || isHydrating}
+            disabled={(!input.trim() && !pendingFile) || isLoading || isHydrating}
             className={clsx(
               'shrink-0 italic rounded-md border transition-colors duration-700 ease-in-out disabled:cursor-not-allowed',
               isDark ? 'btn-send-night' : 'btn-send-day',
@@ -850,6 +952,7 @@ export function ChatInterface(): React.ReactElement {
           </button>
         </div>
       </div>
+      </>
       )}
 
       {/* Подвал */}
