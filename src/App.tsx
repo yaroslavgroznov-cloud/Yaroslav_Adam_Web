@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 
 import { ChatInterface } from './components/ChatInterface'
+import { FamilySlotsPanel } from './components/FamilySlotsPanel'
 import { KillSwitchPanel } from './components/KillSwitchPanel'
 
 export default function App() {
@@ -18,6 +19,9 @@ export default function App() {
 
   if (path.startsWith('/kill-switch')) {
     return <KillSwitchPanel />
+  }
+  if (path.startsWith('/family/slots') || path.startsWith('/family')) {
+    return <FamilySlotsPanel />
   }
   return <ChatInterface />
 }
