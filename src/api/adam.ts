@@ -74,18 +74,33 @@ export interface StreamCallbacks {
   onError: (detail: string) => void
 }
 
+export interface StreamOptions {
+  retries?: number          // макс число ретраев (default 2)
+  retryBackoffMs?: number   // base backoff (default 1000) — 1s, 2s, 4s...
+}
+
 // SSE-стрим ответа Адама. Парсит "data: {json}\n\n" события.
-// Возвращает abort-функцию, чтобы фронт мог отменить стрим.
+// Auto-retry (F.5): сетевые ошибки ДО первого delta — ретраим до 2 раз.
+// После первого delta — не ретраим (часть текста уже на экране, повтор
+// продублирует начало). HTTP 4xx/5xx с readable body — не ретраим
+// (семантичная ошибка от backend, нужно показать toast).
+// Возвращает abort-функцию.
 export function adamChatStream(
   content: string,
   room: string | undefined,
   cb: StreamCallbacks,
+  opts: StreamOptions = {},
 ): () => void {
+  const maxRetries = opts.retries ?? 2
+  const backoffMs = opts.retryBackoffMs ?? 1000
   const controller = new AbortController()
   const body: Record<string, string> = { content }
   if (room) body.room = room
 
-  void (async () => {
+  let attempt = 0
+
+  const run = async (): Promise<void> => {
+    let firstDeltaSeen = false
     try {
       const res = await fetch(`${BASE}/adam/chat/stream`, {
         method: 'POST',
@@ -123,6 +138,7 @@ export function adamChatStream(
             continue
           }
           if (evt.type === 'delta' && typeof evt.text === 'string') {
+            firstDeltaSeen = true
             cb.onDelta(evt.text)
           } else if (evt.type === 'done') {
             cb.onDone()
@@ -133,14 +149,32 @@ export function adamChatStream(
           }
         }
       }
-      // Стрим закрылся без done — считаем за ok-завершение.
-      cb.onDone()
+      // Стрим закрылся без done.
+      if (firstDeltaSeen) {
+        // часть текста на экране — финализируем
+        cb.onDone()
+        return
+      }
+      // 0 байт ответа — это аномалия, ретраим как сетевую ошибку
+      if (attempt < maxRetries) {
+        attempt += 1
+        await new Promise((r) => setTimeout(r, backoffMs * attempt))
+        return run()
+      }
+      cb.onError('Пустой ответ от Адама. Попробуй ещё раз.')
     } catch (err) {
       if ((err as Error).name === 'AbortError') return
+      // Сетевая ошибка. Ретраим только если первого delta ещё не было.
+      if (!firstDeltaSeen && attempt < maxRetries) {
+        attempt += 1
+        await new Promise((r) => setTimeout(r, backoffMs * attempt))
+        return run()
+      }
       cb.onError(err instanceof Error ? err.message : 'stream failure')
     }
-  })()
+  }
 
+  void run()
   return () => controller.abort()
 }
 

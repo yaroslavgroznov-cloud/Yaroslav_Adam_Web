@@ -47,9 +47,17 @@ export function ChatInterface(): React.ReactElement {
     if (typeof window === 'undefined') return DEFAULT_ROOM_FALLBACK
     return window.localStorage.getItem(ROOM_STORAGE_KEY) ?? DEFAULT_ROOM_FALLBACK
   })
+  const [pullDistance, setPullDistance] = useState(0)
+  const [ptrReady, setPtrReady] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const searchInputRef = useRef<HTMLInputElement | null>(null)
+  const messagesScrollRef = useRef<HTMLDivElement | null>(null)
+  const ptrStartYRef = useRef<number | null>(null)
+  const ptrActiveRef = useRef(false)
+
+  const PTR_TRIGGER_PX = 70   // > этого — релиз обновляет
+  const PTR_MAX_PX = 120      // макс растяжение индикатора
 
   // Тема дня/ночи и дата (по клиентскому часу, как на localhost).
   useEffect(() => {
@@ -196,6 +204,42 @@ export function ChatInterface(): React.ReactElement {
   // CF Access logout = /cdn-cgi/access/logout на team-домене.
   function handleLogout(): void {
     window.location.href = 'https://groznov.cloudflareaccess.com/cdn-cgi/access/logout'
+  }
+
+  // Pull-to-refresh — только touch (мобильник). На ПК scroll-bar.
+  // iOS bounce оставляем нативным, наш handler поверх него.
+  function handlePtrTouchStart(e: React.TouchEvent<HTMLDivElement>): void {
+    const el = messagesScrollRef.current
+    if (!el || el.scrollTop > 0 || isHydrating || isLoading) {
+      ptrStartYRef.current = null
+      ptrActiveRef.current = false
+      return
+    }
+    ptrStartYRef.current = e.touches[0].clientY
+    ptrActiveRef.current = true
+  }
+
+  function handlePtrTouchMove(e: React.TouchEvent<HTMLDivElement>): void {
+    if (!ptrActiveRef.current || ptrStartYRef.current === null) return
+    const dy = e.touches[0].clientY - ptrStartYRef.current
+    if (dy <= 0) {
+      setPullDistance(0)
+      setPtrReady(false)
+      return
+    }
+    const dist = Math.min(dy, PTR_MAX_PX)
+    setPullDistance(dist)
+    setPtrReady(dist > PTR_TRIGGER_PX)
+  }
+
+  function handlePtrTouchEnd(): void {
+    if (!ptrActiveRef.current) return
+    const fire = ptrReady
+    ptrActiveRef.current = false
+    ptrStartYRef.current = null
+    setPullDistance(0)
+    setPtrReady(false)
+    if (fire) void hydrateHistory({ silent: true })
   }
 
   // Фильтрация по поиску. Если query пуст — все сообщения.
@@ -415,8 +459,29 @@ export function ChatInterface(): React.ReactElement {
         />
       </div>
 
-      {/* Область сообщений — та же ширина что input bar, для гармонии */}
-      <div className="flex-1 overflow-y-auto py-6">
+      {/* Область сообщений — та же ширина что input bar, для гармонии.
+          + Pull-to-refresh на мобильнике (F.5). */}
+      <div
+        ref={messagesScrollRef}
+        className="flex-1 overflow-y-auto py-6"
+        onTouchStart={handlePtrTouchStart}
+        onTouchMove={handlePtrTouchMove}
+        onTouchEnd={handlePtrTouchEnd}
+        onTouchCancel={handlePtrTouchEnd}
+      >
+        {pullDistance > 0 && (
+          <div
+            className="flex items-center justify-center italic transition-opacity duration-100"
+            style={{
+              height: pullDistance,
+              opacity: Math.min(1, pullDistance / PTR_TRIGGER_PX),
+              fontSize: '14px',
+              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+            }}
+          >
+            {ptrReady ? 'Отпусти — обновлю нить' : 'Потяни ниже…'}
+          </div>
+        )}
         <div className="w-full px-4 sm:px-10">
           {isHydrating && (
             <p
