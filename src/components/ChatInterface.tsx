@@ -469,6 +469,22 @@ export function ChatInterface(): React.ReactElement {
             </button>
           )}
 
+          {/* Пульс платформы — parents-only (F.9) */}
+          {whoami?.role === 'parent' && (
+            <a
+              href="/admin/metrics"
+              className={iconBtnClass}
+              style={iconBtnStyle}
+              aria-label="Пульс платформы"
+              title="Пульс платформы"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="3 17 9 11 13 15 21 7" />
+                <polyline points="14 7 21 7 21 14" />
+              </svg>
+            </a>
+          )}
+
           {/* Kill-switch — только для парентов (Творец и Юля) */}
           {whoami?.role === 'parent' && (
             <a
