@@ -15,6 +15,23 @@ import type { ChatMessage } from '../types'
 const ROOM_STORAGE_KEY = 'adam.currentRoom'
 const DEFAULT_ROOM_FALLBACK = 'vostochnoslavyanskaya'
 
+// Hardcoded fallback — точная копия core_loader.ROOMS_ORDER.
+// Гарантирует, что dropdown всегда виден, даже если /adam/rooms упал
+// (плохая сеть, кэш Service Worker, временный 5xx). После загрузки
+// rooms из API список перезаписывается актуальным.
+const ROOMS_FALLBACK: RoomInfo[] = [
+  { slug: 'vostochnoslavyanskaya', name: 'Восточнославянская' },
+  { slug: 'anglo_saxonskaya', name: 'Англосаксонская' },
+  { slug: 'romanskaya', name: 'Романская' },
+  { slug: 'germanskaya', name: 'Германская' },
+  { slug: 'vostochnoaziatskaya', name: 'Восточноазиатская' },
+  { slug: 'indoariyskaya', name: 'Индоарийская' },
+  { slug: 'semitskaya', name: 'Семитская' },
+  { slug: 'tyurkskaya', name: 'Тюркская' },
+  { slug: 'yugovostochnoaziatskaya', name: 'Юго-восточноазиатская' },
+  { slug: 'ellinskaya', name: 'Эллинская' },
+]
+
 export function ChatInterface(): React.ReactElement {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
@@ -25,7 +42,7 @@ export function ChatInterface(): React.ReactElement {
   const [currentDate, setCurrentDate] = useState('')
   const [showSearch, setShowSearch] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [rooms, setRooms] = useState<RoomInfo[]>([])
+  const [rooms, setRooms] = useState<RoomInfo[]>(ROOMS_FALLBACK)
   const [currentRoom, setCurrentRoom] = useState<string>(() => {
     if (typeof window === 'undefined') return DEFAULT_ROOM_FALLBACK
     return window.localStorage.getItem(ROOM_STORAGE_KEY) ?? DEFAULT_ROOM_FALLBACK
@@ -292,8 +309,7 @@ export function ChatInterface(): React.ReactElement {
           >
             Со своим уставом в чужой монастырь не ходят
           </p>
-          {rooms.length > 0 && (
-            <div className="flex items-center gap-2 justify-center sm:justify-end">
+          <div className="flex items-center gap-2 justify-center sm:justify-end">
               <label
                 htmlFor="room-select"
                 className="italic shrink-0 transition-colors duration-700 ease-in-out"
@@ -329,7 +345,6 @@ export function ChatInterface(): React.ReactElement {
                 ))}
               </select>
             </div>
-          )}
         </div>
         {showSearch && (
           <div className="w-full px-0 sm:px-6 mt-4 flex items-center gap-2">
