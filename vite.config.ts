@@ -17,6 +17,7 @@ export default defineConfig({
       includeAssets: ['favicon.svg', 'icon.svg'],
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        rollupFormat: 'iife',
       },
       manifest: {
         name: 'Adam Grozonv',
