@@ -28,10 +28,23 @@ function readCookie(cookieHeader: string | null, name: string): string | null {
   return m ? decodeURIComponent(m[1]) : null;
 }
 
-export const onRequest: PagesFunction<Env> = async ({ request, env, params }) => {
+export const onRequest: PagesFunction<Env> = async ({ request, env, params, next }) => {
   const pathParts = (params.path as string[] | undefined) ?? [];
   const path = pathParts.join("/");
   const url = new URL(request.url);
+
+  // Различаем HTML-навигацию (React SPA-роуты типа /family/chat, /family/slots)
+  // от API-запросов (fetch/json от нашего же UI). Браузер при прямом переходе
+  // на URL присылает Accept: text/html — отдаём ему index.html через next(),
+  // и React Router затем сам подхватит путь.
+  const accept = request.headers.get("accept") ?? "";
+  const isHtmlNav = request.method === "GET"
+    && accept.includes("text/html")
+    && !accept.includes("application/json");
+  if (isHtmlNav) {
+    return next();
+  }
+
   const targetUrl = `${BACKEND_BASE}/family/${path}${url.search}`;
 
   const cookies = request.headers.get("cookie");
