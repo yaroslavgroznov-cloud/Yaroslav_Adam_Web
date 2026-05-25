@@ -16,7 +16,9 @@ export default defineConfig({
       filename: 'sw.ts',
       includeAssets: ['favicon.svg', 'icon.svg'],
       injectManifest: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        // html НЕ кэшируем — index.html всегда из сети, чтобы новый
+        // bundle подхватывался немедленно после deploy без SW-deadlock
+        globPatterns: ['**/*.{js,css,svg,png,ico}'],
         rollupFormat: 'iife',
       },
       manifest: {
