@@ -10,6 +10,9 @@ import { MessageBubble } from './MessageBubble'
 import { TypingIndicator } from './TypingIndicator'
 import { CallFamilyModal } from './CallFamilyModal'
 import { FamilyInbox } from './FamilyInbox'
+import { HeaderOverflowMenu } from './HeaderOverflowMenu'
+import type { OverflowItem } from './HeaderOverflowMenu'
+import { IosInstallHint } from './IosInstallHint'
 import { adamChatStream, adamGetActive, adamGetRooms } from '../api/adam'
 import type { RoomInfo } from '../api/adam'
 import { adminGetState, adminWhoami } from '../api/admin'
@@ -61,6 +64,8 @@ export function ChatInterface(): React.ReactElement {
   const [showCallModal, setShowCallModal] = useState(false)
   const [unseenCalls, setUnseenCalls] = useState<FamilyCall[]>([])
   const push = usePush()
+  // P2: ref на abort-функцию текущего стрима, чтобы Cancel мог его прервать
+  const streamAbortRef = useRef<(() => void) | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const searchInputRef = useRef<HTMLInputElement | null>(null)
@@ -202,7 +207,7 @@ export function ChatInterface(): React.ReactElement {
     let assistantStarted = false
 
     await new Promise<void>((resolve) => {
-      adamChatStream(userMessage, currentRoom, {
+      const abort = adamChatStream(userMessage, currentRoom, {
         onDelta: (text) => {
           if (!firstDeltaSeen) {
             firstDeltaSeen = true
@@ -223,10 +228,12 @@ export function ChatInterface(): React.ReactElement {
         },
         onDone: () => {
           setIsLoading(false)
+          streamAbortRef.current = null
           resolve()
         },
         onError: (detail) => {
           setIsLoading(false)
+          streamAbortRef.current = null
           showToast(detail || 'Что-то пошло не так.')
           // Если ничего не успело прийти — убираем пустой assistant bubble.
           if (!assistantStarted) {
@@ -235,6 +242,28 @@ export function ChatInterface(): React.ReactElement {
           resolve()
         },
       })
+      streamAbortRef.current = abort
+    })
+  }
+
+  // P2: прервать текущий стрим Адама (пока он "печатает") + добавить
+  // короткое замечание в assistant-bubble.
+  function handleCancelStream(): void {
+    const abort = streamAbortRef.current
+    if (!abort) return
+    abort()
+    streamAbortRef.current = null
+    setIsLoading(false)
+    setMessages((prev) => {
+      if (prev.length === 0) return prev
+      const last = prev[prev.length - 1]
+      if (last.role !== 'assistant') return prev
+      const next = prev.slice()
+      next[next.length - 1] = {
+        role: 'assistant',
+        content: (last.content || '') + ' …(прервано тобой)',
+      }
+      return next
     })
   }
 
@@ -367,6 +396,34 @@ export function ChatInterface(): React.ReactElement {
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2">
+          {/* Главные 4 кнопки видны всегда: семейный чат, позвать, поиск, обновить */}
+
+          {/* Семейный чат (F.10) */}
+          <a
+            href="/family/chat"
+            className={iconBtnClass}
+            style={iconBtnStyle}
+            aria-label="Семейный чат"
+            title="Семейный чат"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+          </a>
+
+          {/* Позвать своего */}
+          <button
+            onClick={() => setShowCallModal(true)}
+            className={iconBtnClass}
+            style={iconBtnStyle}
+            aria-label="Позвать своего"
+            title="Позвать своего"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+          </button>
+
           {/* Поиск */}
           <button
             onClick={() => setShowSearch((v) => !v)}
@@ -397,128 +454,118 @@ export function ChatInterface(): React.ReactElement {
             </svg>
           </button>
 
-          {/* Закрыть диалог (soft clear экрана) */}
-          <button
-            onClick={handleSoftClose}
-            disabled={messages.length === 0}
-            className={iconBtnClass}
-            style={iconBtnStyle}
-            aria-label="Закрыть диалог"
-            title="Закрыть"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-
-          {/* Позвать своего — доступно всем whitelisted (backend проверит can_call) */}
-          <button
-            onClick={() => setShowCallModal(true)}
-            className={iconBtnClass}
-            style={iconBtnStyle}
-            aria-label="Позвать своего"
-            title="Позвать своего"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-            </svg>
-          </button>
-
-          {/* Push-колокольчик (F.8). Скрыт если unsupported/disabled. */}
-          {(push.status === 'unsubscribed' || push.status === 'subscribed' || push.status === 'denied' || push.status === 'needs-pwa-ios') && (
-            <button
-              onClick={() => {
-                if (push.status === 'subscribed') { void push.unsubscribe() }
-                else if (push.status === 'denied') {
-                  showToast('Уведомления заблокированы. Включи в настройках браузера.')
-                }
-                else if (push.status === 'needs-pwa-ios') {
-                  showToast('На iPhone: «Поделиться» → «На экран Домой», открой как приложение.')
-                }
-                else { void push.subscribe() }
-              }}
-              disabled={push.busy}
-              className={iconBtnClass}
-              style={{
-                ...iconBtnStyle,
-                opacity: push.status === 'subscribed' ? 1 : 0.55,
-                color: push.status === 'subscribed'
-                  ? (isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)')
-                  : iconBtnStyle.color,
-              }}
-              aria-label="Уведомления"
-              title={
-                push.status === 'subscribed' ? 'Уведомления включены (нажми чтобы выключить)'
-                : push.status === 'denied' ? 'Уведомления заблокированы'
-                : push.status === 'needs-pwa-ios' ? 'Установи как приложение на iPhone'
-                : 'Включить push-уведомления'
+          {/* Overflow ••• — всё остальное (close/push/metrics/kill-switch/logout) */}
+          <HeaderOverflowMenu
+            isDark={isDark}
+            items={(() => {
+              const items: OverflowItem[] = []
+              // Закрыть диалог
+              items.push({
+                key: 'close',
+                label: 'Закрыть диалог',
+                onClick: handleSoftClose,
+                disabled: messages.length === 0,
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                ),
+              })
+              // Push (если supported)
+              if (push.status === 'unsubscribed' || push.status === 'subscribed'
+                  || push.status === 'denied' || push.status === 'needs-pwa-ios') {
+                const pushLabel = push.status === 'subscribed'
+                  ? 'Уведомления включены'
+                  : push.status === 'denied' ? 'Уведомления заблокированы'
+                  : push.status === 'needs-pwa-ios' ? 'Установи как приложение'
+                  : 'Включить уведомления'
+                items.push({
+                  key: 'push',
+                  label: pushLabel,
+                  onClick: () => {
+                    if (push.status === 'subscribed') void push.unsubscribe()
+                    else if (push.status === 'denied')
+                      showToast('Уведомления заблокированы. Включи в настройках браузера.')
+                    else if (push.status === 'needs-pwa-ios')
+                      showToast('На iPhone: «Поделиться» → «На экран Домой», открой как приложение.')
+                    else void push.subscribe()
+                  },
+                  disabled: push.busy,
+                  badge: push.status === 'subscribed' ? 'active' : null,
+                  icon: push.status === 'subscribed' ? (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinejoin="round">
+                      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0" fill="none" />
+                    </svg>
+                  ) : (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                  ),
+                })
               }
-            >
-              {push.status === 'subscribed' ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0" fill="none" />
-                </svg>
-              ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                </svg>
-              )}
-            </button>
-          )}
-
-          {/* Пульс платформы — parents-only (F.9) */}
-          {whoami?.role === 'parent' && (
-            <a
-              href="/admin/metrics"
-              className={iconBtnClass}
-              style={iconBtnStyle}
-              aria-label="Пульс платформы"
-              title="Пульс платформы"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="3 17 9 11 13 15 21 7" />
-                <polyline points="14 7 21 7 21 14" />
-              </svg>
-            </a>
-          )}
-
-          {/* Kill-switch — только для парентов (Творец и Юля) */}
-          {whoami?.role === 'parent' && (
-            <a
-              href="/kill-switch"
-              className={iconBtnClass}
-              style={{
-                ...iconBtnStyle,
-                color: frozenState?.is_frozen
-                  ? 'var(--color-terracotta-dark)'
-                  : iconBtnStyle.color,
-                opacity: frozenState?.is_frozen ? 1 : iconBtnStyle.opacity,
-              }}
-              aria-label="Kill-switch"
-              title={frozenState?.is_frozen ? 'Адам заморожен — управлять' : 'Kill-switch'}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-            </a>
-          )}
-
-          <button
-            onClick={handleLogout}
-            className="italic underline underline-offset-4 decoration-1 transition-colors duration-700 ease-in-out ml-1 sm:ml-2"
-            style={{
-              fontSize: '14px',
-              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
-            }}
-          >
-            выйти
-          </button>
+              // Parents-only
+              if (whoami?.role === 'parent') {
+                items.push({
+                  key: 'metrics',
+                  label: 'Пульс платформы',
+                  href: '/admin/metrics',
+                  icon: (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="3 17 9 11 13 15 21 7" />
+                      <polyline points="14 7 21 7 21 14" />
+                    </svg>
+                  ),
+                })
+                items.push({
+                  key: 'kill-switch',
+                  label: frozenState?.is_frozen ? 'Адам заморожен — управлять' : 'Kill-switch',
+                  href: '/kill-switch',
+                  badge: frozenState?.is_frozen ? 'frozen' : null,
+                  icon: (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                  ),
+                })
+                items.push({
+                  key: 'slots',
+                  label: 'Свои (управление)',
+                  href: '/family/slots',
+                  icon: (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  ),
+                })
+              }
+              // Logout
+              items.push({
+                key: 'logout',
+                label: 'Выйти',
+                onClick: handleLogout,
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
+                ),
+              })
+              return items
+            })()}
+          />
         </div>
       </header>
+
+      {/* iOS install hint (P6) — мягкий баннер, один раз */}
+      <IosInstallHint isDark={isDark} />
 
       {/* Family Inbox — баннер входящих звонков (F.7) */}
       <FamilyInbox isDark={isDark} calls={unseenCalls} onSeen={(id) => void handleMarkCallSeen(id)} />
@@ -685,7 +732,24 @@ export function ChatInterface(): React.ReactElement {
           {displayedMessages.map((msg, i) => (
             <MessageBubble key={i} role={msg.role} content={msg.content} />
           ))}
-          {isLoading && !searchQuery && <TypingIndicator />}
+          {isLoading && !searchQuery && (
+            <div className="flex items-center gap-3">
+              <TypingIndicator />
+              <button
+                onClick={handleCancelStream}
+                className="italic underline underline-offset-4 decoration-1 transition-opacity hover:opacity-100"
+                style={{
+                  fontSize: '12px',
+                  opacity: 0.7,
+                  color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                }}
+                aria-label="Прервать"
+                title="Прервать ответ Адама"
+              >
+                прервать
+              </button>
+            </div>
+          )}
           <div ref={messagesEndRef} />
         </div>
       </div>

@@ -9,6 +9,7 @@ export interface FamilyMember {
   slot_position: number
   is_active: boolean
   can_be_called: boolean
+  calls_sent_7d?: number  // P5
 }
 
 export interface FamilyCall {

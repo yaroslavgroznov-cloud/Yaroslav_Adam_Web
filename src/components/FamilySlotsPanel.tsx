@@ -135,6 +135,7 @@ export function FamilySlotsPanel(): React.ReactElement {
                 <th className="text-left py-2 pr-3">Email</th>
                 <th className="text-left py-2 pr-3">Кто</th>
                 <th className="text-left py-2 pr-3">Активен</th>
+                <th className="text-left py-2 pr-3">Зовёт (7д)</th>
                 {isParent && <th className="text-left py-2"></th>}
               </tr>
             </thead>
@@ -227,6 +228,16 @@ export function FamilySlotsPanel(): React.ReactElement {
                           {m.is_active ? 'да' : 'нет'}
                         </span>
                       )}
+                    </td>
+                    <td className="py-2 pr-3">
+                      <span className="italic" style={{
+                        fontSize: '13px',
+                        color: (m.calls_sent_7d ?? 0) > 0
+                          ? (isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)')
+                          : (isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)'),
+                      }}>
+                        {m.calls_sent_7d ?? 0}
+                      </span>
                     </td>
                     {isParent && (
                       <td className="py-2">
