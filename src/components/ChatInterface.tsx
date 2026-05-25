@@ -1,14 +1,19 @@
 // ChatInterface — копия DRUG/frontend/src/components/ChatInterface.tsx,
 // адаптированная под Vite/React + CF Access (вместо JWT-логина).
 // Sprint F.1: + обновить контекст / закрыть диалог / локальный поиск + mobile width.
+// Sprint F.2: + dropdown 10 культурных комнат, per-(user, room) conversation.
 // 2026-05-25.
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import clsx from 'clsx'
 
 import { MessageBubble } from './MessageBubble'
 import { TypingIndicator } from './TypingIndicator'
-import { adamChatRequest, adamGetActive } from '../api/adam'
+import { adamChatRequest, adamGetActive, adamGetRooms } from '../api/adam'
+import type { RoomInfo } from '../api/adam'
 import type { ChatMessage } from '../types'
+
+const ROOM_STORAGE_KEY = 'adam.currentRoom'
+const DEFAULT_ROOM_FALLBACK = 'vostochnoslavyanskaya'
 
 export function ChatInterface(): React.ReactElement {
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -20,6 +25,11 @@ export function ChatInterface(): React.ReactElement {
   const [currentDate, setCurrentDate] = useState('')
   const [showSearch, setShowSearch] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [rooms, setRooms] = useState<RoomInfo[]>([])
+  const [currentRoom, setCurrentRoom] = useState<string>(() => {
+    if (typeof window === 'undefined') return DEFAULT_ROOM_FALLBACK
+    return window.localStorage.getItem(ROOM_STORAGE_KEY) ?? DEFAULT_ROOM_FALLBACK
+  })
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const searchInputRef = useRef<HTMLInputElement | null>(null)
@@ -33,11 +43,31 @@ export function ChatInterface(): React.ReactElement {
     setCurrentDate(`${pad(now.getDate())}.${pad(now.getMonth() + 1)}.${now.getFullYear()}`)
   }, [])
 
-  // Hydration активной беседы.
+  // Загрузка списка комнат (один раз).
   useEffect(() => {
-    void hydrateHistory({ silent: false })
+    void (async () => {
+      try {
+        const data = await adamGetRooms()
+        setRooms(data.rooms)
+        // Если сохранённой комнаты нет среди валидных — откатываемся на default.
+        if (!data.rooms.some((r) => r.slug === currentRoom)) {
+          setCurrentRoom(data.default)
+        }
+      } catch {
+        // тихо игнорируем — fallback на default
+      }
+    })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Hydration активной беседы — при старте и при смене комнаты.
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(ROOM_STORAGE_KEY, currentRoom)
+    }
+    void hydrateHistory({ silent: false })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentRoom])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -59,7 +89,7 @@ export function ChatInterface(): React.ReactElement {
   async function hydrateHistory(opts: { silent: boolean }): Promise<void> {
     try {
       if (!opts.silent) setIsHydrating(true)
-      const data = await adamGetActive()
+      const data = await adamGetActive(currentRoom)
       setMessages(data.messages)
       if (opts.silent) showToast('Контекст обновлён.')
     } catch (err) {
@@ -89,7 +119,7 @@ export function ChatInterface(): React.ReactElement {
     setIsLoading(true)
 
     try {
-      const data = await adamChatRequest(userMessage)
+      const data = await adamChatRequest(userMessage, currentRoom)
       setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }])
     } catch (err) {
       showToast(err instanceof Error ? err.message : 'Что-то пошло не так.')
@@ -249,18 +279,58 @@ export function ChatInterface(): React.ReactElement {
         </div>
       </header>
 
-      {/* Подшапка с девизом + поиск */}
+      {/* Подшапка с девизом + dropdown комнат + поиск */}
       <div className="shrink-0 px-4 sm:px-10 pt-5 pb-4">
-        <p
-          className="text-center italic transition-colors duration-700 ease-in-out"
-          style={{
-            fontSize: '14px',
-            letterSpacing: '0.05em',
-            color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
-          }}
-        >
-          Со своим уставом в чужой монастырь не ходят
-        </p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <p
+            className="italic transition-colors duration-700 ease-in-out text-center sm:text-left"
+            style={{
+              fontSize: '14px',
+              letterSpacing: '0.05em',
+              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+            }}
+          >
+            Со своим уставом в чужой монастырь не ходят
+          </p>
+          {rooms.length > 0 && (
+            <div className="flex items-center gap-2 justify-center sm:justify-end">
+              <label
+                htmlFor="room-select"
+                className="italic shrink-0 transition-colors duration-700 ease-in-out"
+                style={{
+                  fontSize: '13px',
+                  color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)',
+                }}
+              >
+                комната:
+              </label>
+              <select
+                id="room-select"
+                value={currentRoom}
+                onChange={(e) => setCurrentRoom(e.target.value)}
+                disabled={isHydrating || isLoading}
+                className={clsx(
+                  'rounded-md border outline-none transition-colors duration-300 disabled:opacity-60 cursor-pointer',
+                  isDark ? 'dom-input-dark' : 'dom-input',
+                )}
+                style={{
+                  padding: '6px 12px',
+                  fontSize: '14px',
+                  fontFamily: 'inherit',
+                  backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                }}
+              >
+                {rooms.map((r) => (
+                  <option key={r.slug} value={r.slug}>
+                    {r.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+        </div>
         {showSearch && (
           <div className="w-full px-0 sm:px-6 mt-4 flex items-center gap-2">
             <input
