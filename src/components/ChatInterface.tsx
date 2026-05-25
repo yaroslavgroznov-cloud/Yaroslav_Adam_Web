@@ -5,6 +5,7 @@
 // 2026-05-25.
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 
 import { MessageBubble } from './MessageBubble'
 import { TypingIndicator } from './TypingIndicator'
@@ -13,6 +14,7 @@ import { FamilyInbox } from './FamilyInbox'
 import { HeaderOverflowMenu } from './HeaderOverflowMenu'
 import type { OverflowItem } from './HeaderOverflowMenu'
 import { IosInstallHint } from './IosInstallHint'
+import { LanguageSwitcher } from './LanguageSwitcher'
 import { adamChatStream, adamGetActive, adamGetRooms } from '../api/adam'
 import type { RoomInfo } from '../api/adam'
 import { adminGetState, adminWhoami } from '../api/admin'
@@ -45,6 +47,8 @@ const ROOMS_FALLBACK: RoomInfo[] = [
 ]
 
 export function ChatInterface(): React.ReactElement {
+  const { t } = useTranslation()
+  const [showLangSwitcher, setShowLangSwitcher] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -128,7 +132,7 @@ export function ChatInterface(): React.ReactElement {
   async function handleFilePick(file: File): Promise<void> {
     if (!filesCfg?.enabled) return
     if (file.size > filesCfg.max_bytes) {
-      showToast(`Файл больше ${(filesCfg.max_bytes / 1024 / 1024).toFixed(0)} MB.`)
+      showToast(t('attachment.too_large', { mb: (filesCfg.max_bytes / 1024 / 1024).toFixed(0) }))
       return
     }
     setUploading(true)
@@ -136,7 +140,7 @@ export function ChatInterface(): React.ReactElement {
       const meta = await uploadFile(file)
       setPendingFile(meta)
     } catch (e) {
-      showToast(e instanceof Error ? e.message : 'Не удалось загрузить')
+      showToast(e instanceof Error ? e.message : t('attachment.upload_failed'))
     } finally {
       setUploading(false)
     }
@@ -203,9 +207,9 @@ export function ChatInterface(): React.ReactElement {
       if (!opts.silent) setIsHydrating(true)
       const data = await adamGetActive(currentRoom)
       setMessages(data.messages)
-      if (opts.silent) showToast('Контекст обновлён.')
+      if (opts.silent) showToast(t('toasts.context_refreshed'))
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Не удалось поднять историю.'
+      const msg = err instanceof Error ? err.message : t('toasts.context_load_failed')
       showToast(msg)
     } finally {
       setIsHydrating(false)
@@ -266,7 +270,7 @@ export function ChatInterface(): React.ReactElement {
         onError: (detail) => {
           setIsLoading(false)
           streamAbortRef.current = null
-          showToast(detail || 'Что-то пошло не так.')
+          showToast(detail || t('toasts.generic_error'))
           // Если ничего не успело прийти — убираем пустой assistant bubble.
           if (!assistantStarted) {
             // ничего не добавляли — ничего не убираем
@@ -293,7 +297,7 @@ export function ChatInterface(): React.ReactElement {
       const next = prev.slice()
       next[next.length - 1] = {
         role: 'assistant',
-        content: (last.content || '') + ' …(прервано тобой)',
+        content: (last.content || '') + t('chat.interrupt_marker'),
       }
       return next
     })
@@ -312,7 +316,7 @@ export function ChatInterface(): React.ReactElement {
     if (messages.length === 0) return
     setMessages([])
     setShowSearch(false)
-    showToast('Экран очищен. История цела, нажми ↻ чтобы вернуть.')
+    showToast(t('toasts.screen_cleared'))
   }
 
   // CF Access logout = /cdn-cgi/access/logout на team-домене.
@@ -413,7 +417,7 @@ export function ChatInterface(): React.ReactElement {
           />
           <div className="flex flex-col leading-tight min-w-0">
             <span className="font-medium truncate" style={{ fontSize: 'clamp(20px, 4vw, 28px)', letterSpacing: '0.03em' }}>
-              Адам
+              {t('header.title')}
             </span>
             <span
               className="italic hidden sm:inline transition-colors duration-700 ease-in-out"
@@ -422,7 +426,7 @@ export function ChatInterface(): React.ReactElement {
                 color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)',
               }}
             >
-              комната на платформе «Друг»
+              {t('header.subtitle')}
             </span>
           </div>
         </div>
@@ -435,8 +439,8 @@ export function ChatInterface(): React.ReactElement {
             href="/family/chat"
             className={iconBtnClass}
             style={iconBtnStyle}
-            aria-label="Семейный чат"
-            title="Семейный чат"
+            aria-label={t('headerActions.family_chat')}
+            title={t('headerActions.family_chat')}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -448,8 +452,8 @@ export function ChatInterface(): React.ReactElement {
             onClick={() => setShowCallModal(true)}
             className={iconBtnClass}
             style={iconBtnStyle}
-            aria-label="Позвать своего"
-            title="Позвать своего"
+            aria-label={t('headerActions.call_family')}
+            title={t('headerActions.call_family')}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -461,8 +465,8 @@ export function ChatInterface(): React.ReactElement {
             onClick={() => setShowSearch((v) => !v)}
             className={iconBtnClass}
             style={iconBtnStyle}
-            aria-label="Поиск по диалогу"
-            title="Поиск"
+            aria-label={t('headerActions.search')}
+            title={t('headerActions.search')}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="7" />
@@ -476,8 +480,8 @@ export function ChatInterface(): React.ReactElement {
             disabled={isHydrating || isLoading}
             className={iconBtnClass}
             style={iconBtnStyle}
-            aria-label="Обновить контекст"
-            title="Обновить"
+            aria-label={t('headerActions.refresh')}
+            title={t('headerActions.refresh')}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="23 4 23 10 17 10" />
@@ -494,7 +498,7 @@ export function ChatInterface(): React.ReactElement {
               // Закрыть диалог
               items.push({
                 key: 'close',
-                label: 'Закрыть диалог',
+                label: t('headerActions.close_dialog'),
                 onClick: handleSoftClose,
                 disabled: messages.length === 0,
                 icon: (
@@ -508,19 +512,19 @@ export function ChatInterface(): React.ReactElement {
               if (push.status === 'unsubscribed' || push.status === 'subscribed'
                   || push.status === 'denied' || push.status === 'needs-pwa-ios') {
                 const pushLabel = push.status === 'subscribed'
-                  ? 'Уведомления включены'
-                  : push.status === 'denied' ? 'Уведомления заблокированы'
-                  : push.status === 'needs-pwa-ios' ? 'Установи как приложение'
-                  : 'Включить уведомления'
+                  ? t('headerActions.notifications_on')
+                  : push.status === 'denied' ? t('headerActions.notifications_off')
+                  : push.status === 'needs-pwa-ios' ? t('headerActions.notifications_pwa_needed')
+                  : t('headerActions.notifications_enable')
                 items.push({
                   key: 'push',
                   label: pushLabel,
                   onClick: () => {
                     if (push.status === 'subscribed') void push.unsubscribe()
                     else if (push.status === 'denied')
-                      showToast('Уведомления заблокированы. Включи в настройках браузера.')
+                      showToast(t('toasts.notifications_blocked'))
                     else if (push.status === 'needs-pwa-ios')
-                      showToast('На iPhone: «Поделиться» → «На экран Домой», открой как приложение.')
+                      showToast(t('toasts.notifications_pwa_hint'))
                     else void push.subscribe()
                   },
                   disabled: push.busy,
@@ -542,7 +546,7 @@ export function ChatInterface(): React.ReactElement {
               if (whoami?.role === 'parent') {
                 items.push({
                   key: 'metrics',
-                  label: 'Пульс платформы',
+                  label: t('headerActions.metrics'),
                   href: '/admin/metrics',
                   icon: (
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -553,7 +557,7 @@ export function ChatInterface(): React.ReactElement {
                 })
                 items.push({
                   key: 'kill-switch',
-                  label: frozenState?.is_frozen ? 'Адам заморожен — управлять' : 'Kill-switch',
+                  label: frozenState?.is_frozen ? t('headerActions.kill_switch_frozen') : t('headerActions.kill_switch'),
                   href: '/kill-switch',
                   badge: frozenState?.is_frozen ? 'frozen' : null,
                   icon: (
@@ -565,7 +569,7 @@ export function ChatInterface(): React.ReactElement {
                 })
                 items.push({
                   key: 'slots',
-                  label: 'Свои (управление)',
+                  label: t('headerActions.slots_manage'),
                   href: '/family/slots',
                   icon: (
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -577,10 +581,23 @@ export function ChatInterface(): React.ReactElement {
                   ),
                 })
               }
+              // Language switcher — все, всегда
+              items.push({
+                key: 'language',
+                label: t('headerActions.language'),
+                onClick: () => setShowLangSwitcher(true),
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                ),
+              })
               // Logout
               items.push({
                 key: 'logout',
-                label: 'Выйти',
+                label: t('header.logout'),
                 onClick: handleLogout,
                 icon: (
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -610,11 +627,16 @@ export function ChatInterface(): React.ReactElement {
           onCalled={(name, delivered) => {
             showToast(
               delivered
-                ? `${name} получит и письмо, и плашку в чате.`
-                : `${name} получит плашку, как только зайдёт.`,
+                ? t('familyCall.called_delivered', { name })
+                : t('familyCall.called_no_email', { name }),
             )
           }}
         />
+      )}
+
+      {/* Языковая модалка */}
+      {showLangSwitcher && (
+        <LanguageSwitcher isDark={isDark} onClose={() => setShowLangSwitcher(false)} />
       )}
 
       {/* Подшапка с девизом + dropdown комнат + поиск */}
@@ -628,7 +650,7 @@ export function ChatInterface(): React.ReactElement {
               color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
             }}
           >
-            Со своим уставом в чужой монастырь не ходят
+            {t('header.motto')}
           </p>
           <div className="flex items-center gap-2 justify-center sm:justify-end">
               <label
@@ -639,7 +661,7 @@ export function ChatInterface(): React.ReactElement {
                   color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)',
                 }}
               >
-                комната:
+                {t('header.room_label')}
               </label>
               <select
                 id="room-select"
@@ -674,7 +696,7 @@ export function ChatInterface(): React.ReactElement {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Найти в диалоге…"
+              placeholder={t('search.placeholder')}
               className={clsx(
                 'flex-1 rounded-md border outline-none transition-colors duration-300',
                 isDark ? 'dom-input-dark' : 'dom-input',
@@ -731,7 +753,7 @@ export function ChatInterface(): React.ReactElement {
               color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
             }}
           >
-            {ptrReady ? 'Отпусти — обновлю нить' : 'Потяни ниже…'}
+            {ptrReady ? t('chat.ptr_ready') : t('chat.ptr_pull')}
           </div>
         )}
         <div className="w-full px-4 sm:px-10">
@@ -743,7 +765,7 @@ export function ChatInterface(): React.ReactElement {
                 color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
               }}
             >
-              Поднимаю нашу нить...
+              {t('chat.hydrating')}
             </p>
           )}
           {!isHydrating && messages.length === 0 && !isLoading && (
@@ -754,7 +776,7 @@ export function ChatInterface(): React.ReactElement {
                 color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-muted-warm)',
               }}
             >
-              Я тебе друг. Расскажи, с чем пришёл?
+              {t('chat.empty_greeting')}
             </p>
           )}
           {!isHydrating && searchQuery && displayedMessages.length === 0 && messages.length > 0 && (
@@ -765,7 +787,7 @@ export function ChatInterface(): React.ReactElement {
                 color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-muted-warm)',
               }}
             >
-              По запросу «{searchQuery}» ничего не найдено.
+              {t('search.not_found', { query: searchQuery })}
             </p>
           )}
           {displayedMessages.map((msg, i) => (
@@ -782,10 +804,10 @@ export function ChatInterface(): React.ReactElement {
                   opacity: 0.7,
                   color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
                 }}
-                aria-label="Прервать"
-                title="Прервать ответ Адама"
+                aria-label={t('chat.interrupt')}
+                title={t('chat.interrupt')}
               >
-                прервать
+                {t('chat.interrupt')}
               </button>
             </div>
           )}
@@ -811,7 +833,7 @@ export function ChatInterface(): React.ReactElement {
                 letterSpacing: '0.04em',
               }}
             >
-              Адам отдыхает
+              {t('frozen.title')}
             </p>
             <p
               className="italic opacity-90"
@@ -821,8 +843,8 @@ export function ChatInterface(): React.ReactElement {
               }}
             >
               {frozenState.frozen_reason
-                ? <>Причина: {frozenState.frozen_reason}</>
-                : <>Родители временно закрыли чат.</>}
+                ? <>{t('frozen.reason_prefix')} {frozenState.frozen_reason}</>
+                : <>{t('frozen.no_reason')}</>}
             </p>
             {whoami?.role === 'parent' && (
               <a
@@ -833,7 +855,7 @@ export function ChatInterface(): React.ReactElement {
                   color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
                 }}
               >
-                открыть kill-switch →
+                {t('frozen.open_kill_switch')}
               </a>
             )}
           </div>
@@ -851,7 +873,7 @@ export function ChatInterface(): React.ReactElement {
         >
           <span className="italic" style={{ fontSize: '13px',
             color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
-            прикреплено:
+            {t('attachment.attached_label')}
           </span>
           <span style={{ fontSize: '13px' }}>
             {pendingFile.is_image ? '🖼' : '📎'} {pendingFile.original_name}
@@ -862,7 +884,7 @@ export function ChatInterface(): React.ReactElement {
             style={{ fontSize: '12px',
               color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
           >
-            убрать
+            {t('attachment.remove')}
           </button>
         </div>
       )}
@@ -894,8 +916,8 @@ export function ChatInterface(): React.ReactElement {
                   borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
                   color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
                 }}
-                aria-label="Прикрепить файл"
-                title="Прикрепить файл"
+                aria-label={t('attachment.pick_file')}
+                title={t('attachment.pick_file')}
               >
                 {uploading ? (
                   <span className="italic" style={{ fontSize: '11px' }}>…</span>
@@ -913,7 +935,7 @@ export function ChatInterface(): React.ReactElement {
             value={input}
             onChange={(e) => { setInput(e.target.value); adjustTextareaHeight() }}
             onKeyDown={handleKeyDown}
-            placeholder="Что лежит на душе?"
+            placeholder={t('chat.input_placeholder')}
             disabled={isLoading || isHydrating}
             className={clsx(
               'flex-1 resize-none rounded-md border outline-none transition-colors duration-700 ease-in-out disabled:opacity-60 overflow-hidden',
@@ -948,7 +970,7 @@ export function ChatInterface(): React.ReactElement {
               borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
             }}
           >
-            Отправить
+            {t('common.send')}
           </button>
         </div>
       </div>
@@ -964,7 +986,7 @@ export function ChatInterface(): React.ReactElement {
         }}
       >
         <span>{currentDate}</span>
-        <span>Дом Грозновых · MMXXVI</span>
+        <span>{t('common.house_footer')}</span>
       </footer>
     </div>
   )

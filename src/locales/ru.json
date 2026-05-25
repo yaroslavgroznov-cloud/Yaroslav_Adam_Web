@@ -1,0 +1,160 @@
+{
+  "common": {
+    "send": "Отправить",
+    "cancel": "отмена",
+    "save": "сохранить",
+    "edit": "править",
+    "close": "Закрыть",
+    "loading": "…",
+    "yes": "да",
+    "no": "нет",
+    "back_to_adam": "← к Адаму",
+    "house_footer": "Дом Грозновых · MMXXVI"
+  },
+  "header": {
+    "title": "Адам",
+    "subtitle": "комната на платформе «Друг»",
+    "motto": "Со своим уставом в чужой монастырь не ходят",
+    "room_label": "комната:",
+    "logout": "выйти",
+    "more": "Ещё"
+  },
+  "headerActions": {
+    "search": "Поиск",
+    "refresh": "Обновить",
+    "close_dialog": "Закрыть диалог",
+    "call_family": "Позвать своего",
+    "family_chat": "Семейный чат",
+    "notifications_on": "Уведомления включены",
+    "notifications_off": "Уведомления заблокированы",
+    "notifications_enable": "Включить уведомления",
+    "notifications_pwa_needed": "Установи как приложение",
+    "metrics": "Пульс платформы",
+    "kill_switch": "Kill-switch",
+    "kill_switch_frozen": "Адам заморожен — управлять",
+    "slots_manage": "Свои (управление)",
+    "language": "Язык интерфейса"
+  },
+  "search": {
+    "placeholder": "Найти в диалоге…",
+    "not_found": "По запросу «{{query}}» ничего не найдено."
+  },
+  "chat": {
+    "input_placeholder": "Что лежит на душе?",
+    "empty_greeting": "Я тебе друг. Расскажи, с чем пришёл?",
+    "hydrating": "Поднимаю нашу нить...",
+    "interrupt": "прервать",
+    "interrupt_marker": " …(прервано тобой)",
+    "ptr_pull": "Потяни ниже…",
+    "ptr_ready": "Отпусти — обновлю нить"
+  },
+  "frozen": {
+    "title": "Адам отдыхает",
+    "reason_prefix": "Причина:",
+    "no_reason": "Родители временно закрыли чат.",
+    "open_kill_switch": "открыть kill-switch →"
+  },
+  "attachment": {
+    "attached_label": "прикреплено:",
+    "remove": "убрать",
+    "drop_zone": "Брось файл — прикреплю к сообщению",
+    "show_image": "показать {{name}}",
+    "loading": "загружаю…",
+    "too_large": "Файл больше {{mb}} MB.",
+    "upload_failed": "Не удалось загрузить",
+    "pick_file": "Прикрепить файл"
+  },
+  "familyChat": {
+    "title": "Семья",
+    "subtitle": "групповая беседа · Адам слышит",
+    "input_placeholder": "Напиши семье… (позови Адама через @Adam)",
+    "empty_title": "Пусто. Начни первый разговор семьи.",
+    "empty_hint": "Чтобы позвать Адама — напиши <0>@Adam</0> или <0>Адам, ...</0>",
+    "adam_typing": "✦ Адам · печатает…",
+    "adam_label": "✦ Адам",
+    "not_in_circle": "Ты не в кругу своих — попроси Творца добавить тебя в /family/slots.",
+    "load_failed": "Не удалось открыть",
+    "send_failed": "Не удалось отправить"
+  },
+  "familyInbox": {
+    "calling_you": "{{name}} зовёт тебя",
+    "mark_seen": "отметить прочитанным",
+    "ago_sec": "{{n}} сек назад",
+    "ago_min": "{{n}} мин назад",
+    "ago_hour": "{{n}} ч назад",
+    "ago_day": "{{n}} дн назад"
+  },
+  "familyCall": {
+    "title": "Позвать своего",
+    "loading_members": "Поднимаю список своих…",
+    "who_to_call": "Кого позвать:",
+    "message_label": "Сообщение (опционально):",
+    "message_placeholder": "Зайди, родная, есть о чём поговорить…",
+    "send_btn": "Позвать",
+    "send_failed": "Не удалось позвать",
+    "load_failed": "Не удалось загрузить семью",
+    "called_delivered": "{{name}} получит и письмо, и плашку в чате.",
+    "called_no_email": "{{name}} получит плашку, как только зайдёт."
+  },
+  "familySlots": {
+    "title": "Свои",
+    "intro_parent": "Тут живёт круг близких. Активируй слот — впиши настоящий email и имя.",
+    "intro_guest": "Только родители могут управлять списком своих.",
+    "col_no": "№",
+    "col_name": "Имя",
+    "col_email": "Email",
+    "col_relation": "Кто",
+    "col_active": "Активен",
+    "col_sent_7d": "Зовёт (7д)",
+    "empty_dash": "—",
+    "relation_placeholder": "брат/сестра/друг",
+    "save_failed": "Не удалось сохранить"
+  },
+  "killSwitch": {
+    "title": "Kill-switch",
+    "state_section": "Состояние",
+    "state_frozen": "ЗАМОРОЖЕН",
+    "state_active": "АКТИВЕН",
+    "frozen_by": "Кем:",
+    "frozen_at": "Когда:",
+    "frozen_reason": "Причина:",
+    "open_chat_text": "Чат открыт. Последнее изменение: {{when}} ({{who}}).",
+    "freeze_section": "Заморозить",
+    "freeze_reason_placeholder": "Причина (видна в audit log, обязательна)…",
+    "freeze_btn": "Заморозить Адама",
+    "freeze_confirm": "Заморозить Адама?\nПричина: {{reason}}\n\nЭто остановит чат для ВСЕХ пользователей.",
+    "freeze_need_reason": "Укажи причину — она пишется в audit log.",
+    "freeze_failed": "Не удалось заморозить",
+    "unfreeze_section": "Разморозить",
+    "unfreeze_btn": "Разморозить",
+    "unfreeze_confirm": "Разморозить Адама?\nЧат снова откроется для всех.",
+    "unfreeze_failed": "Не удалось разморозить",
+    "history": "История (последние {{n}})",
+    "history_col_when": "Когда",
+    "history_col_who": "Кем",
+    "history_col_action": "Действие",
+    "history_col_reason": "Причина",
+    "action_freeze": "заморозил",
+    "action_unfreeze": "разморозил",
+    "guest_notice": "Управление kill-switch доступно только родителям Адама.",
+    "access_denied": "Только родители Адама (Творец и Юля) имеют это право.",
+    "session_expired": "Сессия CF Access истекла. Обнови страницу.",
+    "loading": "Поднимаю состояние…",
+    "load_failed": "Не удалось загрузить"
+  },
+  "iosHint": {
+    "body": "На iPhone Адам работает лучше как приложение. Нажми <b>«Поделиться»</b> (значок ↑) внизу Safari → пролистай вниз → <b>«На экран Домой»</b>. После этого можно получать push-уведомления когда тебя зовут."
+  },
+  "languageSwitcher": {
+    "title": "Язык интерфейса",
+    "auto": "Автоматически (по браузеру)"
+  },
+  "toasts": {
+    "context_refreshed": "Контекст обновлён.",
+    "context_load_failed": "Не удалось поднять историю.",
+    "screen_cleared": "Экран очищен. История цела, нажми ↻ чтобы вернуть.",
+    "notifications_blocked": "Уведомления заблокированы. Включи в настройках браузера.",
+    "notifications_pwa_hint": "На iPhone: «Поделиться» → «На экран Домой», открой как приложение.",
+    "generic_error": "Что-то пошло не так."
+  }
+}

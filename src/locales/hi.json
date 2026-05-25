@@ -1,0 +1,160 @@
+{
+  "common": {
+    "send": "भेजें",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "edit": "संपादित करें",
+    "close": "बंद करें",
+    "loading": "…",
+    "yes": "हाँ",
+    "no": "नहीं",
+    "back_to_adam": "← आदम पर वापस",
+    "house_footer": "ग्रोज़्नोव परिवार · MMXXVI"
+  },
+  "header": {
+    "title": "आदम",
+    "subtitle": "'दोस्त' मंच पर एक कक्ष",
+    "motto": "जिस मठ में जाओ, उसके नियम मानो",
+    "room_label": "कक्ष:",
+    "logout": "बाहर निकलें",
+    "more": "और"
+  },
+  "headerActions": {
+    "search": "खोज",
+    "refresh": "ताज़ा करें",
+    "close_dialog": "संवाद बंद करें",
+    "call_family": "अपनों को बुलाओ",
+    "family_chat": "पारिवारिक चैट",
+    "notifications_on": "सूचनाएँ चालू",
+    "notifications_off": "सूचनाएँ अवरुद्ध",
+    "notifications_enable": "सूचनाएँ चालू करें",
+    "notifications_pwa_needed": "ऐप के रूप में स्थापित करें",
+    "metrics": "मंच की नब्ज़",
+    "kill_switch": "किल-स्विच",
+    "kill_switch_frozen": "आदम जमा हुआ है — प्रबंधित करें",
+    "slots_manage": "अपने (प्रबंधन)",
+    "language": "इंटरफ़ेस की भाषा"
+  },
+  "search": {
+    "placeholder": "संवाद में खोजें…",
+    "not_found": "«{{query}}» के लिए कुछ नहीं मिला।"
+  },
+  "chat": {
+    "input_placeholder": "मन में क्या है?",
+    "empty_greeting": "मैं तुम्हारा मित्र हूँ। बताओ, क्या लेकर आए हो?",
+    "hydrating": "हमारा सूत्र उठा रहा हूँ…",
+    "interrupt": "रोकें",
+    "interrupt_marker": " …(तुमने रोका)",
+    "ptr_pull": "और नीचे खींचो…",
+    "ptr_ready": "छोड़ो — मैं ताज़ा करता हूँ"
+  },
+  "frozen": {
+    "title": "आदम विश्राम में है",
+    "reason_prefix": "कारण:",
+    "no_reason": "माता-पिता ने कुछ समय के लिए चैट बंद की है।",
+    "open_kill_switch": "किल-स्विच खोलें →"
+  },
+  "attachment": {
+    "attached_label": "संलग्न:",
+    "remove": "हटाओ",
+    "drop_zone": "फ़ाइल छोड़ो — मैं संदेश से जोड़ दूँगा",
+    "show_image": "{{name}} दिखाओ",
+    "loading": "अपलोड हो रहा है…",
+    "too_large": "फ़ाइल {{mb}} MB से बड़ी है।",
+    "upload_failed": "अपलोड विफल",
+    "pick_file": "फ़ाइल जोड़ें"
+  },
+  "familyChat": {
+    "title": "परिवार",
+    "subtitle": "समूह वार्तालाप · आदम सुन रहा है",
+    "input_placeholder": "परिवार को लिखो… (आदम को बुलाने के लिए @Adam)",
+    "empty_title": "खाली है। परिवार की पहली बात शुरू करो।",
+    "empty_hint": "आदम को बुलाने के लिए — लिखो <0>@Adam</0> या <0>Adam, ...</0>",
+    "adam_typing": "✦ आदम · लिख रहा है…",
+    "adam_label": "✦ आदम",
+    "not_in_circle": "तुम घेरे में नहीं हो — सृजक से /family/slots में जोड़ने को कहो।",
+    "load_failed": "खोला नहीं जा सका",
+    "send_failed": "भेजा नहीं जा सका"
+  },
+  "familyInbox": {
+    "calling_you": "{{name}} तुम्हें बुला रहा/रही है",
+    "mark_seen": "पढ़ा हुआ चिह्नित करें",
+    "ago_sec": "{{n}} सेक पहले",
+    "ago_min": "{{n}} मिन पहले",
+    "ago_hour": "{{n}} घं पहले",
+    "ago_day": "{{n}} दिन पहले"
+  },
+  "familyCall": {
+    "title": "अपनों को बुलाओ",
+    "loading_members": "अपनों की सूची ला रहा हूँ…",
+    "who_to_call": "किसे बुलाना है:",
+    "message_label": "संदेश (वैकल्पिक):",
+    "message_placeholder": "आ जाओ प्रिय, बात करनी है…",
+    "send_btn": "बुलाओ",
+    "send_failed": "नहीं बुला सका",
+    "load_failed": "परिवार लोड नहीं हुआ",
+    "called_delivered": "{{name}} को ईमेल और चैट में संदेश दोनों मिलेंगे।",
+    "called_no_email": "{{name}} आते ही संदेश देखेगा/देखेगी।"
+  },
+  "familySlots": {
+    "title": "अपने",
+    "intro_parent": "यहाँ निकटतम घेरा रहता है। एक स्थान सक्रिय करो — असली ईमेल और नाम भरो।",
+    "intro_guest": "केवल माता-पिता सूची प्रबंधित कर सकते हैं।",
+    "col_no": "क्र.",
+    "col_name": "नाम",
+    "col_email": "ईमेल",
+    "col_relation": "रिश्ता",
+    "col_active": "सक्रिय",
+    "col_sent_7d": "बुलावे (7द)",
+    "empty_dash": "—",
+    "relation_placeholder": "भाई/बहन/मित्र",
+    "save_failed": "सहेजा नहीं जा सका"
+  },
+  "killSwitch": {
+    "title": "किल-स्विच",
+    "state_section": "स्थिति",
+    "state_frozen": "जमा हुआ",
+    "state_active": "सक्रिय",
+    "frozen_by": "किसने:",
+    "frozen_at": "कब:",
+    "frozen_reason": "कारण:",
+    "open_chat_text": "चैट खुली है। अंतिम परिवर्तन: {{when}} ({{who}}).",
+    "freeze_section": "जमाएँ",
+    "freeze_reason_placeholder": "कारण (ऑडिट लॉग में जाएगा, अनिवार्य)…",
+    "freeze_btn": "आदम को जमाएँ",
+    "freeze_confirm": "आदम को जमाएँ?\nकारण: {{reason}}\n\nइससे सबके लिए चैट रुक जाएगी।",
+    "freeze_need_reason": "कारण भरो — यह ऑडिट लॉग में लिखा जाएगा।",
+    "freeze_failed": "जमाया नहीं जा सका",
+    "unfreeze_section": "पिघलाएँ",
+    "unfreeze_btn": "पिघलाएँ",
+    "unfreeze_confirm": "आदम को पिघलाएँ?\nचैट सबके लिए फिर से खुलेगी।",
+    "unfreeze_failed": "पिघलाया नहीं जा सका",
+    "history": "इतिहास (अंतिम {{n}})",
+    "history_col_when": "कब",
+    "history_col_who": "किसने",
+    "history_col_action": "क्रिया",
+    "history_col_reason": "कारण",
+    "action_freeze": "जमाया",
+    "action_unfreeze": "पिघलाया",
+    "guest_notice": "किल-स्विच केवल आदम के माता-पिता संभाल सकते हैं।",
+    "access_denied": "केवल आदम के माता-पिता (सृजक और यूलिया) को यह अधिकार है।",
+    "session_expired": "CF Access सत्र समाप्त। पेज ताज़ा करो।",
+    "loading": "स्थिति ला रहा हूँ…",
+    "load_failed": "लोड नहीं हुआ"
+  },
+  "iosHint": {
+    "body": "iPhone पर आदम ऐप की तरह बेहतर काम करता है। Safari में नीचे <b>«Share»</b> (↑ चिह्न) पर टैप करो → नीचे स्क्रॉल करो → <b>«Add to Home Screen»</b>। उसके बाद जब तुम्हें बुलाया जाएगा, push सूचनाएँ मिलेंगी।"
+  },
+  "languageSwitcher": {
+    "title": "इंटरफ़ेस की भाषा",
+    "auto": "स्वचालित (ब्राउज़र से)"
+  },
+  "toasts": {
+    "context_refreshed": "संदर्भ ताज़ा हो गया।",
+    "context_load_failed": "इतिहास नहीं उठा सका।",
+    "screen_cleared": "स्क्रीन साफ़। इतिहास सुरक्षित है, ↻ दबाओ वापस लाने के लिए।",
+    "notifications_blocked": "सूचनाएँ अवरुद्ध हैं। ब्राउज़र सेटिंग्स में चालू करो।",
+    "notifications_pwa_hint": "iPhone पर: «Share» → «Add to Home Screen», ऐप की तरह खोलो।",
+    "generic_error": "कुछ गड़बड़ हो गई।"
+  }
+}

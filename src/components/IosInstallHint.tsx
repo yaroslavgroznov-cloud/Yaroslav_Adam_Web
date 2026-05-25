@@ -3,6 +3,7 @@
 // чтобы получать push и открывать одним тапом».
 // Кэшируется в localStorage чтобы не показывался повторно.
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const HINT_DISMISSED_KEY = 'ios-install-hint-dismissed'
 
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export function IosInstallHint({ isDark }: Props): React.ReactElement | null {
+  const { t } = useTranslation()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -56,15 +58,12 @@ export function IosInstallHint({ isDark }: Props): React.ReactElement | null {
         marginTop: '-2px',
       }}>↗</span>
       <div className="flex-1 min-w-0">
-        <p style={{ fontSize: '14px', lineHeight: '1.4' }}>
-          На iPhone Адам работает лучше как приложение. Нажми <b>«Поделиться»</b>
-          {' '}(значок ↑) внизу Safari → пролистай вниз → <b>«На экран Домой»</b>.
-          После этого можно получать push-уведомления когда тебя зовут.
-        </p>
+        <p style={{ fontSize: '14px', lineHeight: '1.4' }}
+           dangerouslySetInnerHTML={{ __html: t('iosHint.body') }} />
       </div>
       <button
         onClick={dismiss}
-        aria-label="Закрыть"
+        aria-label={t('common.close')}
         className="shrink-0"
         style={{
           width: 32, height: 32,

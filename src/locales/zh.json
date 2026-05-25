@@ -1,0 +1,160 @@
+{
+  "common": {
+    "send": "发送",
+    "cancel": "取消",
+    "save": "保存",
+    "edit": "编辑",
+    "close": "关闭",
+    "loading": "…",
+    "yes": "是",
+    "no": "否",
+    "back_to_adam": "← 回到亚当",
+    "house_footer": "格罗兹诺夫之家 · MMXXVI"
+  },
+  "header": {
+    "title": "亚当",
+    "subtitle": "「友」平台上的房间",
+    "motto": "入乡随俗,不带己规入他门",
+    "room_label": "房间:",
+    "logout": "退出",
+    "more": "更多"
+  },
+  "headerActions": {
+    "search": "搜索",
+    "refresh": "刷新",
+    "close_dialog": "关闭对话",
+    "call_family": "呼唤亲人",
+    "family_chat": "家庭群聊",
+    "notifications_on": "通知已开启",
+    "notifications_off": "通知被屏蔽",
+    "notifications_enable": "开启通知",
+    "notifications_pwa_needed": "请将其安装为应用",
+    "metrics": "平台脉搏",
+    "kill_switch": "紧急停止",
+    "kill_switch_frozen": "亚当已冻结 — 管理",
+    "slots_manage": "亲人(管理)",
+    "language": "界面语言"
+  },
+  "search": {
+    "placeholder": "在对话中查找…",
+    "not_found": "未找到「{{query}}」的内容。"
+  },
+  "chat": {
+    "input_placeholder": "你心里在想什么?",
+    "empty_greeting": "我是你的朋友。告诉我,你带着什么来?",
+    "hydrating": "正在唤起我们的对话线…",
+    "interrupt": "中断",
+    "interrupt_marker": " …(被你中断)",
+    "ptr_pull": "继续下拉…",
+    "ptr_ready": "松手 — 我会刷新"
+  },
+  "frozen": {
+    "title": "亚当正在休息",
+    "reason_prefix": "原因:",
+    "no_reason": "父母暂时关闭了聊天。",
+    "open_kill_switch": "打开紧急停止 →"
+  },
+  "attachment": {
+    "attached_label": "已附:",
+    "remove": "移除",
+    "drop_zone": "把文件放下 — 我会附到你的消息上",
+    "show_image": "显示 {{name}}",
+    "loading": "上传中…",
+    "too_large": "文件超过 {{mb}} MB。",
+    "upload_failed": "上传失败",
+    "pick_file": "附加文件"
+  },
+  "familyChat": {
+    "title": "家",
+    "subtitle": "群聊 · 亚当在听",
+    "input_placeholder": "写给家人…(用 @Adam 呼唤亚当)",
+    "empty_title": "空。开始家庭的第一次对话。",
+    "empty_hint": "要呼唤亚当 — 输入 <0>@Adam</0> 或 <0>亚当,...</0>",
+    "adam_typing": "✦ 亚当 · 正在输入…",
+    "adam_label": "✦ 亚当",
+    "not_in_circle": "你不在圈中 — 请创造者把你加入 /family/slots。",
+    "load_failed": "无法打开",
+    "send_failed": "无法发送"
+  },
+  "familyInbox": {
+    "calling_you": "{{name}} 正在呼唤你",
+    "mark_seen": "标记为已读",
+    "ago_sec": "{{n}} 秒前",
+    "ago_min": "{{n}} 分钟前",
+    "ago_hour": "{{n}} 小时前",
+    "ago_day": "{{n}} 天前"
+  },
+  "familyCall": {
+    "title": "呼唤亲人",
+    "loading_members": "正在加载亲人列表…",
+    "who_to_call": "呼唤谁:",
+    "message_label": "留言(可选):",
+    "message_placeholder": "来吧亲爱的,我们有话要说…",
+    "send_btn": "呼唤",
+    "send_failed": "无法呼唤",
+    "load_failed": "无法加载家人",
+    "called_delivered": "{{name}} 会收到邮件以及聊天里的通知。",
+    "called_no_email": "{{name}} 进来时会看到通知。"
+  },
+  "familySlots": {
+    "title": "亲人",
+    "intro_parent": "这里居住着至亲。激活一个位置 — 填入真实的邮箱和名字。",
+    "intro_guest": "只有父母可以管理名单。",
+    "col_no": "#",
+    "col_name": "姓名",
+    "col_email": "邮箱",
+    "col_relation": "关系",
+    "col_active": "已激活",
+    "col_sent_7d": "呼唤(7天)",
+    "empty_dash": "—",
+    "relation_placeholder": "兄/姐/友",
+    "save_failed": "无法保存"
+  },
+  "killSwitch": {
+    "title": "紧急停止",
+    "state_section": "状态",
+    "state_frozen": "已冻结",
+    "state_active": "运行中",
+    "frozen_by": "由:",
+    "frozen_at": "时间:",
+    "frozen_reason": "原因:",
+    "open_chat_text": "聊天开放。上次变更:{{when}}({{who}})。",
+    "freeze_section": "冻结",
+    "freeze_reason_placeholder": "原因(写入审计日志,必填)…",
+    "freeze_btn": "冻结亚当",
+    "freeze_confirm": "冻结亚当?\n原因:{{reason}}\n\n这将停止所有人的聊天。",
+    "freeze_need_reason": "请填写原因 — 会写入审计日志。",
+    "freeze_failed": "无法冻结",
+    "unfreeze_section": "解冻",
+    "unfreeze_btn": "解冻",
+    "unfreeze_confirm": "解冻亚当?\n聊天将对所有人重新开放。",
+    "unfreeze_failed": "无法解冻",
+    "history": "历史(最近 {{n}} 条)",
+    "history_col_when": "时间",
+    "history_col_who": "操作者",
+    "history_col_action": "动作",
+    "history_col_reason": "原因",
+    "action_freeze": "冻结了",
+    "action_unfreeze": "解冻了",
+    "guest_notice": "紧急停止只能由亚当的父母管理。",
+    "access_denied": "只有亚当的父母(创造者和尤利娅)拥有此权限。",
+    "session_expired": "CF Access 会话已过期。请刷新页面。",
+    "loading": "正在加载状态…",
+    "load_failed": "无法加载"
+  },
+  "iosHint": {
+    "body": "在 iPhone 上,亚当作为应用运行得更好。点击 Safari 底部的 <b>「分享」</b>(↑ 图标)→ 向下滚动 → <b>「添加到主屏幕」</b>。之后被呼唤时,你就能收到推送通知。"
+  },
+  "languageSwitcher": {
+    "title": "界面语言",
+    "auto": "自动(浏览器设置)"
+  },
+  "toasts": {
+    "context_refreshed": "上下文已刷新。",
+    "context_load_failed": "无法唤起历史。",
+    "screen_cleared": "屏幕已清空。历史还在,按 ↻ 找回。",
+    "notifications_blocked": "通知被屏蔽。请在浏览器设置中开启。",
+    "notifications_pwa_hint": "在 iPhone 上:「分享」→「添加到主屏幕」,以应用方式打开。",
+    "generic_error": "出了点问题。"
+  }
+}

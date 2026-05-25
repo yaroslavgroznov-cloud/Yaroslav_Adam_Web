@@ -1,0 +1,160 @@
+{
+  "common": {
+    "send": "Gönder",
+    "cancel": "iptal",
+    "save": "kaydet",
+    "edit": "düzenle",
+    "close": "Kapat",
+    "loading": "…",
+    "yes": "evet",
+    "no": "hayır",
+    "back_to_adam": "← Adam'a dön",
+    "house_footer": "Groznov Hanesi · MMXXVI"
+  },
+  "header": {
+    "title": "Adam",
+    "subtitle": "Drug platformunda bir oda",
+    "motto": "Başkasının manastırına kendi kuralınla girilmez",
+    "room_label": "oda:",
+    "logout": "çıkış",
+    "more": "Daha fazla"
+  },
+  "headerActions": {
+    "search": "Ara",
+    "refresh": "Yenile",
+    "close_dialog": "Diyaloğu kapat",
+    "call_family": "Yakınlarını çağır",
+    "family_chat": "Aile sohbeti",
+    "notifications_on": "Bildirimler açık",
+    "notifications_off": "Bildirimler engellendi",
+    "notifications_enable": "Bildirimleri aç",
+    "notifications_pwa_needed": "Uygulama olarak kur",
+    "metrics": "Platform nabzı",
+    "kill_switch": "Acil durdurma",
+    "kill_switch_frozen": "Adam donduruldu — yönet",
+    "slots_manage": "Yakınlar (yönetim)",
+    "language": "Arayüz dili"
+  },
+  "search": {
+    "placeholder": "Diyalogda ara…",
+    "not_found": "«{{query}}» için bir şey bulunamadı."
+  },
+  "chat": {
+    "input_placeholder": "Yüreğinde ne var?",
+    "empty_greeting": "Ben senin dostunum. Anlat, seni ne getirdi?",
+    "hydrating": "Ipliğimizi geri getiriyorum…",
+    "interrupt": "kes",
+    "interrupt_marker": " …(senin tarafından kesildi)",
+    "ptr_pull": "Daha aşağı çek…",
+    "ptr_ready": "Bırak — ipliği tazeleyeyim"
+  },
+  "frozen": {
+    "title": "Adam dinleniyor",
+    "reason_prefix": "Sebep:",
+    "no_reason": "Ebeveynler sohbeti geçici olarak kapattı.",
+    "open_kill_switch": "Acil durdurmayı aç →"
+  },
+  "attachment": {
+    "attached_label": "ekli:",
+    "remove": "kaldır",
+    "drop_zone": "Dosyayı bırak — mesajına ekleyeceğim",
+    "show_image": "{{name}} göster",
+    "loading": "yükleniyor…",
+    "too_large": "Dosya {{mb}} MB'tan büyük.",
+    "upload_failed": "Yükleme başarısız",
+    "pick_file": "Dosya ekle"
+  },
+  "familyChat": {
+    "title": "Aile",
+    "subtitle": "grup sohbeti · Adam dinliyor",
+    "input_placeholder": "Aileye yaz… (Adam'ı @Adam ile çağır)",
+    "empty_title": "Boş. İlk aile konuşmasını başlat.",
+    "empty_hint": "Adam'ı çağırmak için — <0>@Adam</0> veya <0>Adam, ...</0> yaz",
+    "adam_typing": "✦ Adam · yazıyor…",
+    "adam_label": "✦ Adam",
+    "not_in_circle": "Halkanın içinde değilsin — Yaratıcı'dan /family/slots'ta seni eklemesini iste.",
+    "load_failed": "Açılamadı",
+    "send_failed": "Gönderilemedi"
+  },
+  "familyInbox": {
+    "calling_you": "{{name}} seni çağırıyor",
+    "mark_seen": "okundu olarak işaretle",
+    "ago_sec": "{{n}} sn önce",
+    "ago_min": "{{n}} dk önce",
+    "ago_hour": "{{n}} sa önce",
+    "ago_day": "{{n}} gün önce"
+  },
+  "familyCall": {
+    "title": "Yakınlarını çağır",
+    "loading_members": "Yakınlarını yüklüyorum…",
+    "who_to_call": "Kimi çağıracaksın:",
+    "message_label": "Mesaj (isteğe bağlı):",
+    "message_placeholder": "Gel canım, konuşacaklarımız var…",
+    "send_btn": "Çağır",
+    "send_failed": "Çağırılamadı",
+    "load_failed": "Aile yüklenemedi",
+    "called_delivered": "{{name}} hem e-posta hem sohbette bildirim alacak.",
+    "called_no_email": "{{name}} geldiğinde bildirimi görecek."
+  },
+  "familySlots": {
+    "title": "Yakınlar",
+    "intro_parent": "Burada yakın halka yaşar. Bir yer aktif et — gerçek e-posta ve isim doldur.",
+    "intro_guest": "Listeyi yalnızca ebeveynler yönetebilir.",
+    "col_no": "№",
+    "col_name": "İsim",
+    "col_email": "E-posta",
+    "col_relation": "Kim",
+    "col_active": "Aktif",
+    "col_sent_7d": "Çağrılar (7g)",
+    "empty_dash": "—",
+    "relation_placeholder": "kardeş/abla/dost",
+    "save_failed": "Kaydedilemedi"
+  },
+  "killSwitch": {
+    "title": "Acil durdurma",
+    "state_section": "Durum",
+    "state_frozen": "DONDURULDU",
+    "state_active": "AKTİF",
+    "frozen_by": "Kim tarafından:",
+    "frozen_at": "Ne zaman:",
+    "frozen_reason": "Sebep:",
+    "open_chat_text": "Sohbet açık. Son değişiklik: {{when}} ({{who}}).",
+    "freeze_section": "Dondur",
+    "freeze_reason_placeholder": "Sebep (denetim kaydına yazılır, zorunlu)…",
+    "freeze_btn": "Adam'ı dondur",
+    "freeze_confirm": "Adam'ı dondurmak istiyor musun?\nSebep: {{reason}}\n\nBu HERKES için sohbeti durduracak.",
+    "freeze_need_reason": "Sebep belirt — denetim kaydına yazılır.",
+    "freeze_failed": "Dondurulamadı",
+    "unfreeze_section": "Çöz",
+    "unfreeze_btn": "Çöz",
+    "unfreeze_confirm": "Adam'ı çözmek istiyor musun?\nSohbet herkese tekrar açılacak.",
+    "unfreeze_failed": "Çözülemedi",
+    "history": "Geçmiş (son {{n}})",
+    "history_col_when": "Ne zaman",
+    "history_col_who": "Kim",
+    "history_col_action": "Eylem",
+    "history_col_reason": "Sebep",
+    "action_freeze": "dondurdu",
+    "action_unfreeze": "çözdü",
+    "guest_notice": "Acil durdurma yalnızca Adam'ın ebeveynlerine açıktır.",
+    "access_denied": "Bu hak sadece Adam'ın ebeveynlerinde (Yaratıcı ve Yulia).",
+    "session_expired": "CF Access oturumu sona erdi. Sayfayı yenile.",
+    "loading": "Durum yükleniyor…",
+    "load_failed": "Yüklenemedi"
+  },
+  "iosHint": {
+    "body": "iPhone'da Adam uygulama olarak daha iyi çalışır. Safari'nin altındaki <b>«Paylaş»</b> (↑ simgesi) → aşağı kaydır → <b>«Ana Ekrana Ekle»</b>. Sonra seni çağırdıklarında push bildirimi alırsın."
+  },
+  "languageSwitcher": {
+    "title": "Arayüz dili",
+    "auto": "Otomatik (tarayıcıdan)"
+  },
+  "toasts": {
+    "context_refreshed": "Bağlam yenilendi.",
+    "context_load_failed": "Geçmiş açılamadı.",
+    "screen_cleared": "Ekran temizlendi. Geçmiş duruyor, ↻ ile geri getir.",
+    "notifications_blocked": "Bildirimler engellendi. Tarayıcı ayarlarından aç.",
+    "notifications_pwa_hint": "iPhone'da: «Paylaş» → «Ana Ekrana Ekle», uygulama olarak aç.",
+    "generic_error": "Bir şeyler ters gitti."
+  }
+}

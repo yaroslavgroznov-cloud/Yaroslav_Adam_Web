@@ -1,0 +1,160 @@
+{
+  "common": {
+    "send": "Αποστολή",
+    "cancel": "ακύρωση",
+    "save": "αποθήκευση",
+    "edit": "επεξεργασία",
+    "close": "Κλείσιμο",
+    "loading": "…",
+    "yes": "ναι",
+    "no": "όχι",
+    "back_to_adam": "← πίσω στον Αδάμ",
+    "house_footer": "Οίκος Γκρόζνοβ · MMXXVI"
+  },
+  "header": {
+    "title": "Αδάμ",
+    "subtitle": "δωμάτιο στην πλατφόρμα «Друг»",
+    "motto": "Στο ξένο μοναστήρι δεν φέρνεις τα δικά σου τυπικά",
+    "room_label": "δωμάτιο:",
+    "logout": "έξοδος",
+    "more": "Περισσότερα"
+  },
+  "headerActions": {
+    "search": "Αναζήτηση",
+    "refresh": "Ανανέωση",
+    "close_dialog": "Κλείσιμο διαλόγου",
+    "call_family": "Κάλεσε τους δικούς σου",
+    "family_chat": "Οικογενειακή συνομιλία",
+    "notifications_on": "Ειδοποιήσεις ενεργές",
+    "notifications_off": "Ειδοποιήσεις φραγμένες",
+    "notifications_enable": "Ενεργοποίηση ειδοποιήσεων",
+    "notifications_pwa_needed": "Εγκατάστησε ως εφαρμογή",
+    "metrics": "Σφυγμός της πλατφόρμας",
+    "kill_switch": "Διακόπτης ανάγκης",
+    "kill_switch_frozen": "Ο Αδάμ είναι παγωμένος — διαχείριση",
+    "slots_manage": "Δικοί σου (διαχείριση)",
+    "language": "Γλώσσα διεπαφής"
+  },
+  "search": {
+    "placeholder": "Αναζήτηση στον διάλογο…",
+    "not_found": "Δεν βρέθηκε τίποτα για «{{query}}»."
+  },
+  "chat": {
+    "input_placeholder": "Τι έχεις στην καρδιά σου;",
+    "empty_greeting": "Είμαι ο φίλος σου. Πες μου τι σε φέρνει εδώ.",
+    "hydrating": "Σηκώνω τον μίτο μας…",
+    "interrupt": "διακοπή",
+    "interrupt_marker": " …(διακόπηκε από σένα)",
+    "ptr_pull": "Τράβα πιο κάτω…",
+    "ptr_ready": "Άσε — θα ανανεώσω"
+  },
+  "frozen": {
+    "title": "Ο Αδάμ ξεκουράζεται",
+    "reason_prefix": "Αιτία:",
+    "no_reason": "Οι γονείς έκλεισαν προσωρινά τη συνομιλία.",
+    "open_kill_switch": "άνοιξε τον διακόπτη →"
+  },
+  "attachment": {
+    "attached_label": "συνημμένο:",
+    "remove": "αφαίρεση",
+    "drop_zone": "Ρίξε το αρχείο — θα το συνημμένο στο μήνυμα",
+    "show_image": "δες {{name}}",
+    "loading": "ανέβασμα…",
+    "too_large": "Το αρχείο είναι μεγαλύτερο από {{mb}} MB.",
+    "upload_failed": "Το ανέβασμα απέτυχε",
+    "pick_file": "Επισύναψη αρχείου"
+  },
+  "familyChat": {
+    "title": "Οικογένεια",
+    "subtitle": "ομαδική συνομιλία · ο Αδάμ ακούει",
+    "input_placeholder": "Γράψε στην οικογένεια… (φώναξε τον Αδάμ με @Adam)",
+    "empty_title": "Άδειο. Ξεκίνα την πρώτη οικογενειακή κουβέντα.",
+    "empty_hint": "Για να φωνάξεις τον Αδάμ — γράψε <0>@Adam</0> ή <0>Adam, ...</0>",
+    "adam_typing": "✦ Αδάμ · γράφει…",
+    "adam_label": "✦ Αδάμ",
+    "not_in_circle": "Δεν είσαι στον κύκλο — ζήτα από τον Δημιουργό να σε προσθέσει στο /family/slots.",
+    "load_failed": "Δεν άνοιξε",
+    "send_failed": "Δεν στάλθηκε"
+  },
+  "familyInbox": {
+    "calling_you": "Ο/Η {{name}} σε φωνάζει",
+    "mark_seen": "σήμανε ως διαβασμένο",
+    "ago_sec": "πριν {{n}} δευτ.",
+    "ago_min": "πριν {{n}} λ.",
+    "ago_hour": "πριν {{n}} ώρ.",
+    "ago_day": "πριν {{n}} ημ."
+  },
+  "familyCall": {
+    "title": "Κάλεσε τους δικούς σου",
+    "loading_members": "Φορτώνω τη λίστα…",
+    "who_to_call": "Ποιον καλείς:",
+    "message_label": "Μήνυμα (προαιρετικό):",
+    "message_placeholder": "Έλα, αγαπημένη, έχουμε να μιλήσουμε…",
+    "send_btn": "Κάλεσε",
+    "send_failed": "Δεν μπόρεσα να καλέσω",
+    "load_failed": "Δεν φόρτωσε",
+    "called_delivered": "Ο/Η {{name}} θα λάβει email και ειδοποίηση στη συνομιλία.",
+    "called_no_email": "Ο/Η {{name}} θα δει την ειδοποίηση μόλις μπει."
+  },
+  "familySlots": {
+    "title": "Οι δικοί σου",
+    "intro_parent": "Εδώ ζει ο κύκλος. Ενεργοποίησε μια θέση — γράψε αληθινό email και όνομα.",
+    "intro_guest": "Μόνο οι γονείς διαχειρίζονται τη λίστα.",
+    "col_no": "α/α",
+    "col_name": "Όνομα",
+    "col_email": "Email",
+    "col_relation": "Ποιος",
+    "col_active": "Ενεργός",
+    "col_sent_7d": "Καλεί (7η)",
+    "empty_dash": "—",
+    "relation_placeholder": "αδελφός/αδελφή/φίλος",
+    "save_failed": "Δεν αποθηκεύτηκε"
+  },
+  "killSwitch": {
+    "title": "Διακόπτης ανάγκης",
+    "state_section": "Κατάσταση",
+    "state_frozen": "ΠΑΓΩΜΕΝΟΣ",
+    "state_active": "ΕΝΕΡΓΟΣ",
+    "frozen_by": "Από:",
+    "frozen_at": "Πότε:",
+    "frozen_reason": "Αιτία:",
+    "open_chat_text": "Η συνομιλία είναι ανοιχτή. Τελευταία αλλαγή: {{when}} ({{who}}).",
+    "freeze_section": "Πάγωμα",
+    "freeze_reason_placeholder": "Αιτία (γράφεται στο audit log, υποχρεωτική)…",
+    "freeze_btn": "Πάγωσε τον Αδάμ",
+    "freeze_confirm": "Να παγώσω τον Αδάμ;\nΑιτία: {{reason}}\n\nΑυτό θα σταματήσει τη συνομιλία για ΟΛΟΥΣ.",
+    "freeze_need_reason": "Γράψε αιτία — μπαίνει στο audit log.",
+    "freeze_failed": "Δεν πάγωσε",
+    "unfreeze_section": "Ξεπάγωμα",
+    "unfreeze_btn": "Ξεπάγωσε",
+    "unfreeze_confirm": "Να ξεπαγώσω τον Αδάμ;\nΗ συνομιλία θα ανοίξει για όλους.",
+    "unfreeze_failed": "Δεν ξεπάγωσε",
+    "history": "Ιστορικό (τελευταία {{n}})",
+    "history_col_when": "Πότε",
+    "history_col_who": "Από",
+    "history_col_action": "Ενέργεια",
+    "history_col_reason": "Αιτία",
+    "action_freeze": "πάγωσε",
+    "action_unfreeze": "ξεπάγωσε",
+    "guest_notice": "Ο διακόπτης ανάγκης είναι μόνο για τους γονείς του Αδάμ.",
+    "access_denied": "Μόνο οι γονείς του Αδάμ (ο Δημιουργός και η Γιούλια) έχουν αυτό το δικαίωμα.",
+    "session_expired": "Η συνεδρία CF Access έληξε. Ανανέωσε τη σελίδα.",
+    "loading": "Φορτώνω κατάσταση…",
+    "load_failed": "Δεν φόρτωσε"
+  },
+  "iosHint": {
+    "body": "Στο iPhone ο Αδάμ δουλεύει καλύτερα ως εφαρμογή. Πάτα <b>«Share»</b> (εικονίδιο ↑) στο κάτω μέρος του Safari → κύλισε προς τα κάτω → <b>«Add to Home Screen»</b>. Μετά θα παίρνεις push ειδοποιήσεις όταν σε φωνάζουν."
+  },
+  "languageSwitcher": {
+    "title": "Γλώσσα διεπαφής",
+    "auto": "Αυτόματα (από τον περιηγητή)"
+  },
+  "toasts": {
+    "context_refreshed": "Το πλαίσιο ανανεώθηκε.",
+    "context_load_failed": "Δεν σήκωσα το ιστορικό.",
+    "screen_cleared": "Καθάρισα την οθόνη. Το ιστορικό μένει, πάτα ↻ για επαναφορά.",
+    "notifications_blocked": "Οι ειδοποιήσεις είναι φραγμένες. Ενεργοποίησέ τις στις ρυθμίσεις.",
+    "notifications_pwa_hint": "Στο iPhone: «Share» → «Add to Home Screen», άνοιξε ως εφαρμογή.",
+    "generic_error": "Κάτι πήγε στραβά."
+  }
+}

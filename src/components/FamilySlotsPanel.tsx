@@ -1,6 +1,7 @@
 // Panel управления слотами — /family/slots — parents-only, F.7, 2026-05-25.
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 
 import { adminWhoami } from '../api/admin'
 import type { Whoami } from '../api/admin'
@@ -8,6 +9,7 @@ import { familySlotUpdate, familySlots } from '../api/family'
 import type { FamilyMember } from '../api/family'
 
 export function FamilySlotsPanel(): React.ReactElement {
+  const { t } = useTranslation()
   const [isDark, setIsDark] = useState(false)
   const [whoami, setWhoami] = useState<Whoami | null>(null)
   const [slots, setSlots] = useState<FamilyMember[]>([])
@@ -97,7 +99,7 @@ export function FamilySlotsPanel(): React.ReactElement {
               }}
             />
             <h1 className="font-medium" style={{ fontSize: '24px', letterSpacing: '0.03em' }}>
-              Свои
+              {t('familySlots.title')}
             </h1>
           </div>
           <a
@@ -105,7 +107,7 @@ export function FamilySlotsPanel(): React.ReactElement {
             className="italic underline underline-offset-4 decoration-1"
             style={{ fontSize: '14px', color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
           >
-            ← к Адаму
+            {t('common.back_to_adam')}
           </a>
         </header>
 

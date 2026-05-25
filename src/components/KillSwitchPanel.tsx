@@ -3,6 +3,7 @@
 // Гости видят 403 от backend → "Только родители Адама имеют это право".
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 
 import {
   adminGetKillSwitchEvents,
@@ -29,6 +30,7 @@ function parentLabel(email: string | null): string {
 }
 
 export function KillSwitchPanel(): React.ReactElement {
+  const { t } = useTranslation()
   const [isDark, setIsDark] = useState(false)
   const [whoami, setWhoami] = useState<Whoami | null>(null)
   const [state, setState] = useState<SystemState | null>(null)
@@ -136,7 +138,7 @@ export function KillSwitchPanel(): React.ReactElement {
               }}
             />
             <h1 className="font-medium" style={{ fontSize: '24px', letterSpacing: '0.03em' }}>
-              Kill-switch
+              {t('killSwitch.title')}
             </h1>
           </div>
           <a
@@ -147,7 +149,7 @@ export function KillSwitchPanel(): React.ReactElement {
               color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
             }}
           >
-            ← к Адаму
+            {t('common.back_to_adam')}
           </a>
         </header>
 

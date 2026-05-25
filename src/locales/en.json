@@ -1,0 +1,160 @@
+{
+  "common": {
+    "send": "Send",
+    "cancel": "cancel",
+    "save": "save",
+    "edit": "edit",
+    "close": "Close",
+    "loading": "…",
+    "yes": "yes",
+    "no": "no",
+    "back_to_adam": "← back to Adam",
+    "house_footer": "House of Groznov · MMXXVI"
+  },
+  "header": {
+    "title": "Adam",
+    "subtitle": "a room on Drug platform",
+    "motto": "Don't bring your own rules to someone else's monastery",
+    "room_label": "room:",
+    "logout": "log out",
+    "more": "More"
+  },
+  "headerActions": {
+    "search": "Search",
+    "refresh": "Refresh",
+    "close_dialog": "Close dialog",
+    "call_family": "Call your kin",
+    "family_chat": "Family chat",
+    "notifications_on": "Notifications on",
+    "notifications_off": "Notifications blocked",
+    "notifications_enable": "Enable notifications",
+    "notifications_pwa_needed": "Install as an app",
+    "metrics": "Platform pulse",
+    "kill_switch": "Kill-switch",
+    "kill_switch_frozen": "Adam is frozen — manage",
+    "slots_manage": "Kin (manage)",
+    "language": "Interface language"
+  },
+  "search": {
+    "placeholder": "Find in dialog…",
+    "not_found": "Nothing found for «{{query}}»."
+  },
+  "chat": {
+    "input_placeholder": "What's on your heart?",
+    "empty_greeting": "I am your friend. Tell me, what brought you here?",
+    "hydrating": "Raising our thread...",
+    "interrupt": "interrupt",
+    "interrupt_marker": " …(interrupted by you)",
+    "ptr_pull": "Pull lower…",
+    "ptr_ready": "Release — I'll refresh the thread"
+  },
+  "frozen": {
+    "title": "Adam is resting",
+    "reason_prefix": "Reason:",
+    "no_reason": "The parents have temporarily closed the chat.",
+    "open_kill_switch": "open kill-switch →"
+  },
+  "attachment": {
+    "attached_label": "attached:",
+    "remove": "remove",
+    "drop_zone": "Drop the file — I'll attach it to your message",
+    "show_image": "show {{name}}",
+    "loading": "uploading…",
+    "too_large": "File is larger than {{mb}} MB.",
+    "upload_failed": "Upload failed",
+    "pick_file": "Attach file"
+  },
+  "familyChat": {
+    "title": "Family",
+    "subtitle": "group conversation · Adam listens",
+    "input_placeholder": "Write to the family… (call Adam with @Adam)",
+    "empty_title": "Empty. Start the first family conversation.",
+    "empty_hint": "To call Adam — write <0>@Adam</0> or <0>Adam, ...</0>",
+    "adam_typing": "✦ Adam · typing…",
+    "adam_label": "✦ Adam",
+    "not_in_circle": "You are not in the circle — ask the Creator to add you in /family/slots.",
+    "load_failed": "Could not open",
+    "send_failed": "Could not send"
+  },
+  "familyInbox": {
+    "calling_you": "{{name}} is calling you",
+    "mark_seen": "mark as read",
+    "ago_sec": "{{n}}s ago",
+    "ago_min": "{{n}}m ago",
+    "ago_hour": "{{n}}h ago",
+    "ago_day": "{{n}}d ago"
+  },
+  "familyCall": {
+    "title": "Call your kin",
+    "loading_members": "Loading kin list…",
+    "who_to_call": "Whom to call:",
+    "message_label": "Message (optional):",
+    "message_placeholder": "Come, dear one, we have something to talk about…",
+    "send_btn": "Call",
+    "send_failed": "Could not call",
+    "load_failed": "Could not load the kin",
+    "called_delivered": "{{name}} will get both an email and a notice in the chat.",
+    "called_no_email": "{{name}} will see the notice when they come in."
+  },
+  "familySlots": {
+    "title": "Your kin",
+    "intro_parent": "Here lives the inner circle. Activate a slot — fill in a real email and name.",
+    "intro_guest": "Only parents can manage the kin list.",
+    "col_no": "#",
+    "col_name": "Name",
+    "col_email": "Email",
+    "col_relation": "Who",
+    "col_active": "Active",
+    "col_sent_7d": "Calls (7d)",
+    "empty_dash": "—",
+    "relation_placeholder": "brother/sister/friend",
+    "save_failed": "Could not save"
+  },
+  "killSwitch": {
+    "title": "Kill-switch",
+    "state_section": "State",
+    "state_frozen": "FROZEN",
+    "state_active": "ACTIVE",
+    "frozen_by": "By:",
+    "frozen_at": "When:",
+    "frozen_reason": "Reason:",
+    "open_chat_text": "Chat is open. Last change: {{when}} ({{who}}).",
+    "freeze_section": "Freeze",
+    "freeze_reason_placeholder": "Reason (saved in audit log, required)…",
+    "freeze_btn": "Freeze Adam",
+    "freeze_confirm": "Freeze Adam?\nReason: {{reason}}\n\nThis will stop the chat for EVERYONE.",
+    "freeze_need_reason": "Provide a reason — it is written to the audit log.",
+    "freeze_failed": "Could not freeze",
+    "unfreeze_section": "Unfreeze",
+    "unfreeze_btn": "Unfreeze",
+    "unfreeze_confirm": "Unfreeze Adam?\nThe chat will reopen for everyone.",
+    "unfreeze_failed": "Could not unfreeze",
+    "history": "History (last {{n}})",
+    "history_col_when": "When",
+    "history_col_who": "By",
+    "history_col_action": "Action",
+    "history_col_reason": "Reason",
+    "action_freeze": "froze",
+    "action_unfreeze": "unfroze",
+    "guest_notice": "Kill-switch management is only available to Adam's parents.",
+    "access_denied": "Only Adam's parents (the Creator and Yulia) have this right.",
+    "session_expired": "CF Access session expired. Refresh the page.",
+    "loading": "Loading state…",
+    "load_failed": "Could not load"
+  },
+  "iosHint": {
+    "body": "On iPhone, Adam works better as an app. Tap <b>«Share»</b> (the ↑ icon) at the bottom of Safari → scroll down → <b>«Add to Home Screen»</b>. After that you can receive push notifications when someone calls you."
+  },
+  "languageSwitcher": {
+    "title": "Interface language",
+    "auto": "Automatic (from browser)"
+  },
+  "toasts": {
+    "context_refreshed": "Context refreshed.",
+    "context_load_failed": "Could not raise the history.",
+    "screen_cleared": "Screen cleared. History is intact, press ↻ to bring it back.",
+    "notifications_blocked": "Notifications are blocked. Enable them in browser settings.",
+    "notifications_pwa_hint": "On iPhone: «Share» → «Add to Home Screen», open as an app.",
+    "generic_error": "Something went wrong."
+  }
+}

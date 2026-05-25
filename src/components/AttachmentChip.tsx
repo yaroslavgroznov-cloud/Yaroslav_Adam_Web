@@ -2,6 +2,7 @@
 // Используется и в личном чате с Адамом, и в групповой беседе.
 // F.11, 2026-05-25.
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { filesDownloadUrl } from '../api/files'
 
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export function AttachmentChip({ attachment, isDark }: Props): React.ReactElement {
+  const { t } = useTranslation()
   const [openUrl, setOpenUrl] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
@@ -64,7 +66,7 @@ export function AttachmentChip({ attachment, isDark }: Props): React.ReactElemen
               color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
             }}
           >
-            {busy ? 'загружаю…' : `📷 показать ${attachment.original_name}`}
+            {busy ? t('attachment.loading') : `📷 ${t('attachment.show_image', { name: attachment.original_name })}`}
           </button>
         )}
       </div>

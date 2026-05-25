@@ -1,6 +1,7 @@
 // Модалка «Позвать кого-то» — F.7, 2026-05-25.
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 
 import { familyCall, familyMembers } from '../api/family'
 import type { FamilyMember } from '../api/family'
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.ReactElement {
+  const { t } = useTranslation()
   const [members, setMembers] = useState<FamilyMember[]>([])
   const [selected, setSelected] = useState<string>('')
   const [message, setMessage] = useState('')
@@ -25,7 +27,7 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
         setMembers(list)
         if (list.length > 0) setSelected(list[0].email)
       } catch (e) {
-        setError(e instanceof Error ? e.message : 'Не удалось загрузить семью')
+        setError(e instanceof Error ? e.message : t('familyCall.load_failed'))
       }
     })()
   }, [])
@@ -48,7 +50,7 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
       onCalled(m?.display_name ?? selected, call.email_delivered)
       onClose()
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Не удалось позвать')
+      setError(e instanceof Error ? e.message : t('familyCall.send_failed'))
     } finally {
       setBusy(false)
     }
@@ -71,10 +73,10 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
         }}
       >
         <div className="flex items-center justify-between mb-4">
-          <h2 style={{ fontSize: '20px', letterSpacing: '0.04em' }}>Позвать своего</h2>
+          <h2 style={{ fontSize: '20px', letterSpacing: '0.04em' }}>{t('familyCall.title')}</h2>
           <button
             onClick={onClose}
-            aria-label="Закрыть"
+            aria-label={t('common.close')}
             className="opacity-70 hover:opacity-100"
             style={{ color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
           >
@@ -86,7 +88,7 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
         </div>
 
         {members.length === 0 && !error && (
-          <p className="italic opacity-80">Поднимаю список своих…</p>
+          <p className="italic opacity-80">{t('familyCall.loading_members')}</p>
         )}
 
         {members.length > 0 && (
@@ -98,7 +100,7 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
                 color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)',
               }}
             >
-              Кого позвать:
+              {t('familyCall.who_to_call')}
             </label>
             <div className="grid gap-2 mb-4">
               {members.map((m) => (
@@ -142,13 +144,13 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
                 color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)',
               }}
             >
-              Сообщение (опционально):
+              {t('familyCall.message_label')}
             </label>
             <textarea
               rows={3}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Зайди, родная, есть о чём поговорить…"
+              placeholder={t('familyCall.message_placeholder')}
               disabled={busy}
               className={clsx(
                 'w-full rounded-md border outline-none transition-colors disabled:opacity-60',
@@ -181,7 +183,7 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
               color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
             }}
           >
-            отмена
+            {t('common.cancel')}
           </button>
           <button
             onClick={() => void handleSend()}
@@ -197,7 +199,7 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
               letterSpacing: '0.04em',
             }}
           >
-            {busy ? '…' : 'Позвать'}
+            {busy ? t('common.loading') : t('familyCall.send_btn')}
           </button>
         </div>
       </div>

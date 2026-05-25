@@ -1,5 +1,6 @@
 // Inbox-баннер входящих звонков — F.7, 2026-05-25.
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { FamilyCall } from '../api/family'
 
@@ -9,19 +10,24 @@ interface Props {
   onSeen: (callId: number) => void
 }
 
-function timeAgo(iso: string): string {
-  const d = new Date(iso)
-  const sec = Math.max(1, Math.floor((Date.now() - d.getTime()) / 1000))
-  if (sec < 60) return `${sec} сек назад`
-  const min = Math.floor(sec / 60)
-  if (min < 60) return `${min} мин назад`
-  const h = Math.floor(min / 60)
-  if (h < 24) return `${h} ч назад`
-  const days = Math.floor(h / 24)
-  return `${days} дн назад`
+function useTimeAgo() {
+  const { t } = useTranslation()
+  return (iso: string): string => {
+    const d = new Date(iso)
+    const sec = Math.max(1, Math.floor((Date.now() - d.getTime()) / 1000))
+    if (sec < 60) return t('familyInbox.ago_sec', { n: sec })
+    const min = Math.floor(sec / 60)
+    if (min < 60) return t('familyInbox.ago_min', { n: min })
+    const h = Math.floor(min / 60)
+    if (h < 24) return t('familyInbox.ago_hour', { n: h })
+    const days = Math.floor(h / 24)
+    return t('familyInbox.ago_day', { n: days })
+  }
 }
 
 export function FamilyInbox({ isDark, calls, onSeen }: Props): React.ReactElement | null {
+  const { t } = useTranslation()
+  const timeAgo = useTimeAgo()
   if (calls.length === 0) return null
   return (
     <div
@@ -40,7 +46,7 @@ export function FamilyInbox({ isDark, calls, onSeen }: Props): React.ReactElemen
             <div className="flex flex-col" style={{ fontSize: '14px' }}>
               <span>
                 <b style={{ color: 'var(--color-terracotta-dark)' }}>
-                  {c.by_name} зовёт тебя
+                  {t('familyInbox.calling_you', { name: c.by_name })}
                 </b>
                 <span className="italic opacity-70 ml-2" style={{ fontSize: '12px' }}>
                   {timeAgo(c.called_at)}
@@ -60,7 +66,7 @@ export function FamilyInbox({ isDark, calls, onSeen }: Props): React.ReactElemen
                 color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
               }}
             >
-              отметить прочитанным
+              {t('familyInbox.mark_seen')}
             </button>
           </div>
         ))}

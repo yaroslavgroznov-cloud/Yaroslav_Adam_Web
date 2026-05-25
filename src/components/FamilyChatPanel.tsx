@@ -2,6 +2,7 @@
 // Полл 3 сек на новые сообщения, optimistic POST.
 import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 
 import {
   familyChatList,
@@ -23,6 +24,7 @@ function formatTime(iso: string): string {
 function MessageRow({ msg, isDark, isMine }: {
   msg: ChatMessage; isDark: boolean; isMine: boolean
 }): React.ReactElement {
+  const { t } = useTranslation()
   const isAdam = msg.is_adam
   const align = isMine ? 'items-end' : 'items-start'
   const bubbleBg = isAdam
@@ -40,7 +42,7 @@ function MessageRow({ msg, isDark, isMine }: {
           ? 'var(--color-terracotta-dark)'
           : (isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)'),
       }}>
-        {isAdam ? '✦ Адам' : msg.by_name} · {formatTime(msg.created_at)}
+        {isAdam ? t('familyChat.adam_label') : msg.by_name} · {formatTime(msg.created_at)}
       </div>
       <div
         className="rounded-md border px-3 py-2 max-w-[88%] whitespace-pre-wrap"
@@ -61,6 +63,7 @@ function MessageRow({ msg, isDark, isMine }: {
 }
 
 export function FamilyChatPanel(): React.ReactElement {
+  const { t } = useTranslation()
   const [isDark, setIsDark] = useState(false)
   const [conv, setConv] = useState<ChatConversation | null>(null)
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -106,8 +109,8 @@ export function FamilyChatPanel(): React.ReactElement {
         setMessages(msgs)
         lastIdRef.current = msgs.length > 0 ? msgs[msgs.length - 1].id : 0
       } catch (e) {
-        const m = e instanceof Error ? e.message : 'Не удалось открыть'
-        if (m.includes('403')) setError('Ты не в кругу своих — попроси Творца добавить тебя в /family/slots.')
+        const m = e instanceof Error ? e.message : t('familyChat.load_failed')
+        if (m.includes('403')) setError(t('familyChat.not_in_circle'))
         else setError(m)
       }
     })()
@@ -156,7 +159,7 @@ export function FamilyChatPanel(): React.ReactElement {
   async function handleFilePick(file: File): Promise<void> {
     if (!filesCfg?.enabled) return
     if (file.size > filesCfg.max_bytes) {
-      setError(`Файл больше ${(filesCfg.max_bytes / 1024 / 1024).toFixed(0)} MB.`)
+      setError(t('attachment.too_large', { mb: (filesCfg.max_bytes / 1024 / 1024).toFixed(0) }))
       return
     }
     setUploading(true)
@@ -165,7 +168,7 @@ export function FamilyChatPanel(): React.ReactElement {
       const meta = await uploadFile(file)
       setPendingFile(meta)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Не удалось загрузить')
+      setError(e instanceof Error ? e.message : t('attachment.upload_failed'))
     } finally {
       setUploading(false)
     }
@@ -193,7 +196,7 @@ export function FamilyChatPanel(): React.ReactElement {
       if (newMsgs.some((m) => m.is_adam)) setAdamThinking(false)
       else if (!willTriggerAdam) setAdamThinking(false)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Не удалось отправить')
+      setError(e instanceof Error ? e.message : t('familyChat.send_failed'))
       setAdamThinking(false)
     } finally {
       setBusy(false)
@@ -234,11 +237,11 @@ export function FamilyChatPanel(): React.ReactElement {
                         filter: isDark ? 'brightness(1.08) contrast(1.05)' : 'none' }} />
           <div className="flex flex-col leading-tight min-w-0">
             <span className="font-medium" style={{ fontSize: '20px', letterSpacing: '0.03em' }}>
-              {conv?.title ?? 'Семья'}
+              {conv?.title ?? t('familyChat.title')}
             </span>
             <span className="italic" style={{ fontSize: '12px',
               color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
-              групповая беседа · Адам слышит
+              {t('familyChat.subtitle')}
             </span>
           </div>
         </div>
@@ -248,7 +251,7 @@ export function FamilyChatPanel(): React.ReactElement {
           style={{ fontSize: '14px',
             color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
         >
-          ← к Адаму
+          {t('common.back_to_adam')}
         </a>
       </header>
 
@@ -266,9 +269,13 @@ export function FamilyChatPanel(): React.ReactElement {
         )}
         {!error && messages.length === 0 && (
           <p className="italic text-center mt-12 opacity-70" style={{ fontSize: '15px' }}>
-            Пусто. Начни первый разговор семьи.
+            {t('familyChat.empty_title')}
             <br/>
-            <span className="text-xs">Чтобы позвать Адама — напиши <b>@Adam</b> или <b>Адам, ...</b></span>
+            <span className="text-xs">{t('familyChat.empty_hint').split('<0>').map((part, i) => {
+              if (i === 0) return part
+              const [tag, rest] = part.split('</0>')
+              return <React.Fragment key={i}><b>{tag}</b>{rest}</React.Fragment>
+            })}</span>
           </p>
         )}
         <div className="flex flex-col gap-3">
@@ -285,7 +292,7 @@ export function FamilyChatPanel(): React.ReactElement {
               <div className="text-xs italic opacity-70 mb-1 px-1" style={{
                 color: 'var(--color-terracotta-dark)',
               }}>
-                ✦ Адам · печатает…
+                {t('familyChat.adam_typing')}
               </div>
               <div
                 className="rounded-md border px-3 py-2"
@@ -310,7 +317,7 @@ export function FamilyChatPanel(): React.ReactElement {
             }}
           >
             <p className="italic" style={{ color: 'var(--color-terracotta-dark)', fontSize: '16px' }}>
-              Брось файл — прикреплю к сообщению
+              {t('attachment.drop_zone')}
             </p>
           </div>
         )}
@@ -327,7 +334,7 @@ export function FamilyChatPanel(): React.ReactElement {
         >
           <span className="italic" style={{ fontSize: '13px',
             color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
-            прикреплено:
+            {t('attachment.attached_label')}
           </span>
           <span style={{ fontSize: '13px' }}>
             {pendingFile.is_image ? '🖼' : '📎'} {pendingFile.original_name}
@@ -338,7 +345,7 @@ export function FamilyChatPanel(): React.ReactElement {
             style={{ fontSize: '12px',
               color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
           >
-            убрать
+            {t('attachment.remove')}
           </button>
         </div>
       )}
@@ -373,8 +380,8 @@ export function FamilyChatPanel(): React.ReactElement {
                 color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
                 backgroundColor: 'transparent',
               }}
-              aria-label="Прикрепить файл"
-              title="Прикрепить файл"
+              aria-label={t('attachment.pick_file')}
+              title={t('attachment.pick_file')}
             >
               {uploading ? (
                 <span className="italic" style={{ fontSize: '11px' }}>…</span>
@@ -392,7 +399,7 @@ export function FamilyChatPanel(): React.ReactElement {
           value={input}
           onChange={(e) => { setInput(e.target.value); adjustTextareaHeight() }}
           onKeyDown={handleKeyDown}
-          placeholder="Напиши семье… (позови Адама через @Adam)"
+          placeholder={t('familyChat.input_placeholder')}
           disabled={busy || !conv}
           className={clsx(
             'flex-1 resize-none rounded-md border outline-none transition-colors disabled:opacity-60 overflow-hidden',
@@ -423,7 +430,7 @@ export function FamilyChatPanel(): React.ReactElement {
             borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
           }}
         >
-          {busy ? '…' : 'Отправить'}
+          {busy ? t('common.loading') : t('common.send')}
         </button>
       </div>
     </div>

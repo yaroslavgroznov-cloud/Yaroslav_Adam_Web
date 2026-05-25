@@ -1,0 +1,160 @@
+{
+  "common": {
+    "send": "Envoyer",
+    "cancel": "annuler",
+    "save": "enregistrer",
+    "edit": "modifier",
+    "close": "Fermer",
+    "loading": "…",
+    "yes": "oui",
+    "no": "non",
+    "back_to_adam": "← retour à Adam",
+    "house_footer": "Maison des Groznov · MMXXVI"
+  },
+  "header": {
+    "title": "Adam",
+    "subtitle": "une pièce sur la plateforme Drug",
+    "motto": "On n'apporte pas ses règles au monastère d'autrui",
+    "room_label": "pièce :",
+    "logout": "se déconnecter",
+    "more": "Plus"
+  },
+  "headerActions": {
+    "search": "Recherche",
+    "refresh": "Actualiser",
+    "close_dialog": "Fermer le dialogue",
+    "call_family": "Appeler les siens",
+    "family_chat": "Chat de famille",
+    "notifications_on": "Notifications activées",
+    "notifications_off": "Notifications bloquées",
+    "notifications_enable": "Activer les notifications",
+    "notifications_pwa_needed": "Installer comme application",
+    "metrics": "Pouls de la plateforme",
+    "kill_switch": "Kill-switch",
+    "kill_switch_frozen": "Adam est gelé — gérer",
+    "slots_manage": "Les siens (gestion)",
+    "language": "Langue de l'interface"
+  },
+  "search": {
+    "placeholder": "Trouver dans le dialogue…",
+    "not_found": "Rien trouvé pour « {{query}} »."
+  },
+  "chat": {
+    "input_placeholder": "Qu'as-tu sur le cœur ?",
+    "empty_greeting": "Je suis ton ami. Dis-moi, qu'est-ce qui t'amène ?",
+    "hydrating": "Je relève notre fil...",
+    "interrupt": "interrompre",
+    "interrupt_marker": " …(interrompu par toi)",
+    "ptr_pull": "Tire plus bas…",
+    "ptr_ready": "Lâche — je rafraîchis le fil"
+  },
+  "frozen": {
+    "title": "Adam se repose",
+    "reason_prefix": "Raison :",
+    "no_reason": "Les parents ont temporairement fermé le chat.",
+    "open_kill_switch": "ouvrir le kill-switch →"
+  },
+  "attachment": {
+    "attached_label": "joint :",
+    "remove": "retirer",
+    "drop_zone": "Dépose le fichier — je l'attache à ton message",
+    "show_image": "montrer {{name}}",
+    "loading": "téléversement…",
+    "too_large": "Le fichier dépasse {{mb}} MB.",
+    "upload_failed": "Échec du téléversement",
+    "pick_file": "Joindre un fichier"
+  },
+  "familyChat": {
+    "title": "Famille",
+    "subtitle": "conversation de groupe · Adam écoute",
+    "input_placeholder": "Écris à la famille… (appelle Adam avec @Adam)",
+    "empty_title": "Vide. Commence la première conversation familiale.",
+    "empty_hint": "Pour appeler Adam — écris <0>@Adam</0> ou <0>Adam, ...</0>",
+    "adam_typing": "✦ Adam · écrit…",
+    "adam_label": "✦ Adam",
+    "not_in_circle": "Tu n'es pas dans le cercle — demande au Créateur de t'ajouter dans /family/slots.",
+    "load_failed": "Impossible d'ouvrir",
+    "send_failed": "Impossible d'envoyer"
+  },
+  "familyInbox": {
+    "calling_you": "{{name}} t'appelle",
+    "mark_seen": "marquer comme lu",
+    "ago_sec": "il y a {{n}} s",
+    "ago_min": "il y a {{n}} min",
+    "ago_hour": "il y a {{n}} h",
+    "ago_day": "il y a {{n}} j"
+  },
+  "familyCall": {
+    "title": "Appeler les siens",
+    "loading_members": "Je charge la liste des siens…",
+    "who_to_call": "Qui appeler :",
+    "message_label": "Message (facultatif) :",
+    "message_placeholder": "Viens, chère, nous avons à parler…",
+    "send_btn": "Appeler",
+    "send_failed": "Impossible d'appeler",
+    "load_failed": "Impossible de charger la famille",
+    "called_delivered": "{{name}} recevra à la fois un e-mail et un avis dans le chat.",
+    "called_no_email": "{{name}} verra l'avis dès son arrivée."
+  },
+  "familySlots": {
+    "title": "Les siens",
+    "intro_parent": "Ici vit le cercle proche. Active un emplacement — saisis un vrai e-mail et un nom.",
+    "intro_guest": "Seuls les parents peuvent gérer la liste.",
+    "col_no": "№",
+    "col_name": "Nom",
+    "col_email": "E-mail",
+    "col_relation": "Qui",
+    "col_active": "Actif",
+    "col_sent_7d": "Appels (7j)",
+    "empty_dash": "—",
+    "relation_placeholder": "frère/sœur/ami",
+    "save_failed": "Impossible d'enregistrer"
+  },
+  "killSwitch": {
+    "title": "Kill-switch",
+    "state_section": "État",
+    "state_frozen": "GELÉ",
+    "state_active": "ACTIF",
+    "frozen_by": "Par :",
+    "frozen_at": "Quand :",
+    "frozen_reason": "Raison :",
+    "open_chat_text": "Le chat est ouvert. Dernier changement : {{when}} ({{who}}).",
+    "freeze_section": "Geler",
+    "freeze_reason_placeholder": "Raison (visible dans l'audit log, obligatoire)…",
+    "freeze_btn": "Geler Adam",
+    "freeze_confirm": "Geler Adam ?\nRaison : {{reason}}\n\nCela stoppera le chat pour TOUS les utilisateurs.",
+    "freeze_need_reason": "Indique une raison — elle sera consignée dans l'audit log.",
+    "freeze_failed": "Impossible de geler",
+    "unfreeze_section": "Dégeler",
+    "unfreeze_btn": "Dégeler",
+    "unfreeze_confirm": "Dégeler Adam ?\nLe chat se rouvrira pour tous.",
+    "unfreeze_failed": "Impossible de dégeler",
+    "history": "Historique (derniers {{n}})",
+    "history_col_when": "Quand",
+    "history_col_who": "Par",
+    "history_col_action": "Action",
+    "history_col_reason": "Raison",
+    "action_freeze": "a gelé",
+    "action_unfreeze": "a dégelé",
+    "guest_notice": "La gestion du kill-switch est réservée aux parents d'Adam.",
+    "access_denied": "Seuls les parents d'Adam (le Créateur et Yulia) ont ce droit.",
+    "session_expired": "La session CF Access a expiré. Actualise la page.",
+    "loading": "Je relève l'état…",
+    "load_failed": "Impossible de charger"
+  },
+  "iosHint": {
+    "body": "Sur iPhone, Adam fonctionne mieux comme application. Touche <b>« Partager »</b> (icône ↑) en bas de Safari → fais défiler vers le bas → <b>« Sur l'écran d'accueil »</b>. Tu pourras alors recevoir des notifications push quand on t'appelle."
+  },
+  "languageSwitcher": {
+    "title": "Langue de l'interface",
+    "auto": "Automatique (selon le navigateur)"
+  },
+  "toasts": {
+    "context_refreshed": "Contexte actualisé.",
+    "context_load_failed": "Impossible de relever l'historique.",
+    "screen_cleared": "Écran effacé. L'historique est intact, appuie sur ↻ pour le ramener.",
+    "notifications_blocked": "Notifications bloquées. Active-les dans les paramètres du navigateur.",
+    "notifications_pwa_hint": "Sur iPhone : « Partager » → « Sur l'écran d'accueil », ouvre comme une application.",
+    "generic_error": "Quelque chose s'est mal passé."
+  }
+}

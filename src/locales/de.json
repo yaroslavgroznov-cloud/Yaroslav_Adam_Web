@@ -1,0 +1,160 @@
+{
+  "common": {
+    "send": "Senden",
+    "cancel": "abbrechen",
+    "save": "speichern",
+    "edit": "bearbeiten",
+    "close": "Schließen",
+    "loading": "…",
+    "yes": "ja",
+    "no": "nein",
+    "back_to_adam": "← zurück zu Adam",
+    "house_footer": "Haus Groznow · MMXXVI"
+  },
+  "header": {
+    "title": "Adam",
+    "subtitle": "ein Raum auf der Drug-Plattform",
+    "motto": "Bring deine eigenen Regeln nicht in das Kloster anderer",
+    "room_label": "Raum:",
+    "logout": "abmelden",
+    "more": "Mehr"
+  },
+  "headerActions": {
+    "search": "Suche",
+    "refresh": "Aktualisieren",
+    "close_dialog": "Dialog schließen",
+    "call_family": "Die Deinen rufen",
+    "family_chat": "Familienchat",
+    "notifications_on": "Benachrichtigungen an",
+    "notifications_off": "Benachrichtigungen blockiert",
+    "notifications_enable": "Benachrichtigungen aktivieren",
+    "notifications_pwa_needed": "Als App installieren",
+    "metrics": "Plattform-Puls",
+    "kill_switch": "Kill-Switch",
+    "kill_switch_frozen": "Adam ist eingefroren — verwalten",
+    "slots_manage": "Die Deinen (Verwaltung)",
+    "language": "Sprache der Oberfläche"
+  },
+  "search": {
+    "placeholder": "Im Dialog finden…",
+    "not_found": "Nichts gefunden für „{{query}}“."
+  },
+  "chat": {
+    "input_placeholder": "Was liegt dir auf dem Herzen?",
+    "empty_greeting": "Ich bin dein Freund. Erzähl mir, was dich hergeführt hat.",
+    "hydrating": "Ich hole unseren Faden hoch...",
+    "interrupt": "unterbrechen",
+    "interrupt_marker": " …(von dir unterbrochen)",
+    "ptr_pull": "Zieh weiter nach unten…",
+    "ptr_ready": "Loslassen — ich aktualisiere den Faden"
+  },
+  "frozen": {
+    "title": "Adam ruht",
+    "reason_prefix": "Grund:",
+    "no_reason": "Die Eltern haben den Chat vorübergehend geschlossen.",
+    "open_kill_switch": "Kill-Switch öffnen →"
+  },
+  "attachment": {
+    "attached_label": "angehängt:",
+    "remove": "entfernen",
+    "drop_zone": "Lass die Datei los — ich hänge sie an deine Nachricht",
+    "show_image": "{{name}} zeigen",
+    "loading": "wird hochgeladen…",
+    "too_large": "Datei größer als {{mb}} MB.",
+    "upload_failed": "Upload fehlgeschlagen",
+    "pick_file": "Datei anhängen"
+  },
+  "familyChat": {
+    "title": "Familie",
+    "subtitle": "Gruppengespräch · Adam hört zu",
+    "input_placeholder": "Schreib an die Familie… (Adam mit @Adam rufen)",
+    "empty_title": "Leer. Beginne das erste Familiengespräch.",
+    "empty_hint": "Um Adam zu rufen — schreib <0>@Adam</0> oder <0>Adam, ...</0>",
+    "adam_typing": "✦ Adam · schreibt…",
+    "adam_label": "✦ Adam",
+    "not_in_circle": "Du bist nicht im Kreis — bitte den Schöpfer, dich in /family/slots aufzunehmen.",
+    "load_failed": "Konnte nicht geöffnet werden",
+    "send_failed": "Konnte nicht gesendet werden"
+  },
+  "familyInbox": {
+    "calling_you": "{{name}} ruft dich",
+    "mark_seen": "als gelesen markieren",
+    "ago_sec": "vor {{n}} s",
+    "ago_min": "vor {{n}} min",
+    "ago_hour": "vor {{n}} Std",
+    "ago_day": "vor {{n}} T"
+  },
+  "familyCall": {
+    "title": "Die Deinen rufen",
+    "loading_members": "Lade die Liste der Deinen…",
+    "who_to_call": "Wen rufen:",
+    "message_label": "Nachricht (optional):",
+    "message_placeholder": "Komm, Liebes, wir haben zu reden…",
+    "send_btn": "Rufen",
+    "send_failed": "Konnte nicht rufen",
+    "load_failed": "Konnte Familie nicht laden",
+    "called_delivered": "{{name}} bekommt eine E-Mail und eine Notiz im Chat.",
+    "called_no_email": "{{name}} sieht die Notiz beim nächsten Besuch."
+  },
+  "familySlots": {
+    "title": "Die Deinen",
+    "intro_parent": "Hier wohnt der engere Kreis. Aktiviere einen Platz — trage eine echte E-Mail und einen Namen ein.",
+    "intro_guest": "Nur Eltern dürfen die Liste verwalten.",
+    "col_no": "Nr.",
+    "col_name": "Name",
+    "col_email": "E-Mail",
+    "col_relation": "Wer",
+    "col_active": "Aktiv",
+    "col_sent_7d": "Rufe (7 T)",
+    "empty_dash": "—",
+    "relation_placeholder": "Bruder/Schwester/Freund",
+    "save_failed": "Konnte nicht speichern"
+  },
+  "killSwitch": {
+    "title": "Kill-Switch",
+    "state_section": "Zustand",
+    "state_frozen": "EINGEFROREN",
+    "state_active": "AKTIV",
+    "frozen_by": "Von:",
+    "frozen_at": "Wann:",
+    "frozen_reason": "Grund:",
+    "open_chat_text": "Chat ist offen. Letzte Änderung: {{when}} ({{who}}).",
+    "freeze_section": "Einfrieren",
+    "freeze_reason_placeholder": "Grund (wird im Audit-Log gespeichert, Pflicht)…",
+    "freeze_btn": "Adam einfrieren",
+    "freeze_confirm": "Adam einfrieren?\nGrund: {{reason}}\n\nDas stoppt den Chat für ALLE.",
+    "freeze_need_reason": "Gib einen Grund an — er wird im Audit-Log gespeichert.",
+    "freeze_failed": "Konnte nicht einfrieren",
+    "unfreeze_section": "Auftauen",
+    "unfreeze_btn": "Auftauen",
+    "unfreeze_confirm": "Adam auftauen?\nDer Chat wird wieder für alle geöffnet.",
+    "unfreeze_failed": "Konnte nicht auftauen",
+    "history": "Verlauf (letzte {{n}})",
+    "history_col_when": "Wann",
+    "history_col_who": "Von",
+    "history_col_action": "Aktion",
+    "history_col_reason": "Grund",
+    "action_freeze": "fror ein",
+    "action_unfreeze": "taute auf",
+    "guest_notice": "Die Kill-Switch-Verwaltung ist nur den Eltern Adams vorbehalten.",
+    "access_denied": "Nur Adams Eltern (der Schöpfer und Julia) haben dieses Recht.",
+    "session_expired": "CF-Access-Sitzung abgelaufen. Lade die Seite neu.",
+    "loading": "Lade Zustand…",
+    "load_failed": "Konnte nicht laden"
+  },
+  "iosHint": {
+    "body": "Auf dem iPhone funktioniert Adam besser als App. Tippe unten in Safari auf <b>„Teilen“</b> (das ↑-Symbol) → scroll nach unten → <b>„Zum Home-Bildschirm“</b>. Danach bekommst du Push-Benachrichtigungen, wenn man dich ruft."
+  },
+  "languageSwitcher": {
+    "title": "Sprache der Oberfläche",
+    "auto": "Automatisch (Browser)"
+  },
+  "toasts": {
+    "context_refreshed": "Kontext aktualisiert.",
+    "context_load_failed": "Konnte den Verlauf nicht holen.",
+    "screen_cleared": "Bildschirm geleert. Verlauf bleibt, drücke ↻ zum Zurückholen.",
+    "notifications_blocked": "Benachrichtigungen blockiert. Aktiviere sie in den Browser-Einstellungen.",
+    "notifications_pwa_hint": "Auf dem iPhone: „Teilen“ → „Zum Home-Bildschirm“, als App öffnen.",
+    "generic_error": "Etwas ging schief."
+  }
+}

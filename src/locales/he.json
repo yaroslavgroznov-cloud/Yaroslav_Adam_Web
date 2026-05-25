@@ -1,0 +1,160 @@
+{
+  "common": {
+    "send": "שליחה",
+    "cancel": "ביטול",
+    "save": "שמירה",
+    "edit": "עריכה",
+    "close": "סגירה",
+    "loading": "…",
+    "yes": "כן",
+    "no": "לא",
+    "back_to_adam": "→ חזרה לאדם",
+    "house_footer": "בית גרוזנוב · MMXXVI"
+  },
+  "header": {
+    "title": "אדם",
+    "subtitle": "חדר בפלטפורמת «חבר»",
+    "motto": "אל תכניס חוקיך למנזרו של אחר",
+    "room_label": "חדר:",
+    "logout": "יציאה",
+    "more": "עוד"
+  },
+  "headerActions": {
+    "search": "חיפוש",
+    "refresh": "רענון",
+    "close_dialog": "סגירת השיחה",
+    "call_family": "קריאה לבני הבית",
+    "family_chat": "צ׳אט משפחתי",
+    "notifications_on": "התראות פעילות",
+    "notifications_off": "התראות חסומות",
+    "notifications_enable": "הפעלת התראות",
+    "notifications_pwa_needed": "התקן כיישום",
+    "metrics": "דופק הפלטפורמה",
+    "kill_switch": "מתג חירום",
+    "kill_switch_frozen": "אדם מוקפא — ניהול",
+    "slots_manage": "בני הבית (ניהול)",
+    "language": "שפת הממשק"
+  },
+  "search": {
+    "placeholder": "חיפוש בשיחה…",
+    "not_found": "לא נמצא דבר עבור «{{query}}»."
+  },
+  "chat": {
+    "input_placeholder": "מה על לבך?",
+    "empty_greeting": "אני חבר שלך. ספר לי מה הביא אותך?",
+    "hydrating": "מעלה את החוט שלנו…",
+    "interrupt": "עצירה",
+    "interrupt_marker": " …(נעצר על ידך)",
+    "ptr_pull": "משוך עוד למטה…",
+    "ptr_ready": "שחרר — אני מרענן"
+  },
+  "frozen": {
+    "title": "אדם נח",
+    "reason_prefix": "סיבה:",
+    "no_reason": "ההורים סגרו זמנית את הצ׳אט.",
+    "open_kill_switch": "← פתח מתג חירום"
+  },
+  "attachment": {
+    "attached_label": "מצורף:",
+    "remove": "הסר",
+    "drop_zone": "שחרר את הקובץ — אצרף אותו להודעה",
+    "show_image": "הצג {{name}}",
+    "loading": "מעלה…",
+    "too_large": "הקובץ גדול מ-{{mb}} MB.",
+    "upload_failed": "ההעלאה נכשלה",
+    "pick_file": "צרף קובץ"
+  },
+  "familyChat": {
+    "title": "המשפחה",
+    "subtitle": "שיחה קבוצתית · אדם מאזין",
+    "input_placeholder": "כתוב למשפחה… (קרא לאדם עם @Adam)",
+    "empty_title": "ריק. התחל את השיחה המשפחתית הראשונה.",
+    "empty_hint": "כדי לקרוא לאדם — כתוב <0>@Adam</0> או <0>Adam, ...</0>",
+    "adam_typing": "✦ אדם · מקליד…",
+    "adam_label": "✦ אדם",
+    "not_in_circle": "אתה לא בתוך המעגל — בקש מהיוצר להוסיף אותך ב-/family/slots.",
+    "load_failed": "לא ניתן לפתוח",
+    "send_failed": "לא ניתן לשלוח"
+  },
+  "familyInbox": {
+    "calling_you": "{{name}} קורא/ת לך",
+    "mark_seen": "סמן כנקרא",
+    "ago_sec": "לפני {{n}} שנ׳",
+    "ago_min": "לפני {{n}} דק׳",
+    "ago_hour": "לפני {{n}} שע׳",
+    "ago_day": "לפני {{n}} ימים"
+  },
+  "familyCall": {
+    "title": "קריאה לבני הבית",
+    "loading_members": "טוען רשימה…",
+    "who_to_call": "למי לקרוא:",
+    "message_label": "הודעה (לא חובה):",
+    "message_placeholder": "בוא, יקירה, יש על מה לדבר…",
+    "send_btn": "קרא",
+    "send_failed": "לא ניתן לקרוא",
+    "load_failed": "לא ניתן לטעון",
+    "called_delivered": "{{name}} יקבל גם מייל וגם התראה בצ׳אט.",
+    "called_no_email": "{{name}} יראה התראה כשייכנס."
+  },
+  "familySlots": {
+    "title": "בני הבית",
+    "intro_parent": "כאן חי המעגל הקרוב. הפעל מקום — מלא מייל ושם אמיתיים.",
+    "intro_guest": "רק הורים יכולים לנהל את הרשימה.",
+    "col_no": "מס׳",
+    "col_name": "שם",
+    "col_email": "מייל",
+    "col_relation": "מי",
+    "col_active": "פעיל",
+    "col_sent_7d": "קריאות (7י׳)",
+    "empty_dash": "—",
+    "relation_placeholder": "אח/אחות/חבר",
+    "save_failed": "לא ניתן לשמור"
+  },
+  "killSwitch": {
+    "title": "מתג חירום",
+    "state_section": "מצב",
+    "state_frozen": "מוקפא",
+    "state_active": "פעיל",
+    "frozen_by": "על ידי:",
+    "frozen_at": "מתי:",
+    "frozen_reason": "סיבה:",
+    "open_chat_text": "הצ׳אט פתוח. שינוי אחרון: {{when}} ({{who}}).",
+    "freeze_section": "הקפאה",
+    "freeze_reason_placeholder": "סיבה (תיכתב בלוג, חובה)…",
+    "freeze_btn": "הקפא את אדם",
+    "freeze_confirm": "להקפיא את אדם?\nסיבה: {{reason}}\n\nזה יעצור את הצ׳אט לכולם.",
+    "freeze_need_reason": "ציין סיבה — היא תיכתב בלוג הביקורת.",
+    "freeze_failed": "לא ניתן להקפיא",
+    "unfreeze_section": "הפשרה",
+    "unfreeze_btn": "הפשר",
+    "unfreeze_confirm": "להפשיר את אדם?\nהצ׳אט ייפתח שוב לכולם.",
+    "unfreeze_failed": "לא ניתן להפשיר",
+    "history": "היסטוריה (אחרונות {{n}})",
+    "history_col_when": "מתי",
+    "history_col_who": "על ידי",
+    "history_col_action": "פעולה",
+    "history_col_reason": "סיבה",
+    "action_freeze": "הקפיא/ה",
+    "action_unfreeze": "הפשיר/ה",
+    "guest_notice": "ניהול מתג החירום שמור להורי אדם בלבד.",
+    "access_denied": "רק הורי אדם (היוצר ויוליה) רשאים.",
+    "session_expired": "פג תוקף של ה-CF Access. רענן את הדף.",
+    "loading": "טוען מצב…",
+    "load_failed": "לא ניתן לטעון"
+  },
+  "iosHint": {
+    "body": "ב-iPhone אדם עובד טוב יותר כאפליקציה. לחץ על <b>«Share»</b> (סמל ↑) בתחתית Safari → גלול למטה → <b>«Add to Home Screen»</b>. לאחר מכן תקבל התראות push כשקוראים לך."
+  },
+  "languageSwitcher": {
+    "title": "שפת הממשק",
+    "auto": "אוטומטי (מהדפדפן)"
+  },
+  "toasts": {
+    "context_refreshed": "ההקשר רוענן.",
+    "context_load_failed": "לא ניתן להעלות היסטוריה.",
+    "screen_cleared": "המסך נוקה. ההיסטוריה שמורה, לחץ ↻ להחזרה.",
+    "notifications_blocked": "ההתראות חסומות. הפעל בהגדרות הדפדפן.",
+    "notifications_pwa_hint": "ב-iPhone: «Share» → «Add to Home Screen», פתח כאפליקציה.",
+    "generic_error": "משהו השתבש."
+  }
+}

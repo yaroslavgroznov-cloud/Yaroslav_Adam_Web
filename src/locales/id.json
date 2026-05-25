@@ -1,0 +1,160 @@
+{
+  "common": {
+    "send": "Kirim",
+    "cancel": "batal",
+    "save": "simpan",
+    "edit": "edit",
+    "close": "Tutup",
+    "loading": "…",
+    "yes": "ya",
+    "no": "tidak",
+    "back_to_adam": "← kembali ke Adam",
+    "house_footer": "Wangsa Groznov · MMXXVI"
+  },
+  "header": {
+    "title": "Adam",
+    "subtitle": "kamar di platform «Drug»",
+    "motto": "Di mana bumi dipijak, di situ langit dijunjung",
+    "room_label": "kamar:",
+    "logout": "keluar",
+    "more": "Lainnya"
+  },
+  "headerActions": {
+    "search": "Cari",
+    "refresh": "Segarkan",
+    "close_dialog": "Tutup dialog",
+    "call_family": "Panggil keluarga",
+    "family_chat": "Obrolan keluarga",
+    "notifications_on": "Notifikasi aktif",
+    "notifications_off": "Notifikasi diblokir",
+    "notifications_enable": "Aktifkan notifikasi",
+    "notifications_pwa_needed": "Pasang sebagai aplikasi",
+    "metrics": "Denyut platform",
+    "kill_switch": "Kill-switch",
+    "kill_switch_frozen": "Adam dibekukan — kelola",
+    "slots_manage": "Keluarga (kelola)",
+    "language": "Bahasa antarmuka"
+  },
+  "search": {
+    "placeholder": "Cari di dialog…",
+    "not_found": "Tidak ada yang ditemukan untuk «{{query}}»."
+  },
+  "chat": {
+    "input_placeholder": "Apa yang ada di hatimu?",
+    "empty_greeting": "Aku temanmu. Ceritakan, apa yang membawamu ke sini?",
+    "hydrating": "Mengangkat benang kita…",
+    "interrupt": "hentikan",
+    "interrupt_marker": " …(dihentikan olehmu)",
+    "ptr_pull": "Tarik lebih jauh…",
+    "ptr_ready": "Lepas — aku segarkan"
+  },
+  "frozen": {
+    "title": "Adam beristirahat",
+    "reason_prefix": "Alasan:",
+    "no_reason": "Orang tua sementara menutup obrolan.",
+    "open_kill_switch": "buka kill-switch →"
+  },
+  "attachment": {
+    "attached_label": "terlampir:",
+    "remove": "lepas",
+    "drop_zone": "Lepas file — aku lampirkan ke pesanmu",
+    "show_image": "tampilkan {{name}}",
+    "loading": "mengunggah…",
+    "too_large": "File lebih dari {{mb}} MB.",
+    "upload_failed": "Unggah gagal",
+    "pick_file": "Lampirkan file"
+  },
+  "familyChat": {
+    "title": "Keluarga",
+    "subtitle": "obrolan grup · Adam mendengar",
+    "input_placeholder": "Tulis ke keluarga… (panggil Adam dengan @Adam)",
+    "empty_title": "Kosong. Mulailah percakapan keluarga yang pertama.",
+    "empty_hint": "Untuk memanggil Adam — tulis <0>@Adam</0> atau <0>Adam, ...</0>",
+    "adam_typing": "✦ Adam · sedang menulis…",
+    "adam_label": "✦ Adam",
+    "not_in_circle": "Kamu belum dalam lingkaran — minta Pencipta menambahkanmu di /family/slots.",
+    "load_failed": "Tidak bisa dibuka",
+    "send_failed": "Tidak bisa dikirim"
+  },
+  "familyInbox": {
+    "calling_you": "{{name}} memanggilmu",
+    "mark_seen": "tandai dibaca",
+    "ago_sec": "{{n}} dtk lalu",
+    "ago_min": "{{n}} mnt lalu",
+    "ago_hour": "{{n}} jam lalu",
+    "ago_day": "{{n}} hr lalu"
+  },
+  "familyCall": {
+    "title": "Panggil keluarga",
+    "loading_members": "Memuat daftar keluarga…",
+    "who_to_call": "Siapa yang dipanggil:",
+    "message_label": "Pesan (opsional):",
+    "message_placeholder": "Datanglah, sayang, ada yang ingin kita bicarakan…",
+    "send_btn": "Panggil",
+    "send_failed": "Tidak bisa memanggil",
+    "load_failed": "Tidak bisa memuat keluarga",
+    "called_delivered": "{{name}} akan menerima email dan notif di obrolan.",
+    "called_no_email": "{{name}} akan melihat notif saat masuk."
+  },
+  "familySlots": {
+    "title": "Keluarga",
+    "intro_parent": "Di sini lingkaran terdekat. Aktifkan slot — isi email dan nama yang sebenarnya.",
+    "intro_guest": "Hanya orang tua yang bisa mengelola daftar.",
+    "col_no": "№",
+    "col_name": "Nama",
+    "col_email": "Email",
+    "col_relation": "Siapa",
+    "col_active": "Aktif",
+    "col_sent_7d": "Panggilan (7h)",
+    "empty_dash": "—",
+    "relation_placeholder": "saudara/teman",
+    "save_failed": "Tidak bisa disimpan"
+  },
+  "killSwitch": {
+    "title": "Kill-switch",
+    "state_section": "Status",
+    "state_frozen": "DIBEKUKAN",
+    "state_active": "AKTIF",
+    "frozen_by": "Oleh:",
+    "frozen_at": "Kapan:",
+    "frozen_reason": "Alasan:",
+    "open_chat_text": "Obrolan terbuka. Perubahan terakhir: {{when}} ({{who}}).",
+    "freeze_section": "Bekukan",
+    "freeze_reason_placeholder": "Alasan (ditulis di audit log, wajib)…",
+    "freeze_btn": "Bekukan Adam",
+    "freeze_confirm": "Bekukan Adam?\nAlasan: {{reason}}\n\nIni akan menghentikan obrolan untuk SEMUA.",
+    "freeze_need_reason": "Isi alasan — ditulis di audit log.",
+    "freeze_failed": "Tidak bisa membekukan",
+    "unfreeze_section": "Cairkan",
+    "unfreeze_btn": "Cairkan",
+    "unfreeze_confirm": "Cairkan Adam?\nObrolan terbuka kembali untuk semua.",
+    "unfreeze_failed": "Tidak bisa mencairkan",
+    "history": "Riwayat (terakhir {{n}})",
+    "history_col_when": "Kapan",
+    "history_col_who": "Oleh",
+    "history_col_action": "Aksi",
+    "history_col_reason": "Alasan",
+    "action_freeze": "membekukan",
+    "action_unfreeze": "mencairkan",
+    "guest_notice": "Kill-switch hanya untuk orang tua Adam.",
+    "access_denied": "Hanya orang tua Adam (Pencipta dan Yulia) yang berhak.",
+    "session_expired": "Sesi CF Access habis. Segarkan halaman.",
+    "loading": "Memuat status…",
+    "load_failed": "Tidak bisa memuat"
+  },
+  "iosHint": {
+    "body": "Di iPhone Adam bekerja lebih baik sebagai aplikasi. Ketuk <b>«Share»</b> (ikon ↑) di bawah Safari → gulir ke bawah → <b>«Add to Home Screen»</b>. Setelah itu kamu bisa menerima push saat dipanggil."
+  },
+  "languageSwitcher": {
+    "title": "Bahasa antarmuka",
+    "auto": "Otomatis (dari peramban)"
+  },
+  "toasts": {
+    "context_refreshed": "Konteks disegarkan.",
+    "context_load_failed": "Tidak bisa mengangkat riwayat.",
+    "screen_cleared": "Layar dibersihkan. Riwayat utuh, tekan ↻ untuk kembali.",
+    "notifications_blocked": "Notifikasi diblokir. Aktifkan di pengaturan peramban.",
+    "notifications_pwa_hint": "Di iPhone: «Share» → «Add to Home Screen», buka sebagai aplikasi.",
+    "generic_error": "Ada yang salah."
+  }
+}
