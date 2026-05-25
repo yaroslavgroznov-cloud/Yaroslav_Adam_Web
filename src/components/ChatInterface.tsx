@@ -16,6 +16,7 @@ import { adminGetState, adminWhoami } from '../api/admin'
 import type { SystemState, Whoami } from '../api/admin'
 import { familyCallSeen, familyCallsReceived } from '../api/family'
 import type { FamilyCall } from '../api/family'
+import { usePush } from '../hooks/usePush'
 import type { ChatMessage } from '../types'
 
 const ROOM_STORAGE_KEY = 'adam.currentRoom'
@@ -59,6 +60,7 @@ export function ChatInterface(): React.ReactElement {
   const [frozenState, setFrozenState] = useState<SystemState | null>(null)
   const [showCallModal, setShowCallModal] = useState(false)
   const [unseenCalls, setUnseenCalls] = useState<FamilyCall[]>([])
+  const push = usePush()
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const searchInputRef = useRef<HTMLInputElement | null>(null)
@@ -422,6 +424,50 @@ export function ChatInterface(): React.ReactElement {
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
             </svg>
           </button>
+
+          {/* Push-колокольчик (F.8). Скрыт если unsupported/disabled. */}
+          {(push.status === 'unsubscribed' || push.status === 'subscribed' || push.status === 'denied' || push.status === 'needs-pwa-ios') && (
+            <button
+              onClick={() => {
+                if (push.status === 'subscribed') { void push.unsubscribe() }
+                else if (push.status === 'denied') {
+                  showToast('Уведомления заблокированы. Включи в настройках браузера.')
+                }
+                else if (push.status === 'needs-pwa-ios') {
+                  showToast('На iPhone: «Поделиться» → «На экран Домой», открой как приложение.')
+                }
+                else { void push.subscribe() }
+              }}
+              disabled={push.busy}
+              className={iconBtnClass}
+              style={{
+                ...iconBtnStyle,
+                opacity: push.status === 'subscribed' ? 1 : 0.55,
+                color: push.status === 'subscribed'
+                  ? (isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)')
+                  : iconBtnStyle.color,
+              }}
+              aria-label="Уведомления"
+              title={
+                push.status === 'subscribed' ? 'Уведомления включены (нажми чтобы выключить)'
+                : push.status === 'denied' ? 'Уведомления заблокированы'
+                : push.status === 'needs-pwa-ios' ? 'Установи как приложение на iPhone'
+                : 'Включить push-уведомления'
+              }
+            >
+              {push.status === 'subscribed' ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0" fill="none" />
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+              )}
+            </button>
+          )}
 
           {/* Kill-switch — только для парентов (Творец и Юля) */}
           {whoami?.role === 'parent' && (
