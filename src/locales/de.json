@@ -149,6 +149,14 @@
     "title": "Sprache der Oberfläche",
     "auto": "Automatisch (Browser)"
   },
+  "llmSwitcher": {
+    "title": "Adams Modell",
+    "subtitle": "Nur Schöpfer. Betrifft alle — vorsichtig.",
+    "current_default": "(Standard aus env)",
+    "changed_by": "Geändert von: {{who}}, {{when}}",
+    "reset": "Standard wiederherstellen",
+    "select_failed": "Modellwechsel fehlgeschlagen"
+  },
   "toasts": {
     "context_refreshed": "Kontext aktualisiert.",
     "context_load_failed": "Konnte den Verlauf nicht holen.",

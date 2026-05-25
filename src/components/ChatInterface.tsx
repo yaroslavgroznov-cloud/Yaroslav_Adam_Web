@@ -15,6 +15,7 @@ import { HeaderOverflowMenu } from './HeaderOverflowMenu'
 import type { OverflowItem } from './HeaderOverflowMenu'
 import { IosInstallHint } from './IosInstallHint'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { LlmModelSwitcher } from './LlmModelSwitcher'
 import { adamChatStream, adamGetActive, adamGetRooms } from '../api/adam'
 import type { RoomInfo } from '../api/adam'
 import { adminGetState, adminWhoami } from '../api/admin'
@@ -49,6 +50,7 @@ const ROOMS_FALLBACK: RoomInfo[] = [
 export function ChatInterface(): React.ReactElement {
   const { t } = useTranslation()
   const [showLangSwitcher, setShowLangSwitcher] = useState(false)
+  const [showLlmSwitcher, setShowLlmSwitcher] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -581,6 +583,22 @@ export function ChatInterface(): React.ReactElement {
                   ),
                 })
               }
+              // F.14: LLM model switcher — ТОЛЬКО Творцу
+              if (whoami?.is_creator) {
+                items.push({
+                  key: 'llm-model',
+                  label: t('llmSwitcher.title'),
+                  onClick: () => setShowLlmSwitcher(true),
+                  icon: (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <path d="M9 8h6" />
+                      <path d="M9 12h6" />
+                      <path d="M9 16h4" />
+                    </svg>
+                  ),
+                })
+              }
               // Language switcher — все, всегда
               items.push({
                 key: 'language',
@@ -637,6 +655,11 @@ export function ChatInterface(): React.ReactElement {
       {/* Языковая модалка */}
       {showLangSwitcher && (
         <LanguageSwitcher isDark={isDark} onClose={() => setShowLangSwitcher(false)} />
+      )}
+
+      {/* LLM model switcher — только Творцу */}
+      {showLlmSwitcher && whoami?.is_creator && (
+        <LlmModelSwitcher isDark={isDark} onClose={() => setShowLlmSwitcher(false)} />
       )}
 
       {/* Подшапка с девизом + dropdown комнат + поиск */}

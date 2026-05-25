@@ -149,6 +149,14 @@
     "title": "Arayüz dili",
     "auto": "Otomatik (tarayıcıdan)"
   },
+  "llmSwitcher": {
+    "title": "Adam'ın modeli",
+    "subtitle": "Sadece Yaratıcı. Herkesi etkiler — dikkatli ol.",
+    "current_default": "(env varsayılan)",
+    "changed_by": "Değiştiren: {{who}}, {{when}}",
+    "reset": "varsayılana döndür",
+    "select_failed": "Model değiştirilemedi"
+  },
   "toasts": {
     "context_refreshed": "Bağlam yenilendi.",
     "context_load_failed": "Geçmiş açılamadı.",

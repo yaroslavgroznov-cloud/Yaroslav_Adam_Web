@@ -149,6 +149,14 @@
     "title": "इंटरफ़ेस की भाषा",
     "auto": "स्वचालित (ब्राउज़र से)"
   },
+  "llmSwitcher": {
+    "title": "आदम का मॉडल",
+    "subtitle": "केवल सृजक। सबको प्रभावित करता है — सावधानी।",
+    "current_default": "(env से डिफ़ॉल्ट)",
+    "changed_by": "बदला: {{who}}, {{when}}",
+    "reset": "डिफ़ॉल्ट लौटाओ",
+    "select_failed": "मॉडल नहीं बदला"
+  },
   "toasts": {
     "context_refreshed": "संदर्भ ताज़ा हो गया।",
     "context_load_failed": "इतिहास नहीं उठा सका।",

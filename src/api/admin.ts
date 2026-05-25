@@ -18,6 +18,21 @@ export interface SystemState {
 export interface Whoami {
   email: string
   role: 'parent' | 'guest'
+  is_creator?: boolean  // F.14
+}
+
+export interface LlmModelInfo {
+  id: string
+  name: string
+  description: string
+}
+
+export interface LlmModelStatus {
+  current: string
+  is_default: boolean
+  available: LlmModelInfo[]
+  changed_by: string | null
+  changed_at: string | null
 }
 
 export interface KillSwitchEvent {
@@ -72,4 +87,28 @@ export async function adminGetKillSwitchEvents(limit = 20): Promise<KillSwitchEv
   const url = `${BASE}/admin/kill-switch/events?limit=${limit}`
   const res = await fetch(url, { credentials: 'include' })
   return jsonOrError<KillSwitchEvent[]>(res)
+}
+
+// F.14: LLM model switcher (Творец-only для POST/reset)
+export async function adminLlmModelStatus(): Promise<LlmModelStatus> {
+  const res = await fetch(`${BASE}/admin/llm-model`, { credentials: 'include' })
+  return jsonOrError<LlmModelStatus>(res)
+}
+
+export async function adminLlmModelSet(modelId: string): Promise<LlmModelStatus> {
+  const res = await fetch(`${BASE}/admin/llm-model`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model_id: modelId }),
+  })
+  return jsonOrError<LlmModelStatus>(res)
+}
+
+export async function adminLlmModelReset(): Promise<LlmModelStatus> {
+  const res = await fetch(`${BASE}/admin/llm-model/reset`, {
+    method: 'POST',
+    credentials: 'include',
+  })
+  return jsonOrError<LlmModelStatus>(res)
 }

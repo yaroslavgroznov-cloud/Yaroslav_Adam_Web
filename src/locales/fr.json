@@ -149,6 +149,14 @@
     "title": "Langue de l'interface",
     "auto": "Automatique (selon le navigateur)"
   },
+  "llmSwitcher": {
+    "title": "Modèle d'Adam",
+    "subtitle": "Réservé au Créateur. Affecte tout le monde — prudence.",
+    "current_default": "(par défaut depuis env)",
+    "changed_by": "Modifié par : {{who}}, {{when}}",
+    "reset": "restaurer par défaut",
+    "select_failed": "Impossible de changer de modèle"
+  },
   "toasts": {
     "context_refreshed": "Contexte actualisé.",
     "context_load_failed": "Impossible de relever l'historique.",

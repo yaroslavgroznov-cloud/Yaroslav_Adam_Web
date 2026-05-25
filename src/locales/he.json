@@ -149,6 +149,14 @@
     "title": "שפת הממשק",
     "auto": "אוטומטי (מהדפדפן)"
   },
+  "llmSwitcher": {
+    "title": "המודל של אדם",
+    "subtitle": "ליוצר בלבד. משפיע על כולם — בזהירות.",
+    "current_default": "(ברירת מחדל מ-env)",
+    "changed_by": "שונה על ידי: {{who}}, {{when}}",
+    "reset": "אפס לברירת מחדל",
+    "select_failed": "לא הצליח להחליף מודל"
+  },
   "toasts": {
     "context_refreshed": "ההקשר רוענן.",
     "context_load_failed": "לא ניתן להעלות היסטוריה.",

@@ -149,6 +149,14 @@
     "title": "Interface language",
     "auto": "Automatic (from browser)"
   },
+  "llmSwitcher": {
+    "title": "Adam's model",
+    "subtitle": "Creator only. Affects everyone — handle with care.",
+    "current_default": "(default from env)",
+    "changed_by": "Changed by: {{who}}, {{when}}",
+    "reset": "restore default",
+    "select_failed": "Could not switch model"
+  },
   "toasts": {
     "context_refreshed": "Context refreshed.",
     "context_load_failed": "Could not raise the history.",

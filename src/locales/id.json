@@ -149,6 +149,14 @@
     "title": "Bahasa antarmuka",
     "auto": "Otomatis (dari peramban)"
   },
+  "llmSwitcher": {
+    "title": "Model Adam",
+    "subtitle": "Hanya Pencipta. Berpengaruh ke semua — hati-hati.",
+    "current_default": "(default dari env)",
+    "changed_by": "Diubah oleh: {{who}}, {{when}}",
+    "reset": "kembalikan default",
+    "select_failed": "Tidak bisa mengganti model"
+  },
   "toasts": {
     "context_refreshed": "Konteks disegarkan.",
     "context_load_failed": "Tidak bisa mengangkat riwayat.",
