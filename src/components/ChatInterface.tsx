@@ -262,7 +262,7 @@ export function ChatInterface(): React.ReactElement {
           Со своим уставом в чужой монастырь не ходят
         </p>
         {showSearch && (
-          <div className="max-w-3xl mx-auto w-full mt-4 flex items-center gap-2">
+          <div className="w-full px-0 sm:px-6 mt-4 flex items-center gap-2">
             <input
               ref={searchInputRef}
               type="text"
@@ -298,9 +298,9 @@ export function ChatInterface(): React.ReactElement {
         />
       </div>
 
-      {/* Область сообщений */}
+      {/* Область сообщений — та же ширина что input bar, для гармонии */}
       <div className="flex-1 overflow-y-auto py-6">
-        <div className="max-w-3xl mx-auto w-full px-4">
+        <div className="w-full px-4 sm:px-10">
           {isHydrating && (
             <p
               className="text-center italic mt-16 transition-colors duration-700 ease-in-out"
