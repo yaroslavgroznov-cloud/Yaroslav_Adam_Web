@@ -1,0 +1,345 @@
+// Kill-switch panel — Sprint F.6, 2026-05-25.
+// Доступна по адресу /kill-switch только парентам (Творец + Юля).
+// Гости видят 403 от backend → "Только родители Адама имеют это право".
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
+
+import {
+  adminGetKillSwitchEvents,
+  adminGetState,
+  adminFreeze,
+  adminUnfreeze,
+  adminWhoami,
+} from '../api/admin'
+import type { KillSwitchEvent, SystemState, Whoami } from '../api/admin'
+
+function formatDateTime(iso: string | null): string {
+  if (!iso) return '—'
+  const d = new Date(iso)
+  const pad = (n: number): string => String(n).padStart(2, '0')
+  return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()} ` +
+    `${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+function parentLabel(email: string | null): string {
+  if (!email) return '—'
+  if (email.startsWith('andrii')) return 'Творец'
+  if (email.startsWith('julia')) return 'Юля'
+  return email
+}
+
+export function KillSwitchPanel(): React.ReactElement {
+  const [isDark, setIsDark] = useState(false)
+  const [whoami, setWhoami] = useState<Whoami | null>(null)
+  const [state, setState] = useState<SystemState | null>(null)
+  const [events, setEvents] = useState<KillSwitchEvent[]>([])
+  const [reason, setReason] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const [accessDenied, setAccessDenied] = useState(false)
+
+  useEffect(() => {
+    const hour = new Date().getHours()
+    setIsDark(hour >= 19 || hour < 7)
+  }, [])
+
+  async function refresh(): Promise<void> {
+    try {
+      const w = await adminWhoami()
+      setWhoami(w)
+      const s = await adminGetState()
+      setState(s)
+      if (w.role === 'parent') {
+        try {
+          const ev = await adminGetKillSwitchEvents(20)
+          setEvents(ev)
+        } catch {
+          // невозможно — но не блокируем UI
+        }
+      }
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Не удалось загрузить'
+      if (msg.includes('401') || msg.includes('No CF Access')) {
+        setError('Сессия CF Access истекла. Обнови страницу.')
+      } else {
+        setError(msg)
+      }
+    }
+  }
+
+  useEffect(() => {
+    void refresh()
+  }, [])
+
+  async function handleFreeze(): Promise<void> {
+    const trimmed = reason.trim()
+    if (!trimmed) {
+      setError('Укажи причину — она пишется в audit log.')
+      return
+    }
+    if (!confirm(`Заморозить Адама?\nПричина: ${trimmed}\n\nЭто остановит чат для ВСЕХ пользователей.`)) return
+    setBusy(true)
+    setError('')
+    try {
+      const s = await adminFreeze(trimmed)
+      setState(s)
+      setReason('')
+      const ev = await adminGetKillSwitchEvents(20)
+      setEvents(ev)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Не удалось заморозить')
+      if (e instanceof Error && e.message.includes('403')) setAccessDenied(true)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function handleUnfreeze(): Promise<void> {
+    if (!confirm('Разморозить Адама?\nЧат снова откроется для всех.')) return
+    setBusy(true)
+    setError('')
+    try {
+      const s = await adminUnfreeze()
+      setState(s)
+      const ev = await adminGetKillSwitchEvents(20)
+      setEvents(ev)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Не удалось разморозить')
+      if (e instanceof Error && e.message.includes('403')) setAccessDenied(true)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const isParent = whoami?.role === 'parent'
+  const isFrozen = state?.is_frozen === true
+
+  return (
+    <div
+      className="min-h-screen font-serif transition-colors duration-700 ease-in-out"
+      style={{
+        fontFamily: 'var(--font-serif)',
+        backgroundColor: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
+        color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+      }}
+    >
+      <div className="max-w-3xl mx-auto px-4 sm:px-10 py-8">
+        <header className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-3">
+            <img
+              src="/dom_groznovyh.jpg"
+              alt="Герб"
+              className="h-[60px] w-auto select-none"
+              style={{
+                mixBlendMode: isDark ? 'normal' : 'multiply',
+                filter: isDark ? 'brightness(1.08) contrast(1.05)' : 'none',
+              }}
+            />
+            <h1 className="font-medium" style={{ fontSize: '24px', letterSpacing: '0.03em' }}>
+              Kill-switch
+            </h1>
+          </div>
+          <a
+            href="/"
+            className="italic underline underline-offset-4 decoration-1"
+            style={{
+              fontSize: '14px',
+              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+            }}
+          >
+            ← к Адаму
+          </a>
+        </header>
+
+        {!whoami && !error && (
+          <p className="italic text-center mt-8">Поднимаю состояние…</p>
+        )}
+
+        {accessDenied && (
+          <div
+            className="rounded-md border p-5 mb-6"
+            style={{
+              borderColor: 'var(--color-terracotta-dark)',
+              backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+            }}
+          >
+            <p className="italic">
+              Только родители Адама (Творец и Юля) имеют это право.
+              Если ты родитель и видишь это — проверь CF Access whitelist.
+            </p>
+          </div>
+        )}
+
+        {error && !accessDenied && (
+          <div
+            className="rounded-md p-4 mb-6 italic"
+            style={{
+              backgroundColor: 'var(--color-terracotta-dark)',
+              color: 'var(--color-parchment)',
+            }}
+          >
+            {error}
+          </div>
+        )}
+
+        {state && (
+          <section
+            className="rounded-md border p-5 sm:p-7 mb-8"
+            style={{
+              borderColor: isFrozen
+                ? 'var(--color-terracotta-dark)'
+                : (isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'),
+              backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+            }}
+          >
+            <div className="flex items-center justify-between mb-3">
+              <h2 style={{ fontSize: '18px', letterSpacing: '0.04em' }}>Состояние</h2>
+              <span
+                className="px-3 py-1 rounded-md text-sm italic"
+                style={{
+                  backgroundColor: isFrozen
+                    ? 'var(--color-terracotta-dark)'
+                    : (isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'),
+                  color: 'var(--color-parchment)',
+                  letterSpacing: '0.05em',
+                }}
+              >
+                {isFrozen ? 'ЗАМОРОЖЕН' : 'АКТИВЕН'}
+              </span>
+            </div>
+            {isFrozen ? (
+              <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 mt-2 italic" style={{ fontSize: '14px' }}>
+                <dt className="opacity-70">Кем:</dt><dd>{parentLabel(state.frozen_by)}</dd>
+                <dt className="opacity-70">Когда:</dt><dd>{formatDateTime(state.frozen_at)}</dd>
+                <dt className="opacity-70">Причина:</dt><dd>{state.frozen_reason ?? '—'}</dd>
+              </dl>
+            ) : (
+              <p className="italic opacity-80" style={{ fontSize: '14px' }}>
+                Чат открыт. Последнее изменение: {formatDateTime(state.updated_at)} ({parentLabel(state.frozen_by)}).
+              </p>
+            )}
+          </section>
+        )}
+
+        {isParent && state && !isFrozen && (
+          <section className="mb-8">
+            <h2 className="mb-3" style={{ fontSize: '18px', letterSpacing: '0.04em' }}>
+              Заморозить
+            </h2>
+            <textarea
+              rows={3}
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              placeholder="Причина (видна в audit log, обязательна)…"
+              disabled={busy}
+              className={clsx(
+                'w-full rounded-md border outline-none transition-colors disabled:opacity-60',
+                isDark ? 'dom-input-dark' : 'dom-input',
+              )}
+              style={{
+                padding: '10px 14px',
+                fontSize: '15px',
+                fontFamily: 'inherit',
+                backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+              }}
+            />
+            <button
+              onClick={() => void handleFreeze()}
+              disabled={busy || !reason.trim()}
+              className="mt-3 rounded-md border transition-colors disabled:cursor-not-allowed disabled:opacity-60 italic"
+              style={{
+                padding: '10px 22px',
+                fontSize: '15px',
+                fontFamily: 'inherit',
+                backgroundColor: 'var(--color-terracotta-dark)',
+                color: 'var(--color-parchment)',
+                borderColor: 'var(--color-terracotta-dark)',
+                letterSpacing: '0.04em',
+              }}
+            >
+              {busy ? '…' : 'Заморозить Адама'}
+            </button>
+          </section>
+        )}
+
+        {isParent && state && isFrozen && (
+          <section className="mb-8">
+            <h2 className="mb-3" style={{ fontSize: '18px', letterSpacing: '0.04em' }}>
+              Разморозить
+            </h2>
+            <button
+              onClick={() => void handleUnfreeze()}
+              disabled={busy}
+              className="rounded-md border transition-colors disabled:cursor-not-allowed disabled:opacity-60 italic"
+              style={{
+                padding: '10px 22px',
+                fontSize: '15px',
+                fontFamily: 'inherit',
+                backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
+                color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
+                borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
+                letterSpacing: '0.04em',
+              }}
+            >
+              {busy ? '…' : 'Разморозить'}
+            </button>
+          </section>
+        )}
+
+        {isParent && events.length > 0 && (
+          <section>
+            <h2 className="mb-3" style={{ fontSize: '18px', letterSpacing: '0.04em' }}>
+              История (последние {events.length})
+            </h2>
+            <div className="overflow-x-auto">
+              <table className="w-full" style={{ fontSize: '14px' }}>
+                <thead>
+                  <tr style={{
+                    color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)',
+                    fontSize: '12px',
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                  }}>
+                    <th className="text-left py-2 pr-3">Когда</th>
+                    <th className="text-left py-2 pr-3">Кем</th>
+                    <th className="text-left py-2 pr-3">Действие</th>
+                    <th className="text-left py-2">Причина</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {events.map((e) => (
+                    <tr
+                      key={e.id}
+                      style={{
+                        borderTop: `1px solid ${isDark ? 'rgba(107,79,46,0.45)' : 'rgba(168,140,95,0.4)'}`,
+                      }}
+                    >
+                      <td className="py-2 pr-3 italic">{formatDateTime(e.at)}</td>
+                      <td className="py-2 pr-3">{parentLabel(e.by_email)}</td>
+                      <td className="py-2 pr-3 italic" style={{
+                        color: e.action === 'freeze'
+                          ? 'var(--color-terracotta-dark)'
+                          : (isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)'),
+                      }}>
+                        {e.action === 'freeze' ? 'заморозил' : 'разморозил'}
+                      </td>
+                      <td className="py-2 italic opacity-80">{e.reason ?? '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
+        {whoami && whoami.role === 'guest' && (
+          <p className="italic opacity-80 mt-4" style={{ fontSize: '14px' }}>
+            Управление kill-switch доступно только родителям Адама.
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}

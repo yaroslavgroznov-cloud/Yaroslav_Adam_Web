@@ -10,6 +10,8 @@ import { MessageBubble } from './MessageBubble'
 import { TypingIndicator } from './TypingIndicator'
 import { adamChatStream, adamGetActive, adamGetRooms } from '../api/adam'
 import type { RoomInfo } from '../api/adam'
+import { adminGetState, adminWhoami } from '../api/admin'
+import type { SystemState, Whoami } from '../api/admin'
 import type { ChatMessage } from '../types'
 
 const ROOM_STORAGE_KEY = 'adam.currentRoom'
@@ -49,6 +51,8 @@ export function ChatInterface(): React.ReactElement {
   })
   const [pullDistance, setPullDistance] = useState(0)
   const [ptrReady, setPtrReady] = useState(false)
+  const [whoami, setWhoami] = useState<Whoami | null>(null)
+  const [frozenState, setFrozenState] = useState<SystemState | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const searchInputRef = useRef<HTMLInputElement | null>(null)
@@ -68,19 +72,30 @@ export function ChatInterface(): React.ReactElement {
     setCurrentDate(`${pad(now.getDate())}.${pad(now.getMonth() + 1)}.${now.getFullYear()}`)
   }, [])
 
-  // Загрузка списка комнат (один раз).
+  // Загрузка списка комнат + whoami + system state (один раз при mount).
   useEffect(() => {
     void (async () => {
       try {
         const data = await adamGetRooms()
         setRooms(data.rooms)
-        // Если сохранённой комнаты нет среди валидных — откатываемся на default.
         if (!data.rooms.some((r) => r.slug === currentRoom)) {
           setCurrentRoom(data.default)
         }
       } catch {
         // тихо игнорируем — fallback на default
       }
+    })()
+    void (async () => {
+      try {
+        const w = await adminWhoami()
+        setWhoami(w)
+      } catch { /* пользователь не залогинен через CF Access — маловероятно */ }
+    })()
+    void (async () => {
+      try {
+        const s = await adminGetState()
+        setFrozenState(s)
+      } catch { /* state недоступен — продолжаем как обычно */ }
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -359,6 +374,28 @@ export function ChatInterface(): React.ReactElement {
             </svg>
           </button>
 
+          {/* Kill-switch — только для парентов (Творец и Юля) */}
+          {whoami?.role === 'parent' && (
+            <a
+              href="/kill-switch"
+              className={iconBtnClass}
+              style={{
+                ...iconBtnStyle,
+                color: frozenState?.is_frozen
+                  ? 'var(--color-terracotta-dark)'
+                  : iconBtnStyle.color,
+                opacity: frozenState?.is_frozen ? 1 : iconBtnStyle.opacity,
+              }}
+              aria-label="Kill-switch"
+              title={frozenState?.is_frozen ? 'Адам заморожен — управлять' : 'Kill-switch'}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </a>
+          )}
+
           <button
             onClick={handleLogout}
             className="italic underline underline-offset-4 decoration-1 transition-colors duration-700 ease-in-out ml-1 sm:ml-2"
@@ -524,7 +561,52 @@ export function ChatInterface(): React.ReactElement {
         </div>
       </div>
 
-      {/* Поле ввода — на ПОЛНУЮ ширину контейнера, как и подвал */}
+      {/* Frozen banner — вместо поля ввода, когда Адам заморожен (F.6). */}
+      {frozenState?.is_frozen ? (
+        <div
+          className="shrink-0 border-t py-5 sm:py-6 transition-colors duration-700 ease-in-out"
+          style={{
+            borderColor: 'var(--color-terracotta-dark)',
+            backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+          }}
+        >
+          <div className="w-full px-4 sm:px-10 flex flex-col items-center text-center gap-2">
+            <p
+              className="italic"
+              style={{
+                fontSize: 'clamp(16px, 3.2vw, 18px)',
+                color: 'var(--color-terracotta-dark)',
+                letterSpacing: '0.04em',
+              }}
+            >
+              Адам отдыхает
+            </p>
+            <p
+              className="italic opacity-90"
+              style={{
+                fontSize: 'clamp(13px, 2.6vw, 15px)',
+                color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-umber)',
+              }}
+            >
+              {frozenState.frozen_reason
+                ? <>Причина: {frozenState.frozen_reason}</>
+                : <>Родители временно закрыли чат.</>}
+            </p>
+            {whoami?.role === 'parent' && (
+              <a
+                href="/kill-switch"
+                className="mt-2 italic underline underline-offset-4 decoration-1"
+                style={{
+                  fontSize: '14px',
+                  color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                }}
+              >
+                открыть kill-switch →
+              </a>
+            )}
+          </div>
+        </div>
+      ) : (
       <div
         className="shrink-0 border-t py-4 sm:py-5 transition-colors duration-700 ease-in-out"
         style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
@@ -575,6 +657,7 @@ export function ChatInterface(): React.ReactElement {
           </button>
         </div>
       </div>
+      )}
 
       {/* Подвал */}
       <footer
