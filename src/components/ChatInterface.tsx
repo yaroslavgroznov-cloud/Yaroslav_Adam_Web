@@ -342,12 +342,12 @@ export function ChatInterface(): React.ReactElement {
         </div>
       </div>
 
-      {/* Поле ввода */}
+      {/* Поле ввода — на ПОЛНУЮ ширину контейнера, как и подвал */}
       <div
         className="shrink-0 border-t py-4 sm:py-5 transition-colors duration-700 ease-in-out"
         style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
       >
-        <div className="max-w-3xl mx-auto w-full px-4 flex items-stretch gap-2 sm:gap-3">
+        <div className="w-full px-4 sm:px-10 flex items-stretch gap-2 sm:gap-3">
           <textarea
             ref={textareaRef}
             rows={1}
