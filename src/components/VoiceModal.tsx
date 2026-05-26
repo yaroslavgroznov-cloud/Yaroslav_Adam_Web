@@ -25,7 +25,14 @@ interface Props {
 
 type Phase = 'idle' | 'requesting' | 'connecting' | 'live' | 'error' | 'closed'
 
-const REALTIME_BASE = 'https://api.openai.com/v1/realtime'
+// OpenAI Realtime GA WebRTC endpoint.
+// (Beta `?model=` query тоже отвечает, но GA `/calls` рекомендован.)
+const REALTIME_SDP_URL = 'https://api.openai.com/v1/realtime/calls'
+
+function dbg(msg: string, ...rest: unknown[]): void {
+  // eslint-disable-next-line no-console
+  console.log('[VoiceModal]', msg, ...rest)
+}
 
 export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
   const { t } = useTranslation()
@@ -69,20 +76,34 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
 
     setPhase('connecting')
     try {
-      const pc = new RTCPeerConnection()
+      const pc = new RTCPeerConnection({
+        iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
+      })
       pcRef.current = pc
 
-      // remote audio
+      // ВАЖНО: явный recvonly transceiver на приём голоса Адама.
+      // Без него ontrack может не сработать на некоторых браузерах.
+      pc.addTransceiver('audio', { direction: 'recvonly' })
+
       pc.ontrack = (ev) => {
-        if (audioRef.current) {
+        dbg('ontrack', ev.streams.length, 'streams')
+        if (audioRef.current && ev.streams[0]) {
           audioRef.current.srcObject = ev.streams[0]
+          audioRef.current.play().catch((err) => dbg('audio.play failed', err))
         }
       }
+
+      pc.oniceconnectionstatechange = () => dbg('iceConnectionState', pc.iceConnectionState)
+      pc.onicegatheringstatechange = () => dbg('iceGatheringState', pc.iceGatheringState)
+      pc.onsignalingstatechange = () => dbg('signalingState', pc.signalingState)
       pc.onconnectionstatechange = () => {
         const st = pc.connectionState
+        dbg('connectionState', st)
         if (st === 'connected') setPhase('live')
-        if (st === 'failed' || st === 'disconnected') {
-          setPhase('closed')
+        // 'disconnected' бывает временным (mobile network) — не рубим. Только 'failed'.
+        if (st === 'failed') {
+          setPhase('error')
+          setError(`WebRTC failed (ICE) — попробуй ещё раз или открой DevTools console.`)
           cleanup()
         }
       }
@@ -91,31 +112,61 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
       pc.createDataChannel('oai-events')
 
       // mic
+      dbg('requesting mic...')
       const ms = await navigator.mediaDevices.getUserMedia({ audio: true })
       micStreamRef.current = ms
-      for (const tr of ms.getTracks()) pc.addTrack(tr, ms)
+      for (const tr of ms.getTracks()) {
+        pc.addTrack(tr, ms)
+        dbg('addTrack', tr.kind, tr.label)
+      }
 
       const offer = await pc.createOffer()
       await pc.setLocalDescription(offer)
+      dbg('local offer set, len=', offer.sdp?.length)
 
-      const r = await fetch(`${REALTIME_BASE}?model=${encodeURIComponent(model)}`, {
+      // Подождём ICE gathering чтобы offer содержал все candidate.
+      // Без этого WebRTC коннект может развалиться когда candidate
+      // приходит после уже отправленного offer.
+      if (pc.iceGatheringState !== 'complete') {
+        await new Promise<void>((resolve) => {
+          const check = (): void => {
+            if (pc.iceGatheringState === 'complete') {
+              pc.removeEventListener('icegatheringstatechange', check)
+              resolve()
+            }
+          }
+          pc.addEventListener('icegatheringstatechange', check)
+          // safety timeout 2s
+          setTimeout(() => {
+            pc.removeEventListener('icegatheringstatechange', check)
+            resolve()
+          }, 2000)
+        })
+      }
+      const localSdp = pc.localDescription?.sdp ?? offer.sdp ?? ''
+      dbg('ICE complete, posting SDP len=', localSdp.length)
+
+      const r = await fetch(`${REALTIME_SDP_URL}?model=${encodeURIComponent(model)}`, {
         method: 'POST',
-        body: offer.sdp,
+        body: localSdp,
         headers: {
           Authorization: `Bearer ${ephemeral}`,
           'Content-Type': 'application/sdp',
-          'OpenAI-Beta': 'realtime=v1',
         },
       })
       if (!r.ok) {
         const txt = await r.text()
-        throw new Error(`OpenAI ${r.status}: ${txt.slice(0, 200)}`)
+        throw new Error(`OpenAI ${r.status}: ${txt.slice(0, 300)}`)
       }
       const answerSdp = await r.text()
+      dbg('answer received, len=', answerSdp.length)
       await pc.setRemoteDescription({ type: 'answer', sdp: answerSdp })
+      dbg('remote answer applied')
     } catch (e) {
+      const msg = e instanceof Error ? e.message : t('voice.connect_failed')
+      dbg('connect failed', msg)
       setPhase('error')
-      setError(e instanceof Error ? e.message : t('voice.connect_failed'))
+      setError(msg)
       cleanup()
     }
   }
