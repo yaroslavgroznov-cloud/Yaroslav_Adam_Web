@@ -31,7 +31,11 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
   const pathParts = (params.path as string[] | undefined) ?? [];
   const path = pathParts.join("/");
   const url = new URL(request.url);
-  const targetUrl = `${BACKEND_BASE}/files/${path}${url.search}`;
+  // Если path пустой — не добавляем trailing slash, иначе FastAPI ответит
+  // 307 redirect на /files (без слеша), и cross-origin redirect ломает POST.
+  const targetUrl = path
+    ? `${BACKEND_BASE}/files/${path}${url.search}`
+    : `${BACKEND_BASE}/files${url.search}`;
 
   const cookies = request.headers.get("cookie");
   const cfAuth = readCookie(cookies, "CF_Authorization");
