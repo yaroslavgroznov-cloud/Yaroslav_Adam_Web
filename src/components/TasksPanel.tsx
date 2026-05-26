@@ -294,6 +294,22 @@ export function TasksPanel(): React.ReactElement {
                         <pre className="whitespace-pre-wrap font-serif" style={{ fontFamily: 'inherit' }}>
                           {tt.result}
                         </pre>
+                        {tt.r2_download_url && (
+                          <p className="mt-3">
+                            <a
+                              href={tt.r2_download_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="italic underline underline-offset-4 decoration-1"
+                              style={{
+                                fontSize: '13px',
+                                color: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta-dark)',
+                              }}
+                            >
+                              {t('tasks.download_full')}
+                            </a>
+                          </p>
+                        )}
                         <p className="italic opacity-60 mt-3" style={{ fontSize: '12px' }}>
                           {t('tasks.delivery_status', {
                             email: tt.email_delivered ? '✓' : '—',

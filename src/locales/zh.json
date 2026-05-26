@@ -123,7 +123,9 @@
     "style_brief": "简短",
     "style_curious": "好奇",
     "saved": "已保存。",
-    "save_failed": "保存失败"
+    "save_failed": "保存失败",
+    "history_show": "查看清晨历史 ({{n}})",
+    "history_hide": "隐藏历史"
   },
   "killSwitch": {
     "title": "紧急停止",
@@ -194,7 +196,8 @@
     "created": "收到。我马上着手。",
     "create_failed": "无法创建任务",
     "load_failed": "无法加载任务列表",
-    "failed_generic": "出了点问题。"
+    "failed_generic": "出了点问题。",
+    "download_full": "下载完整 .md (链接 7 天有效)"
   },
   "voice": {
     "title": "与亚当语音",

@@ -123,7 +123,9 @@
     "style_brief": "Singkat",
     "style_curious": "Penasaran",
     "saved": "Tersimpan.",
-    "save_failed": "Gagal menyimpan"
+    "save_failed": "Gagal menyimpan",
+    "history_show": "lihat riwayat pagi ({{n}})",
+    "history_hide": "sembunyikan riwayat"
   },
   "killSwitch": {
     "title": "Kill-switch",
@@ -194,7 +196,8 @@
     "created": "Diterima. Segera saya mulai.",
     "create_failed": "Tidak bisa membuat tugas",
     "load_failed": "Tidak bisa memuat",
-    "failed_generic": "Ada yang salah."
+    "failed_generic": "Ada yang salah.",
+    "download_full": "unduh .md lengkap (tautan berlaku 7 hari)"
   },
   "voice": {
     "title": "Suara dengan Adam",

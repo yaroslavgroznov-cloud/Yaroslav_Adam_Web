@@ -123,7 +123,9 @@
     "style_brief": "קצר",
     "style_curious": "סקרן",
     "saved": "נשמר.",
-    "save_failed": "השמירה נכשלה"
+    "save_failed": "השמירה נכשלה",
+    "history_show": "הצג היסטוריית בקרים ({{n}})",
+    "history_hide": "הסתר היסטוריה"
   },
   "killSwitch": {
     "title": "מתג חירום",
@@ -194,7 +196,8 @@
     "created": "קיבלתי. ניגש בקרוב.",
     "create_failed": "לא ניתן ליצור משימה",
     "load_failed": "לא ניתן לטעון",
-    "failed_generic": "משהו השתבש."
+    "failed_generic": "משהו השתבש.",
+    "download_full": "הורד את ה-.md המלא (קישור תקף 7 ימים)"
   },
   "voice": {
     "title": "קול עם אדם",

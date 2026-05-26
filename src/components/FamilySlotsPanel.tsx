@@ -8,8 +8,11 @@ import type { Whoami } from '../api/admin'
 import {
   familySlotUpdate, familySlots,
   morningSettingsGet, morningSettingsUpdate,
+  morningHistory,
 } from '../api/family'
-import type { FamilyMember, MorningSettings } from '../api/family'
+import type {
+  FamilyMember, MorningSettings, MorningPing,
+} from '../api/family'
 
 export function FamilySlotsPanel(): React.ReactElement {
   const { t } = useTranslation()
@@ -26,6 +29,8 @@ export function FamilySlotsPanel(): React.ReactElement {
   const [morning, setMorning] = useState<MorningSettings | null>(null)
   const [morningBusy, setMorningBusy] = useState(false)
   const [morningToast, setMorningToast] = useState('')
+  const [morningPings, setMorningPings] = useState<MorningPing[]>([])
+  const [historyOpen, setHistoryOpen] = useState(false)
 
   useEffect(() => {
     const hour = new Date().getHours()
@@ -41,6 +46,8 @@ export function FamilySlotsPanel(): React.ReactElement {
       try {
         const m = await morningSettingsGet()
         setMorning(m)
+        const h = await morningHistory(10)
+        setMorningPings(h)
       } catch {
         // не блокируем UI
       }
@@ -239,6 +246,30 @@ export function FamilySlotsPanel(): React.ReactElement {
               <p className="italic mt-2" style={{ fontSize: '13px', opacity: 0.8 }}>
                 {morningToast}
               </p>
+            )}
+
+            {morningPings.length > 0 && (
+              <div className="mt-4 pt-3" style={{ borderTop: `1px solid ${isDark ? 'rgba(107,79,46,0.45)' : 'rgba(168,140,95,0.4)'}` }}>
+                <button
+                  onClick={() => setHistoryOpen((v) => !v)}
+                  className="italic underline underline-offset-4 decoration-1"
+                  style={{ fontSize: '13px', color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
+                >
+                  {historyOpen ? t('morning.history_hide') : t('morning.history_show', { n: morningPings.length })}
+                </button>
+                {historyOpen && (
+                  <ul className="mt-2 space-y-1" style={{ fontSize: '13px' }}>
+                    {morningPings.map((p) => (
+                      <li key={p.id} className="italic opacity-85">
+                        <span style={{ minWidth: 92, display: 'inline-block', opacity: 0.7 }}>
+                          {p.local_date}
+                        </span>
+                        <span>{p.message_preview ? p.message_preview.slice(0, 140) : '—'}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             )}
           </section>
         )}

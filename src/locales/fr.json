@@ -123,7 +123,9 @@
     "style_brief": "Bref",
     "style_curious": "Curieux",
     "saved": "Enregistré.",
-    "save_failed": "Échec de la sauvegarde"
+    "save_failed": "Échec de la sauvegarde",
+    "history_show": "voir l'historique des matins ({{n}})",
+    "history_hide": "masquer l'historique"
   },
   "killSwitch": {
     "title": "Kill-switch",
@@ -194,7 +196,8 @@
     "created": "Reçu. Je m'y mets bientôt.",
     "create_failed": "Création impossible",
     "load_failed": "Chargement impossible",
-    "failed_generic": "Quelque chose a mal tourné."
+    "failed_generic": "Quelque chose a mal tourné.",
+    "download_full": "télécharger le .md complet (lien valide 7 jours)"
   },
   "voice": {
     "title": "Voix avec Adam",

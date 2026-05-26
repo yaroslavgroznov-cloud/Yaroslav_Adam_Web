@@ -17,6 +17,7 @@ export interface AdamTask {
   created_at: string
   started_at: string | null
   completed_at: string | null
+  r2_download_url?: string | null
 }
 
 async function jsonOrError<T>(res: Response): Promise<T> {

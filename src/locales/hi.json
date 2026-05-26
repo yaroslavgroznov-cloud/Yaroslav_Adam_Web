@@ -123,7 +123,9 @@
     "style_brief": "संक्षिप्त",
     "style_curious": "जिज्ञासु",
     "saved": "सहेजा गया।",
-    "save_failed": "सहेजने में विफल"
+    "save_failed": "सहेजने में विफल",
+    "history_show": "सुबह का इतिहास ({{n}})",
+    "history_hide": "इतिहास छिपाओ"
   },
   "killSwitch": {
     "title": "किल-स्विच",
@@ -194,7 +196,8 @@
     "created": "मिल गया। जल्द लेता हूँ।",
     "create_failed": "कार्य नहीं बना",
     "load_failed": "सूची नहीं आई",
-    "failed_generic": "कुछ गलत हो गया।"
+    "failed_generic": "कुछ गलत हो गया।",
+    "download_full": "पूरा .md डाउनलोड (7 दिन वैध)"
   },
   "voice": {
     "title": "आदम से आवाज़",

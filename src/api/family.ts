@@ -127,3 +127,18 @@ export async function morningSettingsUpdate(
   })
   return jsonOrError<MorningSettings>(res)
 }
+
+export interface MorningPing {
+  id: number
+  email: string
+  local_date: string
+  sent_at: string
+  message_preview: string | null
+}
+
+export async function morningHistory(limit = 30): Promise<MorningPing[]> {
+  const res = await fetch(`${BASE}/family/morning-history?limit=${limit}`, {
+    credentials: 'include',
+  })
+  return jsonOrError<MorningPing[]>(res)
+}

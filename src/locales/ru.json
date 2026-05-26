@@ -123,7 +123,9 @@
     "style_brief": "Краткий",
     "style_curious": "С вопросом",
     "saved": "Сохранил.",
-    "save_failed": "Не удалось сохранить"
+    "save_failed": "Не удалось сохранить",
+    "history_show": "показать историю утренних ({{n}})",
+    "history_hide": "скрыть историю"
   },
   "killSwitch": {
     "title": "Kill-switch",
@@ -194,7 +196,8 @@
     "created": "Принял. Скоро возьмусь.",
     "create_failed": "Не удалось создать поручение",
     "load_failed": "Не удалось загрузить список",
-    "failed_generic": "Что-то пошло не так."
+    "failed_generic": "Что-то пошло не так.",
+    "download_full": "скачать полный .md (ссылка валидна 7 дней)"
   },
   "voice": {
     "title": "Голос с Адамом",
