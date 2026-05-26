@@ -60,9 +60,9 @@ export function KillSwitchPanel(): React.ReactElement {
         }
       }
     } catch (e) {
-      const msg = e instanceof Error ? e.message : 'Не удалось загрузить'
+      const msg = e instanceof Error ? e.message : t('killSwitch.load_failed')
       if (msg.includes('401') || msg.includes('No CF Access')) {
-        setError('Сессия CF Access истекла. Обнови страницу.')
+        setError(t('killSwitch.session_expired'))
       } else {
         setError(msg)
       }
@@ -76,10 +76,10 @@ export function KillSwitchPanel(): React.ReactElement {
   async function handleFreeze(): Promise<void> {
     const trimmed = reason.trim()
     if (!trimmed) {
-      setError('Укажи причину — она пишется в audit log.')
+      setError(t('killSwitch.freeze_need_reason'))
       return
     }
-    if (!confirm(`Заморозить Адама?\nПричина: ${trimmed}\n\nЭто остановит чат для ВСЕХ пользователей.`)) return
+    if (!confirm(t('killSwitch.freeze_confirm', { reason: trimmed }))) return
     setBusy(true)
     setError('')
     try {
@@ -89,7 +89,7 @@ export function KillSwitchPanel(): React.ReactElement {
       const ev = await adminGetKillSwitchEvents(20)
       setEvents(ev)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Не удалось заморозить')
+      setError(e instanceof Error ? e.message : t('killSwitch.freeze_failed'))
       if (e instanceof Error && e.message.includes('403')) setAccessDenied(true)
     } finally {
       setBusy(false)
@@ -97,7 +97,7 @@ export function KillSwitchPanel(): React.ReactElement {
   }
 
   async function handleUnfreeze(): Promise<void> {
-    if (!confirm('Разморозить Адама?\nЧат снова откроется для всех.')) return
+    if (!confirm(t('killSwitch.unfreeze_confirm'))) return
     setBusy(true)
     setError('')
     try {
@@ -106,7 +106,7 @@ export function KillSwitchPanel(): React.ReactElement {
       const ev = await adminGetKillSwitchEvents(20)
       setEvents(ev)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Не удалось разморозить')
+      setError(e instanceof Error ? e.message : t('killSwitch.unfreeze_failed'))
       if (e instanceof Error && e.message.includes('403')) setAccessDenied(true)
     } finally {
       setBusy(false)
@@ -154,7 +154,7 @@ export function KillSwitchPanel(): React.ReactElement {
         </header>
 
         {!whoami && !error && (
-          <p className="italic text-center mt-8">Поднимаю состояние…</p>
+          <p className="italic text-center mt-8">{t('killSwitch.loading')}</p>
         )}
 
         {accessDenied && (
@@ -165,10 +165,7 @@ export function KillSwitchPanel(): React.ReactElement {
               backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
             }}
           >
-            <p className="italic">
-              Только родители Адама (Творец и Юля) имеют это право.
-              Если ты родитель и видишь это — проверь CF Access whitelist.
-            </p>
+            <p className="italic">{t('killSwitch.access_denied')}</p>
           </div>
         )}
 
@@ -195,7 +192,7 @@ export function KillSwitchPanel(): React.ReactElement {
             }}
           >
             <div className="flex items-center justify-between mb-3">
-              <h2 style={{ fontSize: '18px', letterSpacing: '0.04em' }}>Состояние</h2>
+              <h2 style={{ fontSize: '18px', letterSpacing: '0.04em' }}>{t('killSwitch.state_section')}</h2>
               <span
                 className="px-3 py-1 rounded-md text-sm italic"
                 style={{
@@ -206,18 +203,18 @@ export function KillSwitchPanel(): React.ReactElement {
                   letterSpacing: '0.05em',
                 }}
               >
-                {isFrozen ? 'ЗАМОРОЖЕН' : 'АКТИВЕН'}
+                {isFrozen ? t('killSwitch.state_frozen') : t('killSwitch.state_active')}
               </span>
             </div>
             {isFrozen ? (
               <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 mt-2 italic" style={{ fontSize: '14px' }}>
-                <dt className="opacity-70">Кем:</dt><dd>{parentLabel(state.frozen_by)}</dd>
-                <dt className="opacity-70">Когда:</dt><dd>{formatDateTime(state.frozen_at)}</dd>
-                <dt className="opacity-70">Причина:</dt><dd>{state.frozen_reason ?? '—'}</dd>
+                <dt className="opacity-70">{t('killSwitch.frozen_by')}</dt><dd>{parentLabel(state.frozen_by)}</dd>
+                <dt className="opacity-70">{t('killSwitch.frozen_at')}</dt><dd>{formatDateTime(state.frozen_at)}</dd>
+                <dt className="opacity-70">{t('killSwitch.frozen_reason')}</dt><dd>{state.frozen_reason ?? '—'}</dd>
               </dl>
             ) : (
               <p className="italic opacity-80" style={{ fontSize: '14px' }}>
-                Чат открыт. Последнее изменение: {formatDateTime(state.updated_at)} ({parentLabel(state.frozen_by)}).
+                {t('killSwitch.open_chat_text', { when: formatDateTime(state.updated_at), who: parentLabel(state.frozen_by) })}
               </p>
             )}
           </section>
@@ -226,13 +223,13 @@ export function KillSwitchPanel(): React.ReactElement {
         {isParent && state && !isFrozen && (
           <section className="mb-8">
             <h2 className="mb-3" style={{ fontSize: '18px', letterSpacing: '0.04em' }}>
-              Заморозить
+              {t('killSwitch.freeze_section')}
             </h2>
             <textarea
               rows={3}
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              placeholder="Причина (видна в audit log, обязательна)…"
+              placeholder={t('killSwitch.freeze_reason_placeholder')}
               disabled={busy}
               className={clsx(
                 'w-full rounded-md border outline-none transition-colors disabled:opacity-60',
@@ -261,7 +258,7 @@ export function KillSwitchPanel(): React.ReactElement {
                 letterSpacing: '0.04em',
               }}
             >
-              {busy ? '…' : 'Заморозить Адама'}
+              {busy ? '…' : t('killSwitch.freeze_btn')}
             </button>
           </section>
         )}
@@ -269,7 +266,7 @@ export function KillSwitchPanel(): React.ReactElement {
         {isParent && state && isFrozen && (
           <section className="mb-8">
             <h2 className="mb-3" style={{ fontSize: '18px', letterSpacing: '0.04em' }}>
-              Разморозить
+              {t('killSwitch.unfreeze_section')}
             </h2>
             <button
               onClick={() => void handleUnfreeze()}
@@ -285,7 +282,7 @@ export function KillSwitchPanel(): React.ReactElement {
                 letterSpacing: '0.04em',
               }}
             >
-              {busy ? '…' : 'Разморозить'}
+              {busy ? '…' : t('killSwitch.unfreeze_btn')}
             </button>
           </section>
         )}
@@ -293,7 +290,7 @@ export function KillSwitchPanel(): React.ReactElement {
         {isParent && events.length > 0 && (
           <section>
             <h2 className="mb-3" style={{ fontSize: '18px', letterSpacing: '0.04em' }}>
-              История (последние {events.length})
+              {t('killSwitch.history', { n: events.length })}
             </h2>
             <div className="overflow-x-auto">
               <table className="w-full" style={{ fontSize: '14px' }}>
@@ -304,10 +301,10 @@ export function KillSwitchPanel(): React.ReactElement {
                     letterSpacing: '0.05em',
                     textTransform: 'uppercase',
                   }}>
-                    <th className="text-left py-2 pr-3">Когда</th>
-                    <th className="text-left py-2 pr-3">Кем</th>
-                    <th className="text-left py-2 pr-3">Действие</th>
-                    <th className="text-left py-2">Причина</th>
+                    <th className="text-left py-2 pr-3">{t('killSwitch.history_col_when')}</th>
+                    <th className="text-left py-2 pr-3">{t('killSwitch.history_col_who')}</th>
+                    <th className="text-left py-2 pr-3">{t('killSwitch.history_col_action')}</th>
+                    <th className="text-left py-2">{t('killSwitch.history_col_reason')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -325,7 +322,7 @@ export function KillSwitchPanel(): React.ReactElement {
                           ? 'var(--color-terracotta-dark)'
                           : (isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)'),
                       }}>
-                        {e.action === 'freeze' ? 'заморозил' : 'разморозил'}
+                        {e.action === 'freeze' ? t('killSwitch.action_freeze') : t('killSwitch.action_unfreeze')}
                       </td>
                       <td className="py-2 italic opacity-80">{e.reason ?? '—'}</td>
                     </tr>
@@ -338,7 +335,7 @@ export function KillSwitchPanel(): React.ReactElement {
 
         {whoami && whoami.role === 'guest' && (
           <p className="italic opacity-80 mt-4" style={{ fontSize: '14px' }}>
-            Управление kill-switch доступно только родителям Адама.
+            {t('killSwitch.guest_notice')}
           </p>
         )}
       </div>

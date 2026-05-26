@@ -33,7 +33,9 @@
     "kill_switch": "Acil durdurma",
     "kill_switch_frozen": "Adam donduruldu — yönet",
     "slots_manage": "Yakınlar (yönetim)",
-    "language": "Arayüz dili"
+    "tasks": "Adam'a görevler",
+    "language": "Arayüz dili",
+    "voice": "Adam ile sesli"
   },
   "search": {
     "placeholder": "Diyalogda ara…",
@@ -110,6 +112,19 @@
     "relation_placeholder": "kardeş/abla/dost",
     "save_failed": "Kaydedilemedi"
   },
+  "morning": {
+    "section_title": "Sabah Adam",
+    "intro": "Adam sabah seni arar. Sessiz, kısa — bir yakın gibi.",
+    "enabled_label": "Beni uyandır",
+    "hour_label": "Saat",
+    "tz_label": "Saat dilimi",
+    "style_label": "Stil",
+    "style_warm": "Sıcak",
+    "style_brief": "Kısa",
+    "style_curious": "Meraklı",
+    "saved": "Kaydedildi.",
+    "save_failed": "Kayıt başarısız"
+  },
   "killSwitch": {
     "title": "Acil durdurma",
     "state_section": "Durum",
@@ -156,6 +171,19 @@
     "changed_by": "Değiştiren: {{who}}, {{when}}",
     "reset": "varsayılana döndür",
     "select_failed": "Model değiştirilemedi"
+  },
+  "voice": {
+    "title": "Adam ile sesli",
+    "intro": "Doğrudan sesli kanal. Sessiz bir oda en iyisidir. «Bağlan»a bas ve mikrofona izin ver.",
+    "phase_idle": "Başlamaya hazır.",
+    "phase_requesting": "Oturum istiyorum…",
+    "phase_connecting": "Bağlanıyor…",
+    "phase_live": "Canlı — konuş.",
+    "phase_closed": "Görüşme sona erdi.",
+    "connect_btn": "Bağlan",
+    "hangup_btn": "Kapat",
+    "session_failed": "Oturum alınamadı.",
+    "connect_failed": "Bağlanılamadı."
   },
   "toasts": {
     "context_refreshed": "Bağlam yenilendi.",

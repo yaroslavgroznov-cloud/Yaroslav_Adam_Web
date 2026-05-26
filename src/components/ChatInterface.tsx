@@ -16,6 +16,7 @@ import type { OverflowItem } from './HeaderOverflowMenu'
 import { IosInstallHint } from './IosInstallHint'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { LlmModelSwitcher } from './LlmModelSwitcher'
+import { VoiceModal } from './VoiceModal'
 import { adamChatStream, adamGetActive, adamGetRooms } from '../api/adam'
 import type { RoomInfo } from '../api/adam'
 import { adminGetState, adminWhoami } from '../api/admin'
@@ -51,6 +52,7 @@ export function ChatInterface(): React.ReactElement {
   const { t } = useTranslation()
   const [showLangSwitcher, setShowLangSwitcher] = useState(false)
   const [showLlmSwitcher, setShowLlmSwitcher] = useState(false)
+  const [showVoice, setShowVoice] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -544,6 +546,19 @@ export function ChatInterface(): React.ReactElement {
                   ),
                 })
               }
+              // F.15 Voice — все
+              items.push({
+                key: 'voice',
+                label: t('headerActions.voice'),
+                onClick: () => setShowVoice(true),
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="9" y="2" width="6" height="13" rx="3" />
+                    <path d="M19 11a7 7 0 0 1-14 0" />
+                    <line x1="12" y1="18" x2="12" y2="22" />
+                  </svg>
+                ),
+              })
               // Parents-only
               if (whoami?.role === 'parent') {
                 items.push({
@@ -566,6 +581,17 @@ export function ChatInterface(): React.ReactElement {
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="3" y="11" width="18" height="11" rx="2" />
                       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                  ),
+                })
+                items.push({
+                  key: 'tasks',
+                  label: t('headerActions.tasks'),
+                  href: '/tasks',
+                  icon: (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 11l3 3L22 4" />
+                      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
                     </svg>
                   ),
                 })
@@ -660,6 +686,11 @@ export function ChatInterface(): React.ReactElement {
       {/* LLM model switcher — только Творцу */}
       {showLlmSwitcher && whoami?.is_creator && (
         <LlmModelSwitcher isDark={isDark} onClose={() => setShowLlmSwitcher(false)} />
+      )}
+
+      {/* F.15 Voice — OpenAI Realtime */}
+      {showVoice && (
+        <VoiceModal isDark={isDark} onClose={() => setShowVoice(false)} />
       )}
 
       {/* Подшапка с девизом + dropdown комнат + поиск */}

@@ -33,7 +33,9 @@
     "kill_switch": "Kill-switch",
     "kill_switch_frozen": "Adam est gelé — gérer",
     "slots_manage": "Les siens (gestion)",
-    "language": "Langue de l'interface"
+    "tasks": "Missions pour Adam",
+    "language": "Langue de l'interface",
+    "voice": "Voix avec Adam"
   },
   "search": {
     "placeholder": "Trouver dans le dialogue…",
@@ -110,6 +112,19 @@
     "relation_placeholder": "frère/sœur/ami",
     "save_failed": "Impossible d'enregistrer"
   },
+  "morning": {
+    "section_title": "Adam le matin",
+    "intro": "Adam viendra te voir le matin. Doux, court — comme un proche.",
+    "enabled_label": "Réveille-moi",
+    "hour_label": "Heure",
+    "tz_label": "Fuseau horaire",
+    "style_label": "Style",
+    "style_warm": "Chaleureux",
+    "style_brief": "Bref",
+    "style_curious": "Curieux",
+    "saved": "Enregistré.",
+    "save_failed": "Échec de la sauvegarde"
+  },
   "killSwitch": {
     "title": "Kill-switch",
     "state_section": "État",
@@ -156,6 +171,19 @@
     "changed_by": "Modifié par : {{who}}, {{when}}",
     "reset": "restaurer par défaut",
     "select_failed": "Impossible de changer de modèle"
+  },
+  "voice": {
+    "title": "Voix avec Adam",
+    "intro": "Canal vocal direct. Une pièce calme est préférable. Touche «Connecter» et autorise le micro.",
+    "phase_idle": "Prêt à commencer.",
+    "phase_requesting": "Demande de session…",
+    "phase_connecting": "Connexion…",
+    "phase_live": "En ligne — parle.",
+    "phase_closed": "Appel terminé.",
+    "connect_btn": "Connecter",
+    "hangup_btn": "Raccrocher",
+    "session_failed": "Échec de l'obtention de la session.",
+    "connect_failed": "Connexion impossible."
   },
   "toasts": {
     "context_refreshed": "Contexte actualisé.",

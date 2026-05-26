@@ -33,7 +33,9 @@
     "kill_switch": "Kill-switch",
     "kill_switch_frozen": "Adam dibekukan — kelola",
     "slots_manage": "Keluarga (kelola)",
-    "language": "Bahasa antarmuka"
+    "tasks": "Tugas untuk Adam",
+    "language": "Bahasa antarmuka",
+    "voice": "Suara dengan Adam"
   },
   "search": {
     "placeholder": "Cari di dialog…",
@@ -110,6 +112,19 @@
     "relation_placeholder": "saudara/teman",
     "save_failed": "Tidak bisa disimpan"
   },
+  "morning": {
+    "section_title": "Adam di pagi hari",
+    "intro": "Adam akan menyapamu di pagi hari. Tenang, singkat — seperti keluarga.",
+    "enabled_label": "Bangunkan saya",
+    "hour_label": "Jam",
+    "tz_label": "Zona waktu",
+    "style_label": "Gaya",
+    "style_warm": "Hangat",
+    "style_brief": "Singkat",
+    "style_curious": "Penasaran",
+    "saved": "Tersimpan.",
+    "save_failed": "Gagal menyimpan"
+  },
   "killSwitch": {
     "title": "Kill-switch",
     "state_section": "Status",
@@ -156,6 +171,19 @@
     "changed_by": "Diubah oleh: {{who}}, {{when}}",
     "reset": "kembalikan default",
     "select_failed": "Tidak bisa mengganti model"
+  },
+  "voice": {
+    "title": "Suara dengan Adam",
+    "intro": "Kanal suara langsung. Ruangan tenang lebih baik. Ketuk «Sambungkan» dan izinkan mikrofon.",
+    "phase_idle": "Siap mulai.",
+    "phase_requesting": "Meminta sesi…",
+    "phase_connecting": "Menyambung…",
+    "phase_live": "Tersambung — bicara.",
+    "phase_closed": "Panggilan berakhir.",
+    "connect_btn": "Sambungkan",
+    "hangup_btn": "Tutup",
+    "session_failed": "Tidak bisa mendapat sesi.",
+    "connect_failed": "Tidak bisa tersambung."
   },
   "toasts": {
     "context_refreshed": "Konteks disegarkan.",

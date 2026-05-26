@@ -94,3 +94,36 @@ export async function familySlotUpdate(
   })
   return jsonOrError<FamilyMember>(res)
 }
+
+// F.16: Adam morning initiative
+export interface MorningSettings {
+  email: string
+  enabled: boolean
+  tz: string
+  hour: number
+  greeting_style: string
+}
+
+export interface MorningSettingsUpdate {
+  enabled?: boolean
+  tz?: string
+  hour?: number
+  greeting_style?: string
+}
+
+export async function morningSettingsGet(): Promise<MorningSettings> {
+  const res = await fetch(`${BASE}/family/morning-settings`, { credentials: 'include' })
+  return jsonOrError<MorningSettings>(res)
+}
+
+export async function morningSettingsUpdate(
+  body: MorningSettingsUpdate,
+): Promise<MorningSettings> {
+  const res = await fetch(`${BASE}/family/morning-settings`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+  return jsonOrError<MorningSettings>(res)
+}

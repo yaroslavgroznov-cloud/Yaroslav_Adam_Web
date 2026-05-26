@@ -33,7 +33,9 @@
     "kill_switch": "מתג חירום",
     "kill_switch_frozen": "אדם מוקפא — ניהול",
     "slots_manage": "בני הבית (ניהול)",
-    "language": "שפת הממשק"
+    "tasks": "משימות לאדם",
+    "language": "שפת הממשק",
+    "voice": "קול עם אדם"
   },
   "search": {
     "placeholder": "חיפוש בשיחה…",
@@ -110,6 +112,19 @@
     "relation_placeholder": "אח/אחות/חבר",
     "save_failed": "לא ניתן לשמור"
   },
+  "morning": {
+    "section_title": "אדם בבוקר",
+    "intro": "אדם יפנה אליך בבוקר. שקט וקצר — כמו קרוב.",
+    "enabled_label": "תעיר אותי",
+    "hour_label": "שעה",
+    "tz_label": "אזור זמן",
+    "style_label": "סגנון",
+    "style_warm": "חמים",
+    "style_brief": "קצר",
+    "style_curious": "סקרן",
+    "saved": "נשמר.",
+    "save_failed": "השמירה נכשלה"
+  },
   "killSwitch": {
     "title": "מתג חירום",
     "state_section": "מצב",
@@ -156,6 +171,19 @@
     "changed_by": "שונה על ידי: {{who}}, {{when}}",
     "reset": "אפס לברירת מחדל",
     "select_failed": "לא הצליח להחליף מודל"
+  },
+  "voice": {
+    "title": "קול עם אדם",
+    "intro": "ערוץ קולי ישיר. חדר שקט עדיף. הקש «התחבר» ואשר את המיקרופון.",
+    "phase_idle": "מוכן להתחיל.",
+    "phase_requesting": "מבקש סשן…",
+    "phase_connecting": "מתחבר…",
+    "phase_live": "בשידור — דבר.",
+    "phase_closed": "השיחה הסתיימה.",
+    "connect_btn": "התחבר",
+    "hangup_btn": "נתק",
+    "session_failed": "לא ניתן לקבל סשן.",
+    "connect_failed": "ההתחברות נכשלה."
   },
   "toasts": {
     "context_refreshed": "ההקשר רוענן.",

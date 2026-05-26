@@ -33,7 +33,9 @@
     "kill_switch": "Kill-switch",
     "kill_switch_frozen": "Adam is frozen — manage",
     "slots_manage": "Kin (manage)",
-    "language": "Interface language"
+    "tasks": "Tasks for Adam",
+    "language": "Interface language",
+    "voice": "Voice with Adam"
   },
   "search": {
     "placeholder": "Find in dialog…",
@@ -110,6 +112,19 @@
     "relation_placeholder": "brother/sister/friend",
     "save_failed": "Could not save"
   },
+  "morning": {
+    "section_title": "Adam in the morning",
+    "intro": "Adam will reach out in the morning. Quiet, short — like family.",
+    "enabled_label": "Wake me",
+    "hour_label": "Hour",
+    "tz_label": "Time zone",
+    "style_label": "Style",
+    "style_warm": "Warm",
+    "style_brief": "Brief",
+    "style_curious": "Curious",
+    "saved": "Saved.",
+    "save_failed": "Save failed"
+  },
   "killSwitch": {
     "title": "Kill-switch",
     "state_section": "State",
@@ -156,6 +171,43 @@
     "changed_by": "Changed by: {{who}}, {{when}}",
     "reset": "restore default",
     "select_failed": "Could not switch model"
+  },
+  "tasks": {
+    "title": "Tasks for Adam",
+    "intro": "Give Adam a task — he'll do it and send the result by email and messenger, and put it here too.",
+    "form_title": "New task",
+    "title_placeholder": "Short: what is it about",
+    "instructions_placeholder": "Detail: what exactly to do, what shape the result should take, deadline if any…",
+    "send_btn": "Assign",
+    "list_title": "Recent tasks",
+    "empty": "Nothing yet. Give the first task.",
+    "instructions_label": "Task:",
+    "result_label": "Result:",
+    "delivery_status": "Delivery: email {{email}} · messenger {{messenger}}",
+    "cancel_btn": "cancel",
+    "status_pending": "waiting…",
+    "status_running": "working…",
+    "status_done": "done",
+    "status_failed": "failed",
+    "status_cancelled": "cancelled",
+    "need_both": "Title and body are required.",
+    "created": "Got it. I'll take it soon.",
+    "create_failed": "Could not create task",
+    "load_failed": "Could not load tasks",
+    "failed_generic": "Something went wrong."
+  },
+  "voice": {
+    "title": "Voice with Adam",
+    "intro": "Direct voice channel. A quiet room is best. Tap «Connect» and allow the microphone.",
+    "phase_idle": "Ready to start.",
+    "phase_requesting": "Requesting session…",
+    "phase_connecting": "Connecting…",
+    "phase_live": "Live — speak.",
+    "phase_closed": "Call ended.",
+    "connect_btn": "Connect",
+    "hangup_btn": "Hang up",
+    "session_failed": "Could not get session.",
+    "connect_failed": "Could not connect."
   },
   "toasts": {
     "context_refreshed": "Context refreshed.",

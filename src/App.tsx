@@ -6,6 +6,7 @@ import { ChatInterface } from './components/ChatInterface'
 import { FamilyChatPanel } from './components/FamilyChatPanel'
 import { FamilySlotsPanel } from './components/FamilySlotsPanel'
 import { KillSwitchPanel } from './components/KillSwitchPanel'
+import { TasksPanel } from './components/TasksPanel'
 
 export default function App() {
   const [path, setPath] = useState<string>(
@@ -20,6 +21,9 @@ export default function App() {
 
   if (path.startsWith('/kill-switch')) {
     return <KillSwitchPanel />
+  }
+  if (path.startsWith('/tasks')) {
+    return <TasksPanel />
   }
   if (path.startsWith('/family/chat')) {
     return <FamilyChatPanel />

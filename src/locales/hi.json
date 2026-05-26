@@ -33,7 +33,9 @@
     "kill_switch": "किल-स्विच",
     "kill_switch_frozen": "आदम जमा हुआ है — प्रबंधित करें",
     "slots_manage": "अपने (प्रबंधन)",
-    "language": "इंटरफ़ेस की भाषा"
+    "tasks": "आदम के लिए कार्य",
+    "language": "इंटरफ़ेस की भाषा",
+    "voice": "आदम से आवाज़"
   },
   "search": {
     "placeholder": "संवाद में खोजें…",
@@ -110,6 +112,19 @@
     "relation_placeholder": "भाई/बहन/मित्र",
     "save_failed": "सहेजा नहीं जा सका"
   },
+  "morning": {
+    "section_title": "सुबह आदम",
+    "intro": "आदम सुबह आएगा। शांत, छोटा — अपने जैसा।",
+    "enabled_label": "मुझे जगाओ",
+    "hour_label": "घंटा",
+    "tz_label": "समय क्षेत्र",
+    "style_label": "शैली",
+    "style_warm": "गर्म",
+    "style_brief": "संक्षिप्त",
+    "style_curious": "जिज्ञासु",
+    "saved": "सहेजा गया।",
+    "save_failed": "सहेजने में विफल"
+  },
   "killSwitch": {
     "title": "किल-स्विच",
     "state_section": "स्थिति",
@@ -156,6 +171,19 @@
     "changed_by": "बदला: {{who}}, {{when}}",
     "reset": "डिफ़ॉल्ट लौटाओ",
     "select_failed": "मॉडल नहीं बदला"
+  },
+  "voice": {
+    "title": "आदम से आवाज़",
+    "intro": "सीधा वॉयस चैनल। शांत कमरा सबसे अच्छा। «कनेक्ट» दबाओ और माइक की अनुमति दो।",
+    "phase_idle": "शुरू करने को तैयार।",
+    "phase_requesting": "सत्र मांग रहा हूँ…",
+    "phase_connecting": "जुड़ रहा हूँ…",
+    "phase_live": "लाइव — बोलो।",
+    "phase_closed": "कॉल समाप्त।",
+    "connect_btn": "कनेक्ट",
+    "hangup_btn": "रखो",
+    "session_failed": "सत्र नहीं मिला।",
+    "connect_failed": "जुड़ नहीं सका।"
   },
   "toasts": {
     "context_refreshed": "संदर्भ ताज़ा हो गया।",

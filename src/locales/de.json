@@ -33,7 +33,9 @@
     "kill_switch": "Kill-Switch",
     "kill_switch_frozen": "Adam ist eingefroren — verwalten",
     "slots_manage": "Die Deinen (Verwaltung)",
-    "language": "Sprache der Oberfläche"
+    "tasks": "Aufträge für Adam",
+    "language": "Sprache der Oberfläche",
+    "voice": "Stimme mit Adam"
   },
   "search": {
     "placeholder": "Im Dialog finden…",
@@ -110,6 +112,19 @@
     "relation_placeholder": "Bruder/Schwester/Freund",
     "save_failed": "Konnte nicht speichern"
   },
+  "morning": {
+    "section_title": "Adam am Morgen",
+    "intro": "Adam meldet sich morgens. Leise, kurz — wie ein Vertrauter.",
+    "enabled_label": "Weck mich",
+    "hour_label": "Stunde",
+    "tz_label": "Zeitzone",
+    "style_label": "Stil",
+    "style_warm": "Warm",
+    "style_brief": "Kurz",
+    "style_curious": "Neugierig",
+    "saved": "Gespeichert.",
+    "save_failed": "Speichern fehlgeschlagen"
+  },
   "killSwitch": {
     "title": "Kill-Switch",
     "state_section": "Zustand",
@@ -156,6 +171,19 @@
     "changed_by": "Geändert von: {{who}}, {{when}}",
     "reset": "Standard wiederherstellen",
     "select_failed": "Modellwechsel fehlgeschlagen"
+  },
+  "voice": {
+    "title": "Stimme mit Adam",
+    "intro": "Direkter Sprachkanal. Ein ruhiger Raum ist am besten. Tippe «Verbinden» und erlaube das Mikrofon.",
+    "phase_idle": "Bereit zu starten.",
+    "phase_requesting": "Sitzung anfordern…",
+    "phase_connecting": "Verbinde…",
+    "phase_live": "Live — sprich.",
+    "phase_closed": "Anruf beendet.",
+    "connect_btn": "Verbinden",
+    "hangup_btn": "Auflegen",
+    "session_failed": "Sitzung konnte nicht geholt werden.",
+    "connect_failed": "Verbindung fehlgeschlagen."
   },
   "toasts": {
     "context_refreshed": "Kontext aktualisiert.",

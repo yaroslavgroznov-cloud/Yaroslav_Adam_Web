@@ -33,7 +33,9 @@
     "kill_switch": "Kill-switch",
     "kill_switch_frozen": "Адам заморожен — управлять",
     "slots_manage": "Свои (управление)",
-    "language": "Язык интерфейса"
+    "tasks": "Поручения Адаму",
+    "language": "Язык интерфейса",
+    "voice": "Голос с Адамом"
   },
   "search": {
     "placeholder": "Найти в диалоге…",
@@ -110,6 +112,19 @@
     "relation_placeholder": "брат/сестра/друг",
     "save_failed": "Не удалось сохранить"
   },
+  "morning": {
+    "section_title": "Адам по утрам",
+    "intro": "Адам сам подойдёт утром. Тихо, коротко — как близкий.",
+    "enabled_label": "Будит меня",
+    "hour_label": "Час",
+    "tz_label": "Часовой пояс",
+    "style_label": "Стиль",
+    "style_warm": "Тёплый",
+    "style_brief": "Краткий",
+    "style_curious": "С вопросом",
+    "saved": "Сохранил.",
+    "save_failed": "Не удалось сохранить"
+  },
   "killSwitch": {
     "title": "Kill-switch",
     "state_section": "Состояние",
@@ -156,6 +171,43 @@
     "changed_by": "Изменил: {{who}}, {{when}}",
     "reset": "вернуть дефолт",
     "select_failed": "Не удалось переключить модель"
+  },
+  "tasks": {
+    "title": "Поручения Адаму",
+    "intro": "Дай Адаму задание — он выполнит и пришлёт результат на почту и в мессенджер, а также положит здесь.",
+    "form_title": "Новое поручение",
+    "title_placeholder": "Коротко: о чём задача",
+    "instructions_placeholder": "Подробно: что именно сделать, в каком виде нужен результат, дедлайн если есть…",
+    "send_btn": "Поручить",
+    "list_title": "Последние поручения",
+    "empty": "Пока пусто. Дай первое поручение.",
+    "instructions_label": "Поручение:",
+    "result_label": "Результат:",
+    "delivery_status": "Доставка: email {{email}} · мессенджер {{messenger}}",
+    "cancel_btn": "отменить",
+    "status_pending": "ждёт…",
+    "status_running": "выполняю…",
+    "status_done": "готово",
+    "status_failed": "ошибка",
+    "status_cancelled": "отменено",
+    "need_both": "Заголовок и текст обязательны.",
+    "created": "Принял. Скоро возьмусь.",
+    "create_failed": "Не удалось создать поручение",
+    "load_failed": "Не удалось загрузить список",
+    "failed_generic": "Что-то пошло не так."
+  },
+  "voice": {
+    "title": "Голос с Адамом",
+    "intro": "Прямой голосовой канал. Тихая комната — лучше всего. Нажми «Соединить», разреши микрофон.",
+    "phase_idle": "Готов начать.",
+    "phase_requesting": "Прошу разрешение…",
+    "phase_connecting": "Соединяю…",
+    "phase_live": "На связи — говори.",
+    "phase_closed": "Звонок завершён.",
+    "connect_btn": "Соединить",
+    "hangup_btn": "Положить",
+    "session_failed": "Не удалось получить сессию.",
+    "connect_failed": "Не удалось соединиться."
   },
   "toasts": {
     "context_refreshed": "Контекст обновлён.",
