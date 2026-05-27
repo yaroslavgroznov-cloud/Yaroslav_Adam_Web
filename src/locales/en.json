@@ -210,7 +210,8 @@
     "connect_btn": "Connect",
     "hangup_btn": "Hang up",
     "session_failed": "Could not get session.",
-    "connect_failed": "Could not connect."
+    "connect_failed": "Could not connect.",
+    "ios_pwa_warning": "On iPhone, voice works only when Adam is opened as an app. Close this page, in Safari tap «Share» → «Add to Home Screen», open the icon and try again."
   },
   "toasts": {
     "context_refreshed": "Context refreshed.",

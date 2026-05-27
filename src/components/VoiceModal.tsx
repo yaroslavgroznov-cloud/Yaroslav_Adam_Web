@@ -25,6 +25,19 @@ interface Props {
 
 type Phase = 'idle' | 'requesting' | 'connecting' | 'live' | 'error' | 'closed'
 
+// F.31: iOS Safari требует PWA-контекст (Home Screen install) для устойчивого
+// WebRTC + микрофона. На обычном Safari MediaDevices.getUserMedia может
+// отказать или работать криво.
+function isIosNonStandalone(): boolean {
+  if (typeof navigator === 'undefined') return false
+  const ua = navigator.userAgent || ''
+  const isIos = /iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream?: unknown }).MSStream
+  if (!isIos) return false
+  // navigator.standalone — нестандартный Safari-only флаг
+  const standalone = (navigator as unknown as { standalone?: boolean }).standalone === true
+  return !standalone
+}
+
 // OpenAI Realtime GA WebRTC endpoint.
 // (Beta `?model=` query тоже отвечает, но GA `/calls` рекомендован.)
 const REALTIME_SDP_URL = 'https://api.openai.com/v1/realtime/calls'
@@ -41,6 +54,7 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
   const pcRef = useRef<RTCPeerConnection | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const micStreamRef = useRef<MediaStream | null>(null)
+  const [iosPwaWarn] = useState<boolean>(() => isIosNonStandalone())
 
   function cleanup(): void {
     try { pcRef.current?.close() } catch { /* ignore */ }
@@ -211,6 +225,19 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
         <p className="italic opacity-80 mb-5" style={{ fontSize: '14px' }}>
           {t('voice.intro')}
         </p>
+
+        {iosPwaWarn && (
+          <div
+            className="rounded-md p-3 mb-4 italic"
+            style={{
+              fontSize: '13px',
+              backgroundColor: 'var(--color-terracotta-dark)',
+              color: 'var(--color-parchment)',
+            }}
+          >
+            {t('voice.ios_pwa_warning')}
+          </div>
+        )}
 
         <div className="flex items-center justify-center mb-5">
           <div

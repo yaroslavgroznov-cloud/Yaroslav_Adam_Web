@@ -258,13 +258,15 @@ export function FamilySlotsPanel(): React.ReactElement {
                   {historyOpen ? t('morning.history_hide') : t('morning.history_show', { n: morningPings.length })}
                 </button>
                 {historyOpen && (
-                  <ul className="mt-2 space-y-1" style={{ fontSize: '13px' }}>
+                  <ul className="mt-2 space-y-2" style={{ fontSize: '13px' }}>
                     {morningPings.map((p) => (
                       <li key={p.id} className="italic opacity-85">
-                        <span style={{ minWidth: 92, display: 'inline-block', opacity: 0.7 }}>
+                        <div style={{ opacity: 0.7, marginBottom: 2 }}>
                           {p.local_date}
-                        </span>
-                        <span>{p.message_preview ? p.message_preview.slice(0, 140) : '—'}</span>
+                        </div>
+                        <div style={{ paddingLeft: 8, borderLeft: `2px solid ${isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'}` }}>
+                          {p.message_preview ? p.message_preview.slice(0, 360) : '—'}
+                        </div>
                       </li>
                     ))}
                   </ul>
