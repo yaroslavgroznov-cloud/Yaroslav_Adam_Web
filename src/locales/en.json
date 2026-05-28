@@ -104,7 +104,12 @@
     "crypto_wallet": "Wallet",
     "crypto_polling": "Payment #{{id}}. Waiting for on-chain confirmation.",
     "payment_init_failed": "Could not start the payment. Please try again.",
-    "crypto_unavailable": "Crypto payment is temporarily unavailable."
+    "crypto_unavailable": "Crypto payment is temporarily unavailable.",
+    "all_access_hint": "Or subscribe to all of Adam's cabinets for $39/mo —",
+    "all_access_cta": "subscribe",
+    "voice_btn": "Voice",
+    "voice_in_cabinet": "Talk to Adam by voice in this role",
+    "family_only": "by grant"
   },
   "search": {
     "placeholder": "Find in dialog…",

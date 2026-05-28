@@ -26,7 +26,7 @@ async function jsonOrError<T>(res: Response): Promise<T> {
 }
 
 export async function voiceSessionCreate(
-  opts: { voice?: string; model?: string } = {},
+  opts: { voice?: string; model?: string; cabinet_session_id?: number } = {},
 ): Promise<RealtimeSession> {
   const res = await fetch(`${BASE}/voice/session`, {
     method: 'POST',

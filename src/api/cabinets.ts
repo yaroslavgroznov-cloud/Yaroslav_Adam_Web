@@ -15,6 +15,8 @@ export interface Cabinet {
   price_usd_session: number
   price_usd_subscription_monthly: number | null
   is_active: boolean
+  access_mode: string  // 'open' | 'creator_grant'
+  can_access: boolean
 }
 
 export interface CabinetSession {
@@ -100,4 +102,15 @@ export async function paymentInitiate(opts: {
 export async function cabinetSessionGet(sessionId: number): Promise<CabinetSession> {
   const res = await fetch(`${BASE}/cabinets/sessions/${sessionId}`, { credentials: 'include' })
   return jsonOrError<CabinetSession>(res)
+}
+
+// F.52: подписка на all-access $39/мес — checkout через Lemon Squeezy
+export async function startAllAccessSubscription(): Promise<PaymentInitiateResp> {
+  return paymentInitiate({
+    kind: 'subscription',
+    provider: 'lemon_squeezy',
+    amount_usd: 39.00,
+    cabinet_slug: 'all_access',
+    mode: 'subscription',
+  })
 }

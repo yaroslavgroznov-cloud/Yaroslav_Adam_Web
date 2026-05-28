@@ -71,9 +71,15 @@ export function CabinetsPanel(): React.ReactElement {
               <div className="flex items-baseline justify-between mb-1">
                 <h2 style={{ fontSize: '17px', letterSpacing: '0.03em' }}>{c.name}</h2>
                 {c.is_active ? (
-                  <span className="italic" style={{ fontSize: '13px', opacity: 0.8 }}>
-                    ${c.price_usd_session.toFixed(0)} · {t('cabinets.session')}
-                  </span>
+                  c.access_mode === 'creator_grant' ? (
+                    <span className="italic" style={{ fontSize: '12px', opacity: 0.75 }}>
+                      {t('cabinets.family_only')}
+                    </span>
+                  ) : (
+                    <span className="italic" style={{ fontSize: '13px', opacity: 0.8 }}>
+                      ${c.price_usd_session.toFixed(0)} · {t('cabinets.session')}
+                    </span>
+                  )
                 ) : (
                   <span className="italic opacity-70" style={{ fontSize: '12px' }}>
                     {t('cabinets.soon')}

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import {
   cabinetsList, cabinetSessionCreate, cabinetChat,
-  cabinetSessionGet, paymentInitiate,
+  cabinetSessionGet, paymentInitiate, startAllAccessSubscription,
 } from '../api/cabinets'
 import type { Cabinet, CabinetSession } from '../api/cabinets'
 import { useDarkMode } from '../hooks/useDarkMode'
@@ -89,6 +89,20 @@ export function CabinetSessionPage(): React.ReactElement {
       } else {
         setError(t('cabinets.payment_init_failed'))
       }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'error')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function payAllAccess(): Promise<void> {
+    setBusy(true); setError('')
+    try {
+      const res = await startAllAccessSubscription()
+      const url = (res.next_action as { checkout_url?: string } | null)?.checkout_url
+      if (url) window.location.href = url
+      else setError(t('cabinets.payment_init_failed'))
     } catch (e) {
       setError(e instanceof Error ? e.message : 'error')
     } finally {
@@ -388,6 +402,27 @@ export function CabinetSessionPage(): React.ReactElement {
               </button>
             </div>
 
+            {/* F.52: all-access подписка $39/мес */}
+            <div
+              className="rounded-md border p-3 mt-3 italic"
+              style={{
+                borderStyle: 'dashed',
+                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                fontSize: '13px',
+                opacity: 0.9,
+              }}
+            >
+              {t('cabinets.all_access_hint')}{' '}
+              <button
+                onClick={() => void payAllAccess()}
+                disabled={busy}
+                className="underline underline-offset-4 decoration-1 italic"
+                style={{ color: 'inherit', background: 'transparent', border: 'none', cursor: 'pointer', padding: 0 }}
+              >
+                {t('cabinets.all_access_cta')}
+              </button>
+            </div>
+
             {cryptoInfo && (
               <div
                 className="rounded-md border p-4 mt-2"
@@ -469,6 +504,23 @@ export function CabinetSessionPage(): React.ReactElement {
                   color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
                 }}
               />
+              <a
+                href={`/?voice=1&cabinet_session=${session?.id ?? ''}`}
+                aria-label={t('cabinets.voice_in_cabinet')}
+                title={t('cabinets.voice_in_cabinet')}
+                className="rounded-md border italic"
+                style={{
+                  padding: '10px 14px',
+                  fontSize: '14px',
+                  fontFamily: 'inherit',
+                  backgroundColor: 'transparent',
+                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  display: 'inline-flex', alignItems: 'center', textDecoration: 'none',
+                }}
+              >
+                ◉ {t('cabinets.voice_btn')}
+              </a>
               <button
                 onClick={() => void send()}
                 disabled={busy || !input.trim()}
