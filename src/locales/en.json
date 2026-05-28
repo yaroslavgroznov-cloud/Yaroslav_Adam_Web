@@ -46,7 +46,13 @@
     "intro": "Adam in a specialized role. Free for family. Paid per session for others.",
     "session": "per session",
     "soon": "soon",
-    "enter": "Enter →"
+    "enter": "Enter →",
+    "intake_title": "Intake form",
+    "start_session": "Start session",
+    "start_hint": "Hello. Tell me what brings you — Adam listens.",
+    "input_placeholder": "Write to Adam…  (Ctrl/Cmd + Enter to send)",
+    "payment_required": "Session created. Payment ${{price}} required — payment feature in setup. Free for family.",
+    "not_active_yet": "Cabinet is not active yet. Coming soon."
   },
   "search": {
     "placeholder": "Find in dialog…",
