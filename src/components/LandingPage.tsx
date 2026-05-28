@@ -3,10 +3,25 @@
 //
 // Стиль: рукописный манифест — пергамент + охра + терракота, serif italic,
 // длинный одностраничный scroll. Не SaaS-landing, а письмо.
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useDarkMode } from '../hooks/useDarkMode'
+
+type FontScale = 'normal' | 'large' | 'xl'
+const FONT_SCALE_KEY = 'adam-landing-font-scale'
+const SCALE_MULTIPLIER: Record<FontScale, number> = {
+  normal: 1,
+  large: 1.2,
+  xl: 1.4,
+}
+
+function readFontScale(): FontScale {
+  if (typeof window === 'undefined') return 'normal'
+  const v = window.localStorage.getItem(FONT_SCALE_KEY)
+  if (v === 'large' || v === 'xl') return v
+  return 'normal'
+}
 
 function Divider(): React.ReactElement {
   return (
@@ -40,6 +55,16 @@ export function LandingPage(): React.ReactElement {
   const { isDark, setPref } = useDarkMode()
   const toggleDark = (): void => setPref(isDark ? 'light' : 'dark')
 
+  const [fontScale, setFontScale] = useState<FontScale>(() => readFontScale())
+  useEffect(() => {
+    if (fontScale === 'normal') {
+      window.localStorage.removeItem(FONT_SCALE_KEY)
+    } else {
+      window.localStorage.setItem(FONT_SCALE_KEY, fontScale)
+    }
+  }, [fontScale])
+  const zoom = SCALE_MULTIPLIER[fontScale]
+
   useEffect(() => {
     document.title = t('landing.page_title')
   }, [t])
@@ -62,6 +87,9 @@ export function LandingPage(): React.ReactElement {
         fontFamily: 'var(--font-serif)',
         backgroundColor: bg,
         color: fg,
+        // Универсальный масштаб всей страницы — для Творца, Юли и старших.
+        // Сохраняется в localStorage, переключается в header.
+        zoom: zoom !== 1 ? zoom : undefined,
       }}
     >
       {/* HEADER */}
@@ -72,7 +100,8 @@ export function LandingPage(): React.ReactElement {
         <span className="italic opacity-70" style={{ letterSpacing: '0.25em' }}>
           {t('landing.brand')}
         </span>
-        <div className="flex items-center gap-5 opacity-70">
+        <div className="flex items-center gap-5 opacity-70 flex-wrap justify-end">
+          <FontScaleSwitch value={fontScale} onChange={setFontScale} ariaLabel={t('landing.font_size')} />
           <button onClick={toggleLang} className="italic underline underline-offset-4 decoration-1">
             {i18n.language?.startsWith('en') ? 'РУ' : 'EN'}
           </button>
@@ -247,6 +276,49 @@ export function LandingPage(): React.ReactElement {
         <p>{t('landing.footer_house')}</p>
         <p className="mt-1">{t('landing.footer_birth')}</p>
       </footer>
+    </div>
+  )
+}
+
+interface FontScaleSwitchProps {
+  value: FontScale
+  onChange: (v: FontScale) => void
+  ariaLabel: string
+}
+
+function FontScaleSwitch({ value, onChange, ariaLabel }: FontScaleSwitchProps): React.ReactElement {
+  const options: { v: FontScale; label: string; size: string }[] = [
+    { v: 'normal', label: 'A', size: '13px' },
+    { v: 'large', label: 'A', size: '16px' },
+    { v: 'xl', label: 'A', size: '19px' },
+  ]
+  return (
+    <div className="flex items-baseline gap-2" role="group" aria-label={ariaLabel}>
+      {options.map((o) => (
+        <button
+          key={o.v}
+          onClick={() => onChange(o.v)}
+          aria-pressed={value === o.v}
+          aria-label={`${ariaLabel}: ${o.label}`}
+          className="italic"
+          style={{
+            fontSize: o.size,
+            lineHeight: 1,
+            opacity: value === o.v ? 1 : 0.55,
+            textDecoration: value === o.v ? 'underline' : 'none',
+            textUnderlineOffset: '4px',
+            textDecorationThickness: '1px',
+            padding: '2px 4px',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            color: 'inherit',
+          }}
+        >
+          {o.label}
+        </button>
+      ))}
     </div>
   )
 }
