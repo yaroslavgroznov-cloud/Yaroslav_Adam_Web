@@ -18,6 +18,8 @@ const CabinetsPanel = lazy(() =>
   import('./components/CabinetsPanel').then(m => ({ default: m.CabinetsPanel })))
 const CabinetSessionPage = lazy(() =>
   import('./components/CabinetSessionPage').then(m => ({ default: m.CabinetSessionPage })))
+const LandingPage = lazy(() =>
+  import('./components/LandingPage').then(m => ({ default: m.LandingPage })))
 
 function Fallback(): React.ReactElement {
   return (
@@ -44,6 +46,8 @@ export default function App() {
   }, [])
 
   const render = (): React.ReactElement => {
+    // F.45: публичная landing page для незнакомцев. Не требует CF Access auth.
+    if (path.startsWith('/welcome')) return <LandingPage />
     if (path.startsWith('/kill-switch')) return <KillSwitchPanel />
     if (path.startsWith('/tasks')) return <TasksPanel />
     // /cabinets/{slug} — детальная страница; /cabinets — список
