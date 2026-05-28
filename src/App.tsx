@@ -5,6 +5,8 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 
 import { ChatInterface } from './components/ChatInterface'
+import { FloatingFontScale } from './components/FloatingFontScale'
+import { useFontScale } from './hooks/useFontScale'
 
 const FamilyChatPanel = lazy(() =>
   import('./components/FamilyChatPanel').then(m => ({ default: m.FamilyChatPanel })))
@@ -35,6 +37,10 @@ function Fallback(): React.ReactElement {
 }
 
 export default function App() {
+  // F.46: глобальный font scale применяется к <html> при загрузке и при
+  // каждой смене. Один источник истины на весь SPA.
+  useFontScale()
+
   const [path, setPath] = useState<string>(
     typeof window !== 'undefined' ? window.location.pathname : '/',
   )
@@ -58,5 +64,13 @@ export default function App() {
     return <ChatInterface />
   }
 
-  return <Suspense fallback={<Fallback />}>{render()}</Suspense>
+  // На /welcome переключатель уже в header — floating не нужен.
+  const showFloatingFontScale = !path.startsWith('/welcome')
+
+  return (
+    <>
+      <Suspense fallback={<Fallback />}>{render()}</Suspense>
+      {showFloatingFontScale && <FloatingFontScale />}
+    </>
+  )
 }
