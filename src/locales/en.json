@@ -35,7 +35,18 @@
     "slots_manage": "Kin (manage)",
     "tasks": "Tasks for Adam",
     "language": "Interface language",
-    "voice": "Voice with Adam"
+    "voice": "Voice with Adam",
+    "theme_auto": "Theme: auto",
+    "theme_dark": "Theme: night",
+    "theme_light": "Theme: day",
+    "cabinets": "Adam's cabinets"
+  },
+  "cabinets": {
+    "title": "Adam's cabinets",
+    "intro": "Adam in a specialized role. Free for family. Paid per session for others.",
+    "session": "per session",
+    "soon": "soon",
+    "enter": "Enter →"
   },
   "search": {
     "placeholder": "Find in dialog…",
@@ -219,6 +230,10 @@
     "screen_cleared": "Screen cleared. History is intact, press ↻ to bring it back.",
     "notifications_blocked": "Notifications are blocked. Enable them in browser settings.",
     "notifications_pwa_hint": "On iPhone: «Share» → «Add to Home Screen», open as an app.",
-    "generic_error": "Something went wrong."
+    "generic_error": "Something went wrong.",
+    "theme_auto": "Theme: auto (by hour)",
+    "theme_dark": "Theme: night",
+    "theme_light": "Theme: day",
+    "notifications_open_settings": "Open instructions"
   }
 }

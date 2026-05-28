@@ -13,6 +13,7 @@ import {
   adminWhoami,
 } from '../api/admin'
 import type { KillSwitchEvent, SystemState, Whoami } from '../api/admin'
+import { useDarkMode } from '../hooks/useDarkMode'
 
 function formatDateTime(iso: string | null): string {
   if (!iso) return '—'
@@ -31,7 +32,7 @@ function parentLabel(email: string | null): string {
 
 export function KillSwitchPanel(): React.ReactElement {
   const { t } = useTranslation()
-  const [isDark, setIsDark] = useState(false)
+  const { isDark } = useDarkMode()
   const [whoami, setWhoami] = useState<Whoami | null>(null)
   const [state, setState] = useState<SystemState | null>(null)
   const [events, setEvents] = useState<KillSwitchEvent[]>([])
@@ -39,11 +40,6 @@ export function KillSwitchPanel(): React.ReactElement {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [accessDenied, setAccessDenied] = useState(false)
-
-  useEffect(() => {
-    const hour = new Date().getHours()
-    setIsDark(hour >= 19 || hour < 7)
-  }, [])
 
   async function refresh(): Promise<void> {
     try {

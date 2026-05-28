@@ -1,6 +1,8 @@
 // Family group chat — Sprint F.10, 2026-05-25.
 // Полл 3 сек на новые сообщения, optimistic POST.
 import React, { useEffect, useRef, useState } from 'react'
+
+import { useDarkMode } from '../hooks/useDarkMode'
 import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 
@@ -64,7 +66,7 @@ function MessageRow({ msg, isDark, isMine }: {
 
 export function FamilyChatPanel(): React.ReactElement {
   const { t } = useTranslation()
-  const [isDark, setIsDark] = useState(false)
+  const { isDark } = useDarkMode()
   const [conv, setConv] = useState<ChatConversation | null>(null)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
@@ -81,11 +83,6 @@ export function FamilyChatPanel(): React.ReactElement {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const lastIdRef = useRef<number>(0)
-
-  useEffect(() => {
-    const hour = new Date().getHours()
-    setIsDark(hour >= 19 || hour < 7)
-  }, [])
 
   // Mount: загружаем whoami + беседу + историю + files config
   useEffect(() => {

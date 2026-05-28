@@ -13,10 +13,11 @@ import {
 import type {
   FamilyMember, MorningSettings, MorningPing,
 } from '../api/family'
+import { useDarkMode } from '../hooks/useDarkMode'
 
 export function FamilySlotsPanel(): React.ReactElement {
   const { t } = useTranslation()
-  const [isDark, setIsDark] = useState(false)
+  const { isDark } = useDarkMode()
   const [whoami, setWhoami] = useState<Whoami | null>(null)
   const [slots, setSlots] = useState<FamilyMember[]>([])
   const [editingId, setEditingId] = useState<number | null>(null)
@@ -31,11 +32,6 @@ export function FamilySlotsPanel(): React.ReactElement {
   const [morningToast, setMorningToast] = useState('')
   const [morningPings, setMorningPings] = useState<MorningPing[]>([])
   const [historyOpen, setHistoryOpen] = useState(false)
-
-  useEffect(() => {
-    const hour = new Date().getHours()
-    setIsDark(hour >= 19 || hour < 7)
-  }, [])
 
   async function refresh(): Promise<void> {
     try {

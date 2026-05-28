@@ -14,6 +14,8 @@ const KillSwitchPanel = lazy(() =>
   import('./components/KillSwitchPanel').then(m => ({ default: m.KillSwitchPanel })))
 const TasksPanel = lazy(() =>
   import('./components/TasksPanel').then(m => ({ default: m.TasksPanel })))
+const CabinetsPanel = lazy(() =>
+  import('./components/CabinetsPanel').then(m => ({ default: m.CabinetsPanel })))
 
 function Fallback(): React.ReactElement {
   return (
@@ -42,6 +44,7 @@ export default function App() {
   const render = (): React.ReactElement => {
     if (path.startsWith('/kill-switch')) return <KillSwitchPanel />
     if (path.startsWith('/tasks')) return <TasksPanel />
+    if (path.startsWith('/cabinets')) return <CabinetsPanel />
     if (path.startsWith('/family/chat')) return <FamilyChatPanel />
     if (path.startsWith('/family/slots') || path.startsWith('/family')) return <FamilySlotsPanel />
     return <ChatInterface />

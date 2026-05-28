@@ -14,6 +14,7 @@ import {
   taskCancel, taskCreate, taskGet, tasksList, taskSeen,
 } from '../api/tasks'
 import type { AdamTask, TaskStatus } from '../api/tasks'
+import { useDarkMode } from '../hooks/useDarkMode'
 
 function fmtTime(iso: string | null): string {
   if (!iso) return '—'
@@ -34,7 +35,7 @@ function statusColor(s: TaskStatus, isDark: boolean): string {
 
 export function TasksPanel(): React.ReactElement {
   const { t } = useTranslation()
-  const [isDark, setIsDark] = useState(false)
+  const { isDark } = useDarkMode()
   const [tasks, setTasks] = useState<AdamTask[]>([])
   const [openId, setOpenId] = useState<number | null>(null)
   const [title, setTitle] = useState('')
@@ -43,11 +44,6 @@ export function TasksPanel(): React.ReactElement {
   const [error, setError] = useState('')
   const [toast, setToast] = useState('')
   const pollRef = useRef<number | null>(null)
-
-  useEffect(() => {
-    const hour = new Date().getHours()
-    setIsDark(hour >= 19 || hour < 7)
-  }, [])
 
   async function refresh(): Promise<void> {
     try {

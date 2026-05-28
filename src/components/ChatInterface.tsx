@@ -5,6 +5,7 @@
 // 2026-05-25.
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import clsx from 'clsx'
+import i18n from 'i18next'
 import { useTranslation } from 'react-i18next'
 
 import { MessageBubble } from './MessageBubble'
@@ -17,6 +18,8 @@ import { IosInstallHint } from './IosInstallHint'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { LlmModelSwitcher } from './LlmModelSwitcher'
 import { VoiceModal } from './VoiceModal'
+import { useDarkMode } from '../hooks/useDarkMode'
+import { notificationsHelp } from '../utils/notificationsHelp'
 import { adamChatStream, adamGetActive, adamGetRooms } from '../api/adam'
 import type { RoomInfo } from '../api/adam'
 import { adminGetState, adminWhoami } from '../api/admin'
@@ -58,7 +61,7 @@ export function ChatInterface(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(false)
   const [isHydrating, setIsHydrating] = useState(true)
   const [toast, setToast] = useState('')
-  const [isDark, setIsDark] = useState(false)
+  const { isDark, pref: darkPref, setPref: setDarkPref } = useDarkMode()
   const [currentDate, setCurrentDate] = useState('')
   const [showSearch, setShowSearch] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -91,11 +94,9 @@ export function ChatInterface(): React.ReactElement {
   const PTR_TRIGGER_PX = 70   // > этого — релиз обновляет
   const PTR_MAX_PX = 120      // макс растяжение индикатора
 
-  // Тема дня/ночи и дата (по клиентскому часу, как на localhost).
+  // Дата (по клиентскому часу). Тема приходит из useDarkMode (F.32).
   useEffect(() => {
     const now = new Date()
-    const hour = now.getHours()
-    setIsDark(hour >= 19 || hour < 7)
     const pad = (n: number): string => String(n).padStart(2, '0')
     setCurrentDate(`${pad(now.getDate())}.${pad(now.getMonth() + 1)}.${now.getFullYear()}`)
   }, [])
@@ -224,9 +225,11 @@ export function ChatInterface(): React.ReactElement {
     const el = textareaRef.current
     if (!el) return
     el.style.height = 'auto'
-    const lineHeight = 24
-    const maxHeight = lineHeight * 6
-    el.style.height = Math.min(el.scrollHeight, maxHeight) + 'px'
+    // F.36: расширяемся до maxHeight из style (~35vh), дальше включается
+    // overflowY:auto и появляется внутренняя прокрутка длинного вопроса.
+    const css = window.getComputedStyle(el)
+    const maxHeightPx = parseFloat(css.maxHeight) || 340
+    el.style.height = Math.min(el.scrollHeight, maxHeightPx) + 'px'
   }
 
   async function handleSend(): Promise<void> {
@@ -525,8 +528,11 @@ export function ChatInterface(): React.ReactElement {
                   label: pushLabel,
                   onClick: () => {
                     if (push.status === 'subscribed') void push.unsubscribe()
-                    else if (push.status === 'denied')
-                      showToast(t('toasts.notifications_blocked'))
+                    else if (push.status === 'denied') {
+                      const help = notificationsHelp(i18n.language)
+                      showToast(`${t('toasts.notifications_blocked')} ${help.label}`)
+                      if (help.url) window.open(help.url, '_blank', 'noopener')
+                    }
                     else if (push.status === 'needs-pwa-ios')
                       showToast(t('toasts.notifications_pwa_hint'))
                     else void push.subscribe()
@@ -546,6 +552,19 @@ export function ChatInterface(): React.ReactElement {
                   ),
                 })
               }
+              // F.41: Кабинеты — все
+              items.push({
+                key: 'cabinets',
+                label: t('headerActions.cabinets'),
+                href: '/cabinets',
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="16" rx="2" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                    <line x1="9" y1="14" x2="15" y2="14" />
+                  </svg>
+                ),
+              })
               // F.15 Voice — все
               items.push({
                 key: 'voice',
@@ -625,6 +644,22 @@ export function ChatInterface(): React.ReactElement {
                   ),
                 })
               }
+              // F.32: тема (Auto → Dark → Light → Auto)
+              items.push({
+                key: 'theme',
+                label: t(`headerActions.theme_${darkPref}`),
+                onClick: () => {
+                  const next = darkPref === 'auto' ? 'dark' : darkPref === 'dark' ? 'light' : 'auto'
+                  setDarkPref(next)
+                  showToast(t(`toasts.theme_${next}`))
+                },
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                  </svg>
+                ),
+              })
               // Language switcher — все, всегда
               items.push({
                 key: 'language',
@@ -976,8 +1011,10 @@ export function ChatInterface(): React.ReactElement {
                 {uploading ? (
                   <span className="italic" style={{ fontSize: '11px' }}>…</span>
                 ) : (
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                  /* F.36: «+» вместо скрепки — Творец 28.05 */
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
                   </svg>
                 )}
               </button>
@@ -992,11 +1029,15 @@ export function ChatInterface(): React.ReactElement {
             placeholder={t('chat.input_placeholder')}
             disabled={isLoading || isHydrating}
             className={clsx(
-              'flex-1 resize-none rounded-md border outline-none transition-colors duration-700 ease-in-out disabled:opacity-60 overflow-hidden',
+              'flex-1 resize-none rounded-md border outline-none transition-colors duration-700 ease-in-out disabled:opacity-60',
               isDark ? 'dom-input-dark' : 'dom-input',
             )}
             style={{
               minHeight: 'clamp(72px, 14vw, 110px)',
+              // F.36: ограничиваем высоту и включаем прокрутку, чтобы длинные
+              // вопросы не растягивали textarea на весь экран.
+              maxHeight: 'clamp(180px, 35vh, 340px)',
+              overflowY: 'auto',
               padding: 'clamp(12px, 2.5vw, 18px) clamp(14px, 3vw, 22px)',
               fontSize: 'clamp(15px, 3vw, 17px)',
               lineHeight: '1.6',
