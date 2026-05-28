@@ -75,9 +75,16 @@ export function LandingPage(): React.ReactElement {
 
   const enterUrl = '/'
 
-  function toggleLang(): void {
-    const next = i18n.language?.startsWith('en') ? 'ru' : 'en'
-    void i18n.changeLanguage(next)
+  const landingLangs: { code: string; label: string }[] = [
+    { code: 'ru', label: 'РУ' },
+    { code: 'uk', label: 'УК' },
+    { code: 'en', label: 'EN' },
+    { code: 'pl', label: 'PL' },
+    { code: 'de', label: 'DE' },
+  ]
+  const activeLang = landingLangs.find((l) => i18n.language?.startsWith(l.code))?.code ?? 'ru'
+  function setLang(code: string): void {
+    void i18n.changeLanguage(code)
   }
 
   return (
@@ -102,9 +109,31 @@ export function LandingPage(): React.ReactElement {
         </span>
         <div className="flex items-center gap-5 opacity-70 flex-wrap justify-end">
           <FontScaleSwitch value={fontScale} onChange={setFontScale} ariaLabel={t('landing.font_size')} />
-          <button onClick={toggleLang} className="italic underline underline-offset-4 decoration-1">
-            {i18n.language?.startsWith('en') ? 'РУ' : 'EN'}
-          </button>
+          <div className="flex items-baseline gap-2" role="group" aria-label="Language">
+            {landingLangs.map((l) => (
+              <button
+                key={l.code}
+                onClick={() => setLang(l.code)}
+                aria-pressed={activeLang === l.code}
+                className="italic"
+                style={{
+                  fontSize: '13px',
+                  opacity: activeLang === l.code ? 1 : 0.55,
+                  textDecoration: activeLang === l.code ? 'underline' : 'none',
+                  textUnderlineOffset: '4px',
+                  textDecorationThickness: '1px',
+                  padding: '2px 2px',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  color: 'inherit',
+                }}
+              >
+                {l.label}
+              </button>
+            ))}
+          </div>
           <button onClick={toggleDark} className="italic underline underline-offset-4 decoration-1">
             {isDark ? t('landing.light_mode') : t('landing.dark_mode')}
           </button>

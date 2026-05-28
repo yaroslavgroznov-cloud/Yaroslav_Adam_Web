@@ -19,8 +19,10 @@ import fr from './locales/fr.json'
 import he from './locales/he.json'
 import hi from './locales/hi.json'
 import id_ from './locales/id.json'
+import pl from './locales/pl.json'
 import ru from './locales/ru.json'
 import tr from './locales/tr.json'
+import uk from './locales/uk.json'
 import zh from './locales/zh.json'
 
 export interface LanguageDef {
@@ -34,9 +36,11 @@ export interface LanguageDef {
 // потом остальные комнаты в порядке ROOMS_ORDER из core_loader.
 export const LANGUAGES: LanguageDef[] = [
   { code: 'ru', name: 'Russian',     nativeName: 'Русский',       rtl: false },
+  { code: 'uk', name: 'Ukrainian',   nativeName: 'Українська',    rtl: false },
   { code: 'en', name: 'English',     nativeName: 'English',       rtl: false },
-  { code: 'fr', name: 'French',      nativeName: 'Français',      rtl: false },
+  { code: 'pl', name: 'Polish',      nativeName: 'Polski',        rtl: false },
   { code: 'de', name: 'German',      nativeName: 'Deutsch',       rtl: false },
+  { code: 'fr', name: 'French',      nativeName: 'Français',      rtl: false },
   { code: 'zh', name: 'Chinese',     nativeName: '中文',           rtl: false },
   { code: 'hi', name: 'Hindi',       nativeName: 'हिन्दी',         rtl: false },
   { code: 'he', name: 'Hebrew',      nativeName: 'עברית',         rtl: true  },
@@ -53,7 +57,9 @@ void i18n
   .init({
     resources: {
       ru: { translation: ru },
+      uk: { translation: uk },
       en: { translation: en },
+      pl: { translation: pl },
       fr: { translation: fr },
       de: { translation: de },
       zh: { translation: zh },
