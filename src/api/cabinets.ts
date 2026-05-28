@@ -82,10 +82,12 @@ export async function cabinetChat(
 
 export async function paymentInitiate(opts: {
   kind: 'task' | 'cabinet_session' | 'subscription' | 'topup'
-  provider: 'stripe' | 'crypto_trc20' | 'crypto_sol' | 'crypto_btc'
+  provider: 'lemon_squeezy' | 'stripe' | 'crypto_trc20' | 'crypto_sol' | 'crypto_btc'
   amount_usd: number
   task_id?: number
   cabinet_session_id?: number
+  cabinet_slug?: string
+  mode?: 'session' | 'subscription'
 }): Promise<PaymentInitiateResp> {
   const res = await fetch(`${BASE}/payments/initiate`, {
     method: 'POST', credentials: 'include',
@@ -93,4 +95,9 @@ export async function paymentInitiate(opts: {
     body: JSON.stringify(opts),
   })
   return jsonOrError<PaymentInitiateResp>(res)
+}
+
+export async function cabinetSessionGet(sessionId: number): Promise<CabinetSession> {
+  const res = await fetch(`${BASE}/cabinets/sessions/${sessionId}`, { credentials: 'include' })
+  return jsonOrError<CabinetSession>(res)
 }

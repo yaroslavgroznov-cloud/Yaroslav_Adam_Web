@@ -51,8 +51,18 @@
     "start_session": "Start session",
     "start_hint": "Hello. Tell me what brings you — Adam listens.",
     "input_placeholder": "Write to Adam…  (Ctrl/Cmd + Enter to send)",
-    "payment_required": "Session created. Payment ${{price}} required — payment feature in setup. Free for family.",
-    "not_active_yet": "Cabinet is not active yet. Coming soon."
+    "payment_required": "Session created. Price ${{price}}. Choose a payment method below.",
+    "not_active_yet": "Cabinet is not active yet. Coming soon.",
+    "choose_payment": "Payment method",
+    "pay_card": "Card ${{price}}",
+    "pay_monthly": "Subscribe ${{price}}/mo",
+    "pay_crypto": "USDT (TRC20)",
+    "crypto_instructions": "Send the exact USDT amount via TRC20 network to the address below. Once the blockchain confirms (1-3 confirmations, usually 1-3 min), Adam will open your session automatically.",
+    "crypto_amount": "Amount",
+    "crypto_wallet": "Wallet",
+    "crypto_polling": "Payment #{{id}}. Waiting for on-chain confirmation.",
+    "payment_init_failed": "Could not start the payment. Please try again.",
+    "crypto_unavailable": "Crypto payment is temporarily unavailable."
   },
   "search": {
     "placeholder": "Find in dialog…",

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import {
   cabinetsList, cabinetSessionCreate, cabinetChat,
+  cabinetSessionGet, paymentInitiate,
 } from '../api/cabinets'
 import type { Cabinet, CabinetSession } from '../api/cabinets'
 import { useDarkMode } from '../hooks/useDarkMode'
@@ -28,6 +29,7 @@ export function CabinetSessionPage(): React.ReactElement {
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  const [cryptoInfo, setCryptoInfo] = useState<{wallet: string; amount: string; payment_id: number} | null>(null)
   const endRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -39,11 +41,87 @@ export function CabinetSessionPage(): React.ReactElement {
         if (found && !found.is_active) {
           setError(t('cabinets.not_active_yet'))
         }
+        // Post-redirect после Lemon checkout: ?session=<id>&payment=success
+        const url = new URL(window.location.href)
+        const sidStr = url.searchParams.get('session')
+        const paymentFlag = url.searchParams.get('payment')
+        if (sidStr) {
+          try {
+            const sid = parseInt(sidStr, 10)
+            const s = await cabinetSessionGet(sid)
+            setSession(s)
+            if (paymentFlag === 'success' && s.payment_status === 'pending') {
+              // Webhook ещё мог не успеть — поллим до 20 сек
+              for (let i = 0; i < 10; i++) {
+                await new Promise((r) => setTimeout(r, 2000))
+                const s2 = await cabinetSessionGet(sid)
+                if (s2.payment_status !== 'pending') { setSession(s2); break }
+              }
+            }
+            // очистим query string
+            window.history.replaceState({}, '', `/cabinets/${slug}`)
+          } catch {/* ignore */}
+        }
       } catch (e) {
         setError(e instanceof Error ? e.message : 'error')
       }
     })()
   }, [slug, t])
+
+  async function payLemon(mode: 'session' | 'subscription'): Promise<void> {
+    if (!cabinet || !session) return
+    setBusy(true); setError('')
+    try {
+      const amount = mode === 'subscription'
+        ? (cabinet.price_usd_subscription_monthly ?? 0)
+        : cabinet.price_usd_session
+      const res = await paymentInitiate({
+        kind: mode === 'subscription' ? 'subscription' : 'cabinet_session',
+        provider: 'lemon_squeezy',
+        amount_usd: amount,
+        cabinet_session_id: session.id,
+        cabinet_slug: cabinet.slug,
+        mode,
+      })
+      const checkoutUrl = (res.next_action as { checkout_url?: string } | null)?.checkout_url
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl
+      } else {
+        setError(t('cabinets.payment_init_failed'))
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'error')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function payCrypto(): Promise<void> {
+    if (!cabinet || !session) return
+    setBusy(true); setError('')
+    try {
+      const res = await paymentInitiate({
+        kind: 'cabinet_session',
+        provider: 'crypto_trc20',
+        amount_usd: cabinet.price_usd_session,
+        cabinet_session_id: session.id,
+      })
+      const na = res.next_action as { wallet?: string; amount_usd?: number; payment_id?: number } | null
+      if (na?.wallet && na.amount_usd != null && na.payment_id != null) {
+        setCryptoInfo({
+          wallet: na.wallet,
+          amount: na.amount_usd.toFixed(6),
+          payment_id: na.payment_id,
+        })
+      } else {
+        setError(t('cabinets.crypto_unavailable'))
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'error')
+    } finally {
+      setBusy(false)
+    }
+  }
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -248,6 +326,92 @@ export function CabinetSessionPage(): React.ReactElement {
           >
             {busy ? '…' : t('cabinets.start_session')}
           </button>
+        )}
+
+        {/* PAYMENT REQUIRED — сессия создана, но не оплачена и не семья */}
+        {session && session.payment_status === 'pending' && (
+          <section
+            className="rounded-md border p-5 mb-5"
+            style={{
+              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+              backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+            }}
+          >
+            <h2 className="mb-3" style={{ fontSize: '16px', letterSpacing: '0.03em' }}>
+              {t('cabinets.choose_payment')}
+            </h2>
+            <p className="italic mb-4 opacity-80" style={{ fontSize: '14px' }}>
+              {t('cabinets.payment_required', { price: cabinet.price_usd_session.toFixed(2) })}
+            </p>
+
+            <div className="flex flex-wrap gap-3 mb-4">
+              <button
+                onClick={() => void payLemon('session')}
+                disabled={busy}
+                className="rounded-md border italic disabled:opacity-50"
+                style={{
+                  padding: '10px 18px', fontSize: '14px', fontFamily: 'inherit',
+                  backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
+                  color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
+                  borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
+                }}
+              >
+                {busy ? '…' : t('cabinets.pay_card', { price: cabinet.price_usd_session.toFixed(2) })}
+              </button>
+              {cabinet.price_usd_subscription_monthly && (
+                <button
+                  onClick={() => void payLemon('subscription')}
+                  disabled={busy}
+                  className="rounded-md border italic disabled:opacity-50"
+                  style={{
+                    padding: '10px 18px', fontSize: '14px', fontFamily: 'inherit',
+                    backgroundColor: 'transparent',
+                    color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                    borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  }}
+                >
+                  {t('cabinets.pay_monthly', { price: cabinet.price_usd_subscription_monthly.toFixed(2) })}
+                </button>
+              )}
+              <button
+                onClick={() => void payCrypto()}
+                disabled={busy}
+                className="rounded-md border italic disabled:opacity-50"
+                style={{
+                  padding: '10px 18px', fontSize: '14px', fontFamily: 'inherit',
+                  backgroundColor: 'transparent',
+                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                }}
+              >
+                {t('cabinets.pay_crypto')}
+              </button>
+            </div>
+
+            {cryptoInfo && (
+              <div
+                className="rounded-md border p-4 mt-2"
+                style={{
+                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  backgroundColor: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
+                  fontSize: '13px',
+                }}
+              >
+                <p className="italic mb-2 opacity-80">{t('cabinets.crypto_instructions')}</p>
+                <div className="mb-2">
+                  <span className="opacity-60">{t('cabinets.crypto_amount')}: </span>
+                  <code style={{ fontSize: '15px', fontWeight: 600 }}>{cryptoInfo.amount} USDT</code>
+                </div>
+                <div className="mb-2">
+                  <span className="opacity-60">{t('cabinets.crypto_wallet')}: </span>
+                  <code style={{ fontSize: '13px', wordBreak: 'break-all' }}>{cryptoInfo.wallet}</code>
+                </div>
+                <div className="opacity-70 italic" style={{ fontSize: '12px' }}>
+                  {t('cabinets.crypto_polling', { id: cryptoInfo.payment_id })}
+                </div>
+              </div>
+            )}
+          </section>
         )}
 
         {/* CHAT */}
