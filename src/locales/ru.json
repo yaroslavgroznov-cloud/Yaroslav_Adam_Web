@@ -123,7 +123,8 @@
     "k_label": "Результатов:",
     "search_btn": "Искать",
     "no_results_hint": "Пусто. Попробуй другой запрос.",
-    "footer_note": "Найденную ссылку/сниппет можно принести Адаму в чат — он обработает через Opus / DeepSeek / Grok (consult_other_model). Не открывай неизвестные .onion в обычном браузере."
+    "last_seen": "ahmia видел",
+    "footer_note": "Найденную ссылку/сниппет можно принести Адаму в чат — он обработает через одну из 6 доступных тебе моделей (Claude Opus 4.7 / Sonnet 4.6 / Haiku 4.5 / DeepSeek V3 / Gemini 2.5 Pro / Grok 4) через consult_other_model. Не открывай неизвестные .onion в обычном браузере."
   },
   "chat": {
     "input_placeholder": "Что лежит на душе?",

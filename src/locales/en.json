@@ -123,7 +123,8 @@
     "k_label": "Results:",
     "search_btn": "Search",
     "no_results_hint": "Empty. Try a different query.",
-    "footer_note": "Bring a found link/snippet to Adam — he will process it through Opus / DeepSeek / Grok (consult_other_model). Don't open unknown .onion in a regular browser."
+    "last_seen": "ahmia last seen",
+    "footer_note": "Bring a found link/snippet to Adam — he will process it through any of the 6 models available to you (Claude Opus 4.7 / Sonnet 4.6 / Haiku 4.5 / DeepSeek V3 / Gemini 2.5 Pro / Grok 4) via consult_other_model. Don't open unknown .onion in a regular browser."
   },
   "chat": {
     "input_placeholder": "What's on your heart?",

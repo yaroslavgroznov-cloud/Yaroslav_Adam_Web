@@ -89,6 +89,8 @@ export interface DarkwebSearchResult {
   title: string
   url: string
   snippet: string
+  onion_host?: string
+  last_seen?: string
 }
 
 export interface DarkwebSearchResponse {

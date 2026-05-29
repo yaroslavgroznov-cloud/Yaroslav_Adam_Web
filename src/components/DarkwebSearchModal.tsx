@@ -84,6 +84,7 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
             </p>
           </div>
           <button
+            type="button"
             onClick={onClose}
             aria-label={t('common.close')}
             style={{
@@ -123,6 +124,8 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
             value={k}
             onChange={(e) => setK(parseInt(e.target.value, 10))}
             disabled={busy}
+            title={t('darkweb.k_label')}
+            aria-label={t('darkweb.k_label')}
             className="rounded-md border px-2 py-1"
             style={{
               fontSize: '13px', fontFamily: 'inherit',
@@ -134,6 +137,7 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
             {[3, 5, 7, 10].map((n) => <option key={n} value={n}>{n}</option>)}
           </select>
           <button
+            type="button"
             onClick={() => void runSearch()}
             disabled={busy || !query.trim()}
             className="ml-auto rounded-md border italic disabled:opacity-50"
@@ -194,12 +198,22 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
             <div className="mb-1" style={{ fontSize: '15px', fontWeight: 500 }}>
               {r.title || '(no title)'}
             </div>
-            <div className="italic mb-2" style={{ fontSize: '12px', opacity: 0.65, wordBreak: 'break-all' }}>
+            {r.onion_host && (
+              <div className="italic mb-1" style={{ fontSize: '12px', opacity: 0.8, wordBreak: 'break-all', color: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta-dark)' }}>
+                🧅 {r.onion_host}
+              </div>
+            )}
+            <div className="italic mb-2" style={{ fontSize: '11px', opacity: 0.6, wordBreak: 'break-all' }}>
               {r.url}
             </div>
             <div style={{ fontSize: '13px', lineHeight: 1.5 }}>
               {r.snippet || '(no snippet)'}
             </div>
+            {r.last_seen && (
+              <div className="italic mt-2" style={{ fontSize: '11px', opacity: 0.55 }}>
+                {t('darkweb.last_seen')}: {r.last_seen}
+              </div>
+            )}
           </div>
         ))}
 
