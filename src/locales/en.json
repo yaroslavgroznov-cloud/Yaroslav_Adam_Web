@@ -115,6 +115,16 @@
     "placeholder": "Find in dialog…",
     "not_found": "Nothing found for «{{query}}»."
   },
+  "darkweb": {
+    "menu_label": "Darkweb search",
+    "title": "Darkweb search",
+    "subtitle": "Direct entry through TOR + ahmia.fi. Creator-only. Adam is not involved.",
+    "query_placeholder": "Query (email, name, domain, .onion address)",
+    "k_label": "Results:",
+    "search_btn": "Search",
+    "no_results_hint": "Empty. Try a different query.",
+    "footer_note": "Bring a found link/snippet to Adam — he will process it through Opus / DeepSeek / Grok (consult_other_model). Don't open unknown .onion in a regular browser."
+  },
   "chat": {
     "input_placeholder": "What's on your heart?",
     "empty_greeting": "I am your friend. Tell me, what brought you here?",

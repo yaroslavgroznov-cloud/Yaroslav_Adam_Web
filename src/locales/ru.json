@@ -115,6 +115,16 @@
     "placeholder": "Найти в диалоге…",
     "not_found": "По запросу «{{query}}» ничего не найдено."
   },
+  "darkweb": {
+    "menu_label": "Darkweb-поиск",
+    "title": "Darkweb-поиск",
+    "subtitle": "Прямой вход через TOR + ahmia.fi. Только Творцу. Адам не задействован.",
+    "query_placeholder": "Что искать? (email, имя, домен, .onion-адрес)",
+    "k_label": "Результатов:",
+    "search_btn": "Искать",
+    "no_results_hint": "Пусто. Попробуй другой запрос.",
+    "footer_note": "Найденную ссылку/сниппет можно принести Адаму в чат — он обработает через Opus / DeepSeek / Grok (consult_other_model). Не открывай неизвестные .onion в обычном браузере."
+  },
   "chat": {
     "input_placeholder": "Что лежит на душе?",
     "empty_greeting": "Я тебе друг. Расскажи, с чем пришёл?",

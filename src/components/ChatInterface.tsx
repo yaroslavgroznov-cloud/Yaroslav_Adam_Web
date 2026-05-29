@@ -16,6 +16,7 @@ import { HeaderOverflowMenu } from './HeaderOverflowMenu'
 import type { OverflowItem } from './HeaderOverflowMenu'
 import { IosInstallHint } from './IosInstallHint'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { DarkwebSearchModal } from './DarkwebSearchModal'
 import { LlmModelSwitcher } from './LlmModelSwitcher'
 import { VoiceModal } from './VoiceModal'
 import { useDarkMode } from '../hooks/useDarkMode'
@@ -55,6 +56,7 @@ export function ChatInterface(): React.ReactElement {
   const { t } = useTranslation()
   const [showLangSwitcher, setShowLangSwitcher] = useState(false)
   const [showLlmSwitcher, setShowLlmSwitcher] = useState(false)
+  const [showDarkweb, setShowDarkweb] = useState(false)
   const [showVoice, setShowVoice] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
@@ -649,6 +651,24 @@ export function ChatInterface(): React.ReactElement {
                   ),
                 })
               }
+              // F.58: Darkweb-поиск — ТОЛЬКО Творцу
+              if (whoami?.is_creator) {
+                items.push({
+                  key: 'darkweb',
+                  label: t('darkweb.menu_label'),
+                  onClick: () => setShowDarkweb(true),
+                  icon: (
+                    // Глобус с замком — darkweb metaphor
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="10" r="6" />
+                      <path d="M6 10h12" />
+                      <path d="M12 4c2 2 2 10 0 12" />
+                      <path d="M12 4c-2 2-2 10 0 12" />
+                      <rect x="9" y="16" width="6" height="5" rx="1" />
+                    </svg>
+                  ),
+                })
+              }
               // F.14: LLM model switcher — ТОЛЬКО Творцу
               if (whoami?.is_creator) {
                 items.push({
@@ -742,6 +762,11 @@ export function ChatInterface(): React.ReactElement {
       {/* LLM model switcher — только Творцу */}
       {showLlmSwitcher && whoami?.is_creator && (
         <LlmModelSwitcher isDark={isDark} onClose={() => setShowLlmSwitcher(false)} />
+      )}
+
+      {/* F.58: Darkweb-поиск — только Творцу */}
+      {showDarkweb && whoami?.is_creator && (
+        <DarkwebSearchModal onClose={() => setShowDarkweb(false)} />
       )}
 
       {/* F.15 Voice — OpenAI Realtime */}

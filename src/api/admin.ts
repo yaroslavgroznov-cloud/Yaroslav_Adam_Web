@@ -83,6 +83,53 @@ export async function adminUnfreeze(): Promise<SystemState> {
   return jsonOrError<SystemState>(res)
 }
 
+// F.58 Агентность: creator-only direct tool invocations.
+
+export interface DarkwebSearchResult {
+  title: string
+  url: string
+  snippet: string
+}
+
+export interface DarkwebSearchResponse {
+  query?: string
+  source?: string
+  results?: DarkwebSearchResult[]
+  warning?: string
+  error?: string
+}
+
+export async function adminDarkwebSearch(
+  query: string, k = 5,
+): Promise<DarkwebSearchResponse> {
+  const res = await fetch(`${BASE}/admin/tools/darkweb-search`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, k }),
+  })
+  return jsonOrError<DarkwebSearchResponse>(res)
+}
+
+export interface ConsultModelResponse {
+  model?: string
+  response?: string
+  why?: string
+  error?: string
+}
+
+export async function adminConsultModel(
+  modelId: string, query: string, system?: string,
+): Promise<ConsultModelResponse> {
+  const res = await fetch(`${BASE}/admin/tools/consult-model`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model_id: modelId, query, system }),
+  })
+  return jsonOrError<ConsultModelResponse>(res)
+}
+
 export async function adminGetKillSwitchEvents(limit = 20): Promise<KillSwitchEvent[]> {
   const url = `${BASE}/admin/kill-switch/events?limit=${limit}`
   const res = await fetch(url, { credentials: 'include' })
