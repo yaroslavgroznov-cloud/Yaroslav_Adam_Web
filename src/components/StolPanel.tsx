@@ -106,7 +106,7 @@ export function StolPanel(): React.ReactElement {
         }
         const c = list[0]
         setConv(c)
-        const msgs = await familyStolMessages(c.id, { limit: 200 })
+        const msgs = await stolMessages(c.id, { limit: 200 })
         setMessages(msgs)
         lastIdRef.current = msgs.length > 0 ? msgs[msgs.length - 1].id : 0
       } catch (e) {
@@ -123,7 +123,7 @@ export function StolPanel(): React.ReactElement {
     let alive = true
     const tick = async (): Promise<void> => {
       try {
-        const fresh = await familyStolMessages(conv.id, {
+        const fresh = await stolMessages(conv.id, {
           afterId: lastIdRef.current,
           limit: 100,
         })
@@ -131,7 +131,7 @@ export function StolPanel(): React.ReactElement {
         setMessages((prev) => [...prev, ...fresh])
         lastIdRef.current = fresh[fresh.length - 1].id
         // Если последний — от Адама, убираем thinking-индикатор
-        if (fresh.some((m) => m.is_adam)) setAdamThinking(false)
+        if (fresh.some((m: StolMessage) => m.is_adam)) setAdamThinking(false)
       } catch { /* тихо игнорируем */ }
     }
     const id = window.setInterval(() => { void tick() }, 3000)
@@ -194,7 +194,7 @@ export function StolPanel(): React.ReactElement {
       if (newMsgs.length > 0) {
         lastIdRef.current = newMsgs[newMsgs.length - 1].id
       }
-      if (newMsgs.some((m) => m.is_adam)) setAdamThinking(false)
+      if (newMsgs.some((m: StolMessage) => m.is_adam)) setAdamThinking(false)
       else if (!willTriggerAdam) setAdamThinking(false)
     } catch (e) {
       setError(e instanceof Error ? e.message : t('stol.send_failed'))
@@ -280,7 +280,7 @@ export function StolPanel(): React.ReactElement {
           </p>
         )}
         <div className="flex flex-col gap-3">
-          {messages.map((m) => (
+          {messages.map((m: StolMessage) => (
             <MessageRow
               key={m.id}
               msg={m}
