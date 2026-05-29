@@ -571,6 +571,21 @@ export function ChatInterface(): React.ReactElement {
                   </svg>
                 ),
               })
+              // F.56: Стол — общий семейный, до 12 мест
+              items.push({
+                key: 'stol',
+                label: t('headerActions.stol'),
+                href: '/stol',
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <ellipse cx="12" cy="13" rx="9" ry="4" />
+                    <circle cx="3.5" cy="13" r="1.2" />
+                    <circle cx="20.5" cy="13" r="1.2" />
+                    <circle cx="12" cy="8.2" r="1.2" />
+                    <circle cx="12" cy="17.8" r="1.2" />
+                  </svg>
+                ),
+              })
               // F.15 Voice — все
               items.push({
                 key: 'voice',
