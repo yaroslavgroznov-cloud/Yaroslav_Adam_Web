@@ -1,5 +1,9 @@
-// Family group chat — Sprint F.10, 2026-05-25.
-// Полл 3 сек на новые сообщения, optimistic POST.
+// Stol — Общий семейный стол. F.56, 2026-05-29.
+// Раньше FamilyChatPanel (F.10). Переименован вместе с переосмыслением
+// архитектуры памяти: один Адам у одного юзера в личных каналах +
+// ОТДЕЛЬНО Стол как пространство встречи семьи, где Адам подтягивает
+// нити говорящего из его сквозной памяти (личный чат + кабинеты).
+// Поллинг 3 сек на новые сообщения, optimistic POST.
 import React, { useEffect, useRef, useState } from 'react'
 
 import { useDarkMode } from '../hooks/useDarkMode'
@@ -7,11 +11,11 @@ import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 
 import {
-  familyChatList,
-  familyChatMessages,
-  familyChatPostMessage,
-} from '../api/familyChat'
-import type { ChatMessage, ChatConversation } from '../api/familyChat'
+  stolList,
+  stolMessages,
+  stolPostMessage,
+} from '../api/stol'
+import type { StolMessage, StolConversation } from '../api/stol'
 import { adminWhoami } from '../api/admin'
 import { filesConfig, uploadFile } from '../api/files'
 import type { FileMeta, FilesConfig } from '../api/files'
@@ -24,7 +28,7 @@ function formatTime(iso: string): string {
 }
 
 function MessageRow({ msg, isDark, isMine }: {
-  msg: ChatMessage; isDark: boolean; isMine: boolean
+  msg: StolMessage; isDark: boolean; isMine: boolean
 }): React.ReactElement {
   const { t } = useTranslation()
   const isAdam = msg.is_adam
@@ -44,7 +48,7 @@ function MessageRow({ msg, isDark, isMine }: {
           ? 'var(--color-terracotta-dark)'
           : (isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)'),
       }}>
-        {isAdam ? t('familyChat.adam_label') : msg.by_name} · {formatTime(msg.created_at)}
+        {isAdam ? t('stol.adam_label') : msg.by_name} · {formatTime(msg.created_at)}
       </div>
       <div
         className="rounded-md border px-3 py-2 max-w-[88%] whitespace-pre-wrap"
@@ -64,11 +68,11 @@ function MessageRow({ msg, isDark, isMine }: {
   )
 }
 
-export function FamilyChatPanel(): React.ReactElement {
+export function StolPanel(): React.ReactElement {
   const { t } = useTranslation()
   const { isDark } = useDarkMode()
-  const [conv, setConv] = useState<ChatConversation | null>(null)
-  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [conv, setConv] = useState<StolConversation | null>(null)
+  const [messages, setMessages] = useState<StolMessage[]>([])
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
   const [adamThinking, setAdamThinking] = useState(false)
@@ -95,19 +99,19 @@ export function FamilyChatPanel(): React.ReactElement {
         try {
           setFilesCfg(await filesConfig())
         } catch { /* files отключены — кнопка скрепки спрячется */ }
-        const list = await familyChatList()
+        const list = await stolList()
         if (list.length === 0) {
           setError('Беседы не найдены.')
           return
         }
         const c = list[0]
         setConv(c)
-        const msgs = await familyChatMessages(c.id, { limit: 200 })
+        const msgs = await familyStolMessages(c.id, { limit: 200 })
         setMessages(msgs)
         lastIdRef.current = msgs.length > 0 ? msgs[msgs.length - 1].id : 0
       } catch (e) {
-        const m = e instanceof Error ? e.message : t('familyChat.load_failed')
-        if (m.includes('403')) setError(t('familyChat.not_in_circle'))
+        const m = e instanceof Error ? e.message : t('stol.load_failed')
+        if (m.includes('403')) setError(t('stol.not_in_circle'))
         else setError(m)
       }
     })()
@@ -119,7 +123,7 @@ export function FamilyChatPanel(): React.ReactElement {
     let alive = true
     const tick = async (): Promise<void> => {
       try {
-        const fresh = await familyChatMessages(conv.id, {
+        const fresh = await familyStolMessages(conv.id, {
           afterId: lastIdRef.current,
           limit: 100,
         })
@@ -185,7 +189,7 @@ export function FamilyChatPanel(): React.ReactElement {
     const willTriggerAdam = /(?:^|[\s.,!?:;])(@?\s*(adam|адам))(?:$|[\s.,!?:;])/iu.test(effectiveContent)
     if (willTriggerAdam) setAdamThinking(true)
     try {
-      const newMsgs = await familyChatPostMessage(conv.id, effectiveContent, attId)
+      const newMsgs = await stolPostMessage(conv.id, effectiveContent, attId)
       setMessages((prev) => [...prev, ...newMsgs])
       if (newMsgs.length > 0) {
         lastIdRef.current = newMsgs[newMsgs.length - 1].id
@@ -193,7 +197,7 @@ export function FamilyChatPanel(): React.ReactElement {
       if (newMsgs.some((m) => m.is_adam)) setAdamThinking(false)
       else if (!willTriggerAdam) setAdamThinking(false)
     } catch (e) {
-      setError(e instanceof Error ? e.message : t('familyChat.send_failed'))
+      setError(e instanceof Error ? e.message : t('stol.send_failed'))
       setAdamThinking(false)
     } finally {
       setBusy(false)
@@ -234,11 +238,11 @@ export function FamilyChatPanel(): React.ReactElement {
                         filter: isDark ? 'brightness(1.08) contrast(1.05)' : 'none' }} />
           <div className="flex flex-col leading-tight min-w-0">
             <span className="font-medium" style={{ fontSize: '20px', letterSpacing: '0.03em' }}>
-              {conv?.title ?? t('familyChat.title')}
+              {conv?.title ?? t('stol.title')}
             </span>
             <span className="italic" style={{ fontSize: '12px',
               color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
-              {t('familyChat.subtitle')}
+              {t('stol.subtitle')}
             </span>
           </div>
         </div>
@@ -266,9 +270,9 @@ export function FamilyChatPanel(): React.ReactElement {
         )}
         {!error && messages.length === 0 && (
           <p className="italic text-center mt-12 opacity-70" style={{ fontSize: '15px' }}>
-            {t('familyChat.empty_title')}
+            {t('stol.empty_title')}
             <br/>
-            <span className="text-xs">{t('familyChat.empty_hint').split('<0>').map((part, i) => {
+            <span className="text-xs">{t('stol.empty_hint').split('<0>').map((part, i) => {
               if (i === 0) return part
               const [tag, rest] = part.split('</0>')
               return <React.Fragment key={i}><b>{tag}</b>{rest}</React.Fragment>
@@ -289,7 +293,7 @@ export function FamilyChatPanel(): React.ReactElement {
               <div className="text-xs italic opacity-70 mb-1 px-1" style={{
                 color: 'var(--color-terracotta-dark)',
               }}>
-                {t('familyChat.adam_typing')}
+                {t('stol.adam_typing')}
               </div>
               <div
                 className="rounded-md border px-3 py-2"
@@ -396,7 +400,7 @@ export function FamilyChatPanel(): React.ReactElement {
           value={input}
           onChange={(e) => { setInput(e.target.value); adjustTextareaHeight() }}
           onKeyDown={handleKeyDown}
-          placeholder={t('familyChat.input_placeholder')}
+          placeholder={t('stol.input_placeholder')}
           disabled={busy || !conv}
           className={clsx(
             'flex-1 resize-none rounded-md border outline-none transition-colors disabled:opacity-60 overflow-hidden',

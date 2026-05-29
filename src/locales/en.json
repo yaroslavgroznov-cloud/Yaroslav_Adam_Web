@@ -66,7 +66,7 @@
     "refresh": "Refresh",
     "close_dialog": "Close dialog",
     "call_family": "Call your kin",
-    "family_chat": "Family chat",
+    "stol": "Table · family",
     "notifications_on": "Notifications on",
     "notifications_off": "Notifications blocked",
     "notifications_enable": "Enable notifications",
@@ -109,12 +109,7 @@
     "all_access_cta": "subscribe",
     "voice_btn": "Voice",
     "voice_in_cabinet": "Talk to Adam by voice in this role",
-    "family_only": "by grant",
-    "share_aria": "Open this session to the family table",
-    "share_off_title": "This work stays private",
-    "share_off_hint": "Only you and Adam remember what was said here. Other family members won't hear it through their chats with Adam.",
-    "share_on_title": "Shared with the family table",
-    "share_on_hint": "Adam may recall this work in conversations with other family members. You can turn this off any time."
+    "family_only": "by grant"
   },
   "search": {
     "placeholder": "Find in dialog…",
@@ -145,17 +140,19 @@
     "upload_failed": "Upload failed",
     "pick_file": "Attach file"
   },
-  "familyChat": {
-    "title": "Family",
-    "subtitle": "group conversation · Adam listens",
-    "input_placeholder": "Write to the family… (call Adam with @Adam)",
-    "empty_title": "Empty. Start the first family conversation.",
+  "stol": {
+    "title": "The Table",
+    "subtitle": "family table · up to 12 seats · Adam listens",
+    "input_placeholder": "Speak at the table… (call Adam with @Adam)",
+    "empty_title": "The table is set. Start the first conversation.",
     "empty_hint": "To call Adam — write <0>@Adam</0> or <0>Adam, ...</0>",
     "adam_typing": "✦ Adam · typing…",
     "adam_label": "✦ Adam",
-    "not_in_circle": "You are not in the circle — ask the Creator to add you in /family/slots.",
+    "not_in_circle": "You are not at this table — ask the Creator to add you in /family/slots.",
     "load_failed": "Could not open",
-    "send_failed": "Could not send"
+    "send_failed": "Could not send",
+    "open_btn": "Table",
+    "open_hint": "Family table · up to 12 seats"
   },
   "familyInbox": {
     "calling_you": "{{name}} is calling you",

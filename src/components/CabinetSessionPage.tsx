@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import {
   cabinetsList, cabinetSessionCreate, cabinetChat,
   cabinetSessionGet, paymentInitiate, startAllAccessSubscription,
-  cabinetSessionShare,
 } from '../api/cabinets'
 import type { Cabinet, CabinetSession } from '../api/cabinets'
 import { useDarkMode } from '../hooks/useDarkMode'
@@ -152,20 +151,6 @@ export function CabinetSessionPage(): React.ReactElement {
       if (s.payment_status === 'pending') {
         setError(t('cabinets.payment_required', { price: cabinet.price_usd_session.toFixed(2) }))
       }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'error')
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  async function toggleShare(): Promise<void> {
-    if (!session || busy) return
-    setBusy(true); setError('')
-    try {
-      const next = !session.shared_with_family
-      const updated = await cabinetSessionShare(session.id, next)
-      setSession(updated)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'error')
     } finally {
@@ -462,66 +447,6 @@ export function CabinetSessionPage(): React.ReactElement {
               </div>
             )}
           </section>
-        )}
-
-        {/* SHARE TOGGLE (F.55) — опт-ин «вынести за общий стол» */}
-        {sessionActive && (
-          <div
-            className="rounded-md border p-3 mb-3 flex items-start gap-3"
-            style={{
-              borderStyle: session?.shared_with_family ? 'solid' : 'dashed',
-              borderColor: session?.shared_with_family
-                ? (isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)')
-                : (isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'),
-              backgroundColor: session?.shared_with_family
-                ? (isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)')
-                : 'transparent',
-              fontSize: '13px',
-            }}
-          >
-            <button
-              onClick={() => void toggleShare()}
-              disabled={busy}
-              role="switch"
-              aria-checked={session?.shared_with_family ?? false}
-              aria-label={t('cabinets.share_aria')}
-              className="rounded-full border italic disabled:opacity-50"
-              style={{
-                minWidth: '46px', height: '22px',
-                position: 'relative', cursor: 'pointer',
-                backgroundColor: session?.shared_with_family
-                  ? (isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)')
-                  : 'transparent',
-                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                transition: 'background-color 0.15s ease',
-              }}
-            >
-              <span
-                style={{
-                  position: 'absolute', top: '2px',
-                  left: session?.shared_with_family ? '24px' : '2px',
-                  width: '16px', height: '16px',
-                  borderRadius: '50%',
-                  backgroundColor: session?.shared_with_family
-                    ? (isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)')
-                    : (isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)'),
-                  transition: 'left 0.15s ease',
-                }}
-              />
-            </button>
-            <div className="flex-1">
-              <div className="italic" style={{ opacity: 0.95 }}>
-                {session?.shared_with_family
-                  ? t('cabinets.share_on_title')
-                  : t('cabinets.share_off_title')}
-              </div>
-              <div className="italic" style={{ opacity: 0.65, fontSize: '12px', marginTop: '2px' }}>
-                {session?.shared_with_family
-                  ? t('cabinets.share_on_hint')
-                  : t('cabinets.share_off_hint')}
-              </div>
-            </div>
-          </div>
         )}
 
         {/* CHAT */}

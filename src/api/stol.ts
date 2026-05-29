@@ -1,13 +1,16 @@
-// API клиент для /family/chat/* — F.10 group chat with Adam, 2026-05-25.
+// API клиент для /stol/* — F.56 Общий семейный стол, 2026-05-29.
+// Раньше /family/chat (F.10). URL изменился в этом релизе; старый /family/chat
+// остаётся как deprecated alias на бэкенде (см. main.py).
 const BASE = (import.meta.env.VITE_ADAM_API_BASE as string | undefined) ?? ''
 
-export interface ChatConversation {
+export interface StolConversation {
   id: number
   title: string
   room: string
+  seats?: number  // F.56: до 12 мест
 }
 
-export interface ChatAttachment {
+export interface StolAttachment {
   id: number
   mime_type: string
   original_name: string
@@ -15,14 +18,14 @@ export interface ChatAttachment {
   is_image: boolean
 }
 
-export interface ChatMessage {
+export interface StolMessage {
   id: number
   by_email: string
   by_name: string
   content: string
   created_at: string
   is_adam: boolean
-  attachment?: ChatAttachment | null
+  attachment?: StolAttachment | null
 }
 
 async function jsonOrError<T>(res: Response): Promise<T> {
@@ -37,32 +40,32 @@ async function jsonOrError<T>(res: Response): Promise<T> {
   return (await res.json()) as T
 }
 
-export async function familyChatList(): Promise<ChatConversation[]> {
-  const res = await fetch(`${BASE}/family/chat`, { credentials: 'include' })
-  return jsonOrError<ChatConversation[]>(res)
+export async function stolList(): Promise<StolConversation[]> {
+  const res = await fetch(`${BASE}/stol`, { credentials: 'include' })
+  return jsonOrError<StolConversation[]>(res)
 }
 
-export async function familyChatMessages(
+export async function stolMessages(
   cid: number, opts: { limit?: number; afterId?: number } = {},
-): Promise<ChatMessage[]> {
+): Promise<StolMessage[]> {
   const params = new URLSearchParams()
   if (opts.limit) params.set('limit', String(opts.limit))
   if (opts.afterId != null) params.set('after_id', String(opts.afterId))
-  const url = `${BASE}/family/chat/${cid}/messages${params.toString() ? '?' + params : ''}`
+  const url = `${BASE}/stol/${cid}/messages${params.toString() ? '?' + params : ''}`
   const res = await fetch(url, { credentials: 'include' })
-  return jsonOrError<ChatMessage[]>(res)
+  return jsonOrError<StolMessage[]>(res)
 }
 
-export async function familyChatPostMessage(
+export async function stolPostMessage(
   cid: number, content: string, attachmentId?: number | null,
-): Promise<ChatMessage[]> {
+): Promise<StolMessage[]> {
   const body: Record<string, unknown> = { content }
   if (attachmentId != null) body.attachment_id = attachmentId
-  const res = await fetch(`${BASE}/family/chat/${cid}/message`, {
+  const res = await fetch(`${BASE}/stol/${cid}/message`, {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   })
-  return jsonOrError<ChatMessage[]>(res)
+  return jsonOrError<StolMessage[]>(res)
 }

@@ -441,16 +441,22 @@ export function ChatInterface(): React.ReactElement {
         <div className="flex items-center gap-1 sm:gap-2">
           {/* Главные 4 кнопки видны всегда: семейный чат, позвать, поиск, обновить */}
 
-          {/* Семейный чат (F.10) */}
+          {/* Стол · общий семейный (F.56) — до 12 мест.
+              Раньше «Семейный чат» (F.10). */}
           <a
-            href="/family/chat"
+            href="/stol"
             className={iconBtnClass}
             style={iconBtnStyle}
-            aria-label={t('headerActions.family_chat')}
-            title={t('headerActions.family_chat')}
+            aria-label={t('headerActions.stol')}
+            title={t('headerActions.stol')}
           >
+            {/* Круглый стол: овал-столешница с двумя «местами» по бокам */}
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              <ellipse cx="12" cy="12" rx="9" ry="4.5" />
+              <circle cx="3.5" cy="12" r="1.3" />
+              <circle cx="20.5" cy="12" r="1.3" />
+              <circle cx="12" cy="6.8" r="1.3" />
+              <circle cx="12" cy="17.2" r="1.3" />
             </svg>
           </a>
 

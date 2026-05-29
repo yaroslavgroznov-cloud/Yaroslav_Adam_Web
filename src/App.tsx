@@ -8,8 +8,8 @@ import { ChatInterface } from './components/ChatInterface'
 import { FloatingFontScale } from './components/FloatingFontScale'
 import { useFontScale } from './hooks/useFontScale'
 
-const FamilyChatPanel = lazy(() =>
-  import('./components/FamilyChatPanel').then(m => ({ default: m.FamilyChatPanel })))
+const StolPanel = lazy(() =>
+  import('./components/StolPanel').then(m => ({ default: m.StolPanel })))
 const FamilySlotsPanel = lazy(() =>
   import('./components/FamilySlotsPanel').then(m => ({ default: m.FamilySlotsPanel })))
 const KillSwitchPanel = lazy(() =>
@@ -59,7 +59,9 @@ export default function App() {
     // /cabinets/{slug} — детальная страница; /cabinets — список
     if (/^\/cabinets\/[^/]+/.test(path)) return <CabinetSessionPage />
     if (path.startsWith('/cabinets')) return <CabinetsPanel />
-    if (path.startsWith('/family/chat')) return <FamilyChatPanel />
+    // F.56: /stol — канонический URL Стола; /family/chat — deprecated alias
+    // (PWA с закешированной старой ссылкой не сломается).
+    if (path.startsWith('/stol') || path.startsWith('/family/chat')) return <StolPanel />
     if (path.startsWith('/family/slots') || path.startsWith('/family')) return <FamilySlotsPanel />
     return <ChatInterface />
   }
