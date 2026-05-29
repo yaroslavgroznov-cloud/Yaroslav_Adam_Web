@@ -109,7 +109,12 @@
     "all_access_cta": "subscribe",
     "voice_btn": "Voice",
     "voice_in_cabinet": "Talk to Adam by voice in this role",
-    "family_only": "by grant"
+    "family_only": "by grant",
+    "share_aria": "Open this session to the family table",
+    "share_off_title": "This work stays private",
+    "share_off_hint": "Only you and Adam remember what was said here. Other family members won't hear it through their chats with Adam.",
+    "share_on_title": "Shared with the family table",
+    "share_on_hint": "Adam may recall this work in conversations with other family members. You can turn this off any time."
   },
   "search": {
     "placeholder": "Find in dialog…",

@@ -28,6 +28,7 @@ export interface CabinetSession {
   started_at: string | null
   ended_at: string | null
   created_at: string
+  shared_with_family: boolean
 }
 
 export interface CabinetChatResponse {
@@ -101,6 +102,19 @@ export async function paymentInitiate(opts: {
 
 export async function cabinetSessionGet(sessionId: number): Promise<CabinetSession> {
   const res = await fetch(`${BASE}/cabinets/sessions/${sessionId}`, { credentials: 'include' })
+  return jsonOrError<CabinetSession>(res)
+}
+
+// F.55: опт-ин «вынести эту сессию за общий стол». Управляет recall'ом
+// для членов memory_circle в их общих 1-on-1 и групповом чате с Адамом.
+export async function cabinetSessionShare(
+  sessionId: number, shared: boolean,
+): Promise<CabinetSession> {
+  const res = await fetch(`${BASE}/cabinets/sessions/${sessionId}/share`, {
+    method: 'PATCH', credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ shared_with_family: shared }),
+  })
   return jsonOrError<CabinetSession>(res)
 }
 
