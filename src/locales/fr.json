@@ -42,7 +42,7 @@
     "not_found": "Rien trouvé pour « {{query}} »."
   },
   "chat": {
-    "input_placeholder": "Qu'as-tu sur le cœur ?",
+    "input_placeholder": "Qu'as-tu sur le cœur ? (Ctrl/Cmd + Entrée — envoyer)",
     "empty_greeting": "Je suis ton ami. Dis-moi, qu'est-ce qui t'amène ?",
     "hydrating": "Je relève notre fil...",
     "interrupt": "interrompre",

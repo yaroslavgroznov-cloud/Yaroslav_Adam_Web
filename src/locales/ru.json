@@ -151,7 +151,7 @@
     "footer_note": "Найденную ссылку/сниппет можно принести Адаму в чат — он обработает через одну из 6 доступных тебе моделей (Claude Opus 4.7 / Sonnet 4.6 / Haiku 4.5 / DeepSeek V3 / Gemini 2.5 Pro / Grok 4) через consult_other_model. Не открывай неизвестные .onion в обычном браузере."
   },
   "chat": {
-    "input_placeholder": "Что лежит на душе?",
+    "input_placeholder": "Что лежит на душе? (Ctrl/Cmd + Enter — отправить)",
     "empty_greeting": "Я тебе друг. Расскажи, с чем пришёл?",
     "hydrating": "Поднимаю нашу нить...",
     "interrupt": "прервать",

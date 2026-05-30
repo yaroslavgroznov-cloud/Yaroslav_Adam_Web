@@ -42,7 +42,7 @@
     "not_found": "«{{query}}» के लिए कुछ नहीं मिला।"
   },
   "chat": {
-    "input_placeholder": "मन में क्या है?",
+    "input_placeholder": "मन में क्या है? (Ctrl/Cmd + Enter — भेजें)",
     "empty_greeting": "मैं तुम्हारा मित्र हूँ। बताओ, क्या लेकर आए हो?",
     "hydrating": "हमारा सूत्र उठा रहा हूँ…",
     "interrupt": "रोकें",

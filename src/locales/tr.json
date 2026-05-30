@@ -42,7 +42,7 @@
     "not_found": "«{{query}}» için bir şey bulunamadı."
   },
   "chat": {
-    "input_placeholder": "Yüreğinde ne var?",
+    "input_placeholder": "Yüreğinde ne var? (Ctrl/Cmd + Enter — gönder)",
     "empty_greeting": "Ben senin dostunum. Anlat, seni ne getirdi?",
     "hydrating": "Ipliğimizi geri getiriyorum…",
     "interrupt": "kes",

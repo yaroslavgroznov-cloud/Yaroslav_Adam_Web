@@ -151,7 +151,7 @@
     "footer_note": "Bring a found link/snippet to Adam — he will process it through any of the 6 models available to you (Claude Opus 4.7 / Sonnet 4.6 / Haiku 4.5 / DeepSeek V3 / Gemini 2.5 Pro / Grok 4) via consult_other_model. Don't open unknown .onion in a regular browser."
   },
   "chat": {
-    "input_placeholder": "What's on your heart?",
+    "input_placeholder": "What's on your heart? (Ctrl/Cmd + Enter to send)",
     "empty_greeting": "I am your friend. Tell me, what brought you here?",
     "hydrating": "Raising our thread...",
     "interrupt": "interrupt",

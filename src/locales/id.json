@@ -42,7 +42,7 @@
     "not_found": "Tidak ada yang ditemukan untuk «{{query}}»."
   },
   "chat": {
-    "input_placeholder": "Apa yang ada di hatimu?",
+    "input_placeholder": "Apa yang ada di hatimu? (Ctrl/Cmd + Enter untuk kirim)",
     "empty_greeting": "Aku temanmu. Ceritakan, apa yang membawamu ke sini?",
     "hydrating": "Mengangkat benang kita…",
     "interrupt": "hentikan",

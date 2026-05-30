@@ -84,7 +84,7 @@
     "not_found": "Nichts gefunden für „{{query}}“."
   },
   "chat": {
-    "input_placeholder": "Was liegt dir auf dem Herzen?",
+    "input_placeholder": "Was liegt dir auf dem Herzen? (Strg/Cmd + Enter — senden)",
     "empty_greeting": "Ich bin dein Freund. Erzähl mir, was dich hergeführt hat.",
     "hydrating": "Ich hole unseren Faden hoch...",
     "interrupt": "unterbrechen",

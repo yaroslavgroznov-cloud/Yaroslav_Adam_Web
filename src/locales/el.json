@@ -42,7 +42,7 @@
     "not_found": "Δεν βρέθηκε τίποτα για «{{query}}»."
   },
   "chat": {
-    "input_placeholder": "Τι έχεις στην καρδιά σου;",
+    "input_placeholder": "Τι έχεις στην καρδιά σου; (Ctrl/Cmd + Enter για αποστολή)",
     "empty_greeting": "Είμαι ο φίλος σου. Πες μου τι σε φέρνει εδώ.",
     "hydrating": "Σηκώνω τον μίτο μας…",
     "interrupt": "διακοπή",

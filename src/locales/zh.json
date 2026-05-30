@@ -42,7 +42,7 @@
     "not_found": "未找到「{{query}}」的内容。"
   },
   "chat": {
-    "input_placeholder": "你心里在想什么?",
+    "input_placeholder": "你心里在想什么? (Ctrl/Cmd + Enter 发送)",
     "empty_greeting": "我是你的朋友。告诉我,你带着什么来?",
     "hydrating": "正在唤起我们的对话线…",
     "interrupt": "中断",

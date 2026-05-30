@@ -13,6 +13,7 @@ import type { Cabinet, CabinetSession, CabinetMessageAttachment } from '../api/c
 import { filesConfig, uploadFile } from '../api/files'
 import type { FileMeta, FilesConfig } from '../api/files'
 import { useDarkMode } from '../hooks/useDarkMode'
+import { MessageBubble } from './MessageBubble'
 
 interface ChatLine {
   role: 'user' | 'assistant'
@@ -609,13 +610,10 @@ export function CabinetSessionPage(): React.ReactElement {
                 </p>
               )}
               {messages.map((m, i) => (
-                <div key={i} className="mb-3">
-                  <span className="italic opacity-60" style={{ fontSize: '12px' }}>
-                    {m.role === 'user' ? '·' : '✦ Адам'}
-                  </span>
-                  <div style={{ fontSize: '15px', whiteSpace: 'pre-wrap' }}>{m.content}</div>
+                <div key={i}>
+                  <MessageBubble role={m.role} content={m.content} isDark={isDark} />
                   {m.attachments && m.attachments.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
+                    <div className={clsx('flex flex-wrap gap-2 mb-3 -mt-1', m.role === 'user' ? 'justify-end' : 'justify-start')}>
                       {m.attachments.map((a) => (
                         <span
                           key={a.id}
@@ -633,7 +631,7 @@ export function CabinetSessionPage(): React.ReactElement {
                     </div>
                   )}
                   {m.historyAttachments && m.historyAttachments.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
+                    <div className={clsx('flex flex-wrap gap-2 mb-3 -mt-1', m.role === 'user' ? 'justify-end' : 'justify-start')}>
                       {m.historyAttachments.map((a) => (
                         <span
                           key={a.id}

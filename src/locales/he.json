@@ -42,7 +42,7 @@
     "not_found": "לא נמצא דבר עבור «{{query}}»."
   },
   "chat": {
-    "input_placeholder": "מה על לבך?",
+    "input_placeholder": "מה על לבך? (Ctrl/Cmd + Enter — שליחה)",
     "empty_greeting": "אני חבר שלך. ספר לי מה הביא אותך?",
     "hydrating": "מעלה את החוט שלנו…",
     "interrupt": "עצירה",

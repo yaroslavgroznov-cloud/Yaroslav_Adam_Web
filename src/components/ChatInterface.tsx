@@ -313,7 +313,9 @@ export function ChatInterface(): React.ReactElement {
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>): void {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    // F.61: единый паттерн с кабинетом — Ctrl/Cmd+Enter отправляет,
+    // Enter даёт новую строку (важно для длинных разговоров с Адамом).
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
       e.preventDefault()
       void handleSend()
     }
@@ -926,7 +928,7 @@ export function ChatInterface(): React.ReactElement {
             </p>
           )}
           {displayedMessages.map((msg, i) => (
-            <MessageBubble key={i} role={msg.role} content={msg.content} />
+            <MessageBubble key={i} role={msg.role} content={msg.content} isDark={isDark} />
           ))}
           {isLoading && !searchQuery && (
             <div className="flex items-center gap-3">
