@@ -168,6 +168,41 @@ export async function adminIntelxSearch(
   return jsonOrError<IntelxResponse>(res)
 }
 
+// Have I Been Pwned — точная проверка email на утечки (платный API $3.95/мес)
+export interface PwnedBreach {
+  name: string
+  title?: string
+  domain?: string
+  breach_date?: string
+  added_date?: string
+  pwn_count?: number
+  data_classes?: string[]
+  is_verified?: boolean
+  is_sensitive?: boolean
+  description?: string
+}
+
+export interface PwnedCheckResponse {
+  email?: string
+  found?: boolean
+  count?: number
+  breaches?: PwnedBreach[]
+  note?: string
+  error?: string
+}
+
+export async function adminPwnedCheck(
+  email: string, truncate = false,
+): Promise<PwnedCheckResponse> {
+  const res = await fetch(`${BASE}/admin/tools/pwned-check`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, truncate }),
+  })
+  return jsonOrError<PwnedCheckResponse>(res)
+}
+
 export async function adminGetKillSwitchEvents(limit = 20): Promise<KillSwitchEvent[]> {
   const url = `${BASE}/admin/kill-switch/events?limit=${limit}`
   const res = await fetch(url, { credentials: 'include' })

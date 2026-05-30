@@ -6,15 +6,15 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { adminDarkwebSearch, adminIntelxSearch } from '../api/admin'
-import type { DarkwebSearchResult, IntelxResult } from '../api/admin'
+import { adminDarkwebSearch, adminIntelxSearch, adminPwnedCheck } from '../api/admin'
+import type { DarkwebSearchResult, IntelxResult, PwnedBreach } from '../api/admin'
 import { useDarkMode } from '../hooks/useDarkMode'
 
 interface Props {
   onClose: () => void
 }
 
-type SourceTab = 'ahmia' | 'intelx'
+type SourceTab = 'ahmia' | 'intelx' | 'pwned'
 
 export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
   const { t } = useTranslation()
@@ -29,6 +29,9 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
   const [ahmiaResults, setAhmiaResults] = useState<DarkwebSearchResult[]>([])
   const [intelxResults, setIntelxResults] = useState<IntelxResult[]>([])
   const [intelxSoftWarn, setIntelxSoftWarn] = useState<string | null>(null)
+  const [pwnedResults, setPwnedResults] = useState<PwnedBreach[]>([])
+  const [pwnedNote, setPwnedNote] = useState<string | null>(null)
+  const [pwnedFound, setPwnedFound] = useState<boolean | null>(null)
 
   async function runSearch(): Promise<void> {
     const q = query.trim()
@@ -39,6 +42,9 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
     setIntelxSoftWarn(null)
     setAhmiaResults([])
     setIntelxResults([])
+    setPwnedResults([])
+    setPwnedNote(null)
+    setPwnedFound(null)
     try {
       if (tab === 'ahmia') {
         const r = await adminDarkwebSearch(q, k)
@@ -47,12 +53,21 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
           setAhmiaResults(r.results ?? [])
           if (r.warning) setWarning(r.warning)
         }
-      } else {
+      } else if (tab === 'intelx') {
         const r = await adminIntelxSearch(q, k)
         if (r.error) setError(r.error)
         else {
           setIntelxResults(r.results ?? [])
           if (r.note) setIntelxSoftWarn(r.note)
+        }
+      } else {
+        // pwned
+        const r = await adminPwnedCheck(q, false)
+        if (r.error) setError(r.error)
+        else {
+          setPwnedResults(r.breaches ?? [])
+          setPwnedFound(r.found ?? false)
+          if (r.note) setPwnedNote(r.note)
         }
       }
     } catch (e) {
@@ -141,11 +156,16 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
         >
           {tabBtn('ahmia', t('darkweb.tab_ahmia'))}
           {tabBtn('intelx', t('darkweb.tab_intelx'))}
+          {tabBtn('pwned', t('darkweb.tab_pwned'))}
         </div>
 
         {/* Подсказка по табу */}
         <p className="italic mb-3" style={{ fontSize: '12px', opacity: 0.7 }}>
-          {tab === 'ahmia' ? t('darkweb.hint_ahmia') : t('darkweb.hint_intelx')}
+          {tab === 'ahmia'
+            ? t('darkweb.hint_ahmia')
+            : tab === 'intelx'
+              ? t('darkweb.hint_intelx')
+              : t('darkweb.hint_pwned')}
         </p>
 
         <div className="mb-3">
@@ -154,7 +174,13 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => { if (e.key === 'Enter' && !busy) void runSearch() }}
-            placeholder={tab === 'ahmia' ? t('darkweb.query_placeholder') : t('darkweb.intelx_placeholder')}
+            placeholder={
+              tab === 'ahmia'
+                ? t('darkweb.query_placeholder')
+                : tab === 'intelx'
+                  ? t('darkweb.intelx_placeholder')
+                  : t('darkweb.pwned_placeholder')
+            }
             autoFocus
             disabled={busy}
             className="w-full rounded-md border outline-none"
@@ -168,25 +194,29 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
         </div>
 
         <div className="flex items-center gap-3 mb-4">
-          <label className="italic" style={{ fontSize: '13px', opacity: 0.75 }}>
-            {t('darkweb.k_label')}
-          </label>
-          <select
-            value={k}
-            onChange={(e) => setK(parseInt(e.target.value, 10))}
-            disabled={busy}
-            title={t('darkweb.k_label')}
-            aria-label={t('darkweb.k_label')}
-            className="rounded-md border px-2 py-1"
-            style={{
-              fontSize: '13px', fontFamily: 'inherit',
-              backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
-              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-              color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
-            }}
-          >
-            {(tab === 'ahmia' ? [3, 5, 7, 10] : [5, 10, 15, 25]).map((n) => <option key={n} value={n}>{n}</option>)}
-          </select>
+          {tab !== 'pwned' && (
+            <>
+              <label className="italic" style={{ fontSize: '13px', opacity: 0.75 }}>
+                {t('darkweb.k_label')}
+              </label>
+              <select
+                value={k}
+                onChange={(e) => setK(parseInt(e.target.value, 10))}
+                disabled={busy}
+                title={t('darkweb.k_label')}
+                aria-label={t('darkweb.k_label')}
+                className="rounded-md border px-2 py-1"
+                style={{
+                  fontSize: '13px', fontFamily: 'inherit',
+                  backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                }}
+              >
+                {(tab === 'ahmia' ? [3, 5, 7, 10] : [5, 10, 15, 25]).map((n) => <option key={n} value={n}>{n}</option>)}
+              </select>
+            </>
+          )}
           <button
             type="button"
             onClick={() => void runSearch()}
@@ -311,6 +341,89 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
             {r.systemid && (
               <div className="italic mt-2" style={{ fontSize: '11px', opacity: 0.55, wordBreak: 'break-all' }}>
                 {t('darkweb.intelx_sysid')}: <code>{r.systemid}</code>
+              </div>
+            )}
+          </div>
+        ))}
+
+        {/* Pwned results */}
+        {tab === 'pwned' && pwnedFound === false && !busy && !error && (
+          <div
+            className="rounded-md border p-4 mb-2 italic"
+            style={{
+              fontSize: '14px',
+              borderColor: isDark ? 'var(--color-pergament-soft, var(--color-ochre))' : 'var(--color-ochre)',
+              backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+              color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+            }}
+          >
+            ✓ {pwnedNote || t('darkweb.pwned_clean')}
+          </div>
+        )}
+        {tab === 'pwned' && pwnedFound === true && (
+          <div
+            className="rounded-md border p-3 mb-3 italic"
+            style={{
+              fontSize: '13px',
+              borderColor: 'var(--color-terracotta-dark)',
+              backgroundColor: isDark ? 'rgba(192,98,63,0.15)' : 'rgba(192,98,63,0.10)',
+              color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+            }}
+          >
+            ⚠ {t('darkweb.pwned_found', { count: pwnedResults.length })}
+          </div>
+        )}
+        {tab === 'pwned' && pwnedResults.map((b, i) => (
+          <div
+            key={i}
+            className="rounded-md border p-3 mb-2"
+            style={{
+              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+              backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+            }}
+          >
+            <div className="flex items-start justify-between gap-3 mb-1">
+              <div style={{ fontSize: '15px', fontWeight: 500 }}>
+                {b.title || b.name}
+                {b.is_sensitive && (
+                  <span
+                    className="italic ml-2"
+                    style={{ fontSize: '11px', color: 'var(--color-terracotta-dark)' }}
+                  >
+                    · {t('darkweb.pwned_sensitive')}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-3 italic mb-2" style={{ fontSize: '11px', opacity: 0.75 }}>
+              {b.domain && (
+                <span style={{ color: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta-dark)' }}>
+                  {b.domain}
+                </span>
+              )}
+              {b.breach_date && <span>{t('darkweb.pwned_breach_date')}: {b.breach_date}</span>}
+              {typeof b.pwn_count === 'number' && b.pwn_count > 0 && (
+                <span>{t('darkweb.pwned_accounts')}: {b.pwn_count.toLocaleString()}</span>
+              )}
+              {b.is_verified ? (
+                <span style={{ color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)' }}>
+                  ✓ {t('darkweb.pwned_verified')}
+                </span>
+              ) : (
+                <span>· {t('darkweb.pwned_unverified')}</span>
+              )}
+            </div>
+            {b.data_classes && b.data_classes.length > 0 && (
+              <div className="mb-2" style={{ fontSize: '12px' }}>
+                <span className="italic" style={{ opacity: 0.75 }}>
+                  {t('darkweb.pwned_data_classes')}:{' '}
+                </span>
+                <span>{b.data_classes.join(', ')}</span>
+              </div>
+            )}
+            {b.description && (
+              <div className="italic mt-2" style={{ fontSize: '12px', opacity: 0.7, lineHeight: 1.45 }}>
+                {b.description}
               </div>
             )}
           </div>
