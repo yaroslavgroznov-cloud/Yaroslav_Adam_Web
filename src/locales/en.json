@@ -109,7 +109,8 @@
     "all_access_cta": "subscribe",
     "voice_btn": "Voice",
     "voice_in_cabinet": "Talk to Adam by voice in this role",
-    "family_only": "by grant"
+    "family_only": "by grant",
+    "attachment_limit": "Max {{n}} files per message"
   },
   "search": {
     "placeholder": "Find in dialog…",

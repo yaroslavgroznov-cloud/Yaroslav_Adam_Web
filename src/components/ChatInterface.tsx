@@ -1094,15 +1094,22 @@ export function ChatInterface(): React.ReactElement {
             }}
           />
           <button
+            type="button"
             onClick={() => void handleSend()}
             disabled={(!input.trim() && !pendingFile) || isLoading || isHydrating}
+            aria-label={t('common.send')}
+            title={t('common.send')}
             className={clsx(
-              'shrink-0 italic rounded-md border transition-colors duration-700 ease-in-out disabled:cursor-not-allowed',
+              'shrink-0 italic rounded-md border transition-colors duration-700 ease-in-out disabled:cursor-not-allowed inline-flex items-center justify-center gap-2',
               isDark ? 'btn-send-night' : 'btn-send-day',
             )}
             style={{
+              // Мобильный фикс: на узком экране кнопка = квадрат-иконка
+              // (clamp width 56-110px), текст «Отправить» скрыт. На sm+ —
+              // полная кнопка с иконкой + текстом.
               minHeight: 'clamp(72px, 14vw, 110px)',
-              padding: 'clamp(10px, 2vw, 16px) clamp(14px, 3.5vw, 32px)',
+              minWidth: 'clamp(56px, 14vw, 110px)',
+              padding: 'clamp(10px, 2vw, 16px) clamp(10px, 2.5vw, 28px)',
               fontSize: 'clamp(14px, 2.6vw, 16px)',
               letterSpacing: '0.04em',
               fontFamily: 'inherit',
@@ -1111,7 +1118,13 @@ export function ChatInterface(): React.ReactElement {
               borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
             }}
           >
-            {t('common.send')}
+            {/* Paper plane icon — всегда виден */}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+            {/* Текст «Отправить» — только на sm+ */}
+            <span className="hidden sm:inline">{t('common.send')}</span>
           </button>
         </div>
       </div>

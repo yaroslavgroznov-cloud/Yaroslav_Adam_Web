@@ -9,9 +9,27 @@ import {
   cabinetSessionGet, paymentInitiate, startAllAccessSubscription,
 } from '../api/cabinets'
 import type { Cabinet, CabinetSession } from '../api/cabinets'
+import { filesConfig, uploadFile } from '../api/files'
+import type { FileMeta, FilesConfig } from '../api/files'
 import { useDarkMode } from '../hooks/useDarkMode'
 
-interface ChatLine { role: 'user' | 'assistant'; content: string }
+interface ChatLine {
+  role: 'user' | 'assistant'
+  content: string
+  attachments?: FileMeta[]
+}
+
+// MIME-категория → accept атрибут для file input
+const TYPE_ACCEPTS: Record<string, string> = {
+  image: 'image/*',
+  video: 'video/*',
+  document: 'application/pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown',
+}
+
+function buildAcceptString(types: string[] | undefined): string {
+  if (!types || types.length === 0) return ''
+  return types.map((t) => TYPE_ACCEPTS[t] || '').filter(Boolean).join(',')
+}
 
 function getSlugFromPath(): string {
   const m = window.location.pathname.match(/^\/cabinets\/([^/?#]+)/)
@@ -30,11 +48,20 @@ export function CabinetSessionPage(): React.ReactElement {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [cryptoInfo, setCryptoInfo] = useState<{wallet: string; amount: string; payment_id: number} | null>(null)
+  // F.41/F.58: attachments в кабинете
+  const [filesCfg, setFilesCfg] = useState<FilesConfig | null>(null)
+  const [pendingFiles, setPendingFiles] = useState<FileMeta[]>([])
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   const endRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     void (async () => {
       try {
+        // F.41/F.58: подтягиваем files config — нужен для max_bytes и enabled
+        try {
+          setFilesCfg(await filesConfig())
+        } catch { /* файлы могут быть отключены — кнопка не покажется */ }
         const list = await cabinetsList()
         const found = list.find((c) => c.slug === slug) ?? null
         setCabinet(found)
@@ -158,14 +185,52 @@ export function CabinetSessionPage(): React.ReactElement {
     }
   }
 
+  async function handleFilePick(files: FileList | null): Promise<void> {
+    if (!files || files.length === 0 || !filesCfg?.enabled) return
+    const maxN = cabinet?.intake_form?._attachments?.max_per_message ?? 4
+    const free = Math.max(0, maxN - pendingFiles.length)
+    if (free === 0) {
+      setError(t('cabinets.attachment_limit', { n: maxN }))
+      return
+    }
+    const slice = Array.from(files).slice(0, free)
+    setUploading(true)
+    setError('')
+    try {
+      const uploaded: FileMeta[] = []
+      for (const f of slice) {
+        if (f.size > filesCfg.max_bytes) {
+          setError(t('attachment.too_large', { mb: (filesCfg.max_bytes / 1024 / 1024).toFixed(0) }))
+          continue
+        }
+        const meta = await uploadFile(f)
+        uploaded.push(meta)
+      }
+      setPendingFiles((prev) => [...prev, ...uploaded])
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t('attachment.upload_failed'))
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  function removePending(id: number): void {
+    setPendingFiles((prev) => prev.filter((f) => f.id !== id))
+  }
+
   async function send(): Promise<void> {
-    if (!session || !input.trim() || busy) return
-    const userMsg = input.trim()
+    if (!session || busy) return
+    const trimmed = input.trim()
+    if (!trimmed && pendingFiles.length === 0) return
+    const userMsg = trimmed || (pendingFiles.length > 0 ? '📎' : '')
+    const attIds = pendingFiles.map((f) => f.id)
+    const sentAttachments = [...pendingFiles]
     setInput('')
-    setMessages((prev) => [...prev, { role: 'user', content: userMsg }])
+    setPendingFiles([])
+    setMessages((prev) => [...prev, { role: 'user', content: userMsg, attachments: sentAttachments }])
     setBusy(true)
     try {
-      const r = await cabinetChat(session.id, userMsg)
+      const r = await cabinetChat(session.id, userMsg, attIds.length > 0 ? attIds : null)
       setMessages((prev) => [...prev, { role: 'assistant', content: r.reply }])
     } catch (e) {
       setMessages((prev) => [
@@ -472,6 +537,24 @@ export function CabinetSessionPage(): React.ReactElement {
                     {m.role === 'user' ? '·' : '✦ Адам'}
                   </span>
                   <div style={{ fontSize: '15px', whiteSpace: 'pre-wrap' }}>{m.content}</div>
+                  {m.attachments && m.attachments.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {m.attachments.map((a) => (
+                        <span
+                          key={a.id}
+                          className="italic rounded-md border px-2 py-1"
+                          style={{
+                            fontSize: '11px',
+                            borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                          }}
+                        >
+                          {a.is_image ? '🖼' : '📎'} {a.original_name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
               {busy && (
@@ -479,7 +562,85 @@ export function CabinetSessionPage(): React.ReactElement {
               )}
               <div ref={endRef} />
             </div>
-            <div className="flex gap-2 items-end">
+            {/* Pending attachments preview (chips) */}
+            {pendingFiles.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-2">
+                {pendingFiles.map((f) => (
+                  <span
+                    key={f.id}
+                    className="italic rounded-md border px-2 py-1 inline-flex items-center gap-2"
+                    style={{
+                      fontSize: '12px',
+                      borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                      backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+                    }}
+                  >
+                    <span>{f.is_image ? '🖼' : '📎'} {f.original_name}</span>
+                    <button
+                      type="button"
+                      onClick={() => removePending(f.id)}
+                      aria-label={t('attachment.remove')}
+                      style={{
+                        background: 'transparent', border: 'none', cursor: 'pointer',
+                        fontSize: '14px', lineHeight: 1, padding: '0 2px',
+                        color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                      }}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/*
+              F.41/F.58 + мобильный фикс:
+              flex-row, textarea = flex-1 (растягивается на всё свободное),
+              кнопки = shrink-0 фиксированной width.
+              На мобиле — иконки без текста (44×44 square — touch-friendly).
+              На sm+ — добавляем текст «Голос», «Отправить» через `sm:` префикс.
+            */}
+            <div className="flex gap-1.5 sm:gap-2 items-end">
+              {/* Hidden file input + attach button (только если кабинет поддерживает) */}
+              {cabinet.intake_form?._attachments?.enabled && filesCfg?.enabled && (
+                <>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    className="hidden"
+                    aria-label={t('attachment.pick_file')}
+                    title={t('attachment.pick_file')}
+                    accept={buildAcceptString(cabinet.intake_form?._attachments?.types)}
+                    onChange={(e) => {
+                      void handleFilePick(e.target.files)
+                      e.target.value = ''
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading || busy}
+                    className="shrink-0 inline-flex items-center justify-center rounded-md border disabled:opacity-50"
+                    style={{
+                      width: 44, height: 44,
+                      borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                      color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                      backgroundColor: 'transparent',
+                    }}
+                    aria-label={t('attachment.pick_file')}
+                    title={cabinet.intake_form?._attachments?.hint || t('attachment.pick_file')}
+                  >
+                    {uploading ? (
+                      <span className="italic" style={{ fontSize: '11px' }}>…</span>
+                    ) : (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                      </svg>
+                    )}
+                  </button>
+                </>
+              )}
               <textarea
                 rows={2}
                 value={input}
@@ -492,9 +653,9 @@ export function CabinetSessionPage(): React.ReactElement {
                 }}
                 placeholder={t('cabinets.input_placeholder')}
                 disabled={busy}
-                className={clsx('flex-1 rounded-md border outline-none resize-none', isDark ? 'dom-input-dark' : 'dom-input')}
+                className={clsx('flex-1 min-w-0 rounded-md border outline-none resize-none', isDark ? 'dom-input-dark' : 'dom-input')}
                 style={{
-                  padding: '10px 14px',
+                  padding: '10px 12px',
                   fontSize: '15px',
                   fontFamily: 'inherit',
                   maxHeight: '30vh',
@@ -508,25 +669,27 @@ export function CabinetSessionPage(): React.ReactElement {
                 href={`/?voice=1&cabinet_session=${session?.id ?? ''}`}
                 aria-label={t('cabinets.voice_in_cabinet')}
                 title={t('cabinets.voice_in_cabinet')}
-                className="rounded-md border italic"
+                className="shrink-0 inline-flex items-center justify-center rounded-md border italic"
                 style={{
-                  padding: '10px 14px',
+                  width: 44, height: 44,
                   fontSize: '14px',
                   fontFamily: 'inherit',
                   backgroundColor: 'transparent',
                   color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
                   borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                  display: 'inline-flex', alignItems: 'center', textDecoration: 'none',
+                  textDecoration: 'none',
                 }}
               >
-                ◉ {t('cabinets.voice_btn')}
+                ◉
               </a>
               <button
+                type="button"
                 onClick={() => void send()}
-                disabled={busy || !input.trim()}
-                className="rounded-md border italic disabled:opacity-50"
+                disabled={busy || (!input.trim() && pendingFiles.length === 0)}
+                className="shrink-0 inline-flex items-center justify-center rounded-md border italic disabled:opacity-50"
                 style={{
-                  padding: '10px 16px',
+                  minWidth: 44, height: 44,
+                  padding: '0 12px',
                   fontSize: '14px',
                   fontFamily: 'inherit',
                   backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',

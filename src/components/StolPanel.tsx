@@ -418,11 +418,17 @@ export function StolPanel(): React.ReactElement {
           }}
         />
         <button
+          type="button"
           onClick={() => void handleSend()}
           disabled={!input.trim() || busy || !conv}
-          className="shrink-0 italic rounded-md border disabled:cursor-not-allowed disabled:opacity-60"
+          aria-label={t('common.send')}
+          title={t('common.send')}
+          className="shrink-0 italic rounded-md border disabled:cursor-not-allowed disabled:opacity-60 inline-flex items-center justify-center gap-2"
           style={{
-            padding: '10px 22px',
+            // Мобильный фикс: квадрат-иконка на узком экране, иконка+текст на sm+
+            minWidth: 'clamp(54px, 14vw, 110px)',
+            minHeight: 54,
+            padding: '0 clamp(10px, 2.5vw, 22px)',
             fontSize: '14px',
             letterSpacing: '0.04em',
             fontFamily: 'inherit',
@@ -431,7 +437,17 @@ export function StolPanel(): React.ReactElement {
             borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
           }}
         >
-          {busy ? t('common.loading') : t('common.send')}
+          {busy ? (
+            <span className="italic">…</span>
+          ) : (
+            <>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+              <span className="hidden sm:inline">{t('common.send')}</span>
+            </>
+          )}
         </button>
       </div>
     </div>

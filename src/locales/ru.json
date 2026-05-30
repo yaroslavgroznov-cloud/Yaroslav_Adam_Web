@@ -109,7 +109,8 @@
     "all_access_cta": "оформить",
     "voice_btn": "Голос",
     "voice_in_cabinet": "Поговорить с Адамом голосом в этой роли",
-    "family_only": "по разрешению"
+    "family_only": "по разрешению",
+    "attachment_limit": "Максимум {{n}} файлов в одном сообщении"
   },
   "search": {
     "placeholder": "Найти в диалоге…",

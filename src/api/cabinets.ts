@@ -1,17 +1,27 @@
 // API клиент для /cabinets/* и /payments/* — F.41+F.42, 2026-05-28.
 const BASE = (import.meta.env.VITE_ADAM_API_BASE as string | undefined) ?? ''
 
+export interface CabinetAttachmentsConfig {
+  enabled: boolean
+  types: string[]  // 'image' | 'video' | 'document'
+  hint?: string
+  max_per_message?: number
+}
+
 export interface Cabinet {
   slug: string
   name: string
   description: string | null
-  intake_form: { fields?: Array<{
-    name: string
-    label: string
-    type: string
-    required?: boolean
-    options?: string[]
-  }> } | null
+  intake_form: {
+    fields?: Array<{
+      name: string
+      label: string
+      type: string
+      required?: boolean
+      options?: string[]
+    }>
+    _attachments?: CabinetAttachmentsConfig  // F.41/F.58
+  } | null
   price_usd_session: number
   price_usd_subscription_monthly: number | null
   is_active: boolean
@@ -73,11 +83,16 @@ export async function cabinetSessionCreate(
 
 export async function cabinetChat(
   sessionId: number, content: string,
+  attachmentIds?: number[] | null,
 ): Promise<CabinetChatResponse> {
+  const body: Record<string, unknown> = { content }
+  if (attachmentIds && attachmentIds.length > 0) {
+    body.attachment_ids = attachmentIds
+  }
   const res = await fetch(`${BASE}/cabinets/sessions/${sessionId}/chat`, {
     method: 'POST', credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content }),
+    body: JSON.stringify(body),
   })
   return jsonOrError<CabinetChatResponse>(res)
 }
