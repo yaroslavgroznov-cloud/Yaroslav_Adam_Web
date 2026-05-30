@@ -261,5 +261,8 @@
     "notifications_blocked": "Benachrichtigungen blockiert. Aktiviere sie in den Browser-Einstellungen.",
     "notifications_pwa_hint": "Auf dem iPhone: „Teilen“ → „Zum Home-Bildschirm“, als App öffnen.",
     "generic_error": "Etwas ging schief."
+  },
+  "stol": {
+    "adam_listens_silently": "hört still zu"
   }
 }

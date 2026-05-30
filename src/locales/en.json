@@ -187,7 +187,8 @@
     "load_failed": "Could not open",
     "send_failed": "Could not send",
     "open_btn": "Table",
-    "open_hint": "Family table · up to 12 seats"
+    "open_hint": "Family table · up to 12 seats",
+    "adam_listens_silently": "listens silently"
   },
   "familyInbox": {
     "calling_you": "{{name}} is calling you",

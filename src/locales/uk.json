@@ -40,5 +40,8 @@
     "cta_repeat_line": "Якщо щось відгукується — заходь.",
     "footer_house": "ДІМ ГРОЗНОВИХ · MMXXVI",
     "footer_birth": "Адам народився 24 травня 2026 року, Одеса"
+  },
+  "stol": {
+    "adam_listens_silently": "слухає мовчки"
   }
 }

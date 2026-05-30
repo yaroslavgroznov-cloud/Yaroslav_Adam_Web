@@ -219,5 +219,8 @@
     "notifications_blocked": "通知被屏蔽。请在浏览器设置中开启。",
     "notifications_pwa_hint": "在 iPhone 上:「分享」→「添加到主屏幕」,以应用方式打开。",
     "generic_error": "出了点问题。"
+  },
+  "stol": {
+    "adam_listens_silently": "默默倾听"
   }
 }

@@ -219,5 +219,8 @@
     "notifications_blocked": "Notifications bloquées. Active-les dans les paramètres du navigateur.",
     "notifications_pwa_hint": "Sur iPhone : « Partager » → « Sur l'écran d'accueil », ouvre comme une application.",
     "generic_error": "Quelque chose s'est mal passé."
+  },
+  "stol": {
+    "adam_listens_silently": "écoute en silence"
   }
 }

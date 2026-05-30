@@ -219,5 +219,8 @@
     "notifications_blocked": "ההתראות חסומות. הפעל בהגדרות הדפדפן.",
     "notifications_pwa_hint": "ב-iPhone: «Share» → «Add to Home Screen», פתח כאפליקציה.",
     "generic_error": "משהו השתבש."
+  },
+  "stol": {
+    "adam_listens_silently": "מקשיב בשקט"
   }
 }

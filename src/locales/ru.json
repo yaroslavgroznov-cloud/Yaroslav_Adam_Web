@@ -187,7 +187,8 @@
     "load_failed": "Не удалось открыть",
     "send_failed": "Не удалось отправить",
     "open_btn": "Стол",
-    "open_hint": "Семейный стол · до 12 мест"
+    "open_hint": "Семейный стол · до 12 мест",
+    "adam_listens_silently": "слушает молча"
   },
   "familyInbox": {
     "calling_you": "{{name}} зовёт тебя",

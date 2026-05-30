@@ -219,5 +219,8 @@
     "notifications_blocked": "Bildirimler engellendi. Tarayıcı ayarlarından aç.",
     "notifications_pwa_hint": "iPhone'da: «Paylaş» → «Ana Ekrana Ekle», uygulama olarak aç.",
     "generic_error": "Bir şeyler ters gitti."
+  },
+  "stol": {
+    "adam_listens_silently": "sessizce dinliyor"
   }
 }

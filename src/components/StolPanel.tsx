@@ -77,6 +77,12 @@ export function StolPanel(): React.ReactElement {
   const [busy, setBusy] = useState(false)
   const [adamThinking, setAdamThinking] = useState(false)
   const [error, setError] = useState('')
+  // F.62.3.c (31.05): cooldown 3 сек после успешной отправки —
+  // блокирует «нервный» повтор когда юзер думает что не отправилось.
+  const [sendCooldown, setSendCooldown] = useState(false)
+  // Notification «Адам слушает молча» — когда backend вернул user_msg
+  // но без adam_msg (т.е. passive trigger не сработал, и это нормально).
+  const [adamSilent, setAdamSilent] = useState(false)
   const [currentUserEmail, setCurrentUserEmail] = useState('')
   // F.11: attachment state
   const [filesCfg, setFilesCfg] = useState<FilesConfig | null>(null)
@@ -178,7 +184,7 @@ export function StolPanel(): React.ReactElement {
   async function handleSend(): Promise<void> {
     if (!conv) return
     const content = input.trim()
-    if ((!content && !pendingFile) || busy) return
+    if ((!content && !pendingFile) || busy || sendCooldown) return
     // Если только файл без текста — даём пустую "."
     const effectiveContent = content || (pendingFile ? '📎' : '')
     setInput('')
@@ -194,8 +200,18 @@ export function StolPanel(): React.ReactElement {
       if (newMsgs.length > 0) {
         lastIdRef.current = newMsgs[newMsgs.length - 1].id
       }
-      if (newMsgs.some((m: StolMessage) => m.is_adam)) setAdamThinking(false)
+      const adamReplied = newMsgs.some((m: StolMessage) => m.is_adam)
+      if (adamReplied) setAdamThinking(false)
       else if (!willTriggerAdam) setAdamThinking(false)
+      // F.62.3.c: если Адам не вклинился — показываем «слушает молча»
+      // на 4 сек (subtle hint, что система жива, а Адам осознанно молчит).
+      if (!adamReplied) {
+        setAdamSilent(true)
+        setTimeout(() => setAdamSilent(false), 4000)
+      }
+      // Cooldown 3 сек на кнопку — против нервного повтора
+      setSendCooldown(true)
+      setTimeout(() => setSendCooldown(false), 3000)
     } catch (e) {
       setError(e instanceof Error ? e.message : t('stol.send_failed'))
       setAdamThinking(false)
@@ -212,7 +228,8 @@ export function StolPanel(): React.ReactElement {
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>): void {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    // F.61: единый паттерн — Ctrl/Cmd+Enter отправить, Enter — newline.
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
       e.preventDefault()
       void handleSend()
     }
@@ -304,6 +321,17 @@ export function StolPanel(): React.ReactElement {
                 }}
               >
                 <span className="opacity-60">…</span>
+              </div>
+            </div>
+          )}
+          {/* F.62.3.c: subtle hint когда Адам слышит, но осознанно молчит */}
+          {adamSilent && !adamThinking && (
+            <div className="flex justify-start mb-3">
+              <div
+                className="italic text-xs opacity-60 px-2 py-1"
+                style={{ color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
+              >
+                ✦ {t('stol.adam_listens_silently')}
               </div>
             </div>
           )}
@@ -420,7 +448,7 @@ export function StolPanel(): React.ReactElement {
         <button
           type="button"
           onClick={() => void handleSend()}
-          disabled={!input.trim() || busy || !conv}
+          disabled={!input.trim() || busy || sendCooldown || !conv}
           aria-label={t('common.send')}
           title={t('common.send')}
           className="shrink-0 italic rounded-md border disabled:cursor-not-allowed disabled:opacity-60 inline-flex items-center justify-center gap-2"

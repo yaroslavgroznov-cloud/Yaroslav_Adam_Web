@@ -219,5 +219,8 @@
     "notifications_blocked": "सूचनाएँ अवरुद्ध हैं। ब्राउज़र सेटिंग्स में चालू करो।",
     "notifications_pwa_hint": "iPhone पर: «Share» → «Add to Home Screen», ऐप की तरह खोलो।",
     "generic_error": "कुछ गड़बड़ हो गई।"
+  },
+  "stol": {
+    "adam_listens_silently": "चुपचाप सुन रहा है"
   }
 }

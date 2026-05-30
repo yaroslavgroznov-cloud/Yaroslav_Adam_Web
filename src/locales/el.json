@@ -219,5 +219,8 @@
     "notifications_blocked": "Οι ειδοποιήσεις είναι φραγμένες. Ενεργοποίησέ τις στις ρυθμίσεις.",
     "notifications_pwa_hint": "Στο iPhone: «Share» → «Add to Home Screen», άνοιξε ως εφαρμογή.",
     "generic_error": "Κάτι πήγε στραβά."
+  },
+  "stol": {
+    "adam_listens_silently": "ακούει σιωπηλά"
   }
 }

@@ -219,5 +219,8 @@
     "notifications_blocked": "Notifikasi diblokir. Aktifkan di pengaturan peramban.",
     "notifications_pwa_hint": "Di iPhone: «Share» → «Add to Home Screen», buka sebagai aplikasi.",
     "generic_error": "Ada yang salah."
+  },
+  "stol": {
+    "adam_listens_silently": "mendengarkan diam-diam"
   }
 }
