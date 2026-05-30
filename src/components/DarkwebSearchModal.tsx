@@ -1,46 +1,59 @@
-// DarkwebSearchModal — прямой вход в darkweb_search для Творца.
-// F.58 Агентность, 2026-05-29.
-//
-// Открывается из overflow menu (creator-only). Адам тут не «работает» —
-// это прямой вызов tool через /admin/tools/darkweb-search. Если нужно
-// чтобы результаты обработал Опус/DeepSeek/Grok — Творец сам несёт
-// ссылку/сниппет в обычный чат и просит Адама проанализировать (Адам
-// дальше использует consult_other_model).
+// DarkwebSearchModal — прямой поисковый модал для Творца (F.58).
+// Два источника на табах:
+//   • Ahmia — TOR + .onion индекс (бесплатно, без ключа)
+//   • Intel X — глубокие утечки + darknet + pastes (платный API, ключ в .env)
+// Адам тут не задействован — это «панель разведки».
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { adminDarkwebSearch } from '../api/admin'
-import type { DarkwebSearchResult } from '../api/admin'
+import { adminDarkwebSearch, adminIntelxSearch } from '../api/admin'
+import type { DarkwebSearchResult, IntelxResult } from '../api/admin'
 import { useDarkMode } from '../hooks/useDarkMode'
 
 interface Props {
   onClose: () => void
 }
 
+type SourceTab = 'ahmia' | 'intelx'
+
 export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
   const { t } = useTranslation()
   const { isDark } = useDarkMode()
+
+  const [tab, setTab] = useState<SourceTab>('ahmia')
   const [query, setQuery] = useState('')
   const [k, setK] = useState(5)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string>('')
-  const [results, setResults] = useState<DarkwebSearchResult[]>([])
   const [warning, setWarning] = useState<string>('')
+  const [ahmiaResults, setAhmiaResults] = useState<DarkwebSearchResult[]>([])
+  const [intelxResults, setIntelxResults] = useState<IntelxResult[]>([])
+  const [intelxSoftWarn, setIntelxSoftWarn] = useState<string | null>(null)
 
   async function runSearch(): Promise<void> {
     const q = query.trim()
     if (!q || busy) return
     setBusy(true)
     setError('')
-    setResults([])
     setWarning('')
+    setIntelxSoftWarn(null)
+    setAhmiaResults([])
+    setIntelxResults([])
     try {
-      const r = await adminDarkwebSearch(q, k)
-      if (r.error) {
-        setError(r.error)
+      if (tab === 'ahmia') {
+        const r = await adminDarkwebSearch(q, k)
+        if (r.error) setError(r.error)
+        else {
+          setAhmiaResults(r.results ?? [])
+          if (r.warning) setWarning(r.warning)
+        }
       } else {
-        setResults(r.results ?? [])
-        if (r.warning) setWarning(r.warning)
+        const r = await adminIntelxSearch(q, k)
+        if (r.error) setError(r.error)
+        else {
+          setIntelxResults(r.results ?? [])
+          if (r.note) setIntelxSoftWarn(r.note)
+        }
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : 'error')
@@ -48,6 +61,30 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
       setBusy(false)
     }
   }
+
+  const tabBtn = (target: SourceTab, label: string) => (
+    <button
+      type="button"
+      onClick={() => { setTab(target); setError(''); setWarning(''); setIntelxSoftWarn(null) }}
+      className="italic"
+      style={{
+        flex: 1, padding: '8px 12px', fontSize: '14px',
+        background: 'transparent', border: 'none',
+        borderBottom: tab === target ? '2px solid' : '2px solid transparent',
+        borderColor: tab === target
+          ? (isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta-dark)')
+          : 'transparent',
+        color: tab === target
+          ? (isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)')
+          : (isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)'),
+        cursor: 'pointer',
+        fontFamily: 'inherit',
+        fontWeight: tab === target ? 500 : 400,
+      }}
+    >
+      {label}
+    </button>
+  )
 
   return (
     <div
@@ -65,7 +102,7 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
         onClick={(e) => e.stopPropagation()}
         className="rounded-md border font-serif"
         style={{
-          maxWidth: '720px', width: '100%', maxHeight: '90vh',
+          maxWidth: '760px', width: '100%', maxHeight: '92vh',
           overflowY: 'auto',
           backgroundColor: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
           color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
@@ -74,13 +111,13 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
           padding: '24px',
         }}
       >
-        <header className="flex items-start justify-between mb-4">
+        <header className="flex items-start justify-between mb-3">
           <div>
             <h2 className="font-medium" style={{ fontSize: '20px', letterSpacing: '0.03em' }}>
-              {t('darkweb.title')}
+              {t('darkweb.title_v2')}
             </h2>
             <p className="italic mt-1" style={{ fontSize: '13px', opacity: 0.75 }}>
-              {t('darkweb.subtitle')}
+              {t('darkweb.subtitle_v2')}
             </p>
           </div>
           <button
@@ -97,13 +134,27 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
           </button>
         </header>
 
+        {/* Табы */}
+        <div
+          className="flex mb-4"
+          style={{ borderBottom: '1px solid', borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
+        >
+          {tabBtn('ahmia', t('darkweb.tab_ahmia'))}
+          {tabBtn('intelx', t('darkweb.tab_intelx'))}
+        </div>
+
+        {/* Подсказка по табу */}
+        <p className="italic mb-3" style={{ fontSize: '12px', opacity: 0.7 }}>
+          {tab === 'ahmia' ? t('darkweb.hint_ahmia') : t('darkweb.hint_intelx')}
+        </p>
+
         <div className="mb-3">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => { if (e.key === 'Enter' && !busy) void runSearch() }}
-            placeholder={t('darkweb.query_placeholder')}
+            placeholder={tab === 'ahmia' ? t('darkweb.query_placeholder') : t('darkweb.intelx_placeholder')}
             autoFocus
             disabled={busy}
             className="w-full rounded-md border outline-none"
@@ -134,7 +185,7 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
               color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
             }}
           >
-            {[3, 5, 7, 10].map((n) => <option key={n} value={n}>{n}</option>)}
+            {(tab === 'ahmia' ? [3, 5, 7, 10] : [5, 10, 15, 25]).map((n) => <option key={n} value={n}>{n}</option>)}
           </select>
           <button
             type="button"
@@ -179,14 +230,28 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
             ⚠ {warning}
           </div>
         )}
+        {intelxSoftWarn && (
+          <div
+            className="rounded-md p-3 mb-3 italic"
+            style={{
+              fontSize: '12px',
+              border: '1px dashed',
+              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+              backgroundColor: 'transparent',
+              opacity: 0.85,
+            }}
+          >
+            ⚠ {intelxSoftWarn}
+          </div>
+        )}
 
-        {results.length === 0 && !busy && !error && query && (
+        {/* Ahmia results */}
+        {tab === 'ahmia' && ahmiaResults.length === 0 && !busy && !error && query && (
           <p className="italic opacity-70" style={{ fontSize: '13px' }}>
             {t('darkweb.no_results_hint')}
           </p>
         )}
-
-        {results.map((r, i) => (
+        {tab === 'ahmia' && ahmiaResults.map((r, i) => (
           <div
             key={i}
             className="rounded-md border p-3 mb-2"
@@ -212,6 +277,40 @@ export function DarkwebSearchModal({ onClose }: Props): React.ReactElement {
             {r.last_seen && (
               <div className="italic mt-2" style={{ fontSize: '11px', opacity: 0.55 }}>
                 {t('darkweb.last_seen')}: {r.last_seen}
+              </div>
+            )}
+          </div>
+        ))}
+
+        {/* Intelx results */}
+        {tab === 'intelx' && intelxResults.length === 0 && !busy && !error && query && (
+          <p className="italic opacity-70" style={{ fontSize: '13px' }}>
+            {t('darkweb.no_results_hint')}
+          </p>
+        )}
+        {tab === 'intelx' && intelxResults.map((r, i) => (
+          <div
+            key={i}
+            className="rounded-md border p-3 mb-2"
+            style={{
+              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+              backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+            }}
+          >
+            <div className="mb-1" style={{ fontSize: '14px', fontWeight: 500, wordBreak: 'break-all' }}>
+              {r.name || '(no name)'}
+            </div>
+            <div className="flex flex-wrap gap-3 italic" style={{ fontSize: '11px', opacity: 0.75 }}>
+              <span style={{ color: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta-dark)' }}>
+                {r.bucket_name}
+              </span>
+              <span>{r.media_name}</span>
+              {r.date && <span>{r.date.slice(0, 10)}</span>}
+              {r.size > 0 && <span>{(r.size / 1024).toFixed(1)} KB</span>}
+            </div>
+            {r.systemid && (
+              <div className="italic mt-2" style={{ fontSize: '11px', opacity: 0.55, wordBreak: 'break-all' }}>
+                {t('darkweb.intelx_sysid')}: <code>{r.systemid}</code>
               </div>
             )}
           </div>

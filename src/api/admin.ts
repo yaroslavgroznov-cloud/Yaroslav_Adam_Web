@@ -132,6 +132,42 @@ export async function adminConsultModel(
   return jsonOrError<ConsultModelResponse>(res)
 }
 
+// Intelligence X — глубокий поиск утечек / darknet / pastes (платный API)
+export interface IntelxResult {
+  name: string
+  date: string
+  size: number
+  bucket: string
+  bucket_name: string
+  media: number
+  media_name: string
+  systemid: string
+  storageid: string
+  type: number
+}
+
+export interface IntelxResponse {
+  term?: string
+  source?: string
+  count?: number
+  results?: IntelxResult[]
+  soft_selector_warning?: boolean
+  note?: string | null
+  error?: string
+}
+
+export async function adminIntelxSearch(
+  term: string, k = 10, buckets?: string[],
+): Promise<IntelxResponse> {
+  const res = await fetch(`${BASE}/admin/tools/intelx-search`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ term, k, buckets: buckets ?? null }),
+  })
+  return jsonOrError<IntelxResponse>(res)
+}
+
 export async function adminGetKillSwitchEvents(limit = 20): Promise<KillSwitchEvent[]> {
   const url = `${BASE}/admin/kill-switch/events?limit=${limit}`
   const res = await fetch(url, { credentials: 'include' })
