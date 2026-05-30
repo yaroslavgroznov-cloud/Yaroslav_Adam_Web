@@ -110,7 +110,11 @@
     "voice_btn": "Voice",
     "voice_in_cabinet": "Talk to Adam by voice in this role",
     "family_only": "by grant",
-    "attachment_limit": "Max {{n}} files per message"
+    "attachment_limit": "Max {{n}} files per message",
+    "history_resumed": "continuing your previous conversation",
+    "fresh_start_btn": "start a fresh thread",
+    "fresh_start_hint": "Closes the current session (Adam keeps it in his memory) and starts a new one with an empty screen.",
+    "confirm_fresh_start": "Start a fresh thread? The current conversation will close and go into Adam's card — he remembers everything, but the new session starts empty."
   },
   "search": {
     "placeholder": "Find in dialog…",

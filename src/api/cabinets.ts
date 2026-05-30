@@ -119,6 +119,55 @@ export async function cabinetSessionGet(sessionId: number): Promise<CabinetSessi
   return jsonOrError<CabinetSession>(res)
 }
 
+// F.41 «непрерывность нити»: подхватить последнюю активную сессию
+// при возврате в кабинет.
+export async function cabinetSessionActive(slug: string): Promise<CabinetSession | null> {
+  const url = `${BASE}/cabinets/sessions/active?slug=${encodeURIComponent(slug)}`
+  const res = await fetch(url, { credentials: 'include' })
+  if (!res.ok) {
+    if (res.status === 404) return null
+    throw new Error(`HTTP ${res.status}`)
+  }
+  const data = await res.json() as CabinetSession | null
+  return data
+}
+
+export interface CabinetMessageAttachment {
+  id: number
+  original_name: string
+  mime_type: string
+  is_image: boolean
+  public_url: string | null
+}
+
+export interface CabinetMessageHistoryItem {
+  id: number
+  role: 'user' | 'assistant'
+  content: string
+  created_at: string
+  attachments: CabinetMessageAttachment[]
+}
+
+export async function cabinetSessionMessages(
+  sessionId: number, limit = 20,
+): Promise<CabinetMessageHistoryItem[]> {
+  const url = `${BASE}/cabinets/sessions/${sessionId}/messages?limit=${limit}`
+  const res = await fetch(url, { credentials: 'include' })
+  return jsonOrError<CabinetMessageHistoryItem[]>(res)
+}
+
+// Закрыть сессию (генерирует summary в карточку Адама + новая сессия чистая)
+export async function cabinetSessionClose(sessionId: number): Promise<{
+  session_id: number
+  summary_generated: boolean
+  profile_updated: boolean
+}> {
+  const res = await fetch(`${BASE}/cabinets/sessions/${sessionId}/close`, {
+    method: 'POST', credentials: 'include',
+  })
+  return jsonOrError(res)
+}
+
 // F.52: подписка на all-access $39/мес — checkout через Lemon Squeezy
 export async function startAllAccessSubscription(): Promise<PaymentInitiateResp> {
   return paymentInitiate({

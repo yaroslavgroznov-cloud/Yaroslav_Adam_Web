@@ -6,9 +6,10 @@ import { useTranslation } from 'react-i18next'
 
 import {
   cabinetsList, cabinetSessionCreate, cabinetChat,
-  cabinetSessionGet, paymentInitiate, startAllAccessSubscription,
+  cabinetSessionGet, cabinetSessionActive, cabinetSessionMessages,
+  cabinetSessionClose, paymentInitiate, startAllAccessSubscription,
 } from '../api/cabinets'
-import type { Cabinet, CabinetSession } from '../api/cabinets'
+import type { Cabinet, CabinetSession, CabinetMessageAttachment } from '../api/cabinets'
 import { filesConfig, uploadFile } from '../api/files'
 import type { FileMeta, FilesConfig } from '../api/files'
 import { useDarkMode } from '../hooks/useDarkMode'
@@ -16,7 +17,10 @@ import { useDarkMode } from '../hooks/useDarkMode'
 interface ChatLine {
   role: 'user' | 'assistant'
   content: string
+  // attachments из локального uploadFile (только что отправленные в этой сессии браузера)
   attachments?: FileMeta[]
+  // attachments из истории сессии (подгруженные через GET /messages)
+  historyAttachments?: CabinetMessageAttachment[]
 }
 
 // MIME-категория → accept атрибут для file input
@@ -72,22 +76,48 @@ export function CabinetSessionPage(): React.ReactElement {
         const url = new URL(window.location.href)
         const sidStr = url.searchParams.get('session')
         const paymentFlag = url.searchParams.get('payment')
+        let resolvedSession: CabinetSession | null = null
         if (sidStr) {
           try {
             const sid = parseInt(sidStr, 10)
             const s = await cabinetSessionGet(sid)
-            setSession(s)
+            resolvedSession = s
             if (paymentFlag === 'success' && s.payment_status === 'pending') {
               // Webhook ещё мог не успеть — поллим до 20 сек
               for (let i = 0; i < 10; i++) {
                 await new Promise((r) => setTimeout(r, 2000))
                 const s2 = await cabinetSessionGet(sid)
-                if (s2.payment_status !== 'pending') { setSession(s2); break }
+                if (s2.payment_status !== 'pending') { resolvedSession = s2; break }
               }
             }
             // очистим query string
             window.history.replaceState({}, '', `/cabinets/${slug}`)
           } catch {/* ignore */}
+        } else if (found && found.is_active) {
+          // F.41 «непрерывность нити»: нет ?session= → проверяем
+          // последнюю незакрытую активную сессию юзера в этом кабинете.
+          // Если есть — подхватываем, чтобы юзер увидел продолжение
+          // разговора, а не пустую форму intake.
+          try {
+            resolvedSession = await cabinetSessionActive(slug)
+          } catch { /* нет — покажем intake (нормально) */ }
+        }
+        if (resolvedSession) {
+          setSession(resolvedSession)
+          // Подгружаем последние 20 сообщений для отображения «нити»
+          if (
+            resolvedSession.payment_status === 'paid' ||
+            resolvedSession.payment_status === 'free_family'
+          ) {
+            try {
+              const history = await cabinetSessionMessages(resolvedSession.id, 20)
+              setMessages(history.map((m) => ({
+                role: m.role,
+                content: m.content,
+                historyAttachments: m.attachments,
+              })))
+            } catch { /* история не критична для рендера */ }
+          }
         }
       } catch (e) {
         setError(e instanceof Error ? e.message : 'error')
@@ -178,6 +208,28 @@ export function CabinetSessionPage(): React.ReactElement {
       if (s.payment_status === 'pending') {
         setError(t('cabinets.payment_required', { price: cabinet.price_usd_session.toFixed(2) }))
       }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'error')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function startFresh(): Promise<void> {
+    // F.41 «× с чистого листа»: закрываем текущую сессию (это запустит
+    // generate_session_summary → попадёт в карточку Адама, контекст
+    // сохранится в его памяти, но новая сессия начнётся пустой).
+    if (!session || busy) return
+    if (!window.confirm(t('cabinets.confirm_fresh_start'))) return
+    setBusy(true)
+    setError('')
+    try {
+      try { await cabinetSessionClose(session.id) } catch { /* идемпотентно */ }
+      setSession(null)
+      setMessages([])
+      setIntakeData({})
+      setPendingFiles([])
+      setInput('')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'error')
     } finally {
@@ -517,6 +569,31 @@ export function CabinetSessionPage(): React.ReactElement {
         {/* CHAT */}
         {sessionActive && (
           <section className="mt-4">
+            {/* F.41 «нить»: если есть подгруженная история — показываем
+                кнопку «× начать с чистого листа». Иначе (новая сессия) —
+                кнопки нет. */}
+            {messages.length > 0 && (
+              <div className="flex items-center justify-between mb-2">
+                <span className="italic" style={{ fontSize: '12px', opacity: 0.6 }}>
+                  {t('cabinets.history_resumed')}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => void startFresh()}
+                  disabled={busy}
+                  className="italic underline underline-offset-4 decoration-1 disabled:opacity-50"
+                  style={{
+                    fontSize: '12px',
+                    background: 'transparent', border: 'none', cursor: 'pointer',
+                    color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                  }}
+                  aria-label={t('cabinets.fresh_start_btn')}
+                  title={t('cabinets.fresh_start_hint')}
+                >
+                  × {t('cabinets.fresh_start_btn')}
+                </button>
+              </div>
+            )}
             <div
               className="rounded-md border p-4 mb-3 overflow-y-auto"
               style={{
@@ -540,6 +617,24 @@ export function CabinetSessionPage(): React.ReactElement {
                   {m.attachments && m.attachments.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-2">
                       {m.attachments.map((a) => (
+                        <span
+                          key={a.id}
+                          className="italic rounded-md border px-2 py-1"
+                          style={{
+                            fontSize: '11px',
+                            borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                          }}
+                        >
+                          {a.is_image ? '🖼' : '📎'} {a.original_name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  {m.historyAttachments && m.historyAttachments.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {m.historyAttachments.map((a) => (
                         <span
                           key={a.id}
                           className="italic rounded-md border px-2 py-1"
