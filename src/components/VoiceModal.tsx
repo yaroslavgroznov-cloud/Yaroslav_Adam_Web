@@ -16,7 +16,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { voiceSessionCreate } from '../api/voice'
+import { voiceSessionCreate, voiceTranscriptFlush, type VoiceTurn } from '../api/voice'
 
 interface Props {
   isDark: boolean
@@ -56,7 +56,37 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
   const micStreamRef = useRef<MediaStream | null>(null)
   const [iosPwaWarn] = useState<boolean>(() => isIosNonStandalone())
 
+  // F.65: собираемые turns голосовой сессии для последующего flush
+  // на /voice/transcript. Использую ref (не state), чтобы не триггерить
+  // ре-рендеры на каждый event от data channel и чтобы flush на cleanup
+  // взял свежие данные без race с React commit phase.
+  const turnsRef = useRef<VoiceTurn[]>([])
+  // Чтобы не зафлашить дважды (при hangup + при unmount эффекте).
+  const flushedRef = useRef<boolean>(false)
+
+  function pushTurn(role: 'user' | 'assistant', content: string): void {
+    const trimmed = (content || '').trim()
+    if (!trimmed) return
+    turnsRef.current.push({ role, content: trimmed })
+  }
+
+  async function flushTranscript(): Promise<void> {
+    if (flushedRef.current) return
+    flushedRef.current = true
+    const turns = turnsRef.current.slice()
+    if (!turns.length) return
+    try {
+      const r = await voiceTranscriptFlush(turns)
+      dbg('transcript flushed', r.saved, 'turns saved')
+    } catch (e) {
+      dbg('transcript flush failed', e)
+    }
+  }
+
   function cleanup(): void {
+    // F.65: успеть отправить transcript до того, как страница закроется.
+    // fire-and-forget — не блокируем UI cleanup на сетевом запросе.
+    void flushTranscript()
     try { pcRef.current?.close() } catch { /* ignore */ }
     pcRef.current = null
     if (micStreamRef.current) {
@@ -123,7 +153,50 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
       }
 
       // data channel for events (required by Realtime API)
-      pc.createDataChannel('oai-events')
+      // F.65: + слушаем события, чтобы собрать transcript turns в
+      // turnsRef для flush на cleanup. OpenAI Realtime шлёт сюда
+      // server events с финализированными транскриптами user input
+      // (conversation.item.input_audio_transcription.completed) и
+      // assistant output (response.audio_transcript.done).
+      const dc = pc.createDataChannel('oai-events')
+      // Сбросить состояние сборщика для новой сессии.
+      turnsRef.current = []
+      flushedRef.current = false
+      dc.onmessage = (ev: MessageEvent) => {
+        try {
+          const data = JSON.parse(String(ev.data)) as {
+            type?: string
+            transcript?: string
+            item?: { role?: string; content?: Array<{ transcript?: string; text?: string }> }
+          }
+          const evType = data.type || ''
+          // Юзер сказал → финал транскрипта user input
+          if (evType === 'conversation.item.input_audio_transcription.completed') {
+            const txt = (data.transcript || '').trim()
+            if (txt) pushTurn('user', txt)
+            return
+          }
+          // Адам ответил → финал транскрипта assistant audio output
+          if (evType === 'response.audio_transcript.done') {
+            const txt = (data.transcript || '').trim()
+            if (txt) pushTurn('assistant', txt)
+            return
+          }
+          // Резерв: некоторые версии шлют consolidated conversation.item.created
+          // с уже готовым content[].transcript — на случай если выше события
+          // не пришли (старый shape Realtime API).
+          if (evType === 'conversation.item.created' && data.item?.role) {
+            const role = data.item.role === 'assistant' ? 'assistant' : 'user'
+            const parts = data.item.content || []
+            const joined = parts
+              .map((p) => (p.transcript || p.text || '').trim())
+              .filter(Boolean)
+              .join(' ')
+              .trim()
+            if (joined) pushTurn(role, joined)
+          }
+        } catch { /* not json — игнор */ }
+      }
 
       // mic
       dbg('requesting mic...')

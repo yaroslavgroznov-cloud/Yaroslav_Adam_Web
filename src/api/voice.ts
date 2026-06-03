@@ -36,3 +36,36 @@ export async function voiceSessionCreate(
   })
   return jsonOrError<RealtimeSession>(res)
 }
+
+// F.65: после завершения WebRTC voice-сессии — сливаем собранные turns
+// в ту же conversation (kind='voice'), чтобы Адам в чате помнил голос.
+// turns: [{role: 'user'|'assistant', content: string}, ...] в хронологии.
+// Бэкенд игнорирует пустой массив, бьёт по auth (фронт уже шлёт credentials).
+export interface VoiceTurn {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+export interface VoiceTranscriptResult {
+  saved: number
+  ok: boolean
+  conversation_id?: string
+  skipped_reason?: string
+}
+
+export async function voiceTranscriptFlush(
+  turns: VoiceTurn[],
+  opts: { cabinet_session_id?: number } = {},
+): Promise<VoiceTranscriptResult> {
+  if (!turns.length) return { saved: 0, ok: true }
+  const res = await fetch(`${BASE}/voice/transcript`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      turns,
+      cabinet_session_id: opts.cabinet_session_id,
+    }),
+  })
+  return jsonOrError<VoiceTranscriptResult>(res)
+}
