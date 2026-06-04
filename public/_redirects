@@ -1,0 +1,7 @@
+# Cloudflare Pages redirect rules
+# 2026-06-04: Творец просит чтобы вход на домен ВСЕГДА открывал ChatInterface,
+# не публичную landing /welcome. Код /welcome остаётся в репо (LandingPage.tsx)
+# для будущего публичного запуска, но пока 301 на корень.
+
+/welcome      /  301
+/welcome/*    /  301

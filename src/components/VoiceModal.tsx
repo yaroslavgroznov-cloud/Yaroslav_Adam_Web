@@ -176,8 +176,14 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
             if (txt) pushTurn('user', txt)
             return
           }
-          // Адам ответил → финал транскрипта assistant audio output
-          if (evType === 'response.audio_transcript.done') {
+          // Адам ответил → финал транскрипта assistant audio output.
+          // OpenAI Realtime beta слал 'response.audio_transcript.done',
+          // GA переименовал в 'response.output_audio_transcript.done'.
+          // Слушаем оба чтобы не сломаться на смене версии.
+          if (
+            evType === 'response.audio_transcript.done' ||
+            evType === 'response.output_audio_transcript.done'
+          ) {
             const txt = (data.transcript || '').trim()
             if (txt) pushTurn('assistant', txt)
             return
