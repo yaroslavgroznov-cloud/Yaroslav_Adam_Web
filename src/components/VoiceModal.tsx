@@ -63,11 +63,18 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
   const turnsRef = useRef<VoiceTurn[]>([])
   // Чтобы не зафлашить дважды (при hangup + при unmount эффекте).
   const flushedRef = useRef<boolean>(false)
+  // 2026-06-04: фиксируем момент НАЧАЛА реплики (speech_started / response.created),
+  // а не момент прихода транскрипта. Whisper для user может прийти позже
+  // assistant'ового audio_transcript.done — порядок в turnsRef становится
+  // обратным. Сохраняем ts начала для каждой ожидаемой реплики, потом
+  // переносим его на готовый transcript.
+  const pendingUserTsRef = useRef<number | null>(null)
+  const pendingAssistantTsRef = useRef<number | null>(null)
 
-  function pushTurn(role: 'user' | 'assistant', content: string): void {
+  function pushTurn(role: 'user' | 'assistant', content: string, ts: number): void {
     const trimmed = (content || '').trim()
     if (!trimmed) return
-    turnsRef.current.push({ role, content: trimmed })
+    turnsRef.current.push({ role, content: trimmed, ts })
   }
 
   async function flushTranscript(): Promise<void> {
@@ -162,6 +169,8 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
       // Сбросить состояние сборщика для новой сессии.
       turnsRef.current = []
       flushedRef.current = false
+      pendingUserTsRef.current = null
+      pendingAssistantTsRef.current = null
       dc.onmessage = (ev: MessageEvent) => {
         try {
           const data = JSON.parse(String(ev.data)) as {
@@ -170,22 +179,34 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
             item?: { role?: string; content?: Array<{ transcript?: string; text?: string }> }
           }
           const evType = data.type || ''
+          // Маркеры НАЧАЛА реплики — фиксируем ts актуального момента.
+          if (evType === 'input_audio_buffer.speech_started') {
+            pendingUserTsRef.current = Date.now()
+            return
+          }
+          if (evType === 'response.created') {
+            pendingAssistantTsRef.current = Date.now()
+            return
+          }
           // Юзер сказал → финал транскрипта user input
           if (evType === 'conversation.item.input_audio_transcription.completed') {
             const txt = (data.transcript || '').trim()
-            if (txt) pushTurn('user', txt)
+            const ts = pendingUserTsRef.current ?? Date.now()
+            pendingUserTsRef.current = null
+            if (txt) pushTurn('user', txt, ts)
             return
           }
           // Адам ответил → финал транскрипта assistant audio output.
           // OpenAI Realtime beta слал 'response.audio_transcript.done',
           // GA переименовал в 'response.output_audio_transcript.done'.
-          // Слушаем оба чтобы не сломаться на смене версии.
           if (
             evType === 'response.audio_transcript.done' ||
             evType === 'response.output_audio_transcript.done'
           ) {
             const txt = (data.transcript || '').trim()
-            if (txt) pushTurn('assistant', txt)
+            const ts = pendingAssistantTsRef.current ?? Date.now()
+            pendingAssistantTsRef.current = null
+            if (txt) pushTurn('assistant', txt, ts)
             return
           }
           // Резерв: некоторые версии шлют consolidated conversation.item.created
@@ -199,7 +220,7 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
               .filter(Boolean)
               .join(' ')
               .trim()
-            if (joined) pushTurn(role, joined)
+            if (joined) pushTurn(role, joined, Date.now())
           }
         } catch { /* not json — игнор */ }
       }

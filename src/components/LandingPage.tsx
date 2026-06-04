@@ -55,7 +55,7 @@ export function LandingPage(): React.ReactElement {
   const fg = isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)'
   const accent = isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)'
 
-  const enterUrl = '/'
+  const enterUrl = '/chat'
 
   const landingLangs: { code: string; label: string }[] = [
     { code: 'ru', label: 'РУ' },

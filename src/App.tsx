@@ -52,8 +52,9 @@ export default function App() {
   }, [])
 
   const render = (): React.ReactElement => {
-    // F.45: публичная landing page для незнакомцев. Не требует CF Access auth.
-    if (path.startsWith('/welcome')) return <LandingPage />
+    // 2026-06-04: корень и /welcome → публичный лендинг (за CF Access bypass).
+    // ChatInterface переехал на /chat (требует CF Access OTP).
+    if (path === '/' || path.startsWith('/welcome')) return <LandingPage />
     if (path.startsWith('/kill-switch')) return <KillSwitchPanel />
     if (path.startsWith('/tasks')) return <TasksPanel />
     // /cabinets/{slug} — детальная страница; /cabinets — список
@@ -66,8 +67,9 @@ export default function App() {
     return <ChatInterface />
   }
 
-  // На /welcome переключатель уже в header — floating не нужен.
-  const showFloatingFontScale = !path.startsWith('/welcome')
+  // На лендинге переключатель уже в header — floating не нужен.
+  const isLanding = path === '/' || path.startsWith('/welcome')
+  const showFloatingFontScale = !isLanding
 
   return (
     <>

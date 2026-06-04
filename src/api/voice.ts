@@ -44,6 +44,11 @@ export async function voiceSessionCreate(
 export interface VoiceTurn {
   role: 'user' | 'assistant'
   content: string
+  // 2026-06-04: timestamp того момента, когда событие пришло на data channel.
+  // Backend сортирует по нему перед сохранением — Whisper транскрипт юзера
+  // может прийти позже Adam'ового done и в turnsRef порядок становится
+  // обратным. ms epoch.
+  ts?: number
 }
 
 export interface VoiceTranscriptResult {
