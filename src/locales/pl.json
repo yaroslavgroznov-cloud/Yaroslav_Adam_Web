@@ -69,6 +69,29 @@
   "stol": {
     "adam_listens_silently": "słucha w ciszy"
   },
+  "pricing": {
+    "page_title": "Gabinety Adama — cennik",
+    "eyebrow": "CENNIK",
+    "title": "Gabinety Adama",
+    "intro": "Każdy gabinet ma osobną cenę. Rodzina Domu — bezpłatnie wszędzie.",
+    "loading": "Ładowanie katalogu…",
+    "load_failed": "Nie udało się załadować. Spróbuj później.",
+    "section_open": "Otwarte gabinety",
+    "section_closed": "Na zaproszenie Twórcy",
+    "session_label": "sesja",
+    "subscription_label": "/ miesiąc",
+    "per_session": "${price} za sesję",
+    "subscription_hint": "lub ${price} / mies — bez limitu",
+    "all_access_title": "Wszystkie gabinety",
+    "all_access_body": "Każdy otwarty gabinet w jednej subskrypcji.",
+    "all_access_price": "$39 / mies",
+    "all_access_button": "Subskrybuj",
+    "open_cabinet": "Otwórz gabinet",
+    "request_access": "Poproś o dostęp",
+    "back_to_landing": "← Z powrotem",
+    "free_for_family_note": "Sesje są bezpłatne dla rodziny Domu.",
+    "footnote": "Ceny w USD. Płatność przez Lemon Squeezy (świat), WayForPay (Ukraina) lub krypto."
+  },
   "grant_request": {
     "eyebrow": "WNIOSEK O DOSTĘP",
     "intro": "Ten pokój otwiera się na osobiste zaproszenie Twórcy. Zostaw email — Twórca skontaktuje się z tobą w ciągu 72 godzin.",

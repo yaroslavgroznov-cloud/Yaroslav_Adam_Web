@@ -70,6 +70,21 @@ export async function cabinetsList(): Promise<Cabinet[]> {
   return jsonOrError<Cabinet[]>(res)
 }
 
+export interface PublicCabinet {
+  slug: string
+  name: string
+  description: string | null
+  price_usd_session: number
+  price_usd_subscription_monthly: number | null
+  is_active: boolean
+  access_mode: string
+}
+
+export async function cabinetsPublic(): Promise<PublicCabinet[]> {
+  const res = await fetch(`${BASE}/cabinets/public`)
+  return jsonOrError<PublicCabinet[]>(res)
+}
+
 export async function cabinetSessionCreate(
   cabinetSlug: string, intakeData: Record<string, unknown> | null = null,
 ): Promise<CabinetSession> {

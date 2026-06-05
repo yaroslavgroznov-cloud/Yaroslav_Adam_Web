@@ -35,6 +35,14 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params, next
     ? `${BACKEND_BASE}/cabinets/${path}${url.search}`
     : `${BACKEND_BASE}/cabinets${url.search}`
 
+  // Public bypass: /cabinets/public is the pricing landing endpoint -- no auth.
+  if (path === "public" && request.method === "GET") {
+    const r = await fetch(targetUrl, { method: "GET", redirect: "manual" })
+    const respHeaders = new Headers(r.headers)
+    for (const h of ["access-control-allow-origin","access-control-allow-credentials","access-control-allow-methods","access-control-allow-headers","access-control-max-age"]) respHeaders.delete(h)
+    return new Response(r.body, { status: r.status, statusText: r.statusText, headers: respHeaders })
+  }
+
   const cfAuth = readCookie(request.headers.get("cookie"), "CF_Authorization")
   let email: string | null = null
   if (cfAuth) {

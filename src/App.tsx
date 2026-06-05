@@ -22,6 +22,8 @@ const CabinetSessionPage = lazy(() =>
   import('./components/CabinetSessionPage').then(m => ({ default: m.CabinetSessionPage })))
 const LandingPage = lazy(() =>
   import('./components/LandingPage').then(m => ({ default: m.LandingPage })))
+const PricingPage = lazy(() =>
+  import('./components/PricingPage').then(m => ({ default: m.PricingPage })))
 
 function Fallback(): React.ReactElement {
   return (
@@ -55,6 +57,7 @@ export default function App() {
     // 2026-06-04: корень и /welcome → публичный лендинг (за CF Access bypass).
     // ChatInterface переехал на /chat (требует CF Access OTP).
     if (path === '/' || path.startsWith('/welcome')) return <LandingPage />
+    if (path.startsWith('/pricing')) return <PricingPage />
     if (path.startsWith('/kill-switch')) return <KillSwitchPanel />
     if (path.startsWith('/tasks')) return <TasksPanel />
     // /cabinets/{slug} — детальная страница; /cabinets — список
@@ -67,8 +70,8 @@ export default function App() {
     return <ChatInterface />
   }
 
-  // На лендинге переключатель уже в header — floating не нужен.
-  const isLanding = path === '/' || path.startsWith('/welcome')
+  // На лендинге и pricing переключатель уже в header — floating не нужен.
+  const isLanding = path === '/' || path.startsWith('/welcome') || path.startsWith('/pricing')
   const showFloatingFontScale = !isLanding
 
   return (
