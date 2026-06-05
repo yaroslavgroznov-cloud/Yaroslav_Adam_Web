@@ -81,7 +81,8 @@ export interface PublicCabinet {
 }
 
 export async function cabinetsPublic(): Promise<PublicCabinet[]> {
-  const res = await fetch(`${BASE}/cabinets/public`)
+  // Префикс /public/* вне CF Access destinations -- доступен анониму.
+  const res = await fetch(`${BASE}/public/cabinets`)
   return jsonOrError<PublicCabinet[]>(res)
 }
 
