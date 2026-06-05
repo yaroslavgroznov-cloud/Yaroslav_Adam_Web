@@ -64,6 +64,9 @@ export function PricingPage(): React.ReactElement {
         style={{
           backgroundColor: cardBg,
           border: `1px solid ${cardBorder}`,
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
         }}
       >
         <h3 className="italic mb-2" style={{ fontSize: '20px', letterSpacing: '0.03em' }}>{c.name}</h3>
@@ -84,8 +87,10 @@ export function PricingPage(): React.ReactElement {
         )}
         <a
           href={href}
-          className="inline-block italic"
+          className="italic"
           style={{
+            marginTop: 'auto',
+            alignSelf: 'center',
             padding: '10px 22px',
             fontSize: '14px',
             backgroundColor: isClosed ? 'transparent' : accent,
@@ -94,6 +99,7 @@ export function PricingPage(): React.ReactElement {
             borderRadius: '6px',
             letterSpacing: '0.08em',
             textDecoration: 'none',
+            textAlign: 'center',
           }}
         >
           {isClosed ? t('pricing.request_access') : t('pricing.open_cabinet')}
@@ -122,7 +128,7 @@ export function PricingPage(): React.ReactElement {
               <button
                 key={l.code}
                 onClick={() => void i18n.changeLanguage(l.code)}
-                aria-pressed={activeLang === l.code}
+                aria-pressed={activeLang === l.code ? 'true' : 'false'}
                 className="italic"
                 style={{
                   fontSize: '13px',
