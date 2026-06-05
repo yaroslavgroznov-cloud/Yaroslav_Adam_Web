@@ -168,6 +168,26 @@ export async function cabinetSessionClose(sessionId: number): Promise<{
   return jsonOrError(res)
 }
 
+// F.70 — RequestAccess flow: публичная заявка на доступ к creator_grant кабинету
+export interface GrantRequestAck {
+  request_id: number
+  cabinet_slug: string
+  status: string
+  sla_hours: number
+  message: string
+}
+
+export async function cabinetRequestAccess(
+  slug: string, userEmail: string, userMessage?: string,
+): Promise<GrantRequestAck> {
+  const res = await fetch(`${BASE}/cabinets/${encodeURIComponent(slug)}/request-access`, {
+    method: 'POST', credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user_email: userEmail, user_message: userMessage || null }),
+  })
+  return jsonOrError<GrantRequestAck>(res)
+}
+
 // F.52: подписка на all-access $39/мес — checkout через Lemon Squeezy
 export async function startAllAccessSubscription(): Promise<PaymentInitiateResp> {
   return paymentInitiate({

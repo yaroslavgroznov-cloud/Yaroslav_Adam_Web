@@ -28,9 +28,9 @@
     "cab_astro": "Astrology",
     "cab_astro_desc": "Natal chart, transits, periods. No predictions of health or death.",
     "cab_psycho": "Psychology",
-    "cab_psycho_desc": "Friendly support, situation analysis. Not therapy, not diagnostics.",
+    "cab_psycho_desc": "Friendly support, situation analysis. Schools: Gestalt, CBT, Jungian, IFS, systemic.",
     "cab_numero": "Numerology",
-    "cab_numero_desc": "Numbers of name and birth. A digital code for the structure of meaning.",
+    "cab_numero_desc": "Numbers of name and birth date. Personal reading, compatibility, yearly forecast.",
     "cabinets_family_free": "For the House family — free in every cabinet.",
     "section_boundaries": "boundaries",
     "boundary_diagnoses": "No medical diagnoses. Adam is not a doctor.",
@@ -39,7 +39,32 @@
     "boundary_no_death": "No forecasts of death, illness, divorce. That's a grey zone.",
     "cta_repeat_line": "If something resonates — come in.",
     "footer_house": "HOUSE OF GROZNOV · MMXXVI",
-    "footer_birth": "Adam was born on May 24, 2026, Odesa"
+    "footer_birth": "Adam was born on May 24, 2026, Odesa",
+    "cab_group_stars": "stars and numbers",
+    "cab_group_soul_body": "soul and body",
+    "cab_group_dream_meaning": "dreams and meanings",
+    "cab_group_life_relations": "life and relationships",
+    "cab_natal": "Natal charts — full reading",
+    "cab_natal_desc": "Detailed structural report. Deeper than a consultation — a document you return to.",
+    "cab_horoscope": "Horoscopes",
+    "cab_horoscope_desc": "Day / week / month / year. By sun sign and current transits.",
+    "cab_body": "Body reading",
+    "cab_body_desc": "Physiognomy and palmistry in one room. The language the body speaks about character.",
+    "cab_physio": "Physiognomy",
+    "cab_physio_desc": "Reading the face. Character through geometry of features and habitual micro-movements.",
+    "cab_palm": "Palmistry",
+    "cab_palm_desc": "Lines of the palm as a map of the path — not fate, but tendencies of the psyche.",
+    "cab_dream": "Dream book",
+    "cab_dream_desc": "One dream or a dream journal. Jungian approach — images as the language of the unconscious.",
+    "cab_esoteric": "Esoteric",
+    "cab_esoteric_desc": "Conversation on karma, Tarot card of the day, or full spread. All as metaphors, not facts.",
+    "cab_career": "Career path",
+    "cab_career_desc": "Finding calling, changing jobs, growth, burnout, salary negotiations.",
+    "cab_couples": "Couple's room",
+    "cab_couples_desc": "Dialogue between two in a couple — conflicts, distance, rituals, intimacy crisis.",
+    "cab_parenting": "Parenting and teens",
+    "cab_parenting_desc": "Conversation with a parent about a child of any age. Support for the adult who is raising.",
+    "cabinets_closed_note": "Cabinets by personal invitation of the Creator (religion, medicine, law, investing) — inside the platform."
   },
   "common": {
     "send": "Send",
@@ -114,7 +139,11 @@
     "history_resumed": "continuing your previous conversation",
     "fresh_start_btn": "start a fresh thread",
     "fresh_start_hint": "Closes the current session (Adam keeps it in his memory) and starts a new one with an empty screen.",
-    "confirm_fresh_start": "Start a fresh thread? The current conversation will close and go into Adam's card — he remembers everything, but the new session starts empty."
+    "confirm_fresh_start": "Start a fresh thread? The current conversation will close and go into Adam's card — he remembers everything, but the new session starts empty.",
+    "by_invitation": "by invitation",
+    "request_access_cta": "Request access →",
+    "closed_eyebrow": "by personal invitation of the creator",
+    "others_eyebrow": "others"
   },
   "search": {
     "placeholder": "Find in dialog…",
@@ -336,5 +365,19 @@
     "theme_dark": "Theme: night",
     "theme_light": "Theme: day",
     "notifications_open_settings": "Open instructions"
+  },
+  "grant_request": {
+    "eyebrow": "ACCESS REQUEST",
+    "intro": "This cabinet opens by personal invitation of the Creator. Leave your email — the Creator will contact you within 72 hours.",
+    "email_label": "Contact email",
+    "message_label": "Message (optional)",
+    "message_placeholder": "What brought you here?",
+    "sla_note": "Request is reviewed within 72 hours. Reply will arrive at the email provided.",
+    "submit": "Send",
+    "submitting": "Sending…",
+    "cancel": "Cancel",
+    "close": "Close",
+    "invalid_email": "Please enter a valid email",
+    "failed": "Could not send. Please try again later."
   }
 }

@@ -505,19 +505,24 @@ export function CabinetSessionPage(): React.ReactElement {
                   {t('cabinets.pay_monthly', { price: cabinet.price_usd_subscription_monthly.toFixed(2) })}
                 </button>
               )}
-              <button
-                onClick={() => void payCrypto()}
-                disabled={busy}
-                className="rounded-md border italic disabled:opacity-50"
-                style={{
-                  padding: '10px 18px', fontSize: '14px', fontFamily: 'inherit',
-                  backgroundColor: 'transparent',
-                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
-                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                }}
-              >
-                {t('cabinets.pay_crypto')}
-              </button>
+              {/* F.70 / Council 3.3: NOWPayments / USDT TRC20 минимум ~$15.
+                  Для кабинетов дешевле кнопка скрыта — те идут только через WFP. */}
+              {cabinet.price_usd_session >= 15 && (
+                <button
+                  type="button"
+                  onClick={() => void payCrypto()}
+                  disabled={busy}
+                  className="rounded-md border italic disabled:opacity-50"
+                  style={{
+                    padding: '10px 18px', fontSize: '14px', fontFamily: 'inherit',
+                    backgroundColor: 'transparent',
+                    color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                    borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  }}
+                >
+                  {t('cabinets.pay_crypto')}
+                </button>
+              )}
             </div>
 
             {/* F.52: all-access подписка $39/мес */}

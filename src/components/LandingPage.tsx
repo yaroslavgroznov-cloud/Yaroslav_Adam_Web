@@ -213,28 +213,37 @@ export function LandingPage(): React.ReactElement {
       {/* CABINETS */}
       <Section eyebrow={t('landing.section_cabinets')}>
         <p className="text-center mb-10 opacity-85">{t('landing.cabinets_intro')}</p>
-        <div className="space-y-5">
-          <CabinetRow
-            name={t('landing.cab_astro')}
-            desc={t('landing.cab_astro_desc')}
-            price="$15"
-            accent={accent}
-          />
-          <CabinetRow
-            name={t('landing.cab_psycho')}
-            desc={t('landing.cab_psycho_desc')}
-            price="$12"
-            accent={accent}
-          />
-          <CabinetRow
-            name={t('landing.cab_numero')}
-            desc={t('landing.cab_numero_desc')}
-            price="$10"
-            accent={accent}
-          />
-        </div>
+
+        <CabinetGroup label={t('landing.cab_group_stars')} accent={accent}>
+          <CabinetRow name={t('landing.cab_astro')} desc={t('landing.cab_astro_desc')} price="$15" accent={accent} />
+          <CabinetRow name={t('landing.cab_natal')} desc={t('landing.cab_natal_desc')} price="$29" accent={accent} />
+          <CabinetRow name={t('landing.cab_horoscope')} desc={t('landing.cab_horoscope_desc')} price="$5" accent={accent} />
+          <CabinetRow name={t('landing.cab_numero')} desc={t('landing.cab_numero_desc')} price="$12" accent={accent} />
+        </CabinetGroup>
+
+        <CabinetGroup label={t('landing.cab_group_soul_body')} accent={accent}>
+          <CabinetRow name={t('landing.cab_psycho')} desc={t('landing.cab_psycho_desc')} price="$12" accent={accent} />
+          <CabinetRow name={t('landing.cab_body')} desc={t('landing.cab_body_desc')} price="$15" accent={accent} />
+          <CabinetRow name={t('landing.cab_physio')} desc={t('landing.cab_physio_desc')} price="$15" accent={accent} />
+          <CabinetRow name={t('landing.cab_palm')} desc={t('landing.cab_palm_desc')} price="$15" accent={accent} />
+        </CabinetGroup>
+
+        <CabinetGroup label={t('landing.cab_group_dream_meaning')} accent={accent}>
+          <CabinetRow name={t('landing.cab_dream')} desc={t('landing.cab_dream_desc')} price="$8" accent={accent} />
+          <CabinetRow name={t('landing.cab_esoteric')} desc={t('landing.cab_esoteric_desc')} price="$18" accent={accent} />
+        </CabinetGroup>
+
+        <CabinetGroup label={t('landing.cab_group_life_relations')} accent={accent}>
+          <CabinetRow name={t('landing.cab_career')} desc={t('landing.cab_career_desc')} price="$15" accent={accent} />
+          <CabinetRow name={t('landing.cab_couples')} desc={t('landing.cab_couples_desc')} price="$25" accent={accent} />
+          <CabinetRow name={t('landing.cab_parenting')} desc={t('landing.cab_parenting_desc')} price="$15" accent={accent} />
+        </CabinetGroup>
+
         <p className="text-center mt-10 opacity-60 italic" style={{ fontSize: '13px' }}>
           {t('landing.cabinets_family_free')}
+        </p>
+        <p className="text-center mt-3 opacity-50 italic" style={{ fontSize: '12px' }}>
+          {t('landing.cabinets_closed_note')}
         </p>
       </Section>
 
@@ -284,6 +293,26 @@ export function LandingPage(): React.ReactElement {
         <p>{t('landing.footer_house')}</p>
         <p className="mt-1">{t('landing.footer_birth')}</p>
       </footer>
+    </div>
+  )
+}
+
+interface CabinetGroupProps {
+  label: string
+  accent: string
+  children: React.ReactNode
+}
+
+function CabinetGroup({ label, accent, children }: CabinetGroupProps): React.ReactElement {
+  return (
+    <div className="mb-10">
+      <p
+        className="italic mb-4 opacity-70"
+        style={{ fontSize: '12px', letterSpacing: '0.3em', textTransform: 'uppercase', color: accent }}
+      >
+        {label}
+      </p>
+      <div className="space-y-4">{children}</div>
     </div>
   )
 }
