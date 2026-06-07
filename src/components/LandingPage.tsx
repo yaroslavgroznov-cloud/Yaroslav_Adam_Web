@@ -375,6 +375,20 @@ export function LandingPage(): React.ReactElement {
             {t('landing.card_link_en')}
           </a>
         </p>
+        <p className="text-center mt-8 italic opacity-60" style={{ fontSize: '13px' }}>
+          {t('landing.prospectus_hint')}
+        </p>
+        <p className="text-center mt-2" style={{ fontSize: '13px', letterSpacing: '0.04em' }}>
+          <a
+            href="/cards/house-of-groznov-prospectus.bilingual.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="italic underline underline-offset-4 decoration-1"
+            style={{ color: burgundy }}
+          >
+            {t('landing.prospectus_link')}
+          </a>
+        </p>
       </Section>
 
       <Divider gold={gold} />
