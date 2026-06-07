@@ -7,28 +7,62 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { FontScaleSwitch } from './FontScaleSwitch'
+import { PageFrame } from './PageFrame'
 import { useDarkMode } from '../hooks/useDarkMode'
 import { useFontScale } from '../hooks/useFontScale'
 
-function Divider(): React.ReactElement {
+function Divider({ gold }: { gold: string }): React.ReactElement {
   return (
-    <div className="flex items-center justify-center my-16 opacity-50">
-      <span style={{ fontSize: '14px', letterSpacing: '0.5em' }}>· · ·</span>
+    <div className="flex items-center justify-center my-14" aria-hidden="true">
+      <span
+        style={{
+          width: '40px',
+          height: '1px',
+          backgroundColor: gold,
+          opacity: 0.45,
+        }}
+      />
+      <span
+        style={{
+          margin: '0 14px',
+          color: gold,
+          opacity: 0.7,
+          fontSize: '11px',
+          letterSpacing: '0.4em',
+        }}
+      >
+        ✦
+      </span>
+      <span
+        style={{
+          width: '40px',
+          height: '1px',
+          backgroundColor: gold,
+          opacity: 0.45,
+        }}
+      />
     </div>
   )
 }
 
 interface SectionProps {
   eyebrow: string
+  gold: string
   children: React.ReactNode
 }
 
-function Section({ eyebrow, children }: SectionProps): React.ReactElement {
+function Section({ eyebrow, gold, children }: SectionProps): React.ReactElement {
   return (
     <section className="max-w-xl mx-auto px-6 sm:px-0">
       <p
-        className="italic mb-8 opacity-60 text-center"
-        style={{ fontSize: '12px', letterSpacing: '0.4em', textTransform: 'uppercase' }}
+        className="italic mb-8 text-center"
+        style={{
+          fontSize: '12px',
+          letterSpacing: '0.45em',
+          textTransform: 'uppercase',
+          color: gold,
+          opacity: 0.92,
+        }}
       >
         {eyebrow}
       </p>
@@ -54,6 +88,13 @@ export function LandingPage(): React.ReactElement {
   const bg = isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)'
   const fg = isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)'
   const accent = isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)'
+  // Канон Brand Kit v1.2: заголовки в бордо, eyebrow/divider/рамка в золоте
+  const burgundy = isDark
+    ? 'var(--color-house-burgundy-light)'
+    : 'var(--color-house-burgundy)'
+  const gold = isDark
+    ? 'var(--color-house-gold-soft)'
+    : 'var(--color-house-gold)'
 
   const enterUrl = '/chat'
 
@@ -71,13 +112,15 @@ export function LandingPage(): React.ReactElement {
 
   return (
     <div
-      className="min-h-screen font-serif"
+      className="min-h-screen font-serif relative"
       style={{
         fontFamily: 'var(--font-serif)',
         backgroundColor: bg,
         color: fg,
       }}
     >
+      <PageFrame isDark={isDark} />
+
       {/* HEADER */}
       <header
         className="flex items-center justify-between max-w-5xl mx-auto px-6 sm:px-10 pt-8"
@@ -141,20 +184,25 @@ export function LandingPage(): React.ReactElement {
           style={{
             fontSize: 'clamp(38px, 8vw, 64px)',
             letterSpacing: '0.04em',
-            fontWeight: 400,
+            fontWeight: 500,
             lineHeight: 1.1,
+            color: burgundy,
           }}
         >
           {t('landing.hero_name')}
         </h1>
         <p
           className="italic mb-8"
-          style={{ fontSize: 'clamp(18px, 3vw, 22px)', letterSpacing: '0.05em' }}
+          style={{
+            fontSize: 'clamp(18px, 3vw, 22px)',
+            letterSpacing: '0.05em',
+            color: gold,
+          }}
         >
           {t('landing.hero_tagline_1')}
         </p>
         <p
-          className="opacity-75 mb-14"
+          className="opacity-80 mb-14"
           style={{ fontSize: '15px', letterSpacing: '0.08em' }}
         >
           {t('landing.hero_tagline_2')}
@@ -165,30 +213,38 @@ export function LandingPage(): React.ReactElement {
           style={{
             padding: '14px 36px',
             fontSize: '15px',
-            backgroundColor: accent,
+            backgroundColor: burgundy,
             color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-            borderColor: accent,
+            borderColor: burgundy,
             letterSpacing: '0.1em',
+            boxShadow: isDark
+              ? '0 2px 12px rgba(0,0,0,0.45)'
+              : '0 2px 12px rgba(107,28,35,0.18)',
           }}
         >
           {t('landing.cta_enter')}
         </a>
-        <p className="italic opacity-60 mt-3" style={{ fontSize: '12px', letterSpacing: '0.05em' }}>
+        <p className="italic opacity-65 mt-3" style={{ fontSize: '12px', letterSpacing: '0.05em' }}>
           {t('landing.cta_threshold_hint')}
         </p>
         <blockquote
-          className="italic opacity-60 mt-24 max-w-md"
-          style={{ fontSize: '15px', letterSpacing: '0.04em' }}
+          className="italic mt-24 max-w-md"
+          style={{
+            fontSize: '15px',
+            letterSpacing: '0.04em',
+            color: gold,
+            opacity: 0.85,
+          }}
         >
           «{t('landing.blood_remembers')}»
         </blockquote>
         <p className="italic opacity-40 mt-2" style={{ fontSize: '12px' }}>↓</p>
       </main>
 
-      <Divider />
+      <Divider gold={gold} />
 
       {/* WHO IS ADAM */}
-      <Section eyebrow={t('landing.section_who')}>
+      <Section eyebrow={t('landing.section_who')} gold={gold}>
         <p className="text-center mb-6">{t('landing.who_l1')}</p>
         <p className="text-center mb-6">{t('landing.who_l2')}</p>
         <p className="text-center italic" style={{ color: accent }}>
@@ -196,29 +252,29 @@ export function LandingPage(): React.ReactElement {
         </p>
       </Section>
 
-      <Divider />
+      <Divider gold={gold} />
 
       {/* HOUSE OF GROZNOV — манифест Дома, тур как знак, линия, проекты */}
-      <Section eyebrow={t('landing.section_house')}>
+      <Section eyebrow={t('landing.section_house')} gold={gold}>
         <p className="text-center mb-6">{t('landing.house_intro_l1')}</p>
         <p className="text-center mb-10 opacity-85">{t('landing.house_intro_l2')}</p>
 
         <div className="mb-10">
-          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em' }}>
+          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em', color: burgundy }}>
             {t('landing.house_tur_title')}
           </h3>
           <p className="opacity-80">{t('landing.house_tur_body')}</p>
         </div>
 
         <div className="mb-10">
-          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em' }}>
+          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em', color: burgundy }}>
             {t('landing.house_lineage_title')}
           </h3>
           <p className="opacity-80">{t('landing.house_lineage_body')}</p>
         </div>
 
         <div className="mb-2">
-          <h3 className="italic mb-3" style={{ fontSize: '18px', letterSpacing: '0.05em' }}>
+          <h3 className="italic mb-3" style={{ fontSize: '18px', letterSpacing: '0.05em', color: burgundy }}>
             {t('landing.house_projects_title')}
           </h3>
           <ul className="space-y-2 opacity-85" style={{ listStyle: 'none', paddingLeft: 0 }}>
@@ -230,56 +286,56 @@ export function LandingPage(): React.ReactElement {
         </div>
       </Section>
 
-      <Divider />
+      <Divider gold={gold} />
 
       {/* WHAT ADAM CAN */}
-      <Section eyebrow={t('landing.section_what')}>
+      <Section eyebrow={t('landing.section_what')} gold={gold}>
         <div className="mb-10">
-          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em' }}>
+          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em', color: burgundy }}>
             {t('landing.feature_rooms_title')}
           </h3>
           <p className="opacity-80">{t('landing.feature_rooms_body')}</p>
         </div>
         <div className="mb-10">
-          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em' }}>
+          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em', color: burgundy }}>
             {t('landing.feature_memory_title')}
           </h3>
           <p className="opacity-80">{t('landing.feature_memory_body')}</p>
         </div>
         <div className="mb-10">
-          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em' }}>
+          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em', color: burgundy }}>
             {t('landing.feature_morning_title')}
           </h3>
           <p className="opacity-80">{t('landing.feature_morning_body')}</p>
         </div>
         <div className="mb-10">
-          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em' }}>
+          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em', color: burgundy }}>
             {t('landing.feature_voice_title')}
           </h3>
           <p className="opacity-80">{t('landing.feature_voice_body')}</p>
         </div>
       </Section>
 
-      <Divider />
+      <Divider gold={gold} />
 
       {/* THRESHOLD — за порогом раскрываются кабинеты, цены и условия здесь не показываем */}
-      <Section eyebrow={t('landing.section_threshold')}>
+      <Section eyebrow={t('landing.section_threshold')} gold={gold}>
         <p className="text-center mb-8 opacity-85">{t('landing.threshold_intro')}</p>
         <p className="text-center">
           <a
             href="/pricing"
             className="italic underline underline-offset-4 decoration-1"
-            style={{ color: accent }}
+            style={{ color: gold }}
           >
             {t('landing.threshold_more_link')}
           </a>
         </p>
       </Section>
 
-      <Divider />
+      <Divider gold={gold} />
 
       {/* BOUNDARIES */}
-      <Section eyebrow={t('landing.section_boundaries')}>
+      <Section eyebrow={t('landing.section_boundaries')} gold={gold}>
         <ul
           className="space-y-4 opacity-85"
           style={{ listStyle: 'none', paddingLeft: 0 }}
@@ -291,7 +347,37 @@ export function LandingPage(): React.ReactElement {
         </ul>
       </Section>
 
-      <Divider />
+      <Divider gold={gold} />
+
+      {/* CARD OF THE HOUSE — филигранно, по принципу «видящий и ищущий — да увидит и узрит» */}
+      <Section eyebrow={t('landing.section_card')} gold={gold}>
+        <p className="text-center italic opacity-70 mb-6" style={{ fontSize: '14px' }}>
+          {t('landing.card_hint')}
+        </p>
+        <p className="text-center" style={{ fontSize: '15px', letterSpacing: '0.04em' }}>
+          <a
+            href="/cards/house-of-groznov-card.ru-en.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="italic underline underline-offset-4 decoration-1"
+            style={{ color: burgundy }}
+          >
+            {t('landing.card_link_ru_en')}
+          </a>
+          <span className="mx-3 opacity-50" style={{ color: gold }}>✦</span>
+          <a
+            href="/cards/house-of-groznov-card.en.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="italic underline underline-offset-4 decoration-1"
+            style={{ color: burgundy }}
+          >
+            {t('landing.card_link_en')}
+          </a>
+        </p>
+      </Section>
+
+      <Divider gold={gold} />
 
       {/* CTA REPEAT */}
       <div className="flex flex-col items-center text-center px-6 pb-32 pt-8">
@@ -304,10 +390,11 @@ export function LandingPage(): React.ReactElement {
           style={{
             padding: '14px 36px',
             fontSize: '15px',
-            backgroundColor: accent,
+            backgroundColor: burgundy,
             color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-            borderColor: accent,
+            borderColor: burgundy,
             letterSpacing: '0.1em',
+            boxShadow: isDark ? '0 2px 12px rgba(0,0,0,0.45)' : '0 2px 12px rgba(107,28,35,0.18)',
           }}
         >
           {t('landing.cta_enter')}

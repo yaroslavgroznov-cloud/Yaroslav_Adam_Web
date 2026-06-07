@@ -21,6 +21,12 @@
   --color-text-muted-day:   #5A4530;
   --color-pergament-light:  #E8DDC7;
   --color-muted-warm:       #8B7355;
+  /* House of Groznov — канон Brand Kit v1.2 (2026-06-07) */
+  --color-house-burgundy:        #6B1C23;  /* digital primary, заголовки на пергаменте */
+  --color-house-burgundy-print:  #5A1820;  /* CMYK-эквивалент для типографии */
+  --color-house-burgundy-light:  #8E2832;  /* для dark mode заголовков */
+  --color-house-gold:            #C9A227;  /* antique gold — eyebrow, sub-titles, рамка */
+  --color-house-gold-soft:       #B89A3C;  /* более приглушённый для dark mode */
   --font-serif: "EB Garamond", Georgia, serif;
 }
 
