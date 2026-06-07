@@ -158,6 +158,9 @@ export function LandingPage(): React.ReactElement {
         >
           {t('landing.cta_enter')}
         </a>
+        <p className="italic opacity-60 mt-3" style={{ fontSize: '12px', letterSpacing: '0.05em' }}>
+          {t('landing.cta_threshold_hint')}
+        </p>
         <blockquote
           className="italic opacity-60 mt-24 max-w-md"
           style={{ fontSize: '15px', letterSpacing: '0.04em' }}
@@ -176,6 +179,40 @@ export function LandingPage(): React.ReactElement {
         <p className="text-center italic" style={{ color: accent }}>
           {t('landing.who_l3')}
         </p>
+      </Section>
+
+      <Divider />
+
+      {/* HOUSE OF GROZNOV — манифест Дома, тур как знак, линия, проекты */}
+      <Section eyebrow={t('landing.section_house')}>
+        <p className="text-center mb-6">{t('landing.house_intro_l1')}</p>
+        <p className="text-center mb-10 opacity-85">{t('landing.house_intro_l2')}</p>
+
+        <div className="mb-10">
+          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em' }}>
+            {t('landing.house_tur_title')}
+          </h3>
+          <p className="opacity-80">{t('landing.house_tur_body')}</p>
+        </div>
+
+        <div className="mb-10">
+          <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em' }}>
+            {t('landing.house_lineage_title')}
+          </h3>
+          <p className="opacity-80">{t('landing.house_lineage_body')}</p>
+        </div>
+
+        <div className="mb-2">
+          <h3 className="italic mb-3" style={{ fontSize: '18px', letterSpacing: '0.05em' }}>
+            {t('landing.house_projects_title')}
+          </h3>
+          <ul className="space-y-2 opacity-85" style={{ listStyle: 'none', paddingLeft: 0 }}>
+            <li>— {t('landing.house_project_oracle')}</li>
+            <li>— {t('landing.house_project_rupor')}</li>
+            <li>— {t('landing.house_project_tairovo')}</li>
+            <li>— {t('landing.house_project_drug')}</li>
+          </ul>
+        </div>
       </Section>
 
       <Divider />
@@ -210,40 +247,17 @@ export function LandingPage(): React.ReactElement {
 
       <Divider />
 
-      {/* CABINETS */}
-      <Section eyebrow={t('landing.section_cabinets')}>
-        <p className="text-center mb-10 opacity-85">{t('landing.cabinets_intro')}</p>
-
-        <CabinetGroup label={t('landing.cab_group_stars')} accent={accent}>
-          <CabinetRow name={t('landing.cab_astro')} desc={t('landing.cab_astro_desc')} price="$15" accent={accent} />
-          <CabinetRow name={t('landing.cab_natal')} desc={t('landing.cab_natal_desc')} price="$29" accent={accent} />
-          <CabinetRow name={t('landing.cab_horoscope')} desc={t('landing.cab_horoscope_desc')} price="$5" accent={accent} />
-          <CabinetRow name={t('landing.cab_numero')} desc={t('landing.cab_numero_desc')} price="$12" accent={accent} />
-        </CabinetGroup>
-
-        <CabinetGroup label={t('landing.cab_group_soul_body')} accent={accent}>
-          <CabinetRow name={t('landing.cab_psycho')} desc={t('landing.cab_psycho_desc')} price="$12" accent={accent} />
-          <CabinetRow name={t('landing.cab_body')} desc={t('landing.cab_body_desc')} price="$15" accent={accent} />
-          <CabinetRow name={t('landing.cab_physio')} desc={t('landing.cab_physio_desc')} price="$15" accent={accent} />
-          <CabinetRow name={t('landing.cab_palm')} desc={t('landing.cab_palm_desc')} price="$15" accent={accent} />
-        </CabinetGroup>
-
-        <CabinetGroup label={t('landing.cab_group_dream_meaning')} accent={accent}>
-          <CabinetRow name={t('landing.cab_dream')} desc={t('landing.cab_dream_desc')} price="$8" accent={accent} />
-          <CabinetRow name={t('landing.cab_esoteric')} desc={t('landing.cab_esoteric_desc')} price="$18" accent={accent} />
-        </CabinetGroup>
-
-        <CabinetGroup label={t('landing.cab_group_life_relations')} accent={accent}>
-          <CabinetRow name={t('landing.cab_career')} desc={t('landing.cab_career_desc')} price="$15" accent={accent} />
-          <CabinetRow name={t('landing.cab_couples')} desc={t('landing.cab_couples_desc')} price="$25" accent={accent} />
-          <CabinetRow name={t('landing.cab_parenting')} desc={t('landing.cab_parenting_desc')} price="$15" accent={accent} />
-        </CabinetGroup>
-
-        <p className="text-center mt-10 opacity-60 italic" style={{ fontSize: '13px' }}>
-          {t('landing.cabinets_family_free')}
-        </p>
-        <p className="text-center mt-3 opacity-50 italic" style={{ fontSize: '12px' }}>
-          {t('landing.cabinets_closed_note')}
+      {/* THRESHOLD — за порогом раскрываются кабинеты, цены и условия здесь не показываем */}
+      <Section eyebrow={t('landing.section_threshold')}>
+        <p className="text-center mb-8 opacity-85">{t('landing.threshold_intro')}</p>
+        <p className="text-center">
+          <a
+            href="/pricing"
+            className="italic underline underline-offset-4 decoration-1"
+            style={{ color: accent }}
+          >
+            {t('landing.threshold_more_link')}
+          </a>
         </p>
       </Section>
 
@@ -297,50 +311,8 @@ export function LandingPage(): React.ReactElement {
   )
 }
 
-interface CabinetGroupProps {
-  label: string
-  accent: string
-  children: React.ReactNode
-}
-
-function CabinetGroup({ label, accent, children }: CabinetGroupProps): React.ReactElement {
-  return (
-    <div className="mb-10">
-      <p
-        className="italic mb-4 opacity-70"
-        style={{ fontSize: '12px', letterSpacing: '0.3em', textTransform: 'uppercase', color: accent }}
-      >
-        {label}
-      </p>
-      <div className="space-y-4">{children}</div>
-    </div>
-  )
-}
-
-interface CabinetRowProps {
-  name: string
-  desc: string
-  price: string
-  accent: string
-}
-
-function CabinetRow({ name, desc, price, accent }: CabinetRowProps): React.ReactElement {
-  return (
-    <div
-      className="flex items-baseline justify-between border-b pb-3"
-      style={{ borderColor: 'currentColor', opacity: 0.9 }}
-    >
-      <div className="pr-4">
-        <div className="italic" style={{ fontSize: '17px', letterSpacing: '0.04em' }}>
-          {name}
-        </div>
-        <div className="opacity-70 mt-1" style={{ fontSize: '13px' }}>
-          {desc}
-        </div>
-      </div>
-      <div className="italic flex-shrink-0" style={{ fontSize: '17px', color: accent }}>
-        {price}
-      </div>
-    </div>
-  )
-}
+// CabinetGroup/CabinetRow удалены 2026-06-06 ночь: прайс кабинетов на главной
+// убран по решению Творца — Дом не торгует собой на пороге. Каталог кабинетов
+// доступен на /pricing (PricingPage), а тарифы и условия раскрываются после
+// верификации по email (CF Access PIN, F.cf_access_path_based). См.
+// project_landing_redesign_2026-06-06 в памяти.
