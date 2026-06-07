@@ -120,7 +120,22 @@ export function LandingPage(): React.ReactElement {
       </header>
 
       {/* HERO */}
-      <main className="flex flex-col items-center justify-center text-center px-6 pt-24 pb-12">
+      <main className="flex flex-col items-center justify-center text-center px-6 pt-16 pb-12">
+        <picture>
+          <source srcSet="/groznov-crest.webp" type="image/webp" />
+          <img
+            src="/groznov-crest.png"
+            alt={t('landing.crest_alt')}
+            className="mb-8"
+            style={{
+              width: 'clamp(220px, 36vw, 320px)',
+              height: 'auto',
+              userSelect: 'none',
+              filter: isDark ? 'brightness(1.05) contrast(1.05)' : 'none',
+            }}
+            draggable={false}
+          />
+        </picture>
         <h1
           className="mb-10"
           style={{
