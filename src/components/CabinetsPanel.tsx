@@ -23,6 +23,9 @@ const CLOSED_GROUP_KEY = 'cabinets.closed_eyebrow'
 export function CabinetsPanel(): React.ReactElement {
   const { t } = useTranslation()
   const { isDark } = useDarkMode()
+  // Канон Brand Kit v1.2 (House of Groznov) — добавлено 2026-06-07
+  const burgundy = isDark ? 'var(--color-house-burgundy-light)' : 'var(--color-house-burgundy)'
+  const gold = isDark ? 'var(--color-house-gold-soft)' : 'var(--color-house-gold)'
   const [cabinets, setCabinets] = useState<Cabinet[]>([])
   const [error, setError] = useState('')
   const [modalCab, setModalCab] = useState<{ slug: string; name: string } | null>(null)
@@ -65,13 +68,13 @@ export function CabinetsPanel(): React.ReactElement {
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-10 py-8">
         <header className="flex items-center justify-between mb-6">
-          <h1 className="font-medium" style={{ fontSize: '24px', letterSpacing: '0.03em' }}>
+          <h1 className="font-medium" style={{ fontSize: '24px', letterSpacing: '0.03em', color: burgundy }}>
             {t('cabinets.title')}
           </h1>
           <a
             href="/"
             className="italic underline underline-offset-4 decoration-1"
-            style={{ fontSize: '14px', color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
+            style={{ fontSize: '14px', color: gold }}
           >
             {t('common.back_to_adam')}
           </a>

@@ -71,6 +71,9 @@ function MessageRow({ msg, isDark, isMine }: {
 export function StolPanel(): React.ReactElement {
   const { t } = useTranslation()
   const { isDark } = useDarkMode()
+  // Канон Brand Kit v1.2 (House of Groznov) — добавлено 2026-06-07
+  const burgundy = isDark ? 'var(--color-house-burgundy-light)' : 'var(--color-house-burgundy)'
+  const gold = isDark ? 'var(--color-house-gold-soft)' : 'var(--color-house-gold)'
   const [conv, setConv] = useState<StolConversation | null>(null)
   const [messages, setMessages] = useState<StolMessage[]>([])
   const [input, setInput] = useState('')
@@ -372,7 +375,7 @@ export function StolPanel(): React.ReactElement {
             onClick={() => setPendingFile(null)}
             className="italic underline underline-offset-4 decoration-1 ml-auto"
             style={{ fontSize: '12px',
-              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
+              color: gold }}
           >
             {t('attachment.remove')}
           </button>
@@ -460,9 +463,9 @@ export function StolPanel(): React.ReactElement {
             fontSize: '14px',
             letterSpacing: '0.04em',
             fontFamily: 'inherit',
-            backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
+            backgroundColor: burgundy,
             color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-            borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
+            borderColor: burgundy,
           }}
         >
           {busy ? (

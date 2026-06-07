@@ -106,7 +106,31 @@ export function FamilySlotsPanel(): React.ReactElement {
     }
   }
 
+  async function clearSlot(m: FamilyMember): Promise<void> {
+    if (!window.confirm(t('familySlots.clear_confirm'))) return
+    setBusy(true)
+    setError('')
+    try {
+      const n = m.slot_position
+      const updated = await familySlotUpdate(m.id, {
+        email: `slot${n}@placeholder.local`,
+        display_name: `Слот ${n}`,
+        relation: null,
+        is_active: false,
+      })
+      setSlots((prev) => prev.map((s) => s.id === updated.id ? updated : s))
+      if (editingId === updated.id) setEditingId(null)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t('familySlots.save_failed'))
+    } finally {
+      setBusy(false)
+    }
+  }
+
   const isParent = whoami?.role === 'parent'
+  // Канон Brand Kit v1.2 (House of Groznov)
+  const burgundy = isDark ? 'var(--color-house-burgundy-light)' : 'var(--color-house-burgundy)'
+  const gold = isDark ? 'var(--color-house-gold-soft)' : 'var(--color-house-gold)'
 
   return (
     <div
@@ -129,14 +153,14 @@ export function FamilySlotsPanel(): React.ReactElement {
                 filter: isDark ? 'brightness(1.08) contrast(1.05)' : 'none',
               }}
             />
-            <h1 className="font-medium" style={{ fontSize: '24px', letterSpacing: '0.03em' }}>
+            <h1 className="font-medium" style={{ fontSize: '24px', letterSpacing: '0.03em', color: burgundy }}>
               {t('familySlots.title')}
             </h1>
           </div>
           <a
             href="/"
             className="italic underline underline-offset-4 decoration-1"
-            style={{ fontSize: '14px', color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
+            style={{ fontSize: '14px', color: gold }}
           >
             {t('common.back_to_adam')}
           </a>
@@ -314,7 +338,14 @@ export function FamilySlotsPanel(): React.ReactElement {
                           }}
                         />
                       ) : (
-                        <span className={m.is_active ? '' : 'italic opacity-60'}>{m.display_name}</span>
+                        <div>
+                          <span className={m.is_active ? '' : 'italic opacity-60'}>{m.display_name}</span>
+                          {!m.is_active && m.email.endsWith('@placeholder.local') && isParent && (
+                            <div className="italic opacity-55 mt-1" style={{ fontSize: '11px' }}>
+                              {t('familySlots.add_hint')}
+                            </div>
+                          )}
+                        </div>
                       )}
                     </td>
                     <td className="py-2 pr-3 break-all">
@@ -393,12 +424,12 @@ export function FamilySlotsPanel(): React.ReactElement {
                     {isParent && (
                       <td className="py-2">
                         {isEditing ? (
-                          <span className="flex items-center gap-2">
+                          <span className="flex items-center gap-2 whitespace-nowrap">
                             <button
                               onClick={() => void saveEdit()}
                               disabled={busy}
                               className="italic underline underline-offset-4 decoration-1"
-                              style={{ fontSize: '13px', color: 'var(--color-terracotta-dark)' }}
+                              style={{ fontSize: '13px', color: burgundy }}
                             >
                               {t('common.save')}
                             </button>
@@ -411,16 +442,26 @@ export function FamilySlotsPanel(): React.ReactElement {
                             </button>
                           </span>
                         ) : (
-                          <button
-                            onClick={() => startEdit(m)}
-                            className="italic underline underline-offset-4 decoration-1"
-                            style={{
-                              fontSize: '13px',
-                              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
-                            }}
-                          >
-                            {t('common.edit')}
-                          </button>
+                          <span className="flex items-center gap-3 whitespace-nowrap">
+                            <button
+                              onClick={() => startEdit(m)}
+                              className="italic underline underline-offset-4 decoration-1"
+                              style={{ fontSize: '13px', color: gold }}
+                            >
+                              {t('common.edit')}
+                            </button>
+                            {!m.email.endsWith('@placeholder.local') && (
+                              <button
+                                onClick={() => void clearSlot(m)}
+                                disabled={busy}
+                                className="italic underline underline-offset-4 decoration-1 opacity-75"
+                                style={{ fontSize: '13px', color: 'var(--color-terracotta-dark)' }}
+                                title={t('familySlots.clear_confirm')}
+                              >
+                                {t('familySlots.clear_slot')}
+                              </button>
+                            )}
+                          </span>
                         )}
                       </td>
                     )}

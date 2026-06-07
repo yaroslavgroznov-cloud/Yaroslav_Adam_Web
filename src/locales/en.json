@@ -272,7 +272,10 @@
     "col_sent_7d": "Calls (7d)",
     "empty_dash": "—",
     "relation_placeholder": "brother/sister/friend",
-    "save_failed": "Could not save"
+    "save_failed": "Could not save",
+    "clear_slot": "Clear",
+    "clear_confirm": "Release this seat in the circle? The member entry is unset and the slot returns to the empty ones.",
+    "add_hint": "Tap «Edit» — fill in a name and email to bring someone into the circle."
   },
   "morning": {
     "section_title": "Adam in the morning",

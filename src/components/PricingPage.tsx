@@ -15,6 +15,9 @@ const ALL_ACCESS_HREF = '/chat?subscribe=all_access'
 export function PricingPage(): React.ReactElement {
   const { t, i18n } = useTranslation()
   const { isDark, setPref } = useDarkMode()
+  // Канон Brand Kit v1.2 (House of Groznov) — добавлено 2026-06-07
+  const burgundy = isDark ? 'var(--color-house-burgundy-light)' : 'var(--color-house-burgundy)'
+  const gold = isDark ? 'var(--color-house-gold-soft)' : 'var(--color-house-gold)'
   const toggleDark = (): void => setPref(isDark ? 'light' : 'dark')
   const { scale: fontScale, setScale: setFontScale } = useFontScale()
 
@@ -157,8 +160,14 @@ export function PricingPage(): React.ReactElement {
       {/* HERO */}
       <main className="max-w-5xl mx-auto px-6 sm:px-10 pt-20 pb-16">
         <p
-          className="italic mb-4 opacity-60 text-center"
-          style={{ fontSize: '12px', letterSpacing: '0.4em', textTransform: 'uppercase' }}
+          className="italic mb-4 text-center"
+          style={{
+            fontSize: '12px',
+            letterSpacing: '0.45em',
+            textTransform: 'uppercase',
+            color: gold,
+            opacity: 0.92,
+          }}
         >
           {t('pricing.eyebrow')}
         </p>
@@ -166,7 +175,8 @@ export function PricingPage(): React.ReactElement {
           className="text-center mb-6"
           style={{
             fontSize: 'clamp(34px, 7vw, 56px)',
-            letterSpacing: '0.04em', fontWeight: 400, lineHeight: 1.1,
+            letterSpacing: '0.04em', fontWeight: 500, lineHeight: 1.1,
+            color: burgundy,
           }}
         >
           {t('pricing.title')}

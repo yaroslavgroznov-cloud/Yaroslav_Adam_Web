@@ -36,6 +36,9 @@ function statusColor(s: TaskStatus, isDark: boolean): string {
 export function TasksPanel(): React.ReactElement {
   const { t } = useTranslation()
   const { isDark } = useDarkMode()
+  // Канон Brand Kit v1.2 (House of Groznov) — добавлено 2026-06-07
+  const burgundy = isDark ? 'var(--color-house-burgundy-light)' : 'var(--color-house-burgundy)'
+  const gold = isDark ? 'var(--color-house-gold-soft)' : 'var(--color-house-gold)'
   const [tasks, setTasks] = useState<AdamTask[]>([])
   const [openId, setOpenId] = useState<number | null>(null)
   const [title, setTitle] = useState('')
@@ -148,14 +151,14 @@ export function TasksPanel(): React.ReactElement {
                 filter: isDark ? 'brightness(1.08) contrast(1.05)' : 'none',
               }}
             />
-            <h1 className="font-medium" style={{ fontSize: '24px', letterSpacing: '0.03em' }}>
+            <h1 className="font-medium" style={{ fontSize: '24px', letterSpacing: '0.03em', color: burgundy }}>
               {t('tasks.title')}
             </h1>
           </div>
           <a
             href="/"
             className="italic underline underline-offset-4 decoration-1"
-            style={{ fontSize: '14px', color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
+            style={{ fontSize: '14px', color: gold }}
           >
             {t('common.back_to_adam')}
           </a>
@@ -226,9 +229,9 @@ export function TasksPanel(): React.ReactElement {
                 padding: '8px 18px',
                 fontSize: '14px',
                 fontFamily: 'inherit',
-                backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
+                backgroundColor: burgundy,
                 color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-                borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
+                borderColor: burgundy,
               }}
             >
               {busy ? '…' : t('tasks.send_btn')}

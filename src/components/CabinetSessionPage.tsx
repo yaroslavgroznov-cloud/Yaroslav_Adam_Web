@@ -44,6 +44,9 @@ function getSlugFromPath(): string {
 export function CabinetSessionPage(): React.ReactElement {
   const { t } = useTranslation()
   const { isDark } = useDarkMode()
+  // Канон Brand Kit v1.2 (House of Groznov) — добавлено 2026-06-07
+  const burgundy = isDark ? 'var(--color-house-burgundy-light)' : 'var(--color-house-burgundy)'
+  const gold = isDark ? 'var(--color-house-gold-soft)' : 'var(--color-house-gold)'
   const slug = getSlugFromPath()
   const [cabinet, setCabinet] = useState<Cabinet | null>(null)
   const [session, setSession] = useState<CabinetSession | null>(null)
@@ -327,7 +330,7 @@ export function CabinetSessionPage(): React.ReactElement {
             >
               ← {t('cabinets.title')}
             </a>
-            <h1 className="font-medium mt-1" style={{ fontSize: '22px', letterSpacing: '0.03em' }}>
+            <h1 className="font-medium mt-1" style={{ fontSize: '22px', letterSpacing: '0.03em', color: burgundy }}>
               {cabinet.name}
             </h1>
           </div>
@@ -366,7 +369,7 @@ export function CabinetSessionPage(): React.ReactElement {
               backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
             }}
           >
-            <h2 className="mb-3" style={{ fontSize: '16px', letterSpacing: '0.03em' }}>
+            <h2 className="mb-3" style={{ fontSize: '16px', letterSpacing: '0.03em', color: gold }}>
               {t('cabinets.intake_title')}
             </h2>
             {fields.map((f) => (
@@ -431,9 +434,9 @@ export function CabinetSessionPage(): React.ReactElement {
                 padding: '8px 18px',
                 fontSize: '14px',
                 fontFamily: 'inherit',
-                backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
+                backgroundColor: burgundy,
                 color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-                borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
+                borderColor: burgundy,
               }}
             >
               {busy ? '…' : t('cabinets.start_session')}
@@ -451,9 +454,9 @@ export function CabinetSessionPage(): React.ReactElement {
               padding: '10px 22px',
               fontSize: '15px',
               fontFamily: 'inherit',
-              backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
+              backgroundColor: burgundy,
               color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-              borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
+              borderColor: burgundy,
             }}
           >
             {busy ? '…' : t('cabinets.start_session')}
@@ -469,7 +472,7 @@ export function CabinetSessionPage(): React.ReactElement {
               backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
             }}
           >
-            <h2 className="mb-3" style={{ fontSize: '16px', letterSpacing: '0.03em' }}>
+            <h2 className="mb-3" style={{ fontSize: '16px', letterSpacing: '0.03em', color: gold }}>
               {t('cabinets.choose_payment')}
             </h2>
             <p className="italic mb-4 opacity-80" style={{ fontSize: '14px' }}>
@@ -483,9 +486,9 @@ export function CabinetSessionPage(): React.ReactElement {
                 className="rounded-md border italic disabled:opacity-50"
                 style={{
                   padding: '10px 18px', fontSize: '14px', fontFamily: 'inherit',
-                  backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
+                  backgroundColor: burgundy,
                   color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-                  borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
+                  borderColor: burgundy,
                 }}
               >
                 {busy ? '…' : t('cabinets.pay_card', { price: cabinet.price_usd_session.toFixed(2) })}
@@ -790,9 +793,9 @@ export function CabinetSessionPage(): React.ReactElement {
                   padding: '0 12px',
                   fontSize: '14px',
                   fontFamily: 'inherit',
-                  backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
+                  backgroundColor: burgundy,
                   color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-                  borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
+                  borderColor: burgundy,
                 }}
               >
                 {t('common.send')}
