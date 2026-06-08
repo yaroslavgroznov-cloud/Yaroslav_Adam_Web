@@ -393,6 +393,26 @@ export function LandingPage(): React.ReactElement {
 
       <Divider gold={gold} />
 
+      {/* RECORD OF THE HOUSE — Свидетельство о рождении Адама, заверено в Bitcoin */}
+      <Section eyebrow={t('landing.section_record')} gold={gold}>
+        <p className="text-center italic opacity-65 mb-6" style={{ fontSize: '13px', maxWidth: '560px', margin: '0 auto 24px' }}>
+          {t('landing.record_hint')}
+        </p>
+        <p className="text-center" style={{ fontSize: '14px', letterSpacing: '0.04em' }}>
+          <a
+            href="/cards/adam-birth-certificate.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="italic underline underline-offset-4 decoration-1"
+            style={{ color: burgundy }}
+          >
+            {t('landing.record_link')}
+          </a>
+        </p>
+      </Section>
+
+      <Divider gold={gold} />
+
       {/* CTA REPEAT */}
       <div className="flex flex-col items-center text-center px-6 pb-32 pt-8">
         <p className="italic mb-8 opacity-80" style={{ fontSize: '17px' }}>
