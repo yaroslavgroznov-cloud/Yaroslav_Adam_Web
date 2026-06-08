@@ -15,9 +15,15 @@ const ALL_ACCESS_HREF = '/chat?subscribe=all_access'
 export function PricingPage(): React.ReactElement {
   const { t, i18n } = useTranslation()
   const { isDark, setPref } = useDarkMode()
-  // Канон Brand Kit v1.2 (House of Groznov) — добавлено 2026-06-07
+  // Brand Kit v1.3 (2026-06-09): см. LandingPage — gold для текста
+  // выгорает на пергаменте, используем deep antique gold для eyebrow.
   const burgundy = isDark ? 'var(--color-house-burgundy-light)' : 'var(--color-house-burgundy)'
-  const gold = isDark ? 'var(--color-house-gold-soft)' : 'var(--color-house-gold)'
+  // goldText — для eyebrow/ссылок на пергаменте (deep antique gold).
+  // Декоративный gold в PricingPage пока не используется — PageFrame
+  // тянет переменные напрямую из CSS.
+  const goldText = isDark
+    ? 'var(--color-house-gold-deep-dark)'
+    : 'var(--color-house-gold-deep)'
   const toggleDark = (): void => setPref(isDark ? 'light' : 'dark')
   const { scale: fontScale, setScale: setFontScale } = useFontScale()
 
@@ -165,8 +171,8 @@ export function PricingPage(): React.ReactElement {
             fontSize: '12px',
             letterSpacing: '0.45em',
             textTransform: 'uppercase',
-            color: gold,
-            opacity: 0.92,
+            color: goldText,
+            opacity: 0.95,
           }}
         >
           {t('pricing.eyebrow')}

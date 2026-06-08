@@ -25,8 +25,16 @@
   --color-house-burgundy:        #6B1C23;  /* digital primary, заголовки на пергаменте */
   --color-house-burgundy-print:  #5A1820;  /* CMYK-эквивалент для типографии */
   --color-house-burgundy-light:  #8E2832;  /* для dark mode заголовков */
-  --color-house-gold:            #C9A227;  /* antique gold — eyebrow, sub-titles, рамка */
-  --color-house-gold-soft:       #B89A3C;  /* более приглушённый для dark mode */
+  --color-house-gold:            #C9A227;  /* antique gold — рамка/✦/тонкие линии (декор) */
+  --color-house-gold-soft:       #B89A3C;  /* приглушённый для dark mode декора */
+  /* Brand Kit v1.3 (2026-06-09): золотистый текст «выгорал» на пергаменте
+     (контраст 2.5:1, ниже WCAG 4.5:1). Разделяем gold на текст и декор.
+     gold-deep — для TEXT (eyebrows, ссылок); sepia-ink — для lead-цитат
+     и «рукописных» абзацев. Декоративный gold остаётся как был. */
+  --color-house-gold-deep:       #8B6F1F;  /* deep antique gold — eyebrows, ссылки на пергаменте */
+  --color-house-gold-deep-dark:  #C9A227;  /* в dark mode возвращаемся к яркому золоту */
+  --color-sepia-ink:             #5C4633;  /* warm sepia — lead-цитаты на пергаменте */
+  --color-sepia-ink-dark:        #C4A98B;  /* light sepia для dark mode */
   --font-serif: "EB Garamond", Georgia, serif;
 }
 

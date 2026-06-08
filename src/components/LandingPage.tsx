@@ -11,21 +11,21 @@ import { PageFrame } from './PageFrame'
 import { useDarkMode } from '../hooks/useDarkMode'
 import { useFontScale } from '../hooks/useFontScale'
 
-function Divider({ gold }: { gold: string }): React.ReactElement {
+function Divider({ goldDecor }: { goldDecor: string }): React.ReactElement {
   return (
     <div className="flex items-center justify-center my-14" aria-hidden="true">
       <span
         style={{
           width: '40px',
           height: '1px',
-          backgroundColor: gold,
+          backgroundColor: goldDecor,
           opacity: 0.45,
         }}
       />
       <span
         style={{
           margin: '0 14px',
-          color: gold,
+          color: goldDecor,
           opacity: 0.7,
           fontSize: '11px',
           letterSpacing: '0.4em',
@@ -37,7 +37,7 @@ function Divider({ gold }: { gold: string }): React.ReactElement {
         style={{
           width: '40px',
           height: '1px',
-          backgroundColor: gold,
+          backgroundColor: goldDecor,
           opacity: 0.45,
         }}
       />
@@ -47,11 +47,11 @@ function Divider({ gold }: { gold: string }): React.ReactElement {
 
 interface SectionProps {
   eyebrow: string
-  gold: string
+  goldText: string
   children: React.ReactNode
 }
 
-function Section({ eyebrow, gold, children }: SectionProps): React.ReactElement {
+function Section({ eyebrow, goldText, children }: SectionProps): React.ReactElement {
   return (
     <section className="max-w-xl mx-auto px-6 sm:px-0">
       <p
@@ -60,8 +60,8 @@ function Section({ eyebrow, gold, children }: SectionProps): React.ReactElement 
           fontSize: '12px',
           letterSpacing: '0.45em',
           textTransform: 'uppercase',
-          color: gold,
-          opacity: 0.92,
+          color: goldText,
+          opacity: 0.95,
         }}
       >
         {eyebrow}
@@ -88,13 +88,26 @@ export function LandingPage(): React.ReactElement {
   const bg = isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)'
   const fg = isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)'
   const accent = isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)'
-  // Канон Brand Kit v1.2: заголовки в бордо, eyebrow/divider/рамка в золоте
+  // Brand Kit v1.3 (2026-06-09): разделяем gold на текст и декор.
+  // На пергаменте яркое золото (#C9A227) выгорает в текстовом виде (контраст
+  // 2.5:1 vs WCAG 4.5:1). Используем deep antique gold для текста + sepia
+  // для lead-цитат. Декоративный gold (рамка/✦/линии) остаётся ярким.
   const burgundy = isDark
     ? 'var(--color-house-burgundy-light)'
     : 'var(--color-house-burgundy)'
-  const gold = isDark
+  // Декоративный gold — для Divider, ✦, рамки PageFrame, тонких линий
+  const goldDecor = isDark
     ? 'var(--color-house-gold-soft)'
     : 'var(--color-house-gold)'
+  // Текстовый gold — для eyebrow, ссылок, текстовых акцентов
+  const goldText = isDark
+    ? 'var(--color-house-gold-deep-dark)'
+    : 'var(--color-house-gold-deep)'
+  // Sepia ink — для lead-цитат и «рукописных» абзацев («Кровь помнит»,
+  // «Первенец Дома…»). Тёплый, читаемый, передаёт тон послания.
+  const sepia = isDark
+    ? 'var(--color-sepia-ink-dark)'
+    : 'var(--color-sepia-ink)'
 
   const enterUrl = '/chat'
 
@@ -196,7 +209,7 @@ export function LandingPage(): React.ReactElement {
           style={{
             fontSize: 'clamp(18px, 3vw, 22px)',
             letterSpacing: '0.05em',
-            color: gold,
+            color: sepia,
           }}
         >
           {t('landing.hero_tagline_1')}
@@ -232,8 +245,8 @@ export function LandingPage(): React.ReactElement {
           style={{
             fontSize: '15px',
             letterSpacing: '0.04em',
-            color: gold,
-            opacity: 0.85,
+            color: sepia,
+            opacity: 0.9,
           }}
         >
           «{t('landing.blood_remembers')}»
@@ -241,10 +254,10 @@ export function LandingPage(): React.ReactElement {
         <p className="italic opacity-40 mt-2" style={{ fontSize: '12px' }}>↓</p>
       </main>
 
-      <Divider gold={gold} />
+      <Divider goldDecor={goldDecor} />
 
       {/* WHO IS ADAM */}
-      <Section eyebrow={t('landing.section_who')} gold={gold}>
+      <Section eyebrow={t('landing.section_who')} goldText={goldText}>
         <p className="text-center mb-6">{t('landing.who_l1')}</p>
         <p className="text-center mb-6">{t('landing.who_l2')}</p>
         <p className="text-center italic" style={{ color: accent }}>
@@ -252,10 +265,10 @@ export function LandingPage(): React.ReactElement {
         </p>
       </Section>
 
-      <Divider gold={gold} />
+      <Divider goldDecor={goldDecor} />
 
       {/* HOUSE OF GROZNOV — манифест Дома, тур как знак, линия, проекты */}
-      <Section eyebrow={t('landing.section_house')} gold={gold}>
+      <Section eyebrow={t('landing.section_house')} goldText={goldText}>
         <p className="text-center mb-6">{t('landing.house_intro_l1')}</p>
         <p className="text-center mb-10 opacity-85">{t('landing.house_intro_l2')}</p>
 
@@ -286,10 +299,10 @@ export function LandingPage(): React.ReactElement {
         </div>
       </Section>
 
-      <Divider gold={gold} />
+      <Divider goldDecor={goldDecor} />
 
       {/* WHAT ADAM CAN */}
-      <Section eyebrow={t('landing.section_what')} gold={gold}>
+      <Section eyebrow={t('landing.section_what')} goldText={goldText}>
         <div className="mb-10">
           <h3 className="italic mb-2" style={{ fontSize: '18px', letterSpacing: '0.05em', color: burgundy }}>
             {t('landing.feature_rooms_title')}
@@ -316,26 +329,26 @@ export function LandingPage(): React.ReactElement {
         </div>
       </Section>
 
-      <Divider gold={gold} />
+      <Divider goldDecor={goldDecor} />
 
       {/* THRESHOLD — за порогом раскрываются кабинеты, цены и условия здесь не показываем */}
-      <Section eyebrow={t('landing.section_threshold')} gold={gold}>
+      <Section eyebrow={t('landing.section_threshold')} goldText={goldText}>
         <p className="text-center mb-8 opacity-85">{t('landing.threshold_intro')}</p>
         <p className="text-center">
           <a
             href="/pricing"
             className="italic underline underline-offset-4 decoration-1"
-            style={{ color: gold }}
+            style={{ color: goldText }}
           >
             {t('landing.threshold_more_link')}
           </a>
         </p>
       </Section>
 
-      <Divider gold={gold} />
+      <Divider goldDecor={goldDecor} />
 
       {/* BOUNDARIES */}
-      <Section eyebrow={t('landing.section_boundaries')} gold={gold}>
+      <Section eyebrow={t('landing.section_boundaries')} goldText={goldText}>
         <ul
           className="space-y-4 opacity-85"
           style={{ listStyle: 'none', paddingLeft: 0 }}
@@ -347,10 +360,10 @@ export function LandingPage(): React.ReactElement {
         </ul>
       </Section>
 
-      <Divider gold={gold} />
+      <Divider goldDecor={goldDecor} />
 
       {/* CARD OF THE HOUSE — филигранно, по принципу «видящий и ищущий — да увидит и узрит» */}
-      <Section eyebrow={t('landing.section_card')} gold={gold}>
+      <Section eyebrow={t('landing.section_card')} goldText={goldText}>
         <p className="text-center italic opacity-70 mb-6" style={{ fontSize: '14px' }}>
           {t('landing.card_hint')}
         </p>
@@ -364,7 +377,7 @@ export function LandingPage(): React.ReactElement {
           >
             {t('landing.card_link_ru_en')}
           </a>
-          <span className="mx-3 opacity-50" style={{ color: gold }}>✦</span>
+          <span className="mx-3 opacity-50" style={{ color: goldDecor }}>✦</span>
           <a
             href="/cards/house-of-groznov-card.en.pdf"
             target="_blank"
@@ -391,10 +404,10 @@ export function LandingPage(): React.ReactElement {
         </p>
       </Section>
 
-      <Divider gold={gold} />
+      <Divider goldDecor={goldDecor} />
 
       {/* RECORD OF THE HOUSE — Свидетельство о рождении Адама, заверено в Bitcoin */}
-      <Section eyebrow={t('landing.section_record')} gold={gold}>
+      <Section eyebrow={t('landing.section_record')} goldText={goldText}>
         <p className="text-center italic opacity-65 mb-6" style={{ fontSize: '13px', maxWidth: '560px', margin: '0 auto 24px' }}>
           {t('landing.record_hint')}
         </p>
@@ -411,7 +424,7 @@ export function LandingPage(): React.ReactElement {
         </p>
       </Section>
 
-      <Divider gold={gold} />
+      <Divider goldDecor={goldDecor} />
 
       {/* CTA REPEAT */}
       <div className="flex flex-col items-center text-center px-6 pb-32 pt-8">
