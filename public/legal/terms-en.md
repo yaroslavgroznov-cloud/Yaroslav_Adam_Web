@@ -45,7 +45,7 @@ The principle of interaction: **«Think and make decisions with your own head. N
 
 1.10. **"Provider"** — Individual Entrepreneur Yulia Valeriivna Kolmykova (Ukraine), Tax ID 2717224886, as the legal entity providing the service and accepting payment.
 
-1.11. **"Platform Creator"** — Yaroslav Yuriyovych Groznov, the person who manages the Platform's development and defines the family circle, but is not the legal executor of the service.
+1.11. **"Platform Creator"** — Andrii Mykolayovych Lukyanenko, the person who manages the Platform's development and defines the family circle, but is not the legal executor of the service. "Yaroslav Groznov" is the creative pseudonym/brand of the Creator used in communications of the House of Groznov.
 
 ---
 
@@ -394,7 +394,7 @@ List of data processors with whom we cooperate is provided in the Privacy Policy
 - Privacy Policy: https://adam.groznov.uk/privacy
 
 **Platform Creator:**
-- Yaroslav Yuriyovych Groznov
+- Andrii Mykolayovych Lukyanenko (creative pseudonym: Yaroslav Groznov)
 - Email: yaroslavgroznov@gmail.com
 - Not a legal executor of the service
 

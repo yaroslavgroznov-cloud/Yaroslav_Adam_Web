@@ -63,6 +63,7 @@ export default function App() {
     // Юр-документи Дому (публічні, без CF Access).
     if (path.startsWith('/terms-en')) return <LegalPage doc="terms-en" />
     if (path.startsWith('/terms')) return <LegalPage doc="terms" />
+    if (path.startsWith('/privacy-en')) return <LegalPage doc="privacy-en" />
     if (path.startsWith('/privacy')) return <LegalPage doc="privacy" />
     if (path.startsWith('/kill-switch')) return <KillSwitchPanel />
     if (path.startsWith('/tasks')) return <TasksPanel />

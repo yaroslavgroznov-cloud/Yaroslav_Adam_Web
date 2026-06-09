@@ -19,7 +19,7 @@ import { useFontScale } from '../hooks/useFontScale'
 import { FontScaleSwitch } from './FontScaleSwitch'
 import { PageFrame } from './PageFrame'
 
-type LegalDoc = 'terms' | 'terms-en' | 'privacy'
+type LegalDoc = 'terms' | 'terms-en' | 'privacy' | 'privacy-en'
 
 const DOC_CONFIG: Record<LegalDoc, { file: string; title: string }> = {
   terms: {
@@ -33,6 +33,10 @@ const DOC_CONFIG: Record<LegalDoc, { file: string; title: string }> = {
   privacy: {
     file: '/legal/privacy-uk.md',
     title: 'Privacy Policy — Адам Грознов',
+  },
+  'privacy-en': {
+    file: '/legal/privacy-en.md',
+    title: 'Privacy Policy (English) — Adam Groznov',
   },
 }
 
@@ -125,46 +129,67 @@ export function LegalPage({ doc }: LegalPageProps): React.ReactElement {
         </div>
       </header>
 
-      {/* DOC NAVIGATION */}
+      {/* DOC NAVIGATION — 2 групи по 2 мови: Оферта (UA/EN), Privacy (UA/EN) */}
       <nav
-        className="flex items-center justify-center gap-6 max-w-3xl mx-auto px-6 mt-6 italic"
+        className="flex flex-col items-center gap-3 max-w-3xl mx-auto px-6 mt-6 italic"
         style={{ fontSize: '13px', letterSpacing: '0.06em' }}
       >
-        <a
-          href="/terms"
-          style={{
-            color: doc === 'terms' ? burgundy : goldText,
-            textDecoration: doc === 'terms' ? 'underline' : 'none',
-            textUnderlineOffset: '4px',
-            textDecorationThickness: '1px',
-          }}
-        >
-          Договір Оферти
-        </a>
-        <span style={{ color: goldDecor, opacity: 0.5 }}>✦</span>
-        <a
-          href="/privacy"
-          style={{
-            color: doc === 'privacy' ? burgundy : goldText,
-            textDecoration: doc === 'privacy' ? 'underline' : 'none',
-            textUnderlineOffset: '4px',
-            textDecorationThickness: '1px',
-          }}
-        >
-          Privacy Policy
-        </a>
-        <span style={{ color: goldDecor, opacity: 0.5 }}>✦</span>
-        <a
-          href="/terms-en"
-          style={{
-            color: doc === 'terms-en' ? burgundy : goldText,
-            textDecoration: doc === 'terms-en' ? 'underline' : 'none',
-            textUnderlineOffset: '4px',
-            textDecorationThickness: '1px',
-          }}
-        >
-          Terms (English)
-        </a>
+        <div className="flex items-center justify-center gap-4 flex-wrap">
+          <span className="opacity-50" style={{ fontSize: '11px', letterSpacing: '0.2em' }}>
+            ОФЕРТА:
+          </span>
+          <a
+            href="/terms"
+            style={{
+              color: doc === 'terms' ? burgundy : goldText,
+              textDecoration: doc === 'terms' ? 'underline' : 'none',
+              textUnderlineOffset: '4px',
+              textDecorationThickness: '1px',
+            }}
+          >
+            Українська
+          </a>
+          <span style={{ color: goldDecor, opacity: 0.5 }}>✦</span>
+          <a
+            href="/terms-en"
+            style={{
+              color: doc === 'terms-en' ? burgundy : goldText,
+              textDecoration: doc === 'terms-en' ? 'underline' : 'none',
+              textUnderlineOffset: '4px',
+              textDecorationThickness: '1px',
+            }}
+          >
+            English
+          </a>
+        </div>
+        <div className="flex items-center justify-center gap-4 flex-wrap">
+          <span className="opacity-50" style={{ fontSize: '11px', letterSpacing: '0.2em' }}>
+            PRIVACY:
+          </span>
+          <a
+            href="/privacy"
+            style={{
+              color: doc === 'privacy' ? burgundy : goldText,
+              textDecoration: doc === 'privacy' ? 'underline' : 'none',
+              textUnderlineOffset: '4px',
+              textDecorationThickness: '1px',
+            }}
+          >
+            Українська
+          </a>
+          <span style={{ color: goldDecor, opacity: 0.5 }}>✦</span>
+          <a
+            href="/privacy-en"
+            style={{
+              color: doc === 'privacy-en' ? burgundy : goldText,
+              textDecoration: doc === 'privacy-en' ? 'underline' : 'none',
+              textUnderlineOffset: '4px',
+              textDecorationThickness: '1px',
+            }}
+          >
+            English
+          </a>
+        </div>
       </nav>
 
       {/* CONTENT */}

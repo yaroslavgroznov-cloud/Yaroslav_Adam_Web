@@ -498,21 +498,28 @@ export function LandingPage(): React.ReactElement {
         <p className="mt-1" style={{ letterSpacing: '0.15em' }}>
           {t('landing.footer_birth')}
         </p>
-        {/* Юр-документи — банк (LiqPay) і EU AI Act вимагають публічного доступу */}
+        {/* Юр-документи — банк (LiqPay) і EU AI Act вимагають публічного доступу.
+            UA + EN для кожного документа — стандарт bilingual SaaS. */}
         <p
           className="mt-6 opacity-90"
-          style={{ letterSpacing: '0.12em', fontSize: '11px' }}
+          style={{ letterSpacing: '0.12em', fontSize: '11px', lineHeight: 2 }}
         >
+          <span className="opacity-70">{t('landing.footer_terms_label')}:</span>{' '}
           <a href="/terms" style={{ color: 'inherit' }}>
-            {t('landing.footer_terms')}
-          </a>
-          {' · '}
-          <a href="/privacy" style={{ color: 'inherit' }}>
-            {t('landing.footer_privacy')}
+            {t('landing.footer_lang_uk')}
           </a>
           {' · '}
           <a href="/terms-en" style={{ color: 'inherit' }}>
-            {t('landing.footer_terms_en')}
+            {t('landing.footer_lang_en')}
+          </a>
+          <br />
+          <span className="opacity-70">{t('landing.footer_privacy_label')}:</span>{' '}
+          <a href="/privacy" style={{ color: 'inherit' }}>
+            {t('landing.footer_lang_uk')}
+          </a>
+          {' · '}
+          <a href="/privacy-en" style={{ color: 'inherit' }}>
+            {t('landing.footer_lang_en')}
           </a>
         </p>
       </footer>
