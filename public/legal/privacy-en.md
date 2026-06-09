@@ -24,7 +24,8 @@ This document operates together with the [Terms of Service](https://adam.groznov
 **Individual Entrepreneur Yulia Valeriivna Kolmykova**
 - Tax ID (Ukraine): 2717224886
 - Jurisdiction: Ukraine
-- Activity codes: 62.01 / 62.02 / 63.99 (IT services)
+- Tax authority: Main Department of the State Tax Service in Kharkiv Oblast
+- KVED (IT/digital block relevant to the Platform): **62.01** (computer programming), **62.02** (computer consultancy), **62.03** (computer facilities management), **62.09** (other IT activities), **63.11** (data processing, hosting and related activities), **63.12** (web portals), **58.29** (software publishing), **74.10** (specialised design activities), **47.91** (Internet retail)
 
 Acts as the **Data Controller** of your personal data in accordance with GDPR Art. 4(7) and the Ukrainian Law on Personal Data Protection (Law No. 2297-VI).
 

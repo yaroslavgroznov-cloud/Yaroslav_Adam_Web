@@ -56,7 +56,22 @@ The principle of interaction: **«Think and make decisions with your own head. N
 2.2. **Similar services on the market** for classification purposes: Replika.com, Character.AI, Pi.ai, ChatGPT, Claude.ai.
 
 2.3. **Codification:**
-- **MCC** (Merchant Category Code) for payment gateways: **5734** (Computer Software Stores), **7372** (Prepackaged Software), or **5817** (Digital Goods: Applications/Software).
+
+**MCC** (Merchant Category Code) for payment gateways: **5734** (Computer Software Stores), **7372** (Prepackaged Software), or **5817** (Digital Goods: Applications/Software).
+
+**Provider's activity codes** (KVED, per the extract from Ukraine's Unified State Register, current as of 2026-06-03 — IT/digital block relevant to Platform activity):
+
+- **62.01** — Computer programming activities
+- **62.02** — Computer consultancy activities
+- **62.03** — Computer facilities management activities
+- **62.09** — Other information technology and computer service activities
+- **63.11** — Data processing, hosting and related activities
+- **63.12** — Web portals
+- **58.29** — Other software publishing
+- **74.10** — Specialised design activities
+- **47.91** — Retail sale via mail order houses or via Internet
+
+The primary KVED (47.19 — Other retail sale in non-specialised stores) is historical and does not apply to the Platform's activity. The Platform's activity is governed exclusively by the IT/digital KVED block listed above.
 
 2.4. **The Platform is NOT** and its services do NOT belong to:
 - MCC 7298 (Spa / Beauty / Massage)
@@ -379,7 +394,9 @@ List of data processors with whom we cooperate is provided in the Privacy Policy
 - Individual Entrepreneur Yulia Valeriivna Kolmykova
 - Tax ID (Ukraine): 2717224886
 - Jurisdiction: Ukraine
-- Activity codes: 62.01 / 62.02 / 63.99 (IT services)
+- Tax authority: Main Department of the State Tax Service in Kharkiv Oblast
+- KVED (IT/digital block relevant to the Platform): **62.01** (computer programming), **62.02** (computer consultancy), **62.03** (computer facilities management), **62.09** (other IT activities), **63.11** (data processing, hosting and related activities), **63.12** (web portals), **58.29** (software publishing), **74.10** (specialised design activities), **47.91** (Internet retail)
+- Full list of KVED is available in the extract from Ukraine's Unified State Register; access code provided upon request at `support@groznov.net`
 
 **Contacts:**
 - General: `support@groznov.net`
