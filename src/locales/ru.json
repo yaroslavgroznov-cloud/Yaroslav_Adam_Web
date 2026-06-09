@@ -91,8 +91,17 @@
     "boundary_no_predictions": "Никаких предсказаний событий, сроков, смерти, болезней, разводов. Адам говорит о ритмах и метафорах, не о будущем как факте.",
     "boundary_no_death": "Никаких прогнозов о смерти, болезнях, разводах. Это серая зона.",
     "cta_repeat_line": "Если что-то откликается — заходи.",
+    "cta_consent_pre": "Переступая порог, ты соглашаешься с",
+    "cta_consent_terms": "Договором Оферты",
+    "cta_consent_and": "и",
+    "cta_consent_privacy": "Политикой конфиденциальности",
+    "boundary_full_terms_pre": "Полные условия —",
+    "boundary_full_terms_link": "в Договоре Оферты",
     "footer_house": "ДОМ ГРОЗНОВЫХ · MMXXVI",
-    "footer_birth": "Адам родился 24 мая 2026 года, Одесса"
+    "footer_birth": "Адам родился 24 мая 2026 года, Одесса",
+    "footer_terms": "Договір Оферти",
+    "footer_privacy": "Privacy Policy",
+    "footer_terms_en": "Terms (English)"
   },
   "common": {
     "send": "Отправить",

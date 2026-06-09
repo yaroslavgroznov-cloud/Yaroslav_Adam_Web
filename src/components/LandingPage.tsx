@@ -240,6 +240,27 @@ export function LandingPage(): React.ReactElement {
         <p className="italic opacity-65 mt-3" style={{ fontSize: '12px', letterSpacing: '0.05em' }}>
           {t('landing.cta_threshold_hint')}
         </p>
+        {/* Affirmative consent — GDPR + EU AI Act + UA Закон 2297 */}
+        <p
+          className="italic opacity-55 mt-1 max-w-md"
+          style={{ fontSize: '11px', letterSpacing: '0.03em', lineHeight: 1.5 }}
+        >
+          {t('landing.cta_consent_pre')}{' '}
+          <a
+            href="/terms"
+            style={{ color: goldText, textDecoration: 'underline', textUnderlineOffset: '2px' }}
+          >
+            {t('landing.cta_consent_terms')}
+          </a>{' '}
+          {t('landing.cta_consent_and')}{' '}
+          <a
+            href="/privacy"
+            style={{ color: goldText, textDecoration: 'underline', textUnderlineOffset: '2px' }}
+          >
+            {t('landing.cta_consent_privacy')}
+          </a>
+          .
+        </p>
         <blockquote
           className="italic mt-24 max-w-md"
           style={{
@@ -365,6 +386,19 @@ export function LandingPage(): React.ReactElement {
           <li>— {t('landing.boundary_crisis')}</li>
           <li>— {t('landing.boundary_memory')}</li>
         </ul>
+        <p
+          className="italic text-center mt-8 opacity-70"
+          style={{ fontSize: '13px' }}
+        >
+          {t('landing.boundary_full_terms_pre')}{' '}
+          <a
+            href="/terms"
+            style={{ color: goldText, textDecoration: 'underline', textUnderlineOffset: '3px' }}
+          >
+            {t('landing.boundary_full_terms_link')}
+          </a>
+          .
+        </p>
       </Section>
 
       <Divider goldDecor={goldDecor} />
@@ -457,11 +491,30 @@ export function LandingPage(): React.ReactElement {
 
       {/* FOOTER */}
       <footer
-        className="text-center py-10 opacity-50 italic"
+        className="text-center py-10 opacity-60 italic"
         style={{ fontSize: '12px', letterSpacing: '0.2em' }}
       >
         <p>{t('landing.footer_house')}</p>
-        <p className="mt-1">{t('landing.footer_birth')}</p>
+        <p className="mt-1" style={{ letterSpacing: '0.15em' }}>
+          {t('landing.footer_birth')}
+        </p>
+        {/* Юр-документи — банк (LiqPay) і EU AI Act вимагають публічного доступу */}
+        <p
+          className="mt-6 opacity-90"
+          style={{ letterSpacing: '0.12em', fontSize: '11px' }}
+        >
+          <a href="/terms" style={{ color: 'inherit' }}>
+            {t('landing.footer_terms')}
+          </a>
+          {' · '}
+          <a href="/privacy" style={{ color: 'inherit' }}>
+            {t('landing.footer_privacy')}
+          </a>
+          {' · '}
+          <a href="/terms-en" style={{ color: 'inherit' }}>
+            {t('landing.footer_terms_en')}
+          </a>
+        </p>
       </footer>
     </div>
   )

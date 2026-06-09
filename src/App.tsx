@@ -24,6 +24,8 @@ const LandingPage = lazy(() =>
   import('./components/LandingPage').then(m => ({ default: m.LandingPage })))
 const PricingPage = lazy(() =>
   import('./components/PricingPage').then(m => ({ default: m.PricingPage })))
+const LegalPage = lazy(() =>
+  import('./components/LegalPage').then(m => ({ default: m.LegalPage })))
 
 function Fallback(): React.ReactElement {
   return (
@@ -58,6 +60,10 @@ export default function App() {
     // ChatInterface переехал на /chat (требует CF Access OTP).
     if (path === '/' || path.startsWith('/welcome')) return <LandingPage />
     if (path.startsWith('/pricing')) return <PricingPage />
+    // Юр-документи Дому (публічні, без CF Access).
+    if (path.startsWith('/terms-en')) return <LegalPage doc="terms-en" />
+    if (path.startsWith('/terms')) return <LegalPage doc="terms" />
+    if (path.startsWith('/privacy')) return <LegalPage doc="privacy" />
     if (path.startsWith('/kill-switch')) return <KillSwitchPanel />
     if (path.startsWith('/tasks')) return <TasksPanel />
     // /cabinets/{slug} — детальная страница; /cabinets — список
@@ -71,7 +77,12 @@ export default function App() {
   }
 
   // На лендинге и pricing переключатель уже в header — floating не нужен.
-  const isLanding = path === '/' || path.startsWith('/welcome') || path.startsWith('/pricing')
+  const isLanding =
+    path === '/' ||
+    path.startsWith('/welcome') ||
+    path.startsWith('/pricing') ||
+    path.startsWith('/terms') ||
+    path.startsWith('/privacy')
   const showFloatingFontScale = !isLanding
 
   return (
