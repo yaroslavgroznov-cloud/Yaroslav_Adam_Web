@@ -349,14 +349,21 @@ export function LandingPage(): React.ReactElement {
 
       {/* BOUNDARIES */}
       <Section eyebrow={t('landing.section_boundaries')} goldText={goldText}>
+        {/* Главный disclaimer — что Адам это IT-сервис, не astrology/medical/legal */}
+        <p
+          className="italic mb-6 text-center"
+          style={{ fontSize: '15px', lineHeight: 1.7, color: sepia, opacity: 0.95 }}
+        >
+          {t('landing.boundary_what_is')}
+        </p>
         <ul
           className="space-y-4 opacity-85"
           style={{ listStyle: 'none', paddingLeft: 0 }}
         >
           <li>— {t('landing.boundary_diagnoses')}</li>
+          <li>— {t('landing.boundary_no_predictions')}</li>
           <li>— {t('landing.boundary_crisis')}</li>
           <li>— {t('landing.boundary_memory')}</li>
-          <li>— {t('landing.boundary_no_death')}</li>
         </ul>
       </Section>
 
