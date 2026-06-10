@@ -1,6 +1,7 @@
 // Header overflow ••• menu — F.10.P1, 2026-05-25.
 // Сжимает редкие кнопки в выпадающий dropdown, чтобы header не пухнул.
 import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export interface OverflowItem {
   key: string
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export function HeaderOverflowMenu({ isDark, items }: Props): React.ReactElement {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const wrapRef = useRef<HTMLDivElement | null>(null)
 
@@ -51,10 +53,10 @@ export function HeaderOverflowMenu({ isDark, items }: Props): React.ReactElement
         onClick={() => setOpen((v) => !v)}
         className="shrink-0 inline-flex items-center justify-center rounded-md hover:opacity-100 transition-colors"
         style={iconBtnStyle}
-        aria-label="Ещё"
+        aria-label={t('header.more')}
         aria-haspopup="true"
         aria-expanded={open}
-        title="Ещё"
+        title={t('header.more')}
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <circle cx="5" cy="12" r="2" />

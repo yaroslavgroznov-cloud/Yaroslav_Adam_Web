@@ -146,7 +146,7 @@ export function FamilySlotsPanel(): React.ReactElement {
           <div className="flex items-center gap-3">
             <img
               src="/dom_groznovyh.jpg"
-              alt="Герб"
+              alt={t('common.crest_alt')}
               className="h-[60px] w-auto select-none"
               style={{
                 mixBlendMode: isDark ? 'normal' : 'multiply',

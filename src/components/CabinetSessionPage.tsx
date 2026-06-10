@@ -331,7 +331,7 @@ export function CabinetSessionPage(): React.ReactElement {
               ← {t('cabinets.title')}
             </a>
             <h1 className="font-medium mt-1" style={{ fontSize: '22px', letterSpacing: '0.03em', color: burgundy }}>
-              {cabinet.name}
+              {t(`cabinets_catalog.${cabinet.slug}.name`, { defaultValue: cabinet.name })}
             </h1>
           </div>
           {cabinet.is_active && (
@@ -341,9 +341,9 @@ export function CabinetSessionPage(): React.ReactElement {
           )}
         </header>
 
-        {cabinet.description && !sessionActive && (
+        {!sessionActive && t(`cabinets_catalog.${cabinet.slug}.description`, { defaultValue: cabinet.description ?? '' }) && (
           <p className="italic mb-4 opacity-80" style={{ fontSize: '14px' }}>
-            {cabinet.description}
+            {t(`cabinets_catalog.${cabinet.slug}.description`, { defaultValue: cabinet.description ?? '' })}
           </p>
         )}
 

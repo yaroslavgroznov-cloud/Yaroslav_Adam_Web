@@ -146,13 +146,17 @@ function CabinetGroup({ label, isDark, children }: CabinetGroupProps): React.Rea
 interface CabinetCardProps {
   c: Cabinet
   isDark: boolean
-  t: (key: string) => string
+  t: (key: string, opts?: { defaultValue?: string }) => string
   onRequestAccess: (cab: { slug: string; name: string }) => void
 }
 
 function CabinetCard({ c, isDark, t, onRequestAccess }: CabinetCardProps): React.ReactElement {
   const needsRequest = c.access_mode === 'creator_grant' && !c.can_access
   const accentColor = isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta-dark)'
+
+  // 2026-06-10: каталог приходит с API на RU. i18n override с fallback на API.
+  const localizedName = t(`cabinets_catalog.${c.slug}.name`, { defaultValue: c.name })
+  const localizedDesc = t(`cabinets_catalog.${c.slug}.description`, { defaultValue: c.description ?? '' })
 
   return (
     <li
@@ -164,7 +168,7 @@ function CabinetCard({ c, isDark, t, onRequestAccess }: CabinetCardProps): React
       }}
     >
       <div className="flex items-baseline justify-between mb-1">
-        <h2 style={{ fontSize: '17px', letterSpacing: '0.03em' }}>{c.name}</h2>
+        <h2 style={{ fontSize: '17px', letterSpacing: '0.03em' }}>{localizedName}</h2>
         {c.is_active ? (
           c.access_mode === 'creator_grant' ? (
             <span className="italic" style={{ fontSize: '12px', opacity: 0.75 }}>
@@ -181,16 +185,16 @@ function CabinetCard({ c, isDark, t, onRequestAccess }: CabinetCardProps): React
           </span>
         )}
       </div>
-      {c.description && (
+      {localizedDesc && (
         <p className="italic opacity-80 mb-3" style={{ fontSize: '13px' }}>
-          {c.description}
+          {localizedDesc}
         </p>
       )}
       {c.is_active && (
         needsRequest ? (
           <button
             type="button"
-            onClick={() => onRequestAccess({ slug: c.slug, name: c.name })}
+            onClick={() => onRequestAccess({ slug: c.slug, name: localizedName })}
             className="italic underline underline-offset-4 decoration-1"
             style={{
               background: 'transparent', border: 'none', padding: 0, cursor: 'pointer',

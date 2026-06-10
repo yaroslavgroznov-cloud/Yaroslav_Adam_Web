@@ -419,7 +419,7 @@ export function ChatInterface(): React.ReactElement {
         <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <img
             src="/dom_groznovyh.jpg"
-            alt="Герб Дома Грозновых"
+            alt={t('common.crest_full_alt')}
             className="h-[52px] sm:h-[90px] w-auto select-none shrink-0"
             style={{
               mixBlendMode: isDark ? 'normal' : 'multiply',

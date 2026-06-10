@@ -66,6 +66,11 @@ export function PricingPage(): React.ReactElement {
       ? `/chat?request_cabinet=${encodeURIComponent(c.slug)}`
       : `/chat?cabinet=${encodeURIComponent(c.slug)}`
     const priceFmt = (p: number): string => Number.isInteger(p) ? `$${p}` : `$${p.toFixed(2)}`
+    // 2026-06-10: каталог приходит с API на русском. Override через i18n с fallback
+    // на API name/description, чтобы прежний контракт не ломался при добавлении
+    // нового slug, не описанного в локали.
+    const localizedName = t(`cabinets_catalog.${c.slug}.name`, { defaultValue: c.name })
+    const localizedDesc = t(`cabinets_catalog.${c.slug}.description`, { defaultValue: c.description ?? '' })
     return (
       <div
         key={c.slug}
@@ -78,9 +83,9 @@ export function PricingPage(): React.ReactElement {
           height: '100%',
         }}
       >
-        <h3 className="italic mb-2" style={{ fontSize: '20px', letterSpacing: '0.03em' }}>{c.name}</h3>
-        {c.description && (
-          <p className="opacity-75 mb-4" style={{ fontSize: '14px', lineHeight: 1.6 }}>{c.description}</p>
+        <h3 className="italic mb-2" style={{ fontSize: '20px', letterSpacing: '0.03em' }}>{localizedName}</h3>
+        {localizedDesc && (
+          <p className="opacity-75 mb-4" style={{ fontSize: '14px', lineHeight: 1.6 }}>{localizedDesc}</p>
         )}
         {!isClosed && (
           <div className="mb-4" style={{ fontSize: '14px' }}>

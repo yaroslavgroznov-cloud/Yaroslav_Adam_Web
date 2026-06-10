@@ -253,7 +253,7 @@ export function StolPanel(): React.ReactElement {
         style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
       >
         <div className="flex items-center gap-3 min-w-0">
-          <img src="/dom_groznovyh.jpg" alt="Герб" className="h-[52px] w-auto select-none shrink-0"
+          <img src="/dom_groznovyh.jpg" alt={t('common.crest_alt')} className="h-[52px] w-auto select-none shrink-0"
                style={{ mixBlendMode: isDark ? 'normal' : 'multiply',
                         filter: isDark ? 'brightness(1.08) contrast(1.05)' : 'none' }} />
           <div className="flex flex-col leading-tight min-w-0">
