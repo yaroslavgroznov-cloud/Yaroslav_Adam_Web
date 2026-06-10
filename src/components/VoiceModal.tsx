@@ -154,7 +154,7 @@ export function VoiceModal({ isDark, onClose }: Props): React.ReactElement {
         // 'disconnected' бывает временным (mobile network) — не рубим. Только 'failed'.
         if (st === 'failed') {
           setPhase('error')
-          setError(`WebRTC failed (ICE) — попробуй ещё раз или открой DevTools console.`)
+          setError(t('voice.webrtc_failed_ice'))
           cleanup()
         }
       }

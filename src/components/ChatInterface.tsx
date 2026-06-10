@@ -820,7 +820,7 @@ export function ChatInterface(): React.ReactElement {
               >
                 {rooms.map((r) => (
                   <option key={r.slug} value={r.slug}>
-                    {r.name}
+                    {t(`rooms.${r.slug}`, { defaultValue: r.name })}
                   </option>
                 ))}
               </select>

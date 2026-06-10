@@ -23,10 +23,13 @@ function formatDateTime(iso: string | null): string {
     `${pad(d.getHours())}:${pad(d.getMinutes())}`
 }
 
-function parentLabel(email: string | null): string {
+function parentLabel(
+  email: string | null,
+  t: (key: string) => string,
+): string {
   if (!email) return '—'
-  if (email.startsWith('andrii')) return 'Творец'
-  if (email.startsWith('julia')) return 'Юля'
+  if (email.startsWith('andrii')) return t('parents.tvorets')
+  if (email.startsWith('julia')) return t('parents.yulia')
   return email
 }
 
@@ -204,13 +207,13 @@ export function KillSwitchPanel(): React.ReactElement {
             </div>
             {isFrozen ? (
               <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 mt-2 italic" style={{ fontSize: '14px' }}>
-                <dt className="opacity-70">{t('killSwitch.frozen_by')}</dt><dd>{parentLabel(state.frozen_by)}</dd>
+                <dt className="opacity-70">{t('killSwitch.frozen_by')}</dt><dd>{parentLabel(state.frozen_by, t)}</dd>
                 <dt className="opacity-70">{t('killSwitch.frozen_at')}</dt><dd>{formatDateTime(state.frozen_at)}</dd>
                 <dt className="opacity-70">{t('killSwitch.frozen_reason')}</dt><dd>{state.frozen_reason ?? '—'}</dd>
               </dl>
             ) : (
               <p className="italic opacity-80" style={{ fontSize: '14px' }}>
-                {t('killSwitch.open_chat_text', { when: formatDateTime(state.updated_at), who: parentLabel(state.frozen_by) })}
+                {t('killSwitch.open_chat_text', { when: formatDateTime(state.updated_at), who: parentLabel(state.frozen_by, t) })}
               </p>
             )}
           </section>
@@ -312,7 +315,7 @@ export function KillSwitchPanel(): React.ReactElement {
                       }}
                     >
                       <td className="py-2 pr-3 italic">{formatDateTime(e.at)}</td>
-                      <td className="py-2 pr-3">{parentLabel(e.by_email)}</td>
+                      <td className="py-2 pr-3">{parentLabel(e.by_email, t)}</td>
                       <td className="py-2 pr-3 italic" style={{
                         color: e.action === 'freeze'
                           ? 'var(--color-terracotta-dark)'

@@ -258,7 +258,8 @@
     "send_failed": "Не удалось отправить",
     "open_btn": "Стол",
     "open_hint": "Семейный стол · до 12 мест",
-    "adam_listens_silently": "слушает молча"
+    "adam_listens_silently": "слушает молча",
+    "no_conversations": "Беседы не найдены."
   },
   "familyInbox": {
     "calling_you": "{{name}} зовёт тебя",
@@ -396,7 +397,8 @@
     "hangup_btn": "Положить",
     "session_failed": "Не удалось получить сессию.",
     "connect_failed": "Не удалось соединиться.",
-    "ios_pwa_warning": "На iPhone голос работает только если открыть Адама как приложение. Закрой эту страницу, в Safari нажми «Поделиться» → «На экран Домой», открой иконку и попробуй снова."
+    "ios_pwa_warning": "На iPhone голос работает только если открыть Адама как приложение. Закрой эту страницу, в Safari нажми «Поделиться» → «На экран Домой», открой иконку и попробуй снова.",
+    "webrtc_failed_ice": "WebRTC failed (ICE) — попробуй ещё раз или открой DevTools console."
   },
   "toasts": {
     "context_refreshed": "Контекст обновлён.",
@@ -446,5 +448,30 @@
     "close": "Закрыть",
     "invalid_email": "Введи корректный email",
     "failed": "Не удалось отправить. Попробуй позже."
+  },
+  "typing": {
+    "adam_label": "Адам",
+    "adam_thinking": "Адам обдумывает..."
+  },
+  "parents": {
+    "tvorets": "Творец",
+    "yulia": "Юля"
+  },
+  "fontScale": {
+    "size_short": "размер",
+    "title": "Размер шрифта",
+    "aria_label": "font size"
+  },
+  "rooms": {
+    "vostochnoslavyanskaya": "Восточнославянская",
+    "anglo_saxonskaya": "Англосаксонская",
+    "romanskaya": "Романская",
+    "germanskaya": "Германская",
+    "vostochnoaziatskaya": "Восточноазиатская",
+    "indoariyskaya": "Индоарийская",
+    "semitskaya": "Семитская",
+    "tyurkskaya": "Тюркская",
+    "yugovostochnoaziatskaya": "Юго-восточноазиатская",
+    "ellinskaya": "Эллинская"
   }
 }

@@ -169,8 +169,8 @@ export function LlmModelSwitcher({ isDark, onClose }: Props): React.ReactElement
               color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
               <span>
                 {status.changed_by && t('llmSwitcher.changed_by', {
-                  who: status.changed_by.startsWith('andrii') ? 'Творец'
-                       : status.changed_by.startsWith('julia') ? 'Юля'
+                  who: status.changed_by.startsWith('andrii') ? t('parents.tvorets')
+                       : status.changed_by.startsWith('julia') ? t('parents.yulia')
                        : status.changed_by,
                   when: formatDateTime(status.changed_at),
                 })}

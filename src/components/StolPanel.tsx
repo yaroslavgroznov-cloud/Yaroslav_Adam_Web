@@ -110,7 +110,7 @@ export function StolPanel(): React.ReactElement {
         } catch { /* files отключены — кнопка скрепки спрячется */ }
         const list = await stolList()
         if (list.length === 0) {
-          setError('Беседы не найдены.')
+          setError(t('stol.no_conversations'))
           return
         }
         const c = list[0]

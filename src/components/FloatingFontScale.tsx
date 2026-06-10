@@ -7,11 +7,13 @@
 //
 // На /welcome НЕ показывается — там есть inline-переключатель в header.
 import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { FontScaleSwitch } from './FontScaleSwitch'
 import { useFontScale } from '../hooks/useFontScale'
 
 export function FloatingFontScale(): React.ReactElement | null {
+  const { t } = useTranslation()
   const { scale, setScale } = useFontScale()
   const [open, setOpen] = useState(false)
   const wrapRef = useRef<HTMLDivElement | null>(null)
@@ -62,19 +64,19 @@ export function FloatingFontScale(): React.ReactElement | null {
           }}
         >
           <span style={{ opacity: 0.6, letterSpacing: '0.2em', fontSize: '10px' }}>
-            размер
+            {t('fontScale.size_short')}
           </span>
           <FontScaleSwitch
             value={scale}
             onChange={(s) => { setScale(s); setOpen(false) }}
-            ariaLabel="font size"
+            ariaLabel={t('fontScale.aria_label')}
           />
         </div>
       )}
       <button
         onClick={() => setOpen((v) => !v)}
-        aria-label="font size"
-        title="Размер шрифта"
+        aria-label={t('fontScale.aria_label')}
+        title={t('fontScale.title')}
         className="italic rounded-full border"
         style={{
           width: 36,
