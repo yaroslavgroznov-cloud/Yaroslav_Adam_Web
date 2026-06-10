@@ -258,7 +258,13 @@ c) **In crisis state:** the limit does not apply.
 
 ### 8.2. Paid Sessions and Subscriptions
 
-Rates are displayed at `https://adam.groznov.uk/pricing` and may change. Changes do not apply retroactively to already paid Sessions/Subscriptions.
+Current tier structure — four levels:
+- **Session** — one-time access to a single open Cabinet (text);
+- **Topic** — monthly subscription to one of four cultural Cabinet groups, includes voice;
+- **All-Access** — monthly subscription to all open Cabinets, includes voice and automatic video channel access upon release;
+- **X** — monthly subscription for daily users, includes early access to new Cabinets and features.
+
+Current prices and tier details are at `https://adam.groznov.uk/pricing`. Rates may change. Changes do not apply retroactively to already paid Sessions and Subscriptions.
 
 ### 8.3. Payment methods
 
@@ -288,6 +294,18 @@ Submit in free form to `support@groznov.net` with order_id or account email. Rev
 ### 8.6. Chargeback policy
 
 If User initiates a chargeback without first attempting to resolve via `support@groznov.net` — account may be blocked.
+
+### 8.7. Fair Use and temporary rate limits
+
+Subscriptions of the **Topic** and **All-Access** tiers are designed for a natural conversational rhythm with Adam. In case of significantly more intensive usage within the billing period, the Platform may apply temporary rate limits to Adam's response speed and offer the User:
+
+a) a one-time subscription extension until the end of the current period;
+b) an upgrade to the **X** tier, which is not subject to such limits;
+c) waiting for the next billing cycle — Adam continues to respond, but at a calmer pace.
+
+This is a standard fair-use practice, analogous to the policies of AI service providers (Anthropic, OpenAI), cloud services, and telecom operators. Its purpose is to maintain equal access for all Users of the Platform. The **X** tier is not subject to these limits.
+
+The User receives three gentle in-app notifications in advance — warm in tone, not blocking access — as the period limit approaches.
 
 ---
 

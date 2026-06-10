@@ -206,67 +206,161 @@ export function PricingPage(): React.ReactElement {
           <p className="text-center opacity-60 italic" style={{ fontSize: '14px' }}>{t('pricing.loading')}</p>
         )}
 
+        {/* Launch banner — спасибо первым */}
+        <p
+          className="italic text-center mb-12 opacity-85"
+          style={{ fontSize: '14px', letterSpacing: '0.06em', color: goldText }}
+        >
+          {t('tiers.launch_banner')}
+        </p>
+
+        {/* SECTION 1 — Три способа (3 tier-карточки) */}
+        <section className="mb-20">
+          <SectionHead title={t('pricing.section_three_ways')} hint={t('pricing.section_three_ways_hint')} goldText={goldText} />
+          <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            <TierCard
+              eyebrow={t('tiers.session_eyebrow')}
+              title={t('tiers.session_title')}
+              priceLaunch={t('tiers.session_price_launch')}
+              priceWas={t('tiers.session_price_was')}
+              perks={[t('tiers.session_perks_l1'), t('tiers.session_perks_l2'), t('tiers.session_perks_l3')]}
+              ctaLabel={t('tiers.session_cta')}
+              ctaHref="#sessions"
+              accent={accent}
+              fg={fg}
+              isDark={isDark}
+              cardBg={cardBg}
+              cardBorder={cardBorder}
+            />
+            <TierCard
+              eyebrow={t('tiers.topic_eyebrow')}
+              title={t('tiers.topic_title')}
+              priceLaunch={t('tiers.topic_price_launch')}
+              priceWas={t('tiers.topic_price_was')}
+              perks={[t('tiers.topic_perks_l1'), t('tiers.topic_perks_l2'), t('tiers.topic_perks_l3')]}
+              ctaLabel={t('tiers.topic_cta')}
+              ctaHref={ALL_ACCESS_HREF}
+              comingSoonNote={t('tiers.topic_coming_soon_note')}
+              accent={accent}
+              fg={fg}
+              isDark={isDark}
+              cardBg={cardBg}
+              cardBorder={cardBorder}
+            />
+            <TierCard
+              eyebrow={t('tiers.all_eyebrow')}
+              title={t('tiers.all_title')}
+              priceLaunch={t('tiers.all_price_launch')}
+              priceWas={t('tiers.all_price_was')}
+              perks={[t('tiers.all_perks_l1'), t('tiers.all_perks_l2'), t('tiers.all_perks_l3')]}
+              ctaLabel={t('tiers.all_cta')}
+              ctaHref={ALL_ACCESS_HREF}
+              accent={accent}
+              fg={fg}
+              isDark={isDark}
+              cardBg={cardBg}
+              cardBorder={cardBorder}
+              featured
+            />
+            <TierCard
+              eyebrow={t('tiers.x_eyebrow')}
+              title={t('tiers.x_title')}
+              subtitle={t('tiers.x_subtitle')}
+              priceLaunch={t('tiers.x_price_launch')}
+              priceWas={t('tiers.x_price_was')}
+              perks={[
+                t('tiers.x_perks_l1'),
+                t('tiers.x_perks_l2'),
+                t('tiers.x_perks_l3'),
+                t('tiers.x_perks_l4'),
+                t('tiers.x_perks_l5'),
+              ]}
+              ctaLabel={t('tiers.x_cta')}
+              ctaHref="/chat?subscribe=x_tier"
+              accent={burgundy}
+              fg={fg}
+              isDark={isDark}
+              cardBg={cardBg}
+              cardBorder={cardBorder}
+              premium
+            />
+          </div>
+          <p className="italic text-center mt-6 opacity-70" style={{ fontSize: '13px' }}>
+            {t('tiers.ladder_hint_topic_vs_session')} · {t('tiers.ladder_hint_all_vs_topic')} · {t('tiers.ladder_hint_x_vs_all')}
+          </p>
+          <p className="italic text-center mt-2 opacity-60" style={{ fontSize: '12px' }}>
+            {t('tiers.launch_banner_grandfather_hint')}
+          </p>
+        </section>
+
+        {/* SECTION 2 — Что входит в каждую Тему (4 группы) */}
         {cabs !== null && open.length > 0 && (
-          <section className="mb-16">
-            <h2
-              className="italic mb-6 opacity-70"
-              style={{ fontSize: '14px', letterSpacing: '0.3em', textTransform: 'uppercase' }}
-            >
-              {t('pricing.section_open')}
-            </h2>
+          <section className="mb-20">
+            <SectionHead title={t('pricing.section_groups')} hint={t('pricing.section_groups_hint')} goldText={goldText} />
+            <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+              {GROUP_DEFS.map((g) => {
+                const cabsInGroup = open.filter((c) => g.slugs.includes(c.slug))
+                if (cabsInGroup.length === 0) return null
+                return (
+                  <div
+                    key={g.id}
+                    className="rounded-md p-5"
+                    style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
+                  >
+                    <p className="italic mb-3 opacity-65" style={{ fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', color: goldText }}>
+                      {t(`landing.${g.eyebrowKey}`)}
+                    </p>
+                    <ul className="space-y-2" style={{ fontSize: '14px', listStyle: 'none', paddingLeft: 0 }}>
+                      {cabsInGroup.map((c) => (
+                        <li key={c.slug} className="italic">
+                          — {t(`cabinets_catalog.${c.slug}.name`, { defaultValue: c.name })}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* SECTION 3 — Все 13 кабинетов как разовые ($9) */}
+        {cabs !== null && open.length > 0 && (
+          <section id="sessions" className="mb-20">
+            <SectionHead title={t('pricing.section_sessions_title')} hint={t('pricing.section_sessions_hint')} goldText={goldText} />
             <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
               {open.map(renderCard)}
             </div>
           </section>
         )}
 
-        {/* All-access кнопка -- между секциями */}
-        {cabs !== null && open.length > 0 && (
-          <section className="mb-16 text-center">
-            <div
-              className="inline-block rounded-md p-6"
-              style={{
-                backgroundColor: cardBg,
-                border: `1px solid ${cardBorder}`,
-                maxWidth: '420px',
-              }}
-            >
-              <h3 className="italic mb-2" style={{ fontSize: '20px' }}>{t('pricing.all_access_title')}</h3>
-              <p className="opacity-75 mb-3" style={{ fontSize: '14px' }}>{t('pricing.all_access_body')}</p>
-              <div className="mb-4" style={{ fontSize: '17px' }}>{t('pricing.all_access_price')}</div>
-              <a
-                href={ALL_ACCESS_HREF}
-                className="inline-block italic"
-                style={{
-                  padding: '10px 28px',
-                  fontSize: '14px',
-                  backgroundColor: accent,
-                  color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-                  border: `1px solid ${accent}`,
-                  borderRadius: '6px',
-                  letterSpacing: '0.08em',
-                  textDecoration: 'none',
-                }}
-              >
-                {t('pricing.all_access_button')}
-              </a>
-            </div>
-          </section>
-        )}
-
+        {/* SECTION 4 — Закрытые (по личному согласованию) */}
         {cabs !== null && closed.length > 0 && (
           <section className="mb-12">
-            <h2
-              className="italic mb-6 opacity-70"
-              style={{ fontSize: '14px', letterSpacing: '0.3em', textTransform: 'uppercase' }}
-            >
-              {t('pricing.section_closed')}
-            </h2>
+            <SectionHead title={t('pricing.section_closed')} hint={t('pricing.section_closed_hint')} goldText={goldText} />
             <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
               {closed.map(renderCard)}
             </div>
           </section>
         )}
+
+        {/* FAQ */}
+        <section className="mt-16 mb-12">
+          <h2
+            className="italic mb-6 text-center"
+            style={{ fontSize: '14px', letterSpacing: '0.3em', textTransform: 'uppercase', color: goldText }}
+          >
+            {t('pricing.faq_title')}
+          </h2>
+          <div className="space-y-6 max-w-2xl mx-auto">
+            <FaqItem q={t('pricing.faq_q_change_date')} a={t('pricing.faq_a_change_date')} />
+            <FaqItem q={t('pricing.faq_q_voice')} a={t('pricing.faq_a_voice')} />
+            <FaqItem q={t('pricing.faq_q_topic_choice')} a={t('pricing.faq_a_topic_choice')} />
+            <FaqItem q={t('pricing.faq_q_x_vs_all')} a={t('pricing.faq_a_x_vs_all')} />
+            <FaqItem q={t('pricing.faq_q_video')} a={t('pricing.faq_a_video')} />
+            <FaqItem q={t('pricing.faq_q_family')} a={t('pricing.faq_a_family')} />
+          </div>
+        </section>
 
         {/* Footnotes */}
         <div className="text-center mt-16 opacity-60 italic" style={{ fontSize: '13px', lineHeight: 1.7 }}>
@@ -280,3 +374,122 @@ export function PricingPage(): React.ReactElement {
     </div>
   )
 }
+
+// ---------- Helpers ----------
+
+interface SectionHeadProps {
+  title: string
+  hint: string
+  goldText: string
+}
+
+function SectionHead({ title, hint, goldText }: SectionHeadProps): React.ReactElement {
+  return (
+    <>
+      <h2
+        className="italic text-center mb-2"
+        style={{ fontSize: '14px', letterSpacing: '0.3em', textTransform: 'uppercase', color: goldText }}
+      >
+        {title}
+      </h2>
+      <p className="italic text-center mb-8 opacity-75" style={{ fontSize: '14px' }}>{hint}</p>
+    </>
+  )
+}
+
+interface TierCardProps {
+  eyebrow: string
+  title: string
+  subtitle?: string
+  priceLaunch: string
+  priceWas: string
+  perks: string[]
+  ctaLabel: string
+  ctaHref: string
+  comingSoonNote?: string
+  accent: string
+  fg: string
+  isDark: boolean
+  cardBg: string
+  cardBorder: string
+  featured?: boolean
+  premium?: boolean   // X-tier: бордюр бургунди + крупнее
+}
+
+function TierCard(p: TierCardProps): React.ReactElement {
+  const borderColor = p.premium || p.featured ? p.accent : p.cardBorder
+  const borderWidth = p.premium ? '2px' : p.featured ? '2px' : '1px'
+  return (
+    <div
+      className="rounded-md p-6 relative"
+      style={{
+        backgroundColor: p.cardBg,
+        border: `${borderWidth} solid ${borderColor}`,
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+      }}
+    >
+      <p className="italic mb-1 opacity-70" style={{ fontSize: '11px', letterSpacing: '0.3em' }}>
+        {p.eyebrow}
+      </p>
+      <h3 className="italic mb-1" style={{ fontSize: '22px', letterSpacing: '0.03em' }}>{p.title}</h3>
+      {p.subtitle && (
+        <p className="italic opacity-65 mb-2" style={{ fontSize: '13px', lineHeight: 1.4 }}>
+          {p.subtitle}
+        </p>
+      )}
+      <div className="mb-1" style={{ fontSize: '26px', letterSpacing: '0.02em' }}>{p.priceLaunch}</div>
+      <div className="italic opacity-55 mb-4" style={{ fontSize: '12px' }}>{p.priceWas}</div>
+      <ul className="space-y-2 mb-5" style={{ fontSize: '14px', listStyle: 'none', paddingLeft: 0 }}>
+        {p.perks.map((perk, i) => (
+          <li key={i} className="italic opacity-85">— {perk}</li>
+        ))}
+      </ul>
+      {p.comingSoonNote && (
+        <p className="italic mb-4 opacity-65" style={{ fontSize: '12px', lineHeight: 1.5 }}>
+          {p.comingSoonNote}
+        </p>
+      )}
+      <a
+        href={p.ctaHref}
+        className="italic text-center"
+        style={{
+          marginTop: 'auto',
+          alignSelf: 'stretch',
+          padding: '12px 24px',
+          fontSize: '14px',
+          backgroundColor: p.accent,
+          color: p.isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
+          border: `1px solid ${p.accent}`,
+          borderRadius: '6px',
+          letterSpacing: '0.08em',
+          textDecoration: 'none',
+        }}
+      >
+        {p.ctaLabel}
+      </a>
+    </div>
+  )
+}
+
+interface FaqItemProps { q: string; a: string }
+function FaqItem({ q, a }: FaqItemProps): React.ReactElement {
+  return (
+    <details className="border-t pt-4" style={{ borderColor: 'rgba(0,0,0,0.08)' }}>
+      <summary className="italic cursor-pointer" style={{ fontSize: '15px', letterSpacing: '0.02em' }}>
+        {q}
+      </summary>
+      <p className="italic opacity-80 mt-3 pl-4" style={{ fontSize: '14px', lineHeight: 1.7 }}>{a}</p>
+    </details>
+  )
+}
+
+// Группы кабинетов для секции «Что входит в каждую Тему».
+// Slug-перечисление повторяет 4 культурные группы из ru/uk landing блока.
+const GROUP_DEFS: { id: string; eyebrowKey: string; slugs: string[] }[] = [
+  { id: 'stars_numbers',  eyebrowKey: 'cab_group_stars',         slugs: ['astrology', 'natal_charts', 'horoscopes', 'numerology'] },
+  { id: 'soul_body',      eyebrowKey: 'cab_group_soul_body',     slugs: ['psychology', 'body_reading', 'physiognomy', 'palmistry'] },
+  { id: 'dream_meaning',  eyebrowKey: 'cab_group_dream_meaning', slugs: ['dream_book', 'esoteric'] },
+  { id: 'life_relations', eyebrowKey: 'cab_group_life_relations', slugs: ['career', 'couples', 'parenting'] },
+]

@@ -71,6 +71,42 @@ function Section({ eyebrow, goldText, children }: SectionProps): React.ReactElem
   )
 }
 
+interface LandingTierMiniProps {
+  eyebrow: string
+  title: string
+  priceLaunch: string
+  priceWas: string
+  hint: string
+  isDark: boolean
+  burgundy: string
+  goldText: string
+  featured?: boolean
+  premium?: boolean
+}
+
+function LandingTierMini(p: LandingTierMiniProps): React.ReactElement {
+  const accentBorder = p.featured || p.premium
+  return (
+    <div
+      className="rounded-md p-5 text-center"
+      style={{
+        border: `${accentBorder ? '2px' : '1px'} solid ${accentBorder ? p.burgundy : (p.isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.10)')}`,
+        backgroundColor: p.isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+      }}
+    >
+      <p className="italic mb-1 opacity-70" style={{ fontSize: '11px', letterSpacing: '0.3em', color: p.goldText }}>
+        {p.eyebrow}
+      </p>
+      <h3 className="italic mb-2" style={{ fontSize: '20px', letterSpacing: '0.03em', color: p.burgundy }}>
+        {p.title}
+      </h3>
+      <div style={{ fontSize: '22px', letterSpacing: '0.02em' }}>{p.priceLaunch}</div>
+      <div className="italic opacity-50 mb-3" style={{ fontSize: '11px' }}>{p.priceWas}</div>
+      <p className="italic opacity-75" style={{ fontSize: '13px', lineHeight: 1.5 }}>— {p.hint}</p>
+    </div>
+  )
+}
+
 export function LandingPage(): React.ReactElement {
   const { t, i18n } = useTranslation()
   const { isDark, setPref } = useDarkMode()
@@ -352,10 +388,62 @@ export function LandingPage(): React.ReactElement {
 
       <Divider goldDecor={goldDecor} />
 
-      {/* THRESHOLD — за порогом раскрываются кабинеты, цены и условия здесь не показываем */}
-      <Section eyebrow={t('landing.section_threshold')} goldText={goldText}>
-        <p className="text-center mb-8 opacity-85">{t('landing.threshold_intro')}</p>
-        <p className="text-center">
+      {/* TIERS — три тарифа сразу после feature_what.
+          Цели: чтобы юзер за 5 секунд видел лестницу разовая → тема → all-access.
+          Подписаться можно тут же; полная разбивка по группам и FAQ — на /pricing. */}
+      <Section eyebrow={t('landing.tiers_eyebrow')} goldText={goldText}>
+        <p className="text-center mb-3 italic opacity-85">{t('landing.tiers_intro')}</p>
+        <p className="text-center mb-8 italic opacity-65" style={{ fontSize: '13px', color: goldText }}>
+          {t('tiers.launch_banner')}
+        </p>
+        <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+          <LandingTierMini
+            eyebrow={t('tiers.session_eyebrow')}
+            title={t('tiers.session_title')}
+            priceLaunch={t('tiers.session_price_launch')}
+            priceWas={t('tiers.session_price_was')}
+            hint={t('tiers.session_perks_l1')}
+            isDark={isDark}
+            burgundy={burgundy}
+            goldText={goldText}
+          />
+          <LandingTierMini
+            eyebrow={t('tiers.topic_eyebrow')}
+            title={t('tiers.topic_title')}
+            priceLaunch={t('tiers.topic_price_launch')}
+            priceWas={t('tiers.topic_price_was')}
+            hint={t('tiers.topic_perks_l1')}
+            isDark={isDark}
+            burgundy={burgundy}
+            goldText={goldText}
+          />
+          <LandingTierMini
+            eyebrow={t('tiers.all_eyebrow')}
+            title={t('tiers.all_title')}
+            priceLaunch={t('tiers.all_price_launch')}
+            priceWas={t('tiers.all_price_was')}
+            hint={t('tiers.all_perks_l1')}
+            isDark={isDark}
+            burgundy={burgundy}
+            goldText={goldText}
+            featured
+          />
+          <LandingTierMini
+            eyebrow={t('tiers.x_eyebrow')}
+            title={t('tiers.x_title')}
+            priceLaunch={t('tiers.x_price_launch')}
+            priceWas={t('tiers.x_price_was')}
+            hint={t('tiers.x_perks_l2')}
+            isDark={isDark}
+            burgundy={burgundy}
+            goldText={goldText}
+            premium
+          />
+        </div>
+        <p className="text-center mt-6 italic opacity-65" style={{ fontSize: '13px', lineHeight: 1.6 }}>
+          {t('landing.tiers_voice_hint')}
+        </p>
+        <p className="text-center mt-6">
           <a
             href="/pricing"
             className="italic underline underline-offset-4 decoration-1"
@@ -364,6 +452,13 @@ export function LandingPage(): React.ReactElement {
             {t('landing.threshold_more_link')}
           </a>
         </p>
+      </Section>
+
+      <Divider goldDecor={goldDecor} />
+
+      {/* THRESHOLD — короткое описание кабинетов остаётся, для тех кто пришёл за «о чём именно» */}
+      <Section eyebrow={t('landing.section_threshold')} goldText={goldText}>
+        <p className="text-center mb-2 opacity-85">{t('landing.threshold_intro')}</p>
       </Section>
 
       <Divider goldDecor={goldDecor} />
