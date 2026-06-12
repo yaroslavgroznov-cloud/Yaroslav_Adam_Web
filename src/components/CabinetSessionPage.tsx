@@ -659,7 +659,24 @@ export function CabinetSessionPage(): React.ReactElement {
                 </div>
               ))}
               {busy && (
-                <div className="italic opacity-70" style={{ fontSize: '13px' }}>✦ …</div>
+                <div
+                  className="flex items-center gap-2 italic"
+                  style={{
+                    fontSize: '14px',
+                    color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-umber)',
+                    opacity: 0.85,
+                    padding: '6px 2px',
+                  }}
+                  aria-live="polite"
+                >
+                  <span style={{ fontSize: '15px' }}>✦</span>
+                  <span>{t('cabinets.thinking') || 'Адам обдумывает ответ'}</span>
+                  <span aria-hidden="true" style={{ display: 'inline-flex', gap: '2px', marginLeft: '4px' }}>
+                    <span className="adam-bounce" style={{ animationDelay: '0s' }}>•</span>
+                    <span className="adam-bounce" style={{ animationDelay: '0.16s' }}>•</span>
+                    <span className="adam-bounce" style={{ animationDelay: '0.32s' }}>•</span>
+                  </span>
+                </div>
               )}
               <div ref={endRef} />
             </div>

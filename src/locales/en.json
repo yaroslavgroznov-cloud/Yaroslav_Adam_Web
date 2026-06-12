@@ -184,7 +184,8 @@
     "by_invitation": "by invitation",
     "request_access_cta": "Request access →",
     "closed_eyebrow": "by personal invitation of the creator",
-    "others_eyebrow": "others"
+    "others_eyebrow": "others",
+    "thinking": "Adam is thinking"
   },
   "search": {
     "placeholder": "Find in dialog…",

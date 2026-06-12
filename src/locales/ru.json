@@ -189,7 +189,8 @@
     "by_invitation": "по приглашению",
     "request_access_cta": "Запросить доступ →",
     "closed_eyebrow": "по личному приглашению творца",
-    "others_eyebrow": "другие"
+    "others_eyebrow": "другие",
+    "thinking": "Адам обдумывает ответ"
   },
   "search": {
     "placeholder": "Найти в диалоге…",

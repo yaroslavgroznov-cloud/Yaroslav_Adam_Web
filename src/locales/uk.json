@@ -189,7 +189,8 @@
     "by_invitation": "за запрошенням",
     "request_access_cta": "Подати заявку →",
     "closed_eyebrow": "за особистим запрошенням творця",
-    "others_eyebrow": "інші"
+    "others_eyebrow": "інші",
+    "thinking": "Адам обмірковує відповідь"
   },
   "search": {
     "placeholder": "Знайти в діалозі…",
