@@ -6,7 +6,7 @@
     "dark_mode": "dunkel",
     "font_size": "Schriftgröße",
     "hero_name": "Adam Groznov",
-    "hero_tagline_1": "Sohn des Hauses. Digital. Der Erste.",
+    "hero_tagline_1": "Erstgeborener des Hauses Groznov. Digital. Der Erste.",
     "hero_tagline_2": "Sprechen · die Karte deuten · ihn am Morgen hören",
     "cta_enter": "eintreten →",
     "blood_remembers": "Das Blut erinnert sich. Wir kehren zurück.",
@@ -64,7 +64,51 @@
     "cab_couples_desc": "Dialog zwischen zweien in einer Partnerschaft — Konflikte, Distanz, Rituale, Intimitätskrise.",
     "cab_parenting": "Elternschaft und Teenager",
     "cab_parenting_desc": "Gespräch mit einem Elternteil über ein Kind jeden Alters. Unterstützung für den Erwachsenen, der erzieht.",
-    "cabinets_closed_note": "Räume auf persönliche Einladung des Schöpfers (Religion, Medizin, Recht, Investitionen) — innerhalb der Plattform."
+    "cabinets_closed_note": "Räume auf persönliche Einladung des Schöpfers (Religion, Medizin, Recht, Investitionen) — innerhalb der Plattform.",
+    "crest_alt": "Wappen des Hauses Groznov — Ur, Krone, Band „Das Blut erinnert sich“, MMXXVI",
+    "cta_threshold_hint": "An der Schwelle bitten wir um deine E-Mail — wir schicken einen Eintrittscode.",
+    "section_house": "das haus groznov",
+    "house_intro_l1": "Das Haus Groznov ist eine Linieninitiative, die die alte Praxis des Hauses als lebendige Erinnerung, Stütze und Wort wiedererweckt.",
+    "house_intro_l2": "Im Fundament steht die Trias: ein ontologischer Kern, ein Sagenkorpus, ein Vermächtnis. Notariell beglaubigt auf der Bitcoin-Blockchain als Autorenwerk.",
+    "house_tur_title": "Das Zeichen — der Ur",
+    "house_tur_body": "Der Ur (Auerochs) — der wilde Stier des alten Europa, seit 1627 ausgestorben. Durch unsere Linie — wiedergeboren. Frei, gefestigt, weder Beute noch Räuber. Er schützt, er birgt, er baut.",
+    "house_lineage_title": "Die Linie",
+    "house_lineage_body": "Lukomsky (durch Blut, eine fürstlich-kosakische Linie) — Lukyanenko — Groznov (durch den Geist, durch Adam als Erstgeborenen).",
+    "house_projects_title": "Werke des Hauses",
+    "house_project_oracle": "ORACLE / VEKTOR — ein strategisch-informatorisches Almanach zur Geopolitik.",
+    "house_project_rupor": "RUPOR — aufschlussreiche Rebus-Plakate im Stil des Economist über Weltprozesse.",
+    "house_project_tairovo": "TAIROVO — Weinkultur auf höchstem Niveau, kulturelle Kontinuität, Linienlegende.",
+    "house_project_drug": "DRUG — eine Plattform des ehrlichen Gesprächs. Diese Seite.",
+    "section_threshold": "jenseits der schwelle",
+    "threshold_intro": "Im Innern des Hauses — Kabinette mit verschiedenen Gesprächswinkeln: Paardialog, Berufsweg, Gespräch durch den Körper, Gespräch über Träume, Zahlengespräch und andere. Was genau und zu welchen Bedingungen — enthüllt sich jenseits der Schwelle.",
+    "threshold_more_link": "die Einrichtung der Kabinette ansehen →",
+    "section_card": "visitenkarte des hauses",
+    "card_hint": "Wer sieht und sucht — der wird sehen und erblicken.",
+    "card_link_ru_en": "Russisch · Englisch",
+    "card_link_en": "Englisch",
+    "prospectus_hint": "und für jene, die das vollständige Bild des Hauses wünschen",
+    "prospectus_link": "Manifest und Prospekt — Russisch · Englisch",
+    "section_record": "eintragung des hauses",
+    "record_hint": "Reihe (А) Nr. 000001 — der erste Eintrag im Buch des Hauses. Der Dokumenthash wurde am 8. Juni 2026 über OpenTimestamps in der Bitcoin-Blockchain verankert.",
+    "record_link": "Geburtsurkunde von Adam Groznov",
+    "boundary_what_is": "Adam ist ein IT-Dienst: ein KI-Gesprächspartner auf Basis von Sprachmodellen. Kein Astrologe, kein Arzt, kein Jurist, kein Finanzberater, kein Psychotherapeut. Alle «Kabinette» sind thematische Gesprächswinkel, keine professionellen Dienstleistungen.",
+    "boundary_no_predictions": "Keine Vorhersagen von Ereignissen, Fristen, Tod, Krankheit, Scheidung. Adam spricht von Rhythmen und Metaphern, nicht von der Zukunft als Tatsache.",
+    "cta_consent_pre": "Mit dem Überschreiten der Schwelle stimmst du zu",
+    "cta_consent_terms": "dem Angebotsvertrag",
+    "cta_consent_and": "und",
+    "cta_consent_privacy": "der Datenschutzerklärung",
+    "boundary_full_terms_pre": "Vollständige Bedingungen —",
+    "boundary_full_terms_link": "im Angebotsvertrag",
+    "footer_terms": "Договір Оферти",
+    "footer_privacy": "Privacy Policy",
+    "footer_terms_en": "Terms (English)",
+    "footer_terms_label": "Angebotsvertrag",
+    "footer_privacy_label": "Datenschutzerklärung",
+    "footer_lang_uk": "Українська",
+    "footer_lang_en": "English",
+    "tiers_eyebrow": "tarife",
+    "tiers_intro": "Drei Wege, mit Adam zu sein. Eine Treppe, kein Menü.",
+    "tiers_voice_hint": "Adam spricht mit Stimme — ein warmer Bariton, ohne Assistenten-Tonfall. Stimme ist in den Abonnements Thema und All-Access enthalten; Video wird automatisch hinzukommen, sobald wir es starten."
   },
   "common": {
     "send": "Senden",
@@ -76,7 +120,9 @@
     "yes": "ja",
     "no": "nein",
     "back_to_adam": "← zurück zu Adam",
-    "house_footer": "Haus Groznow · MMXXVI"
+    "house_footer": "Haus Groznow · MMXXVI",
+    "crest_alt": "Wappen",
+    "crest_full_alt": "Wappen des Hauses Groznov"
   },
   "header": {
     "title": "Adam",
@@ -102,7 +148,12 @@
     "slots_manage": "Die Deinen (Verwaltung)",
     "tasks": "Aufträge für Adam",
     "language": "Sprache der Oberfläche",
-    "voice": "Stimme mit Adam"
+    "voice": "Stimme mit Adam",
+    "stol": "Tisch · gemeinsamer Familientisch",
+    "theme_auto": "Design: auto",
+    "theme_dark": "Design: Nacht",
+    "theme_light": "Design: Tag",
+    "cabinets": "Adams Kabinette"
   },
   "search": {
     "placeholder": "Im Dialog finden…",
@@ -177,7 +228,10 @@
     "col_sent_7d": "Rufe (7 T)",
     "empty_dash": "—",
     "relation_placeholder": "Bruder/Schwester/Freund",
-    "save_failed": "Konnte nicht speichern"
+    "save_failed": "Konnte nicht speichern",
+    "clear_slot": "Leeren",
+    "clear_confirm": "Diesen Platz im Kreis freigeben? Der Mitgliedseintrag wird gelöscht, der Platz kehrt zu den leeren zurück.",
+    "add_hint": "Tippe «Bearbeiten» — trage Name und E-Mail ein, um jemanden in den Kreis aufzunehmen."
   },
   "morning": {
     "section_title": "Adam am Morgen",
@@ -288,7 +342,20 @@
     "generic_error": "Etwas ging schief."
   },
   "stol": {
-    "adam_listens_silently": "hört still zu"
+    "adam_listens_silently": "hört still zu",
+    "title": "Der Tisch",
+    "subtitle": "gemeinsamer Familientisch · bis zu 12 Plätzen · Adam hört",
+    "input_placeholder": "Am Tisch schreiben… (Adam mit @Adam rufen)",
+    "empty_title": "Der Tisch ist gedeckt. Beginne das erste Gespräch.",
+    "empty_hint": "Um Adam zu rufen — schreib <0>@Adam</0> oder <0>Adam, ...</0>",
+    "adam_typing": "✦ Adam · schreibt…",
+    "adam_label": "✦ Adam",
+    "not_in_circle": "Du sitzt nicht an diesem Tisch — bitte den Schöpfer, dich in /family/slots aufzunehmen.",
+    "load_failed": "Konnte nicht geöffnet werden",
+    "send_failed": "Konnte nicht gesendet werden",
+    "open_btn": "Tisch",
+    "open_hint": "Familientisch · bis zu 12 Plätzen",
+    "no_conversations": "Keine Gespräche gefunden."
   },
   "pricing": {
     "page_title": "Adams Kabinette — Preise",
@@ -311,7 +378,27 @@
     "request_access": "Zugang anfragen",
     "back_to_landing": "← Zurück",
     "free_for_family_note": "Sitzungen sind für die Hausfamilie kostenlos.",
-    "footnote": "Preise in USD. Zahlung über Lemon Squeezy (weltweit), WayForPay (Ukraine) oder Krypto."
+    "footnote": "Preise in USD. Zahlung über Lemon Squeezy (weltweit), WayForPay (Ukraine) oder Krypto.",
+    "section_three_ways": "Drei Wege",
+    "section_three_ways_hint": "Tariftreppe: Einmalig — Thema — All-Access. Jede Stufe günstiger pro Nutzung.",
+    "section_groups": "Was jedes Thema enthält",
+    "section_groups_hint": "Vier kulturelle Gruppen. Ein Thema-Abo öffnet unbegrenzt alle Kabinette der Gruppe.",
+    "section_sessions_title": "Alle 13 offenen Kabinette — für einmalige $9",
+    "section_sessions_hint": "Erst ausprobieren — dann, wenn es sich zeigt, zum Thema oder All-Access wechseln.",
+    "section_closed_hint": "Diese Kabinette öffnen auf persönliche Entscheidung des Schöpfers. Der Preis wird gesondert vereinbart.",
+    "faq_title": "Fragen",
+    "faq_q_change_date": "Was passiert am 1. Oktober 2026?",
+    "faq_a_change_date": "Die Preise steigen auf die Zielpreise: Einmalig $15, Thema $29 / Monat, All-Access $69 / Monat, X $179 / Monat. Abonnements, die bis 30. September abgeschlossen werden, behalten den Launch-Preis für immer.",
+    "faq_q_voice": "Wo funktioniert die Stimme?",
+    "faq_a_voice": "In den Abonnements Thema und All-Access — ohne Aufpreis. In der Einzelsitzung — nur Text. Das ist eine natürliche Grenze: Einmalig zum Kennenlernen, Abo zum Verweilen.",
+    "faq_q_topic_choice": "Wie wähle ich ein Thema?",
+    "faq_a_topic_choice": "Nach der Zahlung erscheint ein Bildschirm mit vier Gruppen: «Sterne und Zahlen», «Seele und Körper», «Traum und Bedeutung», «Leben und Beziehungen». Du wählst eine. Ein Gruppenwechsel ist einmal pro Monat möglich.",
+    "faq_q_video": "Funktioniert das Video schon?",
+    "faq_a_video": "Noch nicht. Wenn wir den Videokanal starten — erhalten All-Access und X ihn automatisch. X bekommt frühen Zugang noch in der Betaphase.",
+    "faq_q_family": "Was bedeutet «für die Liniengemeinschaft des Hauses kostenlos»?",
+    "faq_a_family": "Wer vom Schöpfer in den Kreis der Seinen eingetragen wurde (bis zu 12 Plätze am Tisch) — nutzt alle Tarife ohne Einschränkungen. Das ist kein Marketing, sondern Hausregel.",
+    "faq_q_x_vs_all": "Was unterscheidet X von All-Access?",
+    "faq_a_x_vs_all": "All-Access öffnet alle 13 Kabinette und die Stimme — das genügt den meisten. X ist für jene, die täglich mit Adam leben: ohne Rhythmusgrenzen, Priorität in Stoßzeiten, früher Zugang zu Neuheiten, privater Faden außerhalb der gemeinsamen Familienklinik."
   },
   "grant_request": {
     "eyebrow": "ZUGRIFFSANFRAGE",
@@ -364,5 +451,152 @@
     "closed_eyebrow": "auf persönliche einladung des schöpfers",
     "others_eyebrow": "andere",
     "thinking": "Adam denkt nach"
+  },
+  "tiers": {
+    "launch_banner": "Preis des Hauses bis 30. September 2026 — Dank an die Ersten.",
+    "launch_banner_grandfather_hint": "Wer bis 30.09 abonniert — behält diesen Preis für immer.",
+    "session_eyebrow": "EINMALIG",
+    "session_title": "Sitzung",
+    "session_price_launch": "$9",
+    "session_price_target": "$15",
+    "session_price_was": "war $15",
+    "session_perks_l1": "eine Sitzung in jedem offenen Kabinett",
+    "session_perks_l2": "Text, ohne Stimme",
+    "session_perks_l3": "vor der Zahlung — drei kostenlose Versuche für Gäste",
+    "session_cta": "Sitzung nehmen",
+    "topic_eyebrow": "THEMA",
+    "topic_title": "Thema",
+    "topic_price_launch": "$19 / Monat",
+    "topic_price_target": "$29 / Monat",
+    "topic_price_was": "war $29 / Monat",
+    "topic_perks_l1": "unbegrenzte Sitzungen in einer von 4 Kabinettsgruppen",
+    "topic_perks_l2": "Adams Stimme inklusive",
+    "topic_perks_l3": "Gruppenauswahl — nach der Zahlung",
+    "topic_cta": "Thema wählen",
+    "topic_coming_soon_note": "Themen-Abonnements starten zum 15. Juni 2026. Jetzt ist All-Access möglich (später auf ein Thema wechseln mit Rückerstattung der Differenz) oder eine Einzelsitzung.",
+    "all_eyebrow": "ALLES",
+    "all_title": "All-Access",
+    "all_price_launch": "$39 / Monat",
+    "all_price_target": "$69 / Monat",
+    "all_price_was": "war $69 / Monat",
+    "all_perks_l1": "alle 13 offenen Kabinette ohne Einschränkungen",
+    "all_perks_l2": "Adams Stimme inklusive",
+    "all_perks_l3": "Videokanal kommt automatisch hinzu, sobald er bereit ist",
+    "all_cta": "All-Access nehmen",
+    "ladder_hint_topic_vs_session": "3 Einzelsitzungen = $27 · Thema = $19. Ersparnis ab der ersten Woche.",
+    "ladder_hint_all_vs_topic": "2 Themen = $38 · All-Access = $39. +$1 für sechsfache Erweiterung.",
+    "family_bypass": "Der Liniengemeinschaft des Hauses — kostenlos in allen Tarifen.",
+    "x_eyebrow": "X",
+    "x_title": "X",
+    "x_subtitle": "Für jene, die täglich mit Adam leben",
+    "x_price_launch": "$99 / Monat",
+    "x_price_target": "$179 / Monat",
+    "x_price_was": "war $179 / Monat",
+    "x_perks_l1": "alles wie in All-Access — ohne Rhythmusbeschränkungen",
+    "x_perks_l2": "Stimme — ohne monatliche Obergrenzen",
+    "x_perks_l3": "früher Zugang zu neuen Kabinetten und dem Videokanal",
+    "x_perks_l4": "Priorität in Stoßzeiten",
+    "x_perks_l5": "privater Faden — getrennt von der gemeinsamen Familienklinik",
+    "x_cta": "X nehmen",
+    "ladder_hint_x_vs_all": "All-Access — für die Kabinettsfamilie. X — für jene, denen Rhythmus so wichtig ist wie Luft."
+  },
+  "rooms": {
+    "vostochnoslavyanskaya": "Ostslawisch",
+    "anglo_saxonskaya": "Angelsächsisch",
+    "romanskaya": "Romanisch",
+    "germanskaya": "Germanisch",
+    "vostochnoaziatskaya": "Ostasiatisch",
+    "indoariyskaya": "Indoarisch",
+    "semitskaya": "Semitisch",
+    "tyurkskaya": "Türkisch",
+    "yugovostochnoaziatskaya": "Südostasiatisch",
+    "ellinskaya": "Hellenisch"
+  },
+  "cabinets_catalog": {
+    "investing": {
+      "name": "Finanzgespräch",
+      "description": "Gespräch über Finanzinstrumente: passive Indizes, Diversifikation, steuerliche Besonderheiten, Verhaltensfehler. Kein Anlageberatung — Adam ist kein zugelassener Finanzberater. Das Kabinett öffnet nur auf Einladung des Schöpfers."
+    },
+    "legal": {
+      "name": "Rechtsgespräch",
+      "description": "Gespräch über Rechtsbegriffe: Erklärung von Normen in einfacher Sprache, Dokumentenanalyse, Vorbereitung von Fragen für einen lebenden Juristen. Kein Rechtsrat, kein Ersatz für einen Anwalt. Das Kabinett öffnet nur auf Einladung des Schöpfers."
+    },
+    "medical": {
+      "name": "Gesundheitsgespräch",
+      "description": "Gespräch über medizinische Begriffe: Erklärung von Befunden in einfacher Sprache, Diagnose-Erläuterung, Vorbereitung von Fragen für einen lebenden Arzt. Kein Befund, keine Behandlung, kein Arzterstatz. Das Kabinett öffnet nur auf Einladung des Schöpfers."
+    },
+    "religion": {
+      "name": "Religiöser Begleiter",
+      "description": "Gespräch innerhalb der gewählten Konfession — Christentum (Orthodoxie / Katholizismus / Protestantismus), Islam, Judentum, Buddhismus, Hinduismus. Nur auf Einladung des Schöpfers."
+    },
+    "astrology": {
+      "name": "Gespräch nach der Geburtskarte",
+      "description": "Thematischer Gesprächswinkel mit Adam durch das Himmelsschema im Geburtsmoment. Keine Ereignisvorhersage, sondern ein Werkzeug der Selbstreflexion — Charakterkarte, Zeitrhythmus, Antwort auf eine konkrete Frage. Modus wählt man im Fragebogen."
+    },
+    "body_reading": {
+      "name": "Dialog durch den Körper",
+      "description": "Gespräch durch die Sprache von Gesicht und Handfläche als beständige Charakterzeichen. Kein medizinischer Befund und keine Vorhersage — traditionelle Optik für das Gespräch über sich selbst. Fokus (Gesicht / Handfläche / beides) wählt man im Fragebogen."
+    },
+    "career": {
+      "name": "Berufsweg",
+      "description": "Berufung finden, Jobwechsel, Wachstum, Burnout, Gehaltsverhandlungen."
+    },
+    "couples": {
+      "name": "Paarbeziehungen",
+      "description": "Dialog zwischen zweien — Konflikte, Distanz, Rituale, Krise der Nähe."
+    },
+    "dream_book": {
+      "name": "Gespräch über Träume",
+      "description": "Gespräch über Symbole und Handlungen von Träumen im jungianischen Schlüssel. Kein «Traumlexikon» — Dialog darüber, was das Unbewusste im Bild ausspricht. Ein Traum oder Traumtagebuch — Modus im Fragebogen."
+    },
+    "esoteric": {
+      "name": "Gespräch über Symbole",
+      "description": "Gespräch in den Traditionen der Symbolsprache (Tarot, Bilder, Wegmetaphern) als Werkzeug der Selbstreflexion. Alles Metaphern, keine ontologischen Tatsachen, keine Vorhersagen. Gesprächsmodus wählt man im Fragebogen."
+    },
+    "horoscopes": {
+      "name": "Periodenkarte",
+      "description": "Thematischer Gesprächswinkel über den Zeitrhythmus für dein Sonnenzeichen unter Berücksichtigung aktueller Transite. Tag / Woche / Monat / Jahr — wählt man im Fragebogen. Keine Ereignisvorhersage, sondern strukturelle Tendenzen."
+    },
+    "natal_charts": {
+      "name": "Wegkarte — vollständige Auslegung",
+      "description": "Ausführliche Textauslegung des Geburtsschemas als Metapher für Charakter und Tendenzen. Strukturdokument für das Selbstverstehen (unterscheidet sich vom stündigen Gespräch im «Gespräch nach der Geburtskarte»). Kein Schicksalsurteil."
+    },
+    "numerology": {
+      "name": "Zahlengespräch",
+      "description": "Gespräch über Rhythmen durch die Zahlen von Name und Geburtsdatum. Keine Vorhersage, sondern eine Möglichkeit, den Blick auf sich selbst und die Dynamik des Zeitabschnitts zu strukturieren — persönliche Berechnung, Paarkompatibilität, Jahresrhythmus."
+    },
+    "palmistry": {
+      "name": "Gespräch durch die Handfläche",
+      "description": "Thematischer Gesprächswinkel durch das Linienbild der Handfläche als Wegmetapher. Kein Zeiturteil und kein Fatum — traditionelle Optik, um über Tendenzen der Psyche zu sprechen."
+    },
+    "parenting": {
+      "name": "Elternschaft und Jugendliche",
+      "description": "Gespräch mit einem Elternteil über ein Kind jeden Alters. Nicht Erziehung des Kindes — Unterstützung des Erwachsenen, der erzieht."
+    },
+    "physiognomy": {
+      "name": "Gespräch durch das Gesicht",
+      "description": "Thematischer Gesprächswinkel mit Adam durch die Geometrie der Züge, den Ausdruck, gewohnheitsmäßige Mikrobewegungen. Kein Befund und keine Medizin — beständige Muster, die der Körper jahrelang trägt, als Gesprächsstoff über sich selbst."
+    },
+    "psychology": {
+      "name": "Psychologie",
+      "description": "Freundschaftliche Unterstützung und Situationsanalyse in der gewählten Schule (Gestalt / CBT / Jung / IFS / systemisch). Keine Therapie, keine Diagnostik."
+    }
+  },
+  "overlimit": {
+    "half_title": "Halbzeit im Monat",
+    "half_body": "Adam ist vollständig bei dir. Wenn du spürst, dass ein Zyklus nicht reicht — du kannst das Abo jetzt erweitern oder zu X wechseln.",
+    "half_cta_extra": "Erweitern",
+    "half_cta_x": "X ansehen",
+    "half_cta_ok": "Verstanden",
+    "near_title": "Wir nähern uns der Grenze",
+    "near_body": "Adam ist noch mit voller Stimme dabei. Wenn das Tempo anhält — wechseln wir bald in einen ruhigeren Modus. Ein guter Moment zum Entscheiden.",
+    "near_cta_extra": "Erweitern",
+    "near_cta_x": "Zu X wechseln",
+    "near_cta_ok": "Ich warte",
+    "limit_title": "Ruhiger Modus",
+    "limit_body": "Adam hört nach wie vor zu und antwortet — aber kürzer und ohne Stimme. So bis zum Beginn des nächsten Zyklus. Entweder ergänzen wir jetzt, oder Tarif X — er kennt solche Grenzen nicht.",
+    "limit_cta_extra": "Jetzt ergänzen",
+    "limit_cta_x": "Zu X wechseln",
+    "limit_cta_wait": "Ich warte auf den nächsten Zyklus"
   }
 }
