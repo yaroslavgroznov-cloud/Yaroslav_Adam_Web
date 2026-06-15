@@ -694,6 +694,138 @@
     },
     "school": {
       "label": "Approach school"
+    },
+    "amount_range": {
+      "label": "Sum, and in what currency (approximately)"
+    },
+    "area": {
+      "label": "Area of law"
+    },
+    "belief_level": {
+      "label": "Level of trust in astrology"
+    },
+    "body_description": {
+      "label": "Describe your body / physical symptoms (what exactly hurts or feels off)"
+    },
+    "child_age": {
+      "label": "Child's age"
+    },
+    "children": {
+      "label": "Children"
+    },
+    "chronic": {
+      "label": "Are there chronic conditions? (diagnosis, medications, duration)"
+    },
+    "current_meds": {
+      "label": "Current medications (name + dosage)?"
+    },
+    "current_role": {
+      "label": "What is your current role (mother, father)?"
+    },
+    "deadline": {
+      "label": "Is there a deadline? (date by which a decision is needed)"
+    },
+    "details": {
+      "label": "Details (circumstances, what led here, what you have already tried)"
+    },
+    "documents": {
+      "label": "Are there documents or contracts? Describe them briefly"
+    },
+    "dominant_hand": {
+      "label": "Dominant hand"
+    },
+    "dream_text": {
+      "label": "The dream itself (as you remember it, structured as 'Scene 1: … / Scene 2: …')"
+    },
+    "emotion": {
+      "label": "Current emotional state"
+    },
+    "experience": {
+      "label": "Years of practice"
+    },
+    "face_description": {
+      "label": "Describe your face and features (what exactly you see in the mirror)"
+    },
+    "family_form": {
+      "label": "Family structure"
+    },
+    "forecast_year": {
+      "label": "Which year does the forecast cover? (e.g., 2027)"
+    },
+    "gad7_total": {
+      "label": "GAD-7 (anxiety self-assessment, score 0–21 from the test)"
+    },
+    "horoscope_period": {
+      "label": "Which period does the horoscope cover?"
+    },
+    "jurisdiction": {
+      "label": "Which country's law applies?"
+    },
+    "main_issue": {
+      "label": "What is the main issue troubling you?"
+    },
+    "palm_description": {
+      "label": "Describe the lines of your dominant hand (what you see on the palm)"
+    },
+    "parent_role": {
+      "label": "I am (mother / father / guardian)"
+    },
+    "participants": {
+      "label": "Number of participants"
+    },
+    "partner_data": {
+      "label": "Partner's data (if relevant)"
+    },
+    "phase": {
+      "label": "Phase of life / transition"
+    },
+    "query_type": {
+      "label": "What do you wish to understand or clarify through the chart?"
+    },
+    "recent_life": {
+      "label": "What is happening in your life? (describe events closest to the dream)"
+    },
+    "recurring": {
+      "label": "Is it a recurring dream?"
+    },
+    "relationship_form": {
+      "label": "Form of relationship"
+    },
+    "risk_tolerance": {
+      "label": "Attitude toward risk"
+    },
+    "self_feeling": {
+      "label": "How do you feel right now?"
+    },
+    "spread_type": {
+      "label": "Spread / type of reading"
+    },
+    "tradition": {
+      "label": "Tradition / school"
+    },
+    "tried": {
+      "label": "What have you already tried?"
+    },
+    "tried_before": {
+      "label": "Have you sought help before? What was the experience?"
+    },
+    "type": {
+      "label": "Type"
+    },
+    "what_brings": {
+      "label": "What gives you energy?"
+    },
+    "what_drains": {
+      "label": "What drains you?"
+    },
+    "what_works": {
+      "label": "What already works in your life?"
+    },
+    "years_exp": {
+      "label": "Years of experience"
+    },
+    "years_together": {
+      "label": "Years together"
     }
   },
   "intake_options": {

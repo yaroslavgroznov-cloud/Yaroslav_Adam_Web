@@ -663,5 +663,181 @@
     "not_in_circle": "你不在圈中 — 请创造者把你加入 /family/slots。",
     "load_failed": "无法打开",
     "send_failed": "无法发送"
+  },
+  "intake_fields": {
+    "birth_date": {
+      "label": "出生日期"
+    },
+    "birth_time": {
+      "label": "出生时间（精确时间，用于命宫推算）"
+    },
+    "birth_place": {
+      "label": "出生地（城市，国家）"
+    },
+    "full_name": {
+      "label": "全名（如护照所示）"
+    },
+    "context": {
+      "label": "用你自己的话描述情况"
+    },
+    "focus": {
+      "label": "焦点（重点关注什么）"
+    },
+    "mode": {
+      "label": "模式"
+    },
+    "period": {
+      "label": "时段"
+    },
+    "question": {
+      "label": "具体问题（如有）"
+    },
+    "situation": {
+      "label": "情况"
+    },
+    "goal": {
+      "label": "目标"
+    },
+    "sex": {
+      "label": "性别"
+    },
+    "age": {
+      "label": "年龄"
+    },
+    "school": {
+      "label": "流派／方法学派"
+    },
+    "amount_range": {
+      "label": "涉及金额范围"
+    },
+    "area": {
+      "label": "法律领域"
+    },
+    "belief_level": {
+      "label": "你对玄学的态度"
+    },
+    "body_description": {
+      "label": "用文字描述你的面容或手掌（或在对话中附上照片）"
+    },
+    "child_age": {
+      "label": "孩子的年龄"
+    },
+    "children": {
+      "label": "子女"
+    },
+    "chronic": {
+      "label": "是否有慢性病？（糖尿病、高血压、自身免疫性疾病等）"
+    },
+    "current_meds": {
+      "label": "目前正在服用什么？（药名 + 剂量）"
+    },
+    "current_role": {
+      "label": "你目前的角色与领域是什么？"
+    },
+    "deadline": {
+      "label": "是否有时间节点？（何时需要决定）"
+    },
+    "details": {
+      "label": "细节（症状、化验数值、病历摘要等）"
+    },
+    "documents": {
+      "label": "是否有需要解读的文件？请描述或在对话中附上"
+    },
+    "dominant_hand": {
+      "label": "惯用手"
+    },
+    "dream_text": {
+      "label": "描述这个梦（或若干个梦，以“梦一：… / 梦二：…”分隔）"
+    },
+    "emotion": {
+      "label": "梦中的主要情绪"
+    },
+    "experience": {
+      "label": "投资经验"
+    },
+    "face_description": {
+      "label": "用文字描述你的面容（或在对话中附上照片）"
+    },
+    "family_form": {
+      "label": "家庭形式"
+    },
+    "forecast_year": {
+      "label": "若为预测，请注明年份（例如：2027）"
+    },
+    "gad7_total": {
+      "label": "GAD-7 焦虑量表得分（0-21，如果你知道的话）"
+    },
+    "horoscope_period": {
+      "label": "若为星座运势，请注明时段"
+    },
+    "jurisdiction": {
+      "label": "适用司法管辖区"
+    },
+    "main_issue": {
+      "label": "眼下最令你牵挂的是什么？"
+    },
+    "palm_description": {
+      "label": "用文字描述你的手掌（或在对话中附上照片）"
+    },
+    "parent_role": {
+      "label": "我是（父亲 / 母亲 / 其他）"
+    },
+    "participants": {
+      "label": "对话参与者"
+    },
+    "partner_data": {
+      "label": "伴侣的信息（用于合盘分析）"
+    },
+    "phase": {
+      "label": "当前人生阶段 / 关系阶段"
+    },
+    "query_type": {
+      "label": "你想了解的是本命盘还是星座运势？"
+    },
+    "recent_life": {
+      "label": "你生活中目前正在经历什么？（有助于将星盘与此刻相连）"
+    },
+    "recurring": {
+      "label": "这个梦是否反复出现？"
+    },
+    "relationship_form": {
+      "label": "关系形式"
+    },
+    "risk_tolerance": {
+      "label": "风险承受能力"
+    },
+    "self_feeling": {
+      "label": "你现在的内在状态如何？"
+    },
+    "spread_type": {
+      "label": "牌阵 / 解读方式"
+    },
+    "tradition": {
+      "label": "传统 / 流派"
+    },
+    "tried": {
+      "label": "你已经尝试过什么？"
+    },
+    "tried_before": {
+      "label": "你之前是否就此求助过？"
+    },
+    "type": {
+      "label": "类型"
+    },
+    "what_brings": {
+      "label": "什么能给你带来力量？"
+    },
+    "what_drains": {
+      "label": "什么让你感到耗竭？"
+    },
+    "what_works": {
+      "label": "生活中目前什么是运转良好的？"
+    },
+    "years_exp": {
+      "label": "从业年数"
+    },
+    "years_together": {
+      "label": "在一起的年数"
+    }
   }
 }

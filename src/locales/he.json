@@ -664,5 +664,181 @@
   "parents": {
     "tvorets": "היוצר",
     "yulia": "יוליה"
+  },
+  "intake_fields": {
+    "birth_date": {
+      "label": "תאריך לידה"
+    },
+    "birth_time": {
+      "label": "שעת לידה (מדויקת — לבתי המפה הנטלית)"
+    },
+    "birth_place": {
+      "label": "מקום לידה (עיר, מדינה)"
+    },
+    "full_name": {
+      "label": "שם מלא (כבדרכון)"
+    },
+    "context": {
+      "label": "תאר את המצב במלים שלך"
+    },
+    "focus": {
+      "label": "מוקד (על מה לשים דגש)"
+    },
+    "mode": {
+      "label": "מצב"
+    },
+    "period": {
+      "label": "תקופה"
+    },
+    "question": {
+      "label": "שאלה ספציפית (אם ישנה)"
+    },
+    "situation": {
+      "label": "המצב"
+    },
+    "goal": {
+      "label": "מטרה"
+    },
+    "sex": {
+      "label": "מין"
+    },
+    "age": {
+      "label": "גיל"
+    },
+    "school": {
+      "label": "אסכולת הגישה"
+    },
+    "amount_range": {
+      "label": "הסכום העומד לדיון (טווח)"
+    },
+    "area": {
+      "label": "תחום המשפט"
+    },
+    "belief_level": {
+      "label": "יחסך לאזוטריקה"
+    },
+    "body_description": {
+      "label": "תאר את פניך ו/או כף ידך במלים (או הוסף תמונה לצ'אט)"
+    },
+    "child_age": {
+      "label": "גיל הילד"
+    },
+    "children": {
+      "label": "ילדים"
+    },
+    "chronic": {
+      "label": "האם יש מצבים כרוניים? (סוכרת, יתר לחץ דם, אוטואימוניים וכד')"
+    },
+    "current_meds": {
+      "label": "מה אתה נוטל כעת (שם + מינון)?"
+    },
+    "current_role": {
+      "label": "במה אתה עוסק כעת (תפקיד, תחום)?"
+    },
+    "deadline": {
+      "label": "קיים מועד אחרון? (מתי נדרשת ההחלטה)"
+    },
+    "details": {
+      "label": "פרטים (תסמינים, ערכי בדיקות, טקסט מסמך וכד')"
+    },
+    "documents": {
+      "label": "יש מסמכים לבחינה? תאר או הוסף לצ'אט"
+    },
+    "dominant_hand": {
+      "label": "יד דומיננטית"
+    },
+    "dream_text": {
+      "label": "תאר את החלום (או מספר חלומות, מופרדים ב׳חלום 1: ... / חלום 2: ...׳)"
+    },
+    "emotion": {
+      "label": "הרגש המרכזי בחלום (בחלומות)"
+    },
+    "experience": {
+      "label": "ניסיון בהשקעות"
+    },
+    "face_description": {
+      "label": "תאר את פניך במלים (או הוסף תמונה לצ'אט)"
+    },
+    "family_form": {
+      "label": "מבנה המשפחה"
+    },
+    "forecast_year": {
+      "label": "אם תחזית — לאיזו שנה? (לדוגמה, 2027)"
+    },
+    "gad7_total": {
+      "label": "GAD-7 (שאלון חרדה, 0-21 — אם ידוע לך)"
+    },
+    "horoscope_period": {
+      "label": "אם הורוסקופ — לאיזו תקופה?"
+    },
+    "jurisdiction": {
+      "label": "מהי השיפוט (המדינה / המשפט הרלוונטי)?"
+    },
+    "main_issue": {
+      "label": "מה מטריד אותך ביותר כעת?"
+    },
+    "palm_description": {
+      "label": "תאר את כף ידך במלים (או הוסף תמונה לצ'אט)"
+    },
+    "parent_role": {
+      "label": "מי אני (אב / אם / אחר)"
+    },
+    "participants": {
+      "label": "משתתפי השיחה"
+    },
+    "partner_data": {
+      "label": "פרטי בן / בת הזוג (לסינסטריה)"
+    },
+    "phase": {
+      "label": "שלב בחיים / בזוגיות"
+    },
+    "query_type": {
+      "label": "מה מעניין — מפת הלידה או הורוסקופ?"
+    },
+    "recent_life": {
+      "label": "מה מתרחש בחייך כעת? (יסייע לקשר את המפה לשלב הנוכחי)"
+    },
+    "recurring": {
+      "label": "החלום חוזר על עצמו?"
+    },
+    "relationship_form": {
+      "label": "צורת הקשר"
+    },
+    "risk_tolerance": {
+      "label": "סובלנות לסיכון"
+    },
+    "self_feeling": {
+      "label": "כיצד אתה מרגיש כעת?"
+    },
+    "spread_type": {
+      "label": "פריסה / סוג הקריאה"
+    },
+    "tradition": {
+      "label": "מסורת / אסכולה"
+    },
+    "tried": {
+      "label": "מה כבר ניסית?"
+    },
+    "tried_before": {
+      "label": "האם פנית בעניין זה בעבר?"
+    },
+    "type": {
+      "label": "סוג"
+    },
+    "what_brings": {
+      "label": "מה מוסיף כוח?"
+    },
+    "what_drains": {
+      "label": "מה מותיש?"
+    },
+    "what_works": {
+      "label": "מה עובד כעת בחייך?"
+    },
+    "years_exp": {
+      "label": "שנות ניסיון"
+    },
+    "years_together": {
+      "label": "שנים ביחד"
+    }
   }
 }

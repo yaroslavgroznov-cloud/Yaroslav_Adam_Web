@@ -664,5 +664,181 @@
   "parents": {
     "tvorets": "le Créateur",
     "yulia": "Yulia"
+  },
+  "intake_fields": {
+    "birth_date": {
+      "label": "Date de naissance"
+    },
+    "birth_time": {
+      "label": "Heure de naissance (précise — pour les maisons du thème natal)"
+    },
+    "birth_place": {
+      "label": "Lieu de naissance (ville, pays)"
+    },
+    "full_name": {
+      "label": "Nom complet (tel qu'il figure dans le passeport)"
+    },
+    "context": {
+      "label": "Décris ta situation avec tes propres mots"
+    },
+    "focus": {
+      "label": "Axe (sur quoi mettre l'accent)"
+    },
+    "mode": {
+      "label": "Mode"
+    },
+    "period": {
+      "label": "Période"
+    },
+    "question": {
+      "label": "Question précise (si tu en as une)"
+    },
+    "situation": {
+      "label": "Situation"
+    },
+    "goal": {
+      "label": "Intention"
+    },
+    "sex": {
+      "label": "Sexe"
+    },
+    "age": {
+      "label": "Âge"
+    },
+    "school": {
+      "label": "École d'approche"
+    },
+    "amount_range": {
+      "label": "Montant avec lequel nous travaillons (fourchette)"
+    },
+    "area": {
+      "label": "Domaine du droit"
+    },
+    "belief_level": {
+      "label": "Ton rapport à l'ésotérisme"
+    },
+    "body_description": {
+      "label": "Décris ton visage / ta paume en mots (ou ajoute une photo dans le chat)"
+    },
+    "child_age": {
+      "label": "Âge de l'enfant"
+    },
+    "children": {
+      "label": "Enfants"
+    },
+    "chronic": {
+      "label": "As-tu des états chroniques ? (diabète, hypertension, auto-immun, etc.)"
+    },
+    "current_meds": {
+      "label": "Ce que tu prends actuellement (nom + dose) ?"
+    },
+    "current_role": {
+      "label": "Que fais-tu en ce moment (rôle, domaine) ?"
+    },
+    "deadline": {
+      "label": "Y a-t-il une échéance ? (quand la décision est-elle attendue)"
+    },
+    "details": {
+      "label": "Détails (symptômes, résultats d'analyses, texte du compte rendu, etc.)"
+    },
+    "documents": {
+      "label": "As-tu des documents à examiner ? Décris-les ou ajoute-les dans le chat"
+    },
+    "dominant_hand": {
+      "label": "Main dominante"
+    },
+    "dream_text": {
+      "label": "Décris le rêve (ou plusieurs rêves, en les séparant par « Rêve 1 : ... / Rêve 2 : ... »)"
+    },
+    "emotion": {
+      "label": "Émotion principale dans le(s) rêve(s)"
+    },
+    "experience": {
+      "label": "Expérience en investissement"
+    },
+    "face_description": {
+      "label": "Décris ton visage en mots (ou ajoute une photo dans le chat)"
+    },
+    "family_form": {
+      "label": "Forme de la famille"
+    },
+    "forecast_year": {
+      "label": "Si prévision — pour quelle année ? (ex. 2027)"
+    },
+    "gad7_total": {
+      "label": "GAD-7 (questionnaire d'anxiété, 0-21 — si tu le connais)"
+    },
+    "horoscope_period": {
+      "label": "Si horoscope — pour quelle période ?"
+    },
+    "jurisdiction": {
+      "label": "Quelle juridiction ?"
+    },
+    "main_issue": {
+      "label": "Qu'est-ce qui te pèse le plus en ce moment ?"
+    },
+    "palm_description": {
+      "label": "Décris ta paume en mots (ou ajoute une photo dans le chat)"
+    },
+    "parent_role": {
+      "label": "Qui suis-je (père / mère / autre)"
+    },
+    "participants": {
+      "label": "Participants à la conversation"
+    },
+    "partner_data": {
+      "label": "Données du partenaire (pour la synastrie)"
+    },
+    "phase": {
+      "label": "Phase de vie / de relation"
+    },
+    "query_type": {
+      "label": "Ce qui t'intéresse — thème natal ou horoscope ?"
+    },
+    "recent_life": {
+      "label": "Où en es-tu dans la vie en ce moment ? (aide à relier la carte à cette étape)"
+    },
+    "recurring": {
+      "label": "Le rêve est-il récurrent ?"
+    },
+    "relationship_form": {
+      "label": "Forme de la relation"
+    },
+    "risk_tolerance": {
+      "label": "Tolérance au risque"
+    },
+    "self_feeling": {
+      "label": "Comment te sens-tu en ce moment ?"
+    },
+    "spread_type": {
+      "label": "Tirage / type de lecture"
+    },
+    "tradition": {
+      "label": "Tradition / école"
+    },
+    "tried": {
+      "label": "Qu'as-tu déjà essayé ?"
+    },
+    "tried_before": {
+      "label": "T'es-tu déjà adressé(e) à quelqu'un pour cela ?"
+    },
+    "type": {
+      "label": "Type"
+    },
+    "what_brings": {
+      "label": "Qu'est-ce qui te nourrit ?"
+    },
+    "what_drains": {
+      "label": "Qu'est-ce qui t'épuise ?"
+    },
+    "what_works": {
+      "label": "Qu'est-ce qui fonctionne dans ta vie en ce moment ?"
+    },
+    "years_exp": {
+      "label": "Années d'expérience"
+    },
+    "years_together": {
+      "label": "Années ensemble"
+    }
   }
 }

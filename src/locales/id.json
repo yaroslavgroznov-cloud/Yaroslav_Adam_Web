@@ -663,5 +663,181 @@
     "not_in_circle": "Kamu belum dalam lingkaran — minta Pencipta menambahkanmu di /family/slots.",
     "load_failed": "Tidak bisa dibuka",
     "send_failed": "Tidak bisa dikirim"
+  },
+  "intake_fields": {
+    "birth_date": {
+      "label": "Tanggal lahir"
+    },
+    "birth_time": {
+      "label": "Waktu lahir (tepat — untuk rumah peta natal)"
+    },
+    "birth_place": {
+      "label": "Tempat lahir (kota, negara)"
+    },
+    "full_name": {
+      "label": "Nama lengkap (sesuai dokumen resmi)"
+    },
+    "context": {
+      "label": "Ceritakan situasinya dengan kata-katamu sendiri"
+    },
+    "focus": {
+      "label": "Fokus (hal yang ingin ditonjolkan)"
+    },
+    "mode": {
+      "label": "Mode"
+    },
+    "period": {
+      "label": "Periode"
+    },
+    "question": {
+      "label": "Pertanyaan spesifik (jika ada)"
+    },
+    "situation": {
+      "label": "Situasi"
+    },
+    "goal": {
+      "label": "Tujuan"
+    },
+    "sex": {
+      "label": "Jenis kelamin"
+    },
+    "age": {
+      "label": "Usia"
+    },
+    "school": {
+      "label": "Mazhab pendekatan"
+    },
+    "amount_range": {
+      "label": "Jumlah yang sedang kita kelola (kisaran)"
+    },
+    "area": {
+      "label": "Bidang hukum"
+    },
+    "belief_level": {
+      "label": "Sikapmu terhadap esoterisme"
+    },
+    "body_description": {
+      "label": "Deskripsikan wajah / telapak tanganmu dengan kata-kata (atau tambahkan foto di obrolan)"
+    },
+    "child_age": {
+      "label": "Usia anak"
+    },
+    "children": {
+      "label": "Anak-anak"
+    },
+    "chronic": {
+      "label": "Ada kondisi kronis? (diabetes, hipertensi, autoimun, dll.)"
+    },
+    "current_meds": {
+      "label": "Apa yang sedang kamu konsumsi sekarang (nama + dosis)?"
+    },
+    "current_role": {
+      "label": "Apa yang kamu lakukan saat ini (peran, bidang)?"
+    },
+    "deadline": {
+      "label": "Ada tenggat? (kapan keputusan dibutuhkan)"
+    },
+    "details": {
+      "label": "Rincian (gejala, angka hasil tes, teks surat keterangan, dll.)"
+    },
+    "documents": {
+      "label": "Ada dokumen untuk dibahas? Deskripsikan atau tambahkan di obrolan"
+    },
+    "dominant_hand": {
+      "label": "Tangan dominan"
+    },
+    "dream_text": {
+      "label": "Ceritakan mimpinya (atau beberapa mimpi, pisahkan dengan 'Mimpi 1: ... / Mimpi 2: ...')"
+    },
+    "emotion": {
+      "label": "Emosi utama dalam mimpi tersebut"
+    },
+    "experience": {
+      "label": "Pengalaman berinvestasi"
+    },
+    "face_description": {
+      "label": "Deskripsikan wajahmu dengan kata-kata (atau tambahkan foto di obrolan)"
+    },
+    "family_form": {
+      "label": "Bentuk keluarga"
+    },
+    "forecast_year": {
+      "label": "Jika prakiraan — untuk tahun berapa? (misalnya, 2027)"
+    },
+    "gad7_total": {
+      "label": "GAD-7 (kuesioner kecemasan, 0-21 — jika kamu tahu)"
+    },
+    "horoscope_period": {
+      "label": "Jika horoskop — untuk periode mana?"
+    },
+    "jurisdiction": {
+      "label": "Yurisdiksi mana yang berlaku?"
+    },
+    "main_issue": {
+      "label": "Apa yang paling mengganggu pikiranmu saat ini?"
+    },
+    "palm_description": {
+      "label": "Deskripsikan telapak tanganmu dengan kata-kata (atau tambahkan foto di obrolan)"
+    },
+    "parent_role": {
+      "label": "Saya adalah (ayah / ibu / lainnya)"
+    },
+    "participants": {
+      "label": "Peserta percakapan"
+    },
+    "partner_data": {
+      "label": "Data pasangan (untuk sinastri)"
+    },
+    "phase": {
+      "label": "Fase kehidupan / hubungan"
+    },
+    "query_type": {
+      "label": "Apa yang ingin kamu ketahui — peta natal atau horoskop?"
+    },
+    "recent_life": {
+      "label": "Apa yang sedang terjadi dalam hidupmu? (membantu menghubungkan peta dengan tahap ini)"
+    },
+    "recurring": {
+      "label": "Apakah mimpi ini berulang?"
+    },
+    "relationship_form": {
+      "label": "Bentuk hubungan"
+    },
+    "risk_tolerance": {
+      "label": "Toleransi terhadap risiko"
+    },
+    "self_feeling": {
+      "label": "Bagaimana perasaanmu sekarang?"
+    },
+    "spread_type": {
+      "label": "Susunan kartu / jenis pembacaan"
+    },
+    "tradition": {
+      "label": "Tradisi / mazhab"
+    },
+    "tried": {
+      "label": "Apa yang sudah pernah kamu coba?"
+    },
+    "tried_before": {
+      "label": "Apakah kamu pernah datang dengan hal ini sebelumnya?"
+    },
+    "type": {
+      "label": "Jenis"
+    },
+    "what_brings": {
+      "label": "Apa yang menambah kekuatanmu?"
+    },
+    "what_drains": {
+      "label": "Apa yang menguras tenagamu?"
+    },
+    "what_works": {
+      "label": "Apa yang sedang berjalan baik dalam hidupmu?"
+    },
+    "years_exp": {
+      "label": "Tahun pengalaman"
+    },
+    "years_together": {
+      "label": "Tahun bersama"
+    }
   }
 }

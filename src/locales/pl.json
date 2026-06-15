@@ -651,5 +651,181 @@
   "parents": {
     "tvorets": "Stworca",
     "yulia": "Julia"
+  },
+  "intake_fields": {
+    "birth_date": {
+      "label": "Data urodzenia"
+    },
+    "birth_time": {
+      "label": "Godzina urodzenia (dokładna — dla domów mapy urodzenia)"
+    },
+    "birth_place": {
+      "label": "Miejsce urodzenia (miasto, kraj)"
+    },
+    "full_name": {
+      "label": "Pełne imię i nazwisko (jak w dokumencie)"
+    },
+    "context": {
+      "label": "Opisz sytuację swoimi słowami"
+    },
+    "focus": {
+      "label": "Fokus (na co położyć nacisk)"
+    },
+    "mode": {
+      "label": "Tryb"
+    },
+    "period": {
+      "label": "Okres"
+    },
+    "question": {
+      "label": "Konkretne pytanie (jeśli masz)"
+    },
+    "situation": {
+      "label": "Sytuacja"
+    },
+    "goal": {
+      "label": "Cel"
+    },
+    "sex": {
+      "label": "Płeć"
+    },
+    "age": {
+      "label": "Wiek"
+    },
+    "school": {
+      "label": "Szkoła podejścia"
+    },
+    "amount_range": {
+      "label": "Kwota, z którą pracujemy (zakres)"
+    },
+    "area": {
+      "label": "Dziedzina prawa"
+    },
+    "belief_level": {
+      "label": "Twoje podejście do ezoteryki"
+    },
+    "body_description": {
+      "label": "Opisz swoją twarz / dłoń słowami (lub dodaj zdjęcie w czacie)"
+    },
+    "child_age": {
+      "label": "Wiek dziecka"
+    },
+    "children": {
+      "label": "Dzieci"
+    },
+    "chronic": {
+      "label": "Czy masz stany przewlekłe? (cukrzyca, nadciśnienie, autoimmunologiczne itp.)"
+    },
+    "current_meds": {
+      "label": "Co teraz przyjmujesz (nazwa + dawka)?"
+    },
+    "current_role": {
+      "label": "Czym się zajmujesz (rola, dziedzina)?"
+    },
+    "deadline": {
+      "label": "Czy jest termin? (kiedy potrzebna decyzja)"
+    },
+    "details": {
+      "label": "Szczegóły (objawy, wyniki badań, tekst wypisu itp.)"
+    },
+    "documents": {
+      "label": "Masz dokumenty do omówienia? Opisz lub dodaj w czacie"
+    },
+    "dominant_hand": {
+      "label": "Dominująca ręka"
+    },
+    "dream_text": {
+      "label": "Opisz sen (lub kilka snów, rozdzielając: 'Sen 1: ... / Sen 2: ...')"
+    },
+    "emotion": {
+      "label": "Główna emocja we śnie(ach)"
+    },
+    "experience": {
+      "label": "Doświadczenie inwestycyjne"
+    },
+    "face_description": {
+      "label": "Opisz swoją twarz słowami (lub dodaj zdjęcie w czacie)"
+    },
+    "family_form": {
+      "label": "Forma rodziny"
+    },
+    "forecast_year": {
+      "label": "Jeśli prognoza — na który rok? (np. 2027)"
+    },
+    "gad7_total": {
+      "label": "GAD-7 (kwestionariusz lęku, 0–21 — jeśli znasz wynik)"
+    },
+    "horoscope_period": {
+      "label": "Jeśli horoskop — na jaki okres?"
+    },
+    "jurisdiction": {
+      "label": "Jaka jurysdykcja?"
+    },
+    "main_issue": {
+      "label": "Co teraz najbardziej cię niepokoi?"
+    },
+    "palm_description": {
+      "label": "Opisz swoją dłoń słowami (lub dodaj zdjęcie w czacie)"
+    },
+    "parent_role": {
+      "label": "Kim jestem (ojciec / matka / inne)"
+    },
+    "participants": {
+      "label": "Uczestnicy rozmowy"
+    },
+    "partner_data": {
+      "label": "Dane partnera (do synastrii)"
+    },
+    "phase": {
+      "label": "Faza życia / związku"
+    },
+    "query_type": {
+      "label": "Co cię interesuje — mapa urodzenia czy horoskop?"
+    },
+    "recent_life": {
+      "label": "Co teraz w życiu? (pomoże powiązać mapę z tym etapem)"
+    },
+    "recurring": {
+      "label": "Czy sen się powtarza?"
+    },
+    "relationship_form": {
+      "label": "Forma związku"
+    },
+    "risk_tolerance": {
+      "label": "Tolerancja na ryzyko"
+    },
+    "self_feeling": {
+      "label": "Jak się teraz czujesz?"
+    },
+    "spread_type": {
+      "label": "Rozkład / typ czytania"
+    },
+    "tradition": {
+      "label": "Tradycja / szkoła"
+    },
+    "tried": {
+      "label": "Co już próbowałeś(-aś)?"
+    },
+    "tried_before": {
+      "label": "Czy zwracałeś(-aś) się z tym wcześniej?"
+    },
+    "type": {
+      "label": "Typ"
+    },
+    "what_brings": {
+      "label": "Co dodaje ci sił?"
+    },
+    "what_drains": {
+      "label": "Co cię wyczerpuje?"
+    },
+    "what_works": {
+      "label": "Co teraz działa w życiu?"
+    },
+    "years_exp": {
+      "label": "Lat doświadczenia"
+    },
+    "years_together": {
+      "label": "Lat razem"
+    }
   }
 }

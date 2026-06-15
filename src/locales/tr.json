@@ -663,5 +663,181 @@
   "parents": {
     "tvorets": "Yaratıcı",
     "yulia": "Yulia"
+  },
+  "intake_fields": {
+    "birth_date": {
+      "label": "Doğum tarihi"
+    },
+    "birth_time": {
+      "label": "Doğum saati (natal ev hesabı için kesin saat)"
+    },
+    "birth_place": {
+      "label": "Doğum yeri (şehir, ülke)"
+    },
+    "full_name": {
+      "label": "Tam ad (pasaporttaki gibi)"
+    },
+    "context": {
+      "label": "Durumu kendi sözlerinle anlat"
+    },
+    "focus": {
+      "label": "Odak (neye ağırlık verelim)"
+    },
+    "mode": {
+      "label": "Mod"
+    },
+    "period": {
+      "label": "Dönem"
+    },
+    "question": {
+      "label": "Somut bir sorun varsa"
+    },
+    "situation": {
+      "label": "Durum"
+    },
+    "goal": {
+      "label": "Amaç"
+    },
+    "sex": {
+      "label": "Cinsiyet"
+    },
+    "age": {
+      "label": "Yaş"
+    },
+    "school": {
+      "label": "Ekol"
+    },
+    "amount_range": {
+      "label": "Çalıştığımız tutar (aralık olarak)"
+    },
+    "area": {
+      "label": "Hukuk alanı"
+    },
+    "belief_level": {
+      "label": "Ezoterik konulara yaklaşımın"
+    },
+    "body_description": {
+      "label": "Yüzünü ya da avuç içini sözcüklerle anlat (ya da sohbete fotoğraf ekle)"
+    },
+    "child_age": {
+      "label": "Çocuğun yaşı"
+    },
+    "children": {
+      "label": "Çocuklar"
+    },
+    "chronic": {
+      "label": "Kronik durumun var mı? (diyabet, hipertansiyon, otoimmün vb.)"
+    },
+    "current_meds": {
+      "label": "Şu an ne kullanıyorsun (ilaç adı + doz)?"
+    },
+    "current_role": {
+      "label": "Şu an ne yapıyorsun (rol, alan)?"
+    },
+    "deadline": {
+      "label": "Bir son tarihin var mı? (karar ne zamana kadar gerekli)"
+    },
+    "details": {
+      "label": "Ayrıntılar (belirtiler, tahlil değerleri, taburcu özeti vb.)"
+    },
+    "documents": {
+      "label": "İncelenecek belgen var mı? Anlat ya da sohbete ekle"
+    },
+    "dominant_hand": {
+      "label": "Baskın el"
+    },
+    "dream_text": {
+      "label": "Rüyanı anlat (birden fazlaysa 'Rüya 1: ... / Rüya 2: ...' şeklinde ayır)"
+    },
+    "emotion": {
+      "label": "Rüya(larda)ki temel duygu"
+    },
+    "experience": {
+      "label": "Yatırım deneyimi"
+    },
+    "face_description": {
+      "label": "Yüzünü sözcüklerle anlat (ya da sohbete fotoğraf ekle)"
+    },
+    "family_form": {
+      "label": "Aile biçimi"
+    },
+    "forecast_year": {
+      "label": "Öngörü isteniyorsa hangi yıl için? (örn. 2027)"
+    },
+    "gad7_total": {
+      "label": "GAD-7 (kaygı ölçeği, 0-21 — biliyorsan)"
+    },
+    "horoscope_period": {
+      "label": "Burç yorumu isteniyorsa hangi dönem için?"
+    },
+    "jurisdiction": {
+      "label": "Hangi yargı bölgesi?"
+    },
+    "main_issue": {
+      "label": "Şu an seni en çok ne düşündürüyor?"
+    },
+    "palm_description": {
+      "label": "Avuç içini sözcüklerle anlat (ya da sohbete fotoğraf ekle)"
+    },
+    "parent_role": {
+      "label": "Ben kimim (baba / anne / diğer)"
+    },
+    "participants": {
+      "label": "Sohbetin katılımcıları"
+    },
+    "partner_data": {
+      "label": "Eşin bilgileri (sinastri için)"
+    },
+    "phase": {
+      "label": "Yaşam / ilişki evresi"
+    },
+    "query_type": {
+      "label": "İlgin natal haritaya mı yoksa burç yorumuna mı?"
+    },
+    "recent_life": {
+      "label": "Hayatında şu an neler var? (haritayı bu dönemle ilişkilendirmek için)"
+    },
+    "recurring": {
+      "label": "Rüya tekrarlıyor mu?"
+    },
+    "relationship_form": {
+      "label": "İlişki biçimi"
+    },
+    "risk_tolerance": {
+      "label": "Risk toleransı"
+    },
+    "self_feeling": {
+      "label": "Şu an kendini nasıl hissediyorsun?"
+    },
+    "spread_type": {
+      "label": "Yayılım / okuma türü"
+    },
+    "tradition": {
+      "label": "Gelenek / ekol"
+    },
+    "tried": {
+      "label": "Şimdiye kadar ne denedin?"
+    },
+    "tried_before": {
+      "label": "Daha önce bu konuyla ilgili birine danıştın mı?"
+    },
+    "type": {
+      "label": "Tür"
+    },
+    "what_brings": {
+      "label": "Sana güç veren nedir?"
+    },
+    "what_drains": {
+      "label": "Seni tüketen nedir?"
+    },
+    "what_works": {
+      "label": "Hayatında şu an işleyen ne var?"
+    },
+    "years_exp": {
+      "label": "Deneyim yılı"
+    },
+    "years_together": {
+      "label": "Birlikte geçen yıllar"
+    }
   }
 }

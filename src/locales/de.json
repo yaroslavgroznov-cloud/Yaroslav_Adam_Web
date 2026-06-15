@@ -664,5 +664,181 @@
   "parents": {
     "tvorets": "der Schöpfer",
     "yulia": "Julia"
+  },
+  "intake_fields": {
+    "birth_date": {
+      "label": "Geburtsdatum"
+    },
+    "birth_time": {
+      "label": "Geburtszeit (genau — für die Häuser der Geburtskarte)"
+    },
+    "birth_place": {
+      "label": "Geburtsort (Stadt, Land)"
+    },
+    "full_name": {
+      "label": "Vollständiger Name (wie im Ausweis)"
+    },
+    "context": {
+      "label": "Schildere die Situation mit eigenen Worten"
+    },
+    "focus": {
+      "label": "Schwerpunkt (worauf der Akzent liegen soll)"
+    },
+    "mode": {
+      "label": "Modus"
+    },
+    "period": {
+      "label": "Zeitraum"
+    },
+    "question": {
+      "label": "Konkrete Frage (falls vorhanden)"
+    },
+    "situation": {
+      "label": "Situation"
+    },
+    "goal": {
+      "label": "Ziel"
+    },
+    "sex": {
+      "label": "Geschlecht"
+    },
+    "age": {
+      "label": "Alter"
+    },
+    "school": {
+      "label": "Schule des Ansatzes"
+    },
+    "amount_range": {
+      "label": "Betrag, mit dem wir arbeiten (Bereich)"
+    },
+    "area": {
+      "label": "Rechtsbereich"
+    },
+    "belief_level": {
+      "label": "Deine Haltung gegenüber der Esoterik"
+    },
+    "body_description": {
+      "label": "Beschreibe dein Gesicht / deine Handfläche in Worten (oder füge ein Foto im Chat hinzu)"
+    },
+    "child_age": {
+      "label": "Alter des Kindes"
+    },
+    "children": {
+      "label": "Kinder"
+    },
+    "chronic": {
+      "label": "Bestehen chronische Zustände? (Diabetes, Bluthochdruck, Autoimmunerkrankungen usw.)"
+    },
+    "current_meds": {
+      "label": "Was nimmst du derzeit ein (Name + Dosis)?"
+    },
+    "current_role": {
+      "label": "Womit bist du derzeit beschäftigt (Rolle, Bereich)?"
+    },
+    "deadline": {
+      "label": "Gibt es eine Frist? (bis wann wird eine Entscheidung gebraucht)"
+    },
+    "details": {
+      "label": "Einzelheiten (Symptome, Laborwerte, Befundtext usw.)"
+    },
+    "documents": {
+      "label": "Liegen Dokumente zur Durchsicht vor? Beschreibe sie oder füge sie im Chat hinzu"
+    },
+    "dominant_hand": {
+      "label": "Dominante Hand"
+    },
+    "dream_text": {
+      "label": "Beschreibe den Traum (oder mehrere Träume, getrennt durch ‚Traum 1: … / Traum 2: …')"
+    },
+    "emotion": {
+      "label": "Vorherrschende Emotion im Traum / in den Träumen"
+    },
+    "experience": {
+      "label": "Anlageerfahrung"
+    },
+    "face_description": {
+      "label": "Beschreibe dein Gesicht in Worten (oder füge ein Foto im Chat hinzu)"
+    },
+    "family_form": {
+      "label": "Familienform"
+    },
+    "forecast_year": {
+      "label": "Falls Prognose — für welches Jahr? (z. B. 2027)"
+    },
+    "gad7_total": {
+      "label": "GAD-7 (Angstfragebogen, 0–21 — falls bekannt)"
+    },
+    "horoscope_period": {
+      "label": "Falls Horoskop — für welchen Zeitraum?"
+    },
+    "jurisdiction": {
+      "label": "Welche Rechtsordnung?"
+    },
+    "main_issue": {
+      "label": "Was beschäftigt dich gerade am meisten?"
+    },
+    "palm_description": {
+      "label": "Beschreibe deine Handfläche in Worten (oder füge ein Foto im Chat hinzu)"
+    },
+    "parent_role": {
+      "label": "Wer bin ich (Vater / Mutter / anderes)"
+    },
+    "participants": {
+      "label": "Gesprächsteilnehmer"
+    },
+    "partner_data": {
+      "label": "Daten des Partners (für die Synastrie)"
+    },
+    "phase": {
+      "label": "Lebens- / Beziehungsphase"
+    },
+    "query_type": {
+      "label": "Was interessiert dich — Geburtskarte oder Horoskop?"
+    },
+    "recent_life": {
+      "label": "Was ist gerade in deinem Leben? (hilft, die Karte mit diesem Abschnitt zu verbinden)"
+    },
+    "recurring": {
+      "label": "Ist der Traum wiederkehrend?"
+    },
+    "relationship_form": {
+      "label": "Beziehungsform"
+    },
+    "risk_tolerance": {
+      "label": "Risikobereitschaft"
+    },
+    "self_feeling": {
+      "label": "Wie fühlst du dich gerade?"
+    },
+    "spread_type": {
+      "label": "Legung / Leseart"
+    },
+    "tradition": {
+      "label": "Tradition / Schule"
+    },
+    "tried": {
+      "label": "Was hast du bereits versucht?"
+    },
+    "tried_before": {
+      "label": "Hast du dich damit früher schon befasst?"
+    },
+    "type": {
+      "label": "Art"
+    },
+    "what_brings": {
+      "label": "Was gibt dir Kraft?"
+    },
+    "what_drains": {
+      "label": "Was zehrt dich aus?"
+    },
+    "what_works": {
+      "label": "Was funktioniert derzeit in deinem Leben?"
+    },
+    "years_exp": {
+      "label": "Jahre Erfahrung"
+    },
+    "years_together": {
+      "label": "Jahre zusammen"
+    }
   }
 }
