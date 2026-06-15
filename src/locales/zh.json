@@ -193,7 +193,21 @@
     "thinking": "亚当正在思考",
     "expand_panels": "展开面板",
     "collapse_panels": "收起面板",
-    "tap_to_write": "点击书写"
+    "tap_to_write": "点击书写",
+    "month": "月",
+    "tier_coming_soon": "即将推出",
+    "tier_session_label": "单次",
+    "tier_session_name": "单次会话",
+    "tier_session_desc": "在此咨询室进行一次会话",
+    "tier_topic_label": "主题",
+    "tier_topic_name": "主题",
+    "tier_topic_desc": "4 个咨询室组中任一组的无限会话",
+    "tier_all_access_label": "全部",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "所有 13 个开放咨询室无限制",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "语音 — 无月度框架"
   },
   "search": {
     "placeholder": "在对话中查找…",

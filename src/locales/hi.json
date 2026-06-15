@@ -194,7 +194,21 @@
     "thinking": "आदम सोच रहा है",
     "expand_panels": "पैनल खोलें",
     "collapse_panels": "पैनल बंद करें",
-    "tap_to_write": "लिखने के लिए टैप करें"
+    "tap_to_write": "लिखने के लिए टैप करें",
+    "month": "माह",
+    "tier_coming_soon": "जल्द ही",
+    "tier_session_label": "एकल",
+    "tier_session_name": "सत्र",
+    "tier_session_desc": "इस कैबिनेट में एक सत्र",
+    "tier_topic_label": "विषय",
+    "tier_topic_name": "विषय",
+    "tier_topic_desc": "4 कैबिनेट समूहों में से एक में असीमित सत्र",
+    "tier_all_access_label": "सब",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "सभी 13 खुले कैबिनेट बिना सीमा",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "आवाज़ — मासिक सीमा के बिना"
   },
   "search": {
     "placeholder": "संवाद में खोजें…",

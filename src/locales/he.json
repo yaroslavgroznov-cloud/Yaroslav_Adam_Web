@@ -194,7 +194,21 @@
     "thinking": "אדם חושב",
     "expand_panels": "הרחב חלוניות",
     "collapse_panels": "כווץ חלוניות",
-    "tap_to_write": "הקש כדי לכתוב"
+    "tap_to_write": "הקש כדי לכתוב",
+    "month": "חודש",
+    "tier_coming_soon": "בקרוב",
+    "tier_session_label": "חד פעמי",
+    "tier_session_name": "מפגש",
+    "tier_session_desc": "מפגש יחיד בקבינט זה",
+    "tier_topic_label": "נושא",
+    "tier_topic_name": "נושא",
+    "tier_topic_desc": "מפגשים ללא הגבלה באחת מ-4 קבוצות",
+    "tier_all_access_label": "הכול",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "כל 13 הקבינטים הפתוחים ללא הגבלה",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "קול — ללא מסגרות חודשיות"
   },
   "search": {
     "placeholder": "חיפוש בשיחה…",

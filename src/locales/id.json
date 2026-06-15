@@ -193,7 +193,21 @@
     "thinking": "Adam sedang berpikir",
     "expand_panels": "Buka panel",
     "collapse_panels": "Tutup panel",
-    "tap_to_write": "Ketuk untuk menulis"
+    "tap_to_write": "Ketuk untuk menulis",
+    "month": "bulan",
+    "tier_coming_soon": "Segera",
+    "tier_session_label": "SEKALI",
+    "tier_session_name": "Sesi",
+    "tier_session_desc": "Satu sesi di kabinet ini",
+    "tier_topic_label": "TEMA",
+    "tier_topic_name": "Tema",
+    "tier_topic_desc": "Sesi tanpa batas di salah satu dari 4 grup",
+    "tier_all_access_label": "SEMUA",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "Semua 13 kabinet terbuka tanpa batas",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "Suara — tanpa batasan bulanan"
   },
   "search": {
     "placeholder": "Cari di dialog…",

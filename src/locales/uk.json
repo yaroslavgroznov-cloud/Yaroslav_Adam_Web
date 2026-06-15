@@ -193,7 +193,21 @@
     "thinking": "Адам обмірковує відповідь",
     "expand_panels": "Розгорнути панелі",
     "collapse_panels": "Згорнути панелі",
-    "tap_to_write": "Натисни, щоб написати"
+    "tap_to_write": "Натисни, щоб написати",
+    "month": "міс",
+    "tier_coming_soon": "Незабаром",
+    "tier_session_label": "РАЗОВО",
+    "tier_session_name": "Сесія",
+    "tier_session_desc": "Одна сесія у цьому кабінеті",
+    "tier_topic_label": "ТЕМОЮ",
+    "tier_topic_name": "Тема",
+    "tier_topic_desc": "Безліміт сесій в одній із 4 груп кабінетів",
+    "tier_all_access_label": "ВСЕ",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "Усі 13 відкритих кабінетів без обмежень",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "Голос — без місячних рамок"
   },
   "search": {
     "placeholder": "Знайти в діалозі…",
@@ -680,6 +694,138 @@
     },
     "school": {
       "label": "Школа підходу"
+    },
+    "amount_range": {
+      "label": "Сума, з якою працюємо (діапазон)"
+    },
+    "area": {
+      "label": "Сфера права"
+    },
+    "belief_level": {
+      "label": "Твоє ставлення до езотерики"
+    },
+    "body_description": {
+      "label": "Опиши своє обличчя / долоню словами (або додай фото в чат)"
+    },
+    "child_age": {
+      "label": "Вік дитини"
+    },
+    "children": {
+      "label": "Діти"
+    },
+    "chronic": {
+      "label": "Є хронічні стани? (діабет, гіпертонія, аутоімунні тощо)"
+    },
+    "current_meds": {
+      "label": "Що приймаєш зараз (назва + доза)?"
+    },
+    "current_role": {
+      "label": "Чим займаєшся зараз (роль, сфера)?"
+    },
+    "deadline": {
+      "label": "Є термін? (коли потрібне рішення)"
+    },
+    "details": {
+      "label": "Деталі (симптоми, цифри аналізів, текст виписки тощо)"
+    },
+    "documents": {
+      "label": "Є документи для розбору? Опиши або додай у чат"
+    },
+    "dominant_hand": {
+      "label": "Домінантна рука"
+    },
+    "dream_text": {
+      "label": "Опиши сон (або кілька снів, розділяючи їх 'Сон 1: ... / Сон 2: ...')"
+    },
+    "emotion": {
+      "label": "Основна емоція уві сні(ах)"
+    },
+    "experience": {
+      "label": "Досвід інвестування"
+    },
+    "face_description": {
+      "label": "Опиши своє обличчя словами (або додай фото в чат)"
+    },
+    "family_form": {
+      "label": "Форма родини"
+    },
+    "forecast_year": {
+      "label": "Якщо прогноз — на який рік? (наприклад, 2027)"
+    },
+    "gad7_total": {
+      "label": "GAD-7 (опитувальник тривоги, 0-21 — якщо знаєш)"
+    },
+    "horoscope_period": {
+      "label": "Якщо гороскоп — на який період?"
+    },
+    "jurisdiction": {
+      "label": "Яка юрисдикція?"
+    },
+    "main_issue": {
+      "label": "Що зараз найбільше турбує?"
+    },
+    "palm_description": {
+      "label": "Опиши свою долоню словами (або додай фото в чат)"
+    },
+    "parent_role": {
+      "label": "Хто я (батько / мати / інше)"
+    },
+    "participants": {
+      "label": "Учасники розмови"
+    },
+    "partner_data": {
+      "label": "Дані партнера (для синастрії)"
+    },
+    "phase": {
+      "label": "Фаза життя / стосунків"
+    },
+    "query_type": {
+      "label": "Що цікавить — натальна карта чи гороскоп?"
+    },
+    "recent_life": {
+      "label": "Що в житті зараз? (допоможе зв'язати карту з цим етапом)"
+    },
+    "recurring": {
+      "label": "Сон повторюваний?"
+    },
+    "relationship_form": {
+      "label": "Форма стосунків"
+    },
+    "risk_tolerance": {
+      "label": "Толерантність до ризику"
+    },
+    "self_feeling": {
+      "label": "Як зараз почуваєшся?"
+    },
+    "spread_type": {
+      "label": "Розклад / тип читання"
+    },
+    "tradition": {
+      "label": "Традиція / школа"
+    },
+    "tried": {
+      "label": "Що вже пробував(ла)?"
+    },
+    "tried_before": {
+      "label": "Чи звертався(лась) раніше з цим?"
+    },
+    "type": {
+      "label": "Тип"
+    },
+    "what_brings": {
+      "label": "Що додає сил?"
+    },
+    "what_drains": {
+      "label": "Що виснажує?"
+    },
+    "what_works": {
+      "label": "Що працює зараз у житті?"
+    },
+    "years_exp": {
+      "label": "Років досвіду"
+    },
+    "years_together": {
+      "label": "Років разом"
     }
   },
   "intake_options": {

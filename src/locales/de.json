@@ -459,7 +459,21 @@
     "thinking": "Adam denkt nach",
     "expand_panels": "Bereiche ausklappen",
     "collapse_panels": "Bereiche einklappen",
-    "tap_to_write": "Tippe zum Schreiben"
+    "tap_to_write": "Tippe zum Schreiben",
+    "month": "Monat",
+    "tier_coming_soon": "Bald",
+    "tier_session_label": "EINMALIG",
+    "tier_session_name": "Sitzung",
+    "tier_session_desc": "Eine Sitzung in diesem Kabinett",
+    "tier_topic_label": "THEMA",
+    "tier_topic_name": "Thema",
+    "tier_topic_desc": "Unbegrenzte Sitzungen in einer von 4 Kabinettsgruppen",
+    "tier_all_access_label": "ALLE",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "Alle 13 offenen Kabinette ohne Grenzen",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "Stimme — ohne monatliche Rahmen"
   },
   "tiers": {
     "launch_banner": "Preis des Hauses bis 30. September 2026 — Dank an die Ersten.",

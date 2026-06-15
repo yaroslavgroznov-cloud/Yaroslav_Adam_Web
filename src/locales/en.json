@@ -193,7 +193,21 @@
     "thinking": "Adam is thinking",
     "expand_panels": "Expand panels",
     "collapse_panels": "Collapse panels",
-    "tap_to_write": "Tap to write"
+    "tap_to_write": "Tap to write",
+    "month": "month",
+    "tier_coming_soon": "Coming soon",
+    "tier_session_label": "ONE-OFF",
+    "tier_session_name": "Session",
+    "tier_session_desc": "A single session in this cabinet",
+    "tier_topic_label": "TOPIC",
+    "tier_topic_name": "Topic",
+    "tier_topic_desc": "Unlimited sessions in one of 4 cabinet groups",
+    "tier_all_access_label": "ALL",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "All 13 open cabinets without limits",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "Voice — without monthly frames"
   },
   "search": {
     "placeholder": "Find in dialog…",

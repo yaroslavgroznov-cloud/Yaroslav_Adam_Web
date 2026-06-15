@@ -193,7 +193,21 @@
     "thinking": "Адам обдумывает ответ",
     "expand_panels": "Развернуть панели",
     "collapse_panels": "Свернуть панели",
-    "tap_to_write": "Нажми, чтобы написать"
+    "tap_to_write": "Нажми, чтобы написать",
+    "month": "мес",
+    "tier_coming_soon": "Скоро",
+    "tier_session_label": "РАЗОВО",
+    "tier_session_name": "Сессия",
+    "tier_session_desc": "Одна сессия в этом кабинете",
+    "tier_topic_label": "ТЕМОЙ",
+    "tier_topic_name": "Тема",
+    "tier_topic_desc": "Безлимит сессий в одной из 4 групп кабинетов",
+    "tier_all_access_label": "ВСЕ",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "Все 13 открытых кабинетов без ограничений",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "Голос — без месячных рамок"
   },
   "search": {
     "placeholder": "Найти в диалоге…",

@@ -605,7 +605,21 @@
     "thinking": "Adam düşünüyor",
     "expand_panels": "Panelleri aç",
     "collapse_panels": "Panelleri kapat",
-    "tap_to_write": "Yazmak için dokun"
+    "tap_to_write": "Yazmak için dokun",
+    "month": "ay",
+    "tier_coming_soon": "Yakında",
+    "tier_session_label": "TEK SEFER",
+    "tier_session_name": "Oturum",
+    "tier_session_desc": "Bu kabinette tek oturum",
+    "tier_topic_label": "KONU",
+    "tier_topic_name": "Konu",
+    "tier_topic_desc": "4 kabin grubundan birinde sınırsız oturum",
+    "tier_all_access_label": "HEPSİ",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "13 açık kabinetin tümü sınırsız",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "Ses — aylık çerçeveler olmadan"
   },
   "darkweb": {
     "menu_label": "Derin arama",

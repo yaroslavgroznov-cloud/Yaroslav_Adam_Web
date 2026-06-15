@@ -544,73 +544,132 @@ export function CabinetSessionPage(): React.ReactElement {
               {t('cabinets.payment_required', { price: cabinet.price_usd_session.toFixed(2) })}
             </p>
 
-            <div className="flex flex-wrap gap-3 mb-4">
+            {/* 4-tier выбор тарифа (как на /pricing): Session / Topic / All-Access / X */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+              {/* Tier 1 — Session $9 (LIVE) */}
               <button
                 onClick={() => void payLemon('session')}
                 disabled={busy}
-                className="rounded-md border italic disabled:opacity-50"
+                className="rounded-md border italic disabled:opacity-50 text-left p-4"
                 style={{
-                  padding: '10px 18px', fontSize: '14px', fontFamily: 'inherit',
+                  fontSize: '14px', fontFamily: 'inherit',
                   backgroundColor: burgundy,
                   color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
                   borderColor: burgundy,
                 }}
               >
-                {busy ? '…' : t('cabinets.pay_card', { price: cabinet.price_usd_session.toFixed(2) })}
+                <div className="opacity-70" style={{ fontSize: '11px', letterSpacing: '0.12em' }}>
+                  {t('cabinets.tier_session_label')}
+                </div>
+                <div className="font-medium mt-1" style={{ fontSize: '17px' }}>
+                  {t('cabinets.tier_session_name')}
+                </div>
+                <div className="mt-1" style={{ fontSize: '20px', fontWeight: 600 }}>
+                  ${cabinet.price_usd_session.toFixed(0)}
+                </div>
+                <div className="italic opacity-80 mt-1" style={{ fontSize: '12px' }}>
+                  {t('cabinets.tier_session_desc')}
+                </div>
               </button>
-              {cabinet.price_usd_subscription_monthly && (
-                <button
-                  onClick={() => void payLemon('subscription')}
-                  disabled={busy}
-                  className="rounded-md border italic disabled:opacity-50"
-                  style={{
-                    padding: '10px 18px', fontSize: '14px', fontFamily: 'inherit',
-                    backgroundColor: 'transparent',
-                    color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
-                    borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                  }}
-                >
-                  {t('cabinets.pay_monthly', { price: cabinet.price_usd_subscription_monthly.toFixed(2) })}
-                </button>
-              )}
-              {/* F.70 / Council 3.3: NOWPayments / USDT TRC20 минимум ~$15.
-                  Для кабинетов дешевле кнопка скрыта — те идут только через WFP. */}
-              {cabinet.price_usd_session >= 15 && (
-                <button
-                  type="button"
-                  onClick={() => void payCrypto()}
-                  disabled={busy}
-                  className="rounded-md border italic disabled:opacity-50"
-                  style={{
-                    padding: '10px 18px', fontSize: '14px', fontFamily: 'inherit',
-                    backgroundColor: 'transparent',
-                    color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
-                    borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                  }}
-                >
-                  {t('cabinets.pay_crypto')}
-                </button>
-              )}
-            </div>
 
-            {/* F.52: all-access подписка $39/мес */}
-            <div
-              className="rounded-md border p-3 mt-3 italic"
-              style={{
-                borderStyle: 'dashed',
-                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                fontSize: '13px',
-                opacity: 0.9,
-              }}
-            >
-              {t('cabinets.all_access_hint')}{' '}
+              {/* Tier 2 — Topic $19/mo (НЕ настроены LS variants ещё — disabled с tooltip) */}
+              <button
+                type="button"
+                disabled
+                title={t('cabinets.tier_coming_soon')}
+                className="rounded-md border italic text-left p-4 cursor-not-allowed"
+                style={{
+                  fontSize: '14px', fontFamily: 'inherit',
+                  backgroundColor: 'transparent',
+                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  opacity: 0.6,
+                }}
+              >
+                <div className="opacity-70" style={{ fontSize: '11px', letterSpacing: '0.12em' }}>
+                  {t('cabinets.tier_topic_label')}
+                </div>
+                <div className="font-medium mt-1" style={{ fontSize: '17px' }}>
+                  {t('cabinets.tier_topic_name')}
+                </div>
+                <div className="mt-1" style={{ fontSize: '20px', fontWeight: 600 }}>
+                  $19 <span style={{ fontSize: '12px', opacity: 0.7 }}>/ {t('cabinets.month')}</span>
+                </div>
+                <div className="italic opacity-80 mt-1" style={{ fontSize: '12px' }}>
+                  {t('cabinets.tier_topic_desc')} · {t('cabinets.tier_coming_soon')}
+                </div>
+              </button>
+
+              {/* Tier 3 — All-Access $39/mo (LIVE) */}
               <button
                 onClick={() => void payAllAccess()}
                 disabled={busy}
-                className="underline underline-offset-4 decoration-1 italic"
-                style={{ color: 'inherit', background: 'transparent', border: 'none', cursor: 'pointer', padding: 0 }}
+                className="rounded-md border italic disabled:opacity-50 text-left p-4"
+                style={{
+                  fontSize: '14px', fontFamily: 'inherit',
+                  backgroundColor: 'transparent',
+                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                  borderColor: gold,
+                }}
               >
-                {t('cabinets.all_access_cta')}
+                <div className="opacity-70" style={{ fontSize: '11px', letterSpacing: '0.12em' }}>
+                  {t('cabinets.tier_all_access_label')}
+                </div>
+                <div className="font-medium mt-1" style={{ fontSize: '17px' }}>
+                  {t('cabinets.tier_all_access_name')}
+                </div>
+                <div className="mt-1" style={{ fontSize: '20px', fontWeight: 600 }}>
+                  $39 <span style={{ fontSize: '12px', opacity: 0.7 }}>/ {t('cabinets.month')}</span>
+                </div>
+                <div className="italic opacity-80 mt-1" style={{ fontSize: '12px' }}>
+                  {t('cabinets.tier_all_access_desc')}
+                </div>
+              </button>
+
+              {/* Tier 4 — X $99/mo (НЕ настроены LS variants ещё — disabled с tooltip) */}
+              <button
+                type="button"
+                disabled
+                title={t('cabinets.tier_coming_soon')}
+                className="rounded-md border italic text-left p-4 cursor-not-allowed"
+                style={{
+                  fontSize: '14px', fontFamily: 'inherit',
+                  backgroundColor: 'transparent',
+                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  opacity: 0.6,
+                }}
+              >
+                <div className="opacity-70" style={{ fontSize: '11px', letterSpacing: '0.12em' }}>
+                  {t('cabinets.tier_x_label')}
+                </div>
+                <div className="font-medium mt-1" style={{ fontSize: '17px' }}>
+                  {t('cabinets.tier_x_name')}
+                </div>
+                <div className="mt-1" style={{ fontSize: '20px', fontWeight: 600 }}>
+                  $99 <span style={{ fontSize: '12px', opacity: 0.7 }}>/ {t('cabinets.month')}</span>
+                </div>
+                <div className="italic opacity-80 mt-1" style={{ fontSize: '12px' }}>
+                  {t('cabinets.tier_x_desc')} · {t('cabinets.tier_coming_soon')}
+                </div>
+              </button>
+            </div>
+
+            {/* Альтернативный способ — крипто (USDT TRC20) для любых сумм */}
+            <div className="flex flex-wrap gap-3 mb-3">
+              <button
+                type="button"
+                onClick={() => void payCrypto()}
+                disabled={busy}
+                className="rounded-md border italic disabled:opacity-50"
+                style={{
+                  padding: '8px 16px', fontSize: '13px', fontFamily: 'inherit',
+                  backgroundColor: 'transparent',
+                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                }}
+              >
+                {t('cabinets.pay_crypto')}
               </button>
             </div>
 

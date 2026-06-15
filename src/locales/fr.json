@@ -291,7 +291,21 @@
     "thinking": "Adam réfléchit",
     "expand_panels": "Déployer les panneaux",
     "collapse_panels": "Replier les panneaux",
-    "tap_to_write": "Touche pour écrire"
+    "tap_to_write": "Touche pour écrire",
+    "month": "mois",
+    "tier_coming_soon": "Bientôt",
+    "tier_session_label": "UNIQUE",
+    "tier_session_name": "Séance",
+    "tier_session_desc": "Une séance dans ce cabinet",
+    "tier_topic_label": "THÈME",
+    "tier_topic_name": "Thème",
+    "tier_topic_desc": "Séances illimitées dans l'un des 4 groupes",
+    "tier_all_access_label": "TOUT",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "Les 13 cabinets ouverts sans limites",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "Voix — sans cadres mensuels"
   },
   "landing": {
     "page_title": "Adam Groznov",

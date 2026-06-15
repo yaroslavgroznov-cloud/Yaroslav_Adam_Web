@@ -67,6 +67,10 @@ export function ChatInterface(): React.ReactElement {
   const [currentDate, setCurrentDate] = useState('')
   const [showSearch, setShowSearch] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  // Mobile collapse: на телефоне большой header (герб 52px + кнопки) и composer
+  // (textarea 14vw + buttons) занимают почти весь экран, диалог зажат. Сворачиваем
+  // оба по умолчанию на mobile; тонкие mini-bar для разворачивания. Desktop игнорирует.
+  const [mobilePanelsExpanded, setMobilePanelsExpanded] = useState(false)
   const [rooms, setRooms] = useState<RoomInfo[]>(ROOMS_FALLBACK)
   const [currentRoom, setCurrentRoom] = useState<string>(() => {
     if (typeof window === 'undefined') return DEFAULT_ROOM_FALLBACK
@@ -411,9 +415,49 @@ export function ChatInterface(): React.ReactElement {
         </div>
       )}
 
+      {/* Mobile mini-header: герб + ≡ toggle. Виден когда header свёрнут на mobile. */}
+      <div
+        className={clsx(
+          'md:hidden shrink-0 px-4 py-1.5 flex items-center justify-between border-b transition-colors duration-700 ease-in-out',
+          mobilePanelsExpanded && 'hidden',
+        )}
+        style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
+      >
+        <img
+          src="/dom_groznovyh.jpg"
+          alt={t('common.crest_full_alt')}
+          className="h-7 w-auto select-none"
+          style={{
+            mixBlendMode: isDark ? 'normal' : 'multiply',
+            filter: isDark ? 'brightness(1.08) contrast(1.05)' : 'none',
+          }}
+        />
+        <span className="italic truncate flex-1 mx-3" style={{ fontSize: '14px', letterSpacing: '0.03em' }}>
+          {t('header.title')}
+        </span>
+        <button
+          type="button"
+          onClick={() => setMobilePanelsExpanded(true)}
+          className="shrink-0 inline-flex items-center justify-center rounded-md border"
+          style={{
+            width: 30, height: 30, fontSize: '15px',
+            borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+            backgroundColor: 'transparent',
+            color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+          }}
+          aria-label={t('cabinets.expand_panels')}
+          title={t('cabinets.expand_panels')}
+        >
+          ≡
+        </button>
+      </div>
+
       {/* Хедер: герб + Адам + действия */}
       <header
-        className="shrink-0 px-4 sm:px-10 py-4 sm:py-5 flex items-center justify-between gap-2 sm:gap-4 border-b transition-colors duration-700 ease-in-out"
+        className={clsx(
+          'shrink-0 px-4 sm:px-10 py-4 sm:py-5 items-center justify-between gap-2 sm:gap-4 border-b transition-colors duration-700 ease-in-out md:flex',
+          mobilePanelsExpanded ? 'flex' : 'hidden',
+        )}
         style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
       >
         <div className="flex items-center gap-3 sm:gap-4 min-w-0">
@@ -732,6 +776,22 @@ export function ChatInterface(): React.ReactElement {
               return items
             })()}
           />
+          {/* Mobile ▴ — свернуть весь header в мини-bar */}
+          <button
+            type="button"
+            onClick={() => setMobilePanelsExpanded(false)}
+            className="md:hidden shrink-0 inline-flex items-center justify-center rounded-md border"
+            style={{
+              width: 30, height: 30, fontSize: '14px',
+              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+              backgroundColor: 'transparent',
+              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+            }}
+            aria-label={t('cabinets.collapse_panels')}
+            title={t('cabinets.collapse_panels')}
+          >
+            ▴
+          </button>
         </div>
       </header>
 
@@ -1025,8 +1085,31 @@ export function ChatInterface(): React.ReactElement {
           </button>
         </div>
       )}
+      {/* Mobile mini-composer: ✎ tap to write. Виден когда composer свёрнут. */}
+      <button
+        type="button"
+        onClick={() => setMobilePanelsExpanded(true)}
+        className={clsx(
+          'md:hidden shrink-0 w-full text-left italic border-t px-4 py-2.5',
+          mobilePanelsExpanded && 'hidden',
+        )}
+        style={{
+          fontSize: '14px',
+          fontFamily: 'inherit',
+          borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+          backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+          color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+          opacity: 0.7,
+        }}
+        aria-label={t('cabinets.tap_to_write')}
+      >
+        ✎ {t('cabinets.tap_to_write')}
+      </button>
       <div
-        className="shrink-0 border-t py-4 sm:py-5 transition-colors duration-700 ease-in-out"
+        className={clsx(
+          'shrink-0 border-t py-4 sm:py-5 transition-colors duration-700 ease-in-out md:block',
+          mobilePanelsExpanded ? 'block' : 'hidden',
+        )}
         style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
       >
         <div className="w-full px-4 sm:px-10 flex items-stretch gap-2 sm:gap-3">

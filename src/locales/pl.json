@@ -193,7 +193,21 @@
     "thinking": "Adam myśli",
     "expand_panels": "Rozwiń panele",
     "collapse_panels": "Zwiń panele",
-    "tap_to_write": "Dotknij, aby pisać"
+    "tap_to_write": "Dotknij, aby pisać",
+    "month": "mies",
+    "tier_coming_soon": "Wkrótce",
+    "tier_session_label": "JEDNORAZOWO",
+    "tier_session_name": "Sesja",
+    "tier_session_desc": "Jedna sesja w tym gabinecie",
+    "tier_topic_label": "TEMAT",
+    "tier_topic_name": "Temat",
+    "tier_topic_desc": "Bezlimit sesji w jednej z 4 grup gabinetów",
+    "tier_all_access_label": "WSZYSTKO",
+    "tier_all_access_name": "All-Access",
+    "tier_all_access_desc": "Wszystkie 13 otwartych gabinetów bez limitów",
+    "tier_x_label": "X",
+    "tier_x_name": "X",
+    "tier_x_desc": "Głos — bez miesięcznych ram"
   },
   "stol": {
     "adam_listens_silently": "słucha w ciszy",
