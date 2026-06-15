@@ -602,7 +602,10 @@
     "request_access_cta": "Erişim iste →",
     "closed_eyebrow": "yaratıcının kişisel davetiyle",
     "others_eyebrow": "diğer",
-    "thinking": "Adam düşünüyor"
+    "thinking": "Adam düşünüyor",
+    "expand_panels": "Panelleri aç",
+    "collapse_panels": "Panelleri kapat",
+    "tap_to_write": "Yazmak için dokun"
   },
   "darkweb": {
     "menu_label": "Derin arama",

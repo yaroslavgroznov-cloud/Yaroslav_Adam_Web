@@ -190,7 +190,10 @@
     "request_access_cta": "申请访问 →",
     "closed_eyebrow": "凭创造者的私人邀请",
     "others_eyebrow": "其他",
-    "thinking": "亚当正在思考"
+    "thinking": "亚当正在思考",
+    "expand_panels": "展开面板",
+    "collapse_panels": "收起面板",
+    "tap_to_write": "点击书写"
   },
   "search": {
     "placeholder": "在对话中查找…",

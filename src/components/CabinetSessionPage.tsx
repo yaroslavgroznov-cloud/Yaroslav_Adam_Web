@@ -60,6 +60,10 @@ export function CabinetSessionPage(): React.ReactElement {
   const [filesCfg, setFilesCfg] = useState<FilesConfig | null>(null)
   const [pendingFiles, setPendingFiles] = useState<FileMeta[]>([])
   const [uploading, setUploading] = useState(false)
+  // Mobile collapse: на телефоне header (back+title+price) и composer (textarea+buttons)
+  // занимают слишком много места — diog уменьшается. Сворачиваем оба по умолчанию;
+  // тап на тонкую mini-bar разворачивает. На desktop (md:) логика игнорируется.
+  const [mobileExpanded, setMobileExpanded] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const endRef = useRef<HTMLDivElement | null>(null)
 
@@ -320,8 +324,34 @@ export function CabinetSessionPage(): React.ReactElement {
         color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
       }}
     >
-      <div className="max-w-3xl mx-auto px-4 sm:px-10 py-8">
-        <header className="flex items-center justify-between mb-5">
+      <div className="max-w-3xl mx-auto px-4 sm:px-10 py-3 sm:py-8">
+        {/* Mobile mini-bar: ← back + ≡ expand toggle. Виден только когда collapsed. */}
+        <div className={clsx('md:hidden flex items-center justify-between mb-2', mobileExpanded && 'hidden')}>
+          <a
+            href="/cabinets"
+            className="italic underline underline-offset-4 decoration-1"
+            style={{ fontSize: '13px', opacity: 0.7 }}
+            aria-label={t('cabinets.title')}
+          >
+            ← {t('cabinets.title')}
+          </a>
+          <button
+            type="button"
+            onClick={() => setMobileExpanded(true)}
+            className="inline-flex items-center justify-center rounded-md border"
+            style={{
+              width: 34, height: 34, fontSize: '16px',
+              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+              backgroundColor: 'transparent',
+              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+            }}
+            aria-label={t('cabinets.expand_panels')}
+            title={t('cabinets.expand_panels')}
+          >
+            ≡
+          </button>
+        </div>
+        <header className={clsx('items-center justify-between mb-5 md:flex', mobileExpanded ? 'flex' : 'hidden')}>
           <div>
             <a
               href="/cabinets"
@@ -334,11 +364,28 @@ export function CabinetSessionPage(): React.ReactElement {
               {t(`cabinets_catalog.${cabinet.slug}.name`, { defaultValue: cabinet.name })}
             </h1>
           </div>
-          {cabinet.is_active && (
-            <span className="italic" style={{ fontSize: '13px', opacity: 0.7 }}>
-              ${cabinet.price_usd_session.toFixed(0)} / {t('cabinets.session')}
-            </span>
-          )}
+          <div className="flex items-center gap-3">
+            {cabinet.is_active && (
+              <span className="italic" style={{ fontSize: '13px', opacity: 0.7 }}>
+                ${cabinet.price_usd_session.toFixed(0)} / {t('cabinets.session')}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => setMobileExpanded(false)}
+              className="md:hidden inline-flex items-center justify-center rounded-md border"
+              style={{
+                width: 30, height: 30, fontSize: '14px',
+                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                backgroundColor: 'transparent',
+                color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+              }}
+              aria-label={t('cabinets.collapse_panels')}
+              title={t('cabinets.collapse_panels')}
+            >
+              ▴
+            </button>
+          </div>
         </header>
 
         {!sessionActive && t(`cabinets_catalog.${cabinet.slug}.description`, { defaultValue: cabinet.description ?? '' }) && (
@@ -372,10 +419,18 @@ export function CabinetSessionPage(): React.ReactElement {
             <h2 className="mb-3" style={{ fontSize: '16px', letterSpacing: '0.03em', color: gold }}>
               {t('cabinets.intake_title')}
             </h2>
-            {fields.map((f) => (
+            {fields.map((f) => {
+              // i18n intake fields: пробуем cabinet-specific → unified intake_fields → backend label
+              const localizedLabel = t(
+                `cabinets_catalog.${cabinet.slug}.intake.${f.name}.label`,
+                {
+                  defaultValue: t(`intake_fields.${f.name}.label`, { defaultValue: f.label }),
+                },
+              )
+              return (
               <div key={f.name} className="mb-3">
                 <label className="italic block mb-1" style={{ fontSize: '13px', opacity: 0.85 }}>
-                  {f.label}{f.required ? ' *' : ''}
+                  {localizedLabel}{f.required ? ' *' : ''}
                 </label>
                 {f.type === 'textarea' ? (
                   <textarea
@@ -406,7 +461,16 @@ export function CabinetSessionPage(): React.ReactElement {
                     }}
                   >
                     <option value="">—</option>
-                    {f.options.map((o) => <option key={o} value={o}>{o}</option>)}
+                    {f.options.map((o) => {
+                      // i18n option value: cabinet-specific → unified options namespace → raw
+                      const localizedOption = t(
+                        `cabinets_catalog.${cabinet.slug}.intake.${f.name}.options.${o}`,
+                        {
+                          defaultValue: t(`intake_options.${o}`, { defaultValue: o }),
+                        },
+                      )
+                      return <option key={o} value={o}>{localizedOption}</option>
+                    })}
                   </select>
                 ) : (
                   <input
@@ -425,7 +489,8 @@ export function CabinetSessionPage(): React.ReactElement {
                   />
                 )}
               </div>
-            ))}
+              )
+            })}
             <button
               onClick={() => void startSession()}
               disabled={busy}
@@ -680,6 +745,26 @@ export function CabinetSessionPage(): React.ReactElement {
               )}
               <div ref={endRef} />
             </div>
+            {/* Mobile mini-bar для разворачивания composer когда свернут */}
+            <button
+              type="button"
+              onClick={() => setMobileExpanded(true)}
+              className={clsx('md:hidden w-full rounded-md border italic mb-2 text-left', mobileExpanded && 'hidden')}
+              style={{
+                padding: '10px 14px',
+                fontSize: '14px',
+                fontFamily: 'inherit',
+                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+                color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                opacity: 0.7,
+              }}
+              aria-label={t('cabinets.tap_to_write')}
+            >
+              ✎ {t('cabinets.tap_to_write')}
+            </button>
+            {/* Composer wrapper: на mobile скрыт когда !mobileExpanded */}
+            <div className={clsx('md:block', mobileExpanded ? 'block' : 'hidden')}>
             {/* Pending attachments preview (chips) */}
             {pendingFiles.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-2">
@@ -817,6 +902,7 @@ export function CabinetSessionPage(): React.ReactElement {
               >
                 {t('common.send')}
               </button>
+            </div>
             </div>
           </section>
         )}

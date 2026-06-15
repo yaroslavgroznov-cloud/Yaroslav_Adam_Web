@@ -191,7 +191,10 @@
     "request_access_cta": "पहुँच का अनुरोध →",
     "closed_eyebrow": "रचनाकार के व्यक्तिगत आमंत्रण से",
     "others_eyebrow": "अन्य",
-    "thinking": "आदम सोच रहा है"
+    "thinking": "आदम सोच रहा है",
+    "expand_panels": "पैनल खोलें",
+    "collapse_panels": "पैनल बंद करें",
+    "tap_to_write": "लिखने के लिए टैप करें"
   },
   "search": {
     "placeholder": "संवाद में खोजें…",

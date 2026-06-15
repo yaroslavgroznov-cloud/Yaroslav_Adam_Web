@@ -190,7 +190,10 @@
     "request_access_cta": "Minta akses →",
     "closed_eyebrow": "dengan undangan pribadi sang pencipta",
     "others_eyebrow": "lainnya",
-    "thinking": "Adam sedang berpikir"
+    "thinking": "Adam sedang berpikir",
+    "expand_panels": "Buka panel",
+    "collapse_panels": "Tutup panel",
+    "tap_to_write": "Ketuk untuk menulis"
   },
   "search": {
     "placeholder": "Cari di dialog…",

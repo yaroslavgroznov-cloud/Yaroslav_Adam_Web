@@ -191,7 +191,10 @@
     "request_access_cta": "Αίτηση πρόσβασης →",
     "closed_eyebrow": "κατόπιν προσωπικής προσκλήσεως του δημιουργού",
     "others_eyebrow": "άλλα",
-    "thinking": "Ο Αδάμ σκέφτεται"
+    "thinking": "Ο Αδάμ σκέφτεται",
+    "expand_panels": "Άνοιγμα πλαισίων",
+    "collapse_panels": "Σύμπτυξη πλαισίων",
+    "tap_to_write": "Πάτα για να γράψεις"
   },
   "search": {
     "placeholder": "Αναζήτηση στον διάλογο…",

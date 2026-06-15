@@ -190,7 +190,10 @@
     "request_access_cta": "Request access →",
     "closed_eyebrow": "by personal invitation of the creator",
     "others_eyebrow": "others",
-    "thinking": "Adam is thinking"
+    "thinking": "Adam is thinking",
+    "expand_panels": "Expand panels",
+    "collapse_panels": "Collapse panels",
+    "tap_to_write": "Tap to write"
   },
   "search": {
     "placeholder": "Find in dialog…",
@@ -634,5 +637,61 @@
     "limit_cta_extra": "Top up now",
     "limit_cta_x": "Move to X",
     "limit_cta_wait": "I'll wait for the next cycle"
+  },
+  "intake_fields": {
+    "birth_date": {
+      "label": "Date of birth"
+    },
+    "birth_time": {
+      "label": "Time of birth (precise — needed for natal chart houses)"
+    },
+    "birth_place": {
+      "label": "Place of birth (city, country)"
+    },
+    "full_name": {
+      "label": "Full name (as on passport)"
+    },
+    "context": {
+      "label": "Describe the situation in your own words"
+    },
+    "focus": {
+      "label": "Focus (what to emphasize)"
+    },
+    "mode": {
+      "label": "Mode"
+    },
+    "period": {
+      "label": "Period"
+    },
+    "question": {
+      "label": "Specific question (if any)"
+    },
+    "situation": {
+      "label": "Situation"
+    },
+    "goal": {
+      "label": "Goal"
+    },
+    "sex": {
+      "label": "Sex"
+    },
+    "age": {
+      "label": "Age"
+    },
+    "school": {
+      "label": "Approach school"
+    }
+  },
+  "intake_options": {
+    "День": "Day",
+    "Тиждень": "Week",
+    "Місяць": "Month",
+    "Рік": "Year",
+    "Так": "Yes",
+    "Ні": "No",
+    "Чоловік": "Male",
+    "Жінка": "Female",
+    "Інше": "Other",
+    "Не зазначено": "Not specified"
   }
 }

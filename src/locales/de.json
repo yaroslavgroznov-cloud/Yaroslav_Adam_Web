@@ -456,7 +456,10 @@
     "request_access_cta": "Zugriff anfragen →",
     "closed_eyebrow": "auf persönliche einladung des schöpfers",
     "others_eyebrow": "andere",
-    "thinking": "Adam denkt nach"
+    "thinking": "Adam denkt nach",
+    "expand_panels": "Bereiche ausklappen",
+    "collapse_panels": "Bereiche einklappen",
+    "tap_to_write": "Tippe zum Schreiben"
   },
   "tiers": {
     "launch_banner": "Preis des Hauses bis 30. September 2026 — Dank an die Ersten.",

@@ -191,7 +191,10 @@
     "request_access_cta": "בקש גישה →",
     "closed_eyebrow": "בהזמנה אישית של היוצר",
     "others_eyebrow": "אחרים",
-    "thinking": "אדם חושב"
+    "thinking": "אדם חושב",
+    "expand_panels": "הרחב חלוניות",
+    "collapse_panels": "כווץ חלוניות",
+    "tap_to_write": "הקש כדי לכתוב"
   },
   "search": {
     "placeholder": "חיפוש בשיחה…",

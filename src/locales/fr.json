@@ -288,7 +288,10 @@
     "request_access_cta": "Demander l'accès →",
     "closed_eyebrow": "sur invitation personnelle du créateur",
     "others_eyebrow": "autres",
-    "thinking": "Adam réfléchit"
+    "thinking": "Adam réfléchit",
+    "expand_panels": "Déployer les panneaux",
+    "collapse_panels": "Replier les panneaux",
+    "tap_to_write": "Touche pour écrire"
   },
   "landing": {
     "page_title": "Adam Groznov",

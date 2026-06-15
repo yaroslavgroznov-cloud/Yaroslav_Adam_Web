@@ -190,7 +190,10 @@
     "request_access_cta": "Poproś o dostęp →",
     "closed_eyebrow": "na osobiste zaproszenie twórcy",
     "others_eyebrow": "inne",
-    "thinking": "Adam myśli"
+    "thinking": "Adam myśli",
+    "expand_panels": "Rozwiń panele",
+    "collapse_panels": "Zwiń panele",
+    "tap_to_write": "Dotknij, aby pisać"
   },
   "stol": {
     "adam_listens_silently": "słucha w ciszy",
