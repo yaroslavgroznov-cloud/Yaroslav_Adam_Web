@@ -216,7 +216,8 @@
     "pay_liqpay_hint": "PrivatBank के माध्यम से यूक्रेनी कार्ड",
     "pay_lemon": "Lemon (परीक्षण)",
     "pay_lemon_hint": "Lemon Squeezy — परीक्षण मोड",
-    "provider_verifying": "भुगतान सेवा सत्यापन में है। जल्द ही चालू होगी।"
+    "provider_verifying": "भुगतान सेवा सत्यापन में है। जल्द ही चालू होगी।",
+    "fill_form_first": "पहले नीचे फॉर्म भरें ↓"
   },
   "search": {
     "placeholder": "संवाद में खोजें…",

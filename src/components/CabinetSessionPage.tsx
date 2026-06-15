@@ -137,7 +137,12 @@ export function CabinetSessionPage(): React.ReactElement {
   }, [slug, t])
 
   async function payLemon(mode: 'session' | 'subscription'): Promise<void> {
-    if (!cabinet || !session) return
+    if (!cabinet) return
+    if (!session) {
+      setVerifyToast(t('cabinets.fill_form_first', { defaultValue: 'Спочатку заповни форму нижче ↓' }))
+      setTimeout(() => setVerifyToast(''), 5000)
+      return
+    }
     setBusy(true); setError('')
     try {
       const amount = mode === 'subscription'
@@ -165,6 +170,11 @@ export function CabinetSessionPage(): React.ReactElement {
   }
 
   async function payAllAccess(): Promise<void> {
+    if (!session) {
+      setVerifyToast(t('cabinets.fill_form_first', { defaultValue: 'Спочатку заповни форму нижче ↓' }))
+      setTimeout(() => setVerifyToast(''), 5000)
+      return
+    }
     setBusy(true); setError('')
     try {
       const res = await startAllAccessSubscription()
@@ -185,7 +195,15 @@ export function CabinetSessionPage(): React.ReactElement {
     provider: 'lemon_squeezy' | 'paddle' | 'liqpay',
     mode: 'session' | 'subscription' = 'session',
   ): Promise<void> {
-    if (!cabinet || !session) return
+    if (!cabinet) return
+    // Без активной сессии (юзер ещё не заполнил intake) — показываем тост
+    // «Спочатку заповни форму нижче». Кнопки видимы всегда, но functional
+    // только когда session создана и payment_status==='pending'.
+    if (!session) {
+      setVerifyToast(t('cabinets.fill_form_first', { defaultValue: 'Спочатку заповни форму нижче ↓' }))
+      setTimeout(() => setVerifyToast(''), 5000)
+      return
+    }
     setBusy(true); setError(''); setVerifyToast('')
     try {
       const amount = mode === 'subscription'
@@ -244,7 +262,12 @@ export function CabinetSessionPage(): React.ReactElement {
   }
 
   async function payCrypto(): Promise<void> {
-    if (!cabinet || !session) return
+    if (!cabinet) return
+    if (!session) {
+      setVerifyToast(t('cabinets.fill_form_first', { defaultValue: 'Спочатку заповни форму нижче ↓' }))
+      setTimeout(() => setVerifyToast(''), 5000)
+      return
+    }
     setBusy(true); setError('')
     try {
       const res = await paymentInitiate({
@@ -596,8 +619,14 @@ export function CabinetSessionPage(): React.ReactElement {
           </button>
         )}
 
-        {/* PAYMENT REQUIRED — сессия создана, но не оплачена и не семья */}
-        {session && session.payment_status === 'pending' && (
+        {/* PAYMENT SECTION — видна всегда когда:
+            - кабинет активен
+            - access_mode = open (paid, не creator_grant)
+            - сессия НЕ активна (нет paid и нет free_family)
+            То есть для гостей до intake, для юзеров на pending-сессии,
+            и для самого Творца если он сейчас вне семьи — кнопки видимы.
+            Скрываются только когда уже идёт диалог. */}
+        {cabinet.is_active && cabinet.access_mode === 'open' && !sessionActive && (
           <section
             className="rounded-md border p-5 mb-5"
             style={{

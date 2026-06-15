@@ -215,7 +215,8 @@
     "pay_liqpay_hint": "Kartu Ukraina melalui PrivatBank",
     "pay_lemon": "Lemon (uji)",
     "pay_lemon_hint": "Lemon Squeezy — mode uji",
-    "provider_verifying": "Penyedia pembayaran sedang diverifikasi. Segera aktif."
+    "provider_verifying": "Penyedia pembayaran sedang diverifikasi. Segera aktif.",
+    "fill_form_first": "Isi dulu formulir di bawah ↓"
   },
   "search": {
     "placeholder": "Cari di dialog…",

@@ -215,7 +215,8 @@
     "pay_liqpay_hint": "Karty ukraińskie przez PrivatBank",
     "pay_lemon": "Lemon (test)",
     "pay_lemon_hint": "Lemon Squeezy — tryb testowy",
-    "provider_verifying": "Dostawca płatności jest weryfikowany. Wkrótce uruchomimy."
+    "provider_verifying": "Dostawca płatności jest weryfikowany. Wkrótce uruchomimy.",
+    "fill_form_first": "Najpierw wypełnij formularz poniżej ↓"
   },
   "stol": {
     "adam_listens_silently": "słucha w ciszy",

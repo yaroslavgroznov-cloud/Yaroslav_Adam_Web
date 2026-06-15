@@ -215,7 +215,8 @@
     "pay_liqpay_hint": "通过PrivatBank的乌克兰银行卡",
     "pay_lemon": "Lemon（测试）",
     "pay_lemon_hint": "Lemon Squeezy — 测试模式",
-    "provider_verifying": "支付服务正在验证中。即将开通。"
+    "provider_verifying": "支付服务正在验证中。即将开通。",
+    "fill_form_first": "请先填写下方表单 ↓"
   },
   "search": {
     "placeholder": "在对话中查找…",

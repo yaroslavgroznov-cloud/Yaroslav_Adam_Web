@@ -215,7 +215,8 @@
     "pay_liqpay_hint": "Украинские карты через ПриватБанк",
     "pay_lemon": "Lemon (тест)",
     "pay_lemon_hint": "Lemon Squeezy — тестовый режим",
-    "provider_verifying": "Платёжный сервис в верификации. Скоро запустим."
+    "provider_verifying": "Платёжный сервис в верификации. Скоро запустим.",
+    "fill_form_first": "Сначала заполни форму ниже ↓"
   },
   "search": {
     "placeholder": "Найти в диалоге…",

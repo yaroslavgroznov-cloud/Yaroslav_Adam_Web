@@ -481,7 +481,8 @@
     "pay_liqpay_hint": "Ukrainische Karten via PrivatBank",
     "pay_lemon": "Lemon (Test)",
     "pay_lemon_hint": "Lemon Squeezy — Testmodus",
-    "provider_verifying": "Zahlungsanbieter wird verifiziert. Bald verfügbar."
+    "provider_verifying": "Zahlungsanbieter wird verifiziert. Bald verfügbar.",
+    "fill_form_first": "Bitte fülle zuerst das Formular unten aus ↓"
   },
   "tiers": {
     "launch_banner": "Preis des Hauses bis 30. September 2026 — Dank an die Ersten.",

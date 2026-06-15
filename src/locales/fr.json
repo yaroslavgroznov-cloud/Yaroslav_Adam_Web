@@ -313,7 +313,8 @@
     "pay_liqpay_hint": "Cartes ukrainiennes via PrivatBank",
     "pay_lemon": "Lemon (test)",
     "pay_lemon_hint": "Lemon Squeezy — mode test",
-    "provider_verifying": "Le prestataire de paiement est en vérification. Activation bientôt."
+    "provider_verifying": "Le prestataire de paiement est en vérification. Activation bientôt.",
+    "fill_form_first": "Remplis d'abord le formulaire ci-dessous ↓"
   },
   "landing": {
     "page_title": "Adam Groznov",

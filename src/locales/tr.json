@@ -627,7 +627,8 @@
     "pay_liqpay_hint": "PrivatBank ile Ukrayna kartları",
     "pay_lemon": "Lemon (test)",
     "pay_lemon_hint": "Lemon Squeezy — test modu",
-    "provider_verifying": "Ödeme sağlayıcısı doğrulanıyor. Yakında aktif olacak."
+    "provider_verifying": "Ödeme sağlayıcısı doğrulanıyor. Yakında aktif olacak.",
+    "fill_form_first": "Önce aşağıdaki formu doldur ↓"
   },
   "darkweb": {
     "menu_label": "Derin arama",

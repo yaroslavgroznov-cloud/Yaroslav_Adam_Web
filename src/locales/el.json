@@ -216,7 +216,8 @@
     "pay_liqpay_hint": "Ουκρανικές κάρτες μέσω PrivatBank",
     "pay_lemon": "Lemon (δοκιμή)",
     "pay_lemon_hint": "Lemon Squeezy — λειτουργία δοκιμής",
-    "provider_verifying": "Ο πάροχος πληρωμής επαληθεύεται. Σύντομα διαθέσιμος."
+    "provider_verifying": "Ο πάροχος πληρωμής επαληθεύεται. Σύντομα διαθέσιμος.",
+    "fill_form_first": "Συμπλήρωσε πρώτα τη φόρμα παρακάτω ↓"
   },
   "search": {
     "placeholder": "Αναζήτηση στον διάλογο…",

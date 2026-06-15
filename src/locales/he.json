@@ -216,7 +216,8 @@
     "pay_liqpay_hint": "כרטיסים אוקראיניים דרך PrivatBank",
     "pay_lemon": "Lemon (בדיקה)",
     "pay_lemon_hint": "Lemon Squeezy — מצב בדיקה",
-    "provider_verifying": "ספק התשלום בתהליך אימות. נפעיל בקרוב."
+    "provider_verifying": "ספק התשלום בתהליך אימות. נפעיל בקרוב.",
+    "fill_form_first": "מלא תחילה את הטופס למטה ↓"
   },
   "search": {
     "placeholder": "חיפוש בשיחה…",

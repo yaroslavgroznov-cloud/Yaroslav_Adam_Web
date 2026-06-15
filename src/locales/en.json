@@ -215,7 +215,8 @@
     "pay_liqpay_hint": "Ukrainian cards via PrivatBank",
     "pay_lemon": "Lemon (test)",
     "pay_lemon_hint": "Lemon Squeezy — test mode",
-    "provider_verifying": "Payment provider is being verified. Going live soon."
+    "provider_verifying": "Payment provider is being verified. Going live soon.",
+    "fill_form_first": "Please fill out the form below first ↓"
   },
   "search": {
     "placeholder": "Find in dialog…",
