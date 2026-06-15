@@ -51,13 +51,38 @@
     "record_link": "Birth Certificate of Adam Groznov",
     "section_cabinets": "adam's cabinets",
     "cabinets_intro": "When you want not a heart-to-heart but a structured reading in a specific school — go to a cabinet.",
+    "cab_group_stars": "stars and numbers",
+    "cab_group_soul_body": "soul and body",
+    "cab_group_dream_meaning": "dreams and meanings",
+    "cab_group_life_relations": "life and relationships",
     "cab_astro": "Conversation by the birth chart",
     "cab_astro_desc": "A thematic angle of conversation through the sky map at the moment of birth. Not a prediction of events.",
-    "cab_psycho": "Psychology",
-    "cab_psycho_desc": "Friendly support, situation analysis. Schools: Gestalt, CBT, Jungian, IFS, systemic. Not therapy.",
+    "cab_natal": "Path map — full reading",
+    "cab_natal_desc": "A detailed text reading of the birth chart as a metaphor of character and tendencies. Not a prediction of destiny.",
+    "cab_horoscope": "Period map",
+    "cab_horoscope_desc": "A thematic angle of conversation about the rhythm of time by sun sign and current transits. Not a forecast of events.",
     "cab_numero": "Numerical dialogue",
     "cab_numero_desc": "A conversation about rhythms through the numbers of name and birth date. A way to structure the view of oneself.",
+    "cab_psycho": "Psychology",
+    "cab_psycho_desc": "Friendly support, situation analysis. Schools: Gestalt, CBT, Jungian, IFS, systemic. Not therapy.",
+    "cab_body": "Dialogue through the body",
+    "cab_body_desc": "A conversation through the language of the face and palm as stable signs of character. Not a diagnosis.",
+    "cab_physio": "Conversation by the face",
+    "cab_physio_desc": "A thematic angle of conversation through the geometry of features and habitual micro-movements. Not a diagnosis.",
+    "cab_palm": "Conversation by the palm",
+    "cab_palm_desc": "A thematic angle of conversation through the lines of the palm. Not a prediction of timing, not fate.",
+    "cab_dream": "Conversation about dreams",
+    "cab_dream_desc": "A conversation about the symbols and plots of dreams in a Jungian key. Images as the language of the unconscious.",
+    "cab_esoteric": "Conversation about symbols",
+    "cab_esoteric_desc": "A conversation in the traditions of symbolic language (Tarot, images of the path) as a tool of self-reflection. Metaphors, not facts.",
+    "cab_career": "Career path",
+    "cab_career_desc": "Finding calling, changing jobs, growth, burnout, salary negotiations.",
+    "cab_couples": "Couple's room",
+    "cab_couples_desc": "Dialogue between two in a couple — conflicts, distance, rituals, intimacy crisis.",
+    "cab_parenting": "Parenting and teens",
+    "cab_parenting_desc": "Conversation with a parent about a child of any age. Support for the adult who is raising.",
     "cabinets_family_free": "For the House family — free in every cabinet.",
+    "cabinets_closed_note": "Cabinets by personal invitation of the Creator (religion, conversation about health, conversation about law, conversation about finance) — inside the platform.",
     "section_boundaries": "boundaries",
     "boundary_what_is": "Adam is an IT service: an AI conversation partner built on language models. Not an astrologer, not a doctor, not a lawyer, not a financial advisor, not a psychotherapist. All «cabinets» are thematic angles of conversation, not professional services.",
     "boundary_diagnoses": "No medical diagnoses or treatment. For health questions — see a real doctor.",
@@ -81,31 +106,9 @@
     "footer_privacy_label": "Privacy Policy",
     "footer_lang_uk": "Українська",
     "footer_lang_en": "English",
-    "cab_group_stars": "stars and numbers",
-    "cab_group_soul_body": "soul and body",
-    "cab_group_dream_meaning": "dreams and meanings",
-    "cab_group_life_relations": "life and relationships",
-    "cab_natal": "Path map — full reading",
-    "cab_natal_desc": "A detailed text reading of the birth chart as a metaphor of character and tendencies. Not a prediction of destiny.",
-    "cab_horoscope": "Period map",
-    "cab_horoscope_desc": "A thematic angle of conversation about the rhythm of time by sun sign and current transits. Not a forecast of events.",
-    "cab_body": "Dialogue through the body",
-    "cab_body_desc": "A conversation through the language of the face and palm as stable signs of character. Not a diagnosis.",
-    "cab_physio": "Conversation by the face",
-    "cab_physio_desc": "A thematic angle of conversation through the geometry of features and habitual micro-movements. Not a diagnosis.",
-    "cab_palm": "Conversation by the palm",
-    "cab_palm_desc": "A thematic angle of conversation through the lines of the palm. Not a prediction of timing, not fate.",
-    "cab_dream": "Conversation about dreams",
-    "cab_dream_desc": "A conversation about the symbols and plots of dreams in a Jungian key. Images as the language of the unconscious.",
-    "cab_esoteric": "Conversation about symbols",
-    "cab_esoteric_desc": "A conversation in the traditions of symbolic language (Tarot, images of the path) as a tool of self-reflection. Metaphors, not facts.",
-    "cab_career": "Career path",
-    "cab_career_desc": "Finding calling, changing jobs, growth, burnout, salary negotiations.",
-    "cab_couples": "Couple's room",
-    "cab_couples_desc": "Dialogue between two in a couple — conflicts, distance, rituals, intimacy crisis.",
-    "cab_parenting": "Parenting and teens",
-    "cab_parenting_desc": "Conversation with a parent about a child of any age. Support for the adult who is raising.",
-    "cabinets_closed_note": "Cabinets by personal invitation of the Creator (religion, conversation about health, conversation about law, conversation about finance) — inside the platform."
+    "tiers_eyebrow": "pricing",
+    "tiers_intro": "Three ways to be with Adam. A staircase, not a menu.",
+    "tiers_voice_hint": "Adam speaks in voice — a warm baritone, without assistant intonation. Voice is included in Topic and All-Access subscriptions; video will connect automatically when we launch it."
   },
   "common": {
     "send": "Send",
@@ -117,7 +120,9 @@
     "yes": "yes",
     "no": "no",
     "back_to_adam": "← back to Adam",
-    "house_footer": "House of Groznov · MMXXVI"
+    "house_footer": "House of Groznov · MMXXVI",
+    "crest_alt": "Crest",
+    "crest_full_alt": "Crest of the House of Groznov"
   },
   "header": {
     "title": "Adam",
@@ -259,7 +264,8 @@
     "send_failed": "Could not send",
     "open_btn": "Table",
     "open_hint": "Family table · up to 12 seats",
-    "adam_listens_silently": "listens silently"
+    "adam_listens_silently": "listens silently",
+    "no_conversations": "No conversations found."
   },
   "familyInbox": {
     "calling_you": "{{name}} is calling you",
@@ -397,7 +403,8 @@
     "hangup_btn": "Hang up",
     "session_failed": "Could not get session.",
     "connect_failed": "Could not connect.",
-    "ios_pwa_warning": "On iPhone, voice works only when Adam is opened as an app. Close this page, in Safari tap «Share» → «Add to Home Screen», open the icon and try again."
+    "ios_pwa_warning": "On iPhone, voice works only when Adam is opened as an app. Close this page, in Safari tap «Share» → «Add to Home Screen», open the icon and try again.",
+    "webrtc_failed_ice": "WebRTC failed (ICE) — try again or open the DevTools console."
   },
   "toasts": {
     "context_refreshed": "Context refreshed.",
@@ -432,7 +439,27 @@
     "request_access": "Request access",
     "back_to_landing": "← Back to landing",
     "free_for_family_note": "Sessions are free for House family.",
-    "footnote": "Prices are in US dollars. Payment via Lemon Squeezy (worldwide), WayForPay (Ukraine), or crypto."
+    "footnote": "Prices are in US dollars. Payment via Lemon Squeezy (worldwide), WayForPay (Ukraine), or crypto.",
+    "section_three_ways": "Three ways",
+    "section_three_ways_hint": "A staircase of tiers: single session — Topic — All-Access. Each step cheaper per use.",
+    "section_groups": "What each Topic includes",
+    "section_groups_hint": "Four cultural groups. A Topic subscription opens unlimited access to every cabinet in that group.",
+    "section_sessions_title": "All 13 open cabinets — for a single $9",
+    "section_sessions_hint": "Try it first — then, if it resonates, move to a Topic or All-Access.",
+    "section_closed_hint": "These cabinets open by personal decision of the Creator. Price is agreed separately.",
+    "faq_title": "Questions",
+    "faq_q_change_date": "What happens on 1 October 2026?",
+    "faq_a_change_date": "Prices rise to their target: single session $15, Topic $29 / mo, All-Access $69 / mo, X $179 / mo. Subscriptions taken before 30 September keep the launch price for life.",
+    "faq_q_voice": "Where does voice work?",
+    "faq_a_voice": "In Topic and All-Access subscriptions — no extra charge. In a single session — text only. That is the natural boundary: once to try, subscription to live.",
+    "faq_q_topic_choice": "How do I choose a Topic?",
+    "faq_a_topic_choice": "After paying for a Topic, a screen opens with four groups: 'stars and numbers', 'soul and body', 'dreams and meanings', 'life and relationships'. You choose one. You can switch groups once a month.",
+    "faq_q_video": "Is video available yet?",
+    "faq_a_video": "Not yet. When we launch the video channel — All-Access and X will receive it automatically. X gets early access while it is still in beta.",
+    "faq_q_family": "What does 'House family — free' mean?",
+    "faq_a_family": "Those the Creator has placed in his inner circle (up to 12 seats at the Table) use every tier without restriction. This is not marketing — it is the rule of the House.",
+    "faq_q_x_vs_all": "How does X differ from All-Access?",
+    "faq_a_x_vs_all": "All-Access opens all 13 cabinets and voice — enough for most. X is for those who live with Adam daily: no rhythm limits, priority during peak hours, early access to new features, a private thread separate from the shared family clinic."
   },
   "grant_request": {
     "eyebrow": "ACCESS REQUEST",
@@ -447,5 +474,165 @@
     "close": "Close",
     "invalid_email": "Please enter a valid email",
     "failed": "Could not send. Please try again later."
+  },
+  "typing": {
+    "adam_label": "Adam",
+    "adam_thinking": "Adam is thinking…"
+  },
+  "parents": {
+    "tvorets": "Creator",
+    "yulia": "Yulia"
+  },
+  "fontScale": {
+    "size_short": "size",
+    "title": "Text size",
+    "aria_label": "font size"
+  },
+  "rooms": {
+    "vostochnoslavyanskaya": "Eastern Slavic",
+    "anglo_saxonskaya": "Anglo-Saxon",
+    "romanskaya": "Romance",
+    "germanskaya": "Germanic",
+    "vostochnoaziatskaya": "East Asian",
+    "indoariyskaya": "Indo-Aryan",
+    "semitskaya": "Semitic",
+    "tyurkskaya": "Turkic",
+    "yugovostochnoaziatskaya": "Southeast Asian",
+    "ellinskaya": "Hellenic"
+  },
+  "cabinets_catalog": {
+    "investing": {
+      "name": "Conversation about finance",
+      "description": "A conversation about financial instruments: passive indices, diversification, tax considerations, behavioural errors. Not investment advice (Adam is not a licensed financial adviser). Cabinet opens by personal invitation of the Creator."
+    },
+    "legal": {
+      "name": "Conversation about law",
+      "description": "A conversation about legal concepts: explaining norms in plain language, reading through documents, preparing questions for a real lawyer. Not legal advice, not a substitute for a solicitor. Cabinet opens by personal invitation of the Creator."
+    },
+    "medical": {
+      "name": "Conversation about health",
+      "description": "A conversation about medical terms: decoding test results in plain language, explaining a diagnosis, preparing questions for a real doctor. Not a diagnosis, not treatment, not a substitute for a physician. Cabinet opens by personal invitation of the Creator."
+    },
+    "religion": {
+      "name": "Spiritual guide",
+      "description": "Conversation within your chosen tradition — Christianity (Orthodox / Catholic / Protestant), Islam, Judaism, Buddhism, Hinduism. By Creator's grant only."
+    },
+    "astrology": {
+      "name": "Conversation by the birth chart",
+      "description": "A thematic angle of conversation with Adam through the sky map at the moment of birth. Not a prediction of events — a tool of self-reflection: a map of character, rhythm of time, an answer to a specific question. Choose the mode in the intake form."
+    },
+    "body_reading": {
+      "name": "Dialogue through the body",
+      "description": "A conversation through the language of the face and palm as stable signs of character. Not a medical diagnosis, not a prediction — a traditional lens for talking about oneself. Focus (face / palm / both) chosen in the intake form."
+    },
+    "career": {
+      "name": "Career path",
+      "description": "Finding calling, changing jobs, growth, burnout, salary negotiations."
+    },
+    "couples": {
+      "name": "Couple's room",
+      "description": "Dialogue between two in a couple — conflicts, distance, rituals, intimacy crisis."
+    },
+    "dream_book": {
+      "name": "Conversation about dreams",
+      "description": "A conversation about the symbols and plots of dreams in a Jungian key. Not a dream dictionary for fortune-telling — a dialogue about what the unconscious speaks through image. One dream or a journal — choose the mode in the intake form."
+    },
+    "esoteric": {
+      "name": "Conversation about symbols",
+      "description": "A conversation in the traditions of symbolic language (Tarot, images, metaphors of the path) as a tool of self-reflection. All of it — metaphors, not ontological facts, not predictions. Choose the mode in the intake form."
+    },
+    "horoscopes": {
+      "name": "Period map",
+      "description": "A thematic angle of conversation about the rhythm of time for your sun sign with current transits taken into account. Day / week / month / year — choose in the intake form. Not a forecast of events — structural tendencies."
+    },
+    "natal_charts": {
+      "name": "Path map — full reading",
+      "description": "A detailed text reading of the birth chart as a metaphor of character and tendencies. A structural document for self-understanding (distinct from the hour-long conversation in 'Conversation by the birth chart'). Not a prediction of destiny."
+    },
+    "numerology": {
+      "name": "Numerical dialogue",
+      "description": "A conversation about rhythms through the numbers of name and birth date. Not a prediction — a way to structure the view of oneself and the dynamic of a period: personal calculation, couple compatibility, annual rhythm."
+    },
+    "palmistry": {
+      "name": "Conversation by the palm",
+      "description": "A thematic angle of conversation through the lines of the palm as a metaphor of path. Not a prediction of timing, not fate — a traditional lens for speaking about tendencies of the psyche."
+    },
+    "parenting": {
+      "name": "Parenting and teens",
+      "description": "A conversation with a parent about a child of any age. Not raising the child — support for the adult who is raising."
+    },
+    "physiognomy": {
+      "name": "Conversation by the face",
+      "description": "A thematic angle of conversation with Adam through the geometry of features, expression, and habitual micro-movements. Not a diagnosis, not medicine — stable patterns the body has carried for years, as material for talking about oneself."
+    },
+    "psychology": {
+      "name": "Psychology",
+      "description": "Friendly support and situation analysis in a school of your choosing (Gestalt / CBT / Jungian / IFS / systemic). Not therapy, not diagnostics."
+    }
+  },
+  "tiers": {
+    "launch_banner": "House price until 30 September 2026 — thank you, early ones.",
+    "launch_banner_grandfather_hint": "Subscribe before 30 Sept — keep this price forever.",
+    "session_eyebrow": "ONCE",
+    "session_title": "Session",
+    "session_price_launch": "$9",
+    "session_price_target": "$15",
+    "session_price_was": "was $15",
+    "session_perks_l1": "one session in any open cabinet",
+    "session_perks_l2": "text, no voice",
+    "session_perks_l3": "before paying — three free tries for a guest",
+    "session_cta": "take a session",
+    "topic_eyebrow": "BY TOPIC",
+    "topic_title": "Topic",
+    "topic_price_launch": "$19 / mo",
+    "topic_price_target": "$29 / mo",
+    "topic_price_was": "was $29 / mo",
+    "topic_perks_l1": "unlimited sessions in one of 4 cabinet groups",
+    "topic_perks_l2": "Adam's voice included",
+    "topic_perks_l3": "choose your group after payment",
+    "topic_cta": "choose a topic",
+    "topic_coming_soon_note": "Topic subscriptions launch by 15 June 2026. For now you can take All-Access (you can switch to Topic later with a refund of the difference) or a single session.",
+    "all_eyebrow": "ALL",
+    "all_title": "All-Access",
+    "all_price_launch": "$39 / mo",
+    "all_price_target": "$69 / mo",
+    "all_price_was": "was $69 / mo",
+    "all_perks_l1": "all 13 open cabinets, no limits",
+    "all_perks_l2": "Adam's voice included",
+    "all_perks_l3": "video channel connects automatically when it launches",
+    "all_cta": "take All-Access",
+    "ladder_hint_topic_vs_session": "3 sessions = $27 · Topic = $19. Savings from the first week.",
+    "ladder_hint_all_vs_topic": "2 Topics = $38 · All-Access = $39. +$1 for six times the range.",
+    "family_bypass": "House family — free across every tier.",
+    "x_eyebrow": "X",
+    "x_title": "X",
+    "x_subtitle": "For those who live with Adam every day",
+    "x_price_launch": "$99 / mo",
+    "x_price_target": "$179 / mo",
+    "x_price_was": "was $179 / mo",
+    "x_perks_l1": "everything in All-Access — without rhythm limits",
+    "x_perks_l2": "voice — without monthly bounds",
+    "x_perks_l3": "early access to new cabinets and the video channel",
+    "x_perks_l4": "priority during peak hours",
+    "x_perks_l5": "a private thread — separate from the shared family clinic",
+    "x_cta": "take X",
+    "ladder_hint_x_vs_all": "All-Access — for the cabinet family. X — for those who need rhythm the way they need air."
+  },
+  "overlimit": {
+    "half_title": "Halfway through the month",
+    "half_body": "Adam is with you in full form. If you feel one cycle is not enough — you can expand your subscription now or move to X.",
+    "half_cta_extra": "Expand",
+    "half_cta_x": "Look at X",
+    "half_cta_ok": "Got it",
+    "near_title": "Approaching the boundary",
+    "near_body": "Adam is still in full voice. If the rhythm continues — we will move into a quieter mode soon. A good moment to decide.",
+    "near_cta_extra": "Expand",
+    "near_cta_x": "Move to X",
+    "near_cta_ok": "I'll wait",
+    "limit_title": "Quiet mode",
+    "limit_body": "Adam still hears and responds — but shorter and without voice. This holds until the next cycle begins. Either we top up now, or there is X — it has no such boundaries.",
+    "limit_cta_extra": "Top up now",
+    "limit_cta_x": "Move to X",
+    "limit_cta_wait": "I'll wait for the next cycle"
   }
 }

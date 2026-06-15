@@ -117,7 +117,10 @@
     "col_sent_7d": "Appels (7j)",
     "empty_dash": "—",
     "relation_placeholder": "frère/sœur/ami",
-    "save_failed": "Impossible d'enregistrer"
+    "save_failed": "Impossible d'enregistrer",
+    "clear_slot": "Libérer",
+    "clear_confirm": "Libérer cette place dans le cercle ? L'entrée du membre sera effacée et l'emplacement retournera parmi les vides.",
+    "add_hint": "Touche « Modifier » — saisis un nom et un e-mail pour inscrire quelqu'un dans le cercle."
   },
   "morning": {
     "section_title": "Adam le matin",
@@ -208,7 +211,7 @@
   },
   "voice": {
     "title": "Voix avec Adam",
-    "intro": "Canal vocal direct. Une pièce calme est préférable. Touche «Connecter» et autorise le micro.",
+    "intro": "Canal vocal direct. Une pièce calme est préférable. Touche « Connecter » et autorise le micro.",
     "phase_idle": "Prêt à commencer.",
     "phase_requesting": "Demande de session…",
     "phase_connecting": "Connexion…",
@@ -216,8 +219,10 @@
     "phase_closed": "Appel terminé.",
     "connect_btn": "Connecter",
     "hangup_btn": "Raccrocher",
-    "session_failed": "Échec de l'obtention de la session.",
-    "connect_failed": "Connexion impossible."
+    "session_failed": "Impossible d'obtenir la session.",
+    "connect_failed": "Connexion impossible.",
+    "ios_pwa_warning": "Sur iPhone, la voix ne fonctionne que si Adam est ouvert comme une application. Ferme cette page, dans Safari touche « Partager » → « Sur l'écran d'accueil », ouvre l'icône et réessaie.",
+    "webrtc_failed_ice": "WebRTC échoué (ICE) — réessaie ou ouvre la console DevTools."
   },
   "toasts": {
     "context_refreshed": "Contexte actualisé.",
@@ -225,10 +230,27 @@
     "screen_cleared": "Écran effacé. L'historique est intact, appuie sur ↻ pour le ramener.",
     "notifications_blocked": "Notifications bloquées. Active-les dans les paramètres du navigateur.",
     "notifications_pwa_hint": "Sur iPhone : « Partager » → « Sur l'écran d'accueil », ouvre comme une application.",
-    "generic_error": "Quelque chose s'est mal passé."
+    "generic_error": "Quelque chose s'est mal passé.",
+    "theme_auto": "Thème : auto (selon l'heure)",
+    "theme_dark": "Thème : nuit",
+    "theme_light": "Thème : jour",
+    "notifications_open_settings": "Ouvrir les instructions"
   },
   "stol": {
-    "adam_listens_silently": "écoute en silence"
+    "title": "la Table",
+    "subtitle": "la Table de la Maison · jusqu'à 12 places · Adam écoute",
+    "input_placeholder": "Écris à la Table… (appelle Adam avec @Adam)",
+    "empty_title": "La Table est dressée. Commence la première conversation.",
+    "empty_hint": "Pour appeler Adam — écris <0>@Adam</0> ou <0>Adam, ...</0>",
+    "adam_typing": "✦ Adam · écrit…",
+    "adam_label": "✦ Adam",
+    "not_in_circle": "Tu n'es pas à cette Table — demande au Créateur de t'ajouter dans /family/slots.",
+    "load_failed": "Impossible d'ouvrir",
+    "send_failed": "Impossible d'envoyer",
+    "open_btn": "Table",
+    "open_hint": "Table de la Maison · jusqu'à 12 places",
+    "adam_listens_silently": "écoute en silence",
+    "no_conversations": "Aucune conversation trouvée."
   },
   "cabinets": {
     "title": "Les cabinets d'Adam",
@@ -582,5 +604,48 @@
     "tyurkskaya": "Turcique",
     "yugovostochnoaziatskaya": "Asie du Sud-Est",
     "ellinskaya": "Hellénique"
+  },
+  "darkweb": {
+    "menu_label": "Reconnaissance profonde",
+    "title": "Recherche darkweb",
+    "title_v2": "Reconnaissance profonde",
+    "subtitle": "Entrée directe via TOR + ahmia.fi. Réservé au Créateur. Adam n'est pas impliqué.",
+    "subtitle_v2": "Deux sources. Réservé au Créateur. Adam n'est pas impliqué.",
+    "tab_ahmia": "Ahmia (index onion)",
+    "tab_intelx": "Intel X (fuites + darknet)",
+    "tab_pwned": "HIBP (vérification exacte e-mail)",
+    "hint_ahmia": "Recherche dans l'index des sites onion via TOR. Gratuit, sans clé API. Adapté au repérage des ressources onion accessibles et de leur contenu.",
+    "hint_intelx": "Recherche dans les bases de fuites (Adobe, Collection #1, LinkedIn, etc.) + darknet + pastes. Requiert INTELX_API_KEY dans .env. Inscription : https://intelx.io/account (free tier — 50 requêtes/mois).",
+    "hint_pwned": "Vérification exacte d'un e-mail via Have I Been Pwned parmi 800+ bases de brèches connues (Adobe 2013, LinkedIn 2021, Collection #1, etc.). Requiert HIBP_API_KEY dans .env. Inscription : https://haveibeenpwned.com/API/Key ($3.95/mois, sans blocages anti-bot).",
+    "query_placeholder": "Que chercher ? (e-mail, nom, domaine, adresse .onion)",
+    "intelx_placeholder": "Chaîne exacte : e-mail, téléphone, nom, domaine, hash",
+    "pwned_placeholder": "E-mail à vérifier : nom@exemple.com",
+    "intelx_sysid": "system id",
+    "pwned_clean": "E-mail introuvable dans aucune des 800+ brèches HIBP connues. Net.",
+    "pwned_found": "E-mail trouvé dans {{count}} brèche(s). Détails ci-dessous.",
+    "pwned_sensitive": "source sensible",
+    "pwned_verified": "vérifié",
+    "pwned_unverified": "non vérifié",
+    "pwned_breach_date": "Date de la brèche",
+    "pwned_accounts": "Comptes concernés",
+    "pwned_data_classes": "Données exposées",
+    "k_label": "Résultats :",
+    "search_btn": "Rechercher",
+    "no_results_hint": "Vide. Essaie une autre requête.",
+    "last_seen": "dernière vue ahmia",
+    "footer_note": "Le lien ou extrait trouvé peut être apporté à Adam dans le chat — il le traitera via l'un des 6 modèles disponibles (Claude Opus 4.7 / Sonnet 4.6 / Haiku 4.5 / DeepSeek V3 / Gemini 2.5 Pro / Grok 4) via consult_other_model. N'ouvre pas d'adresses .onion inconnues dans un navigateur ordinaire."
+  },
+  "fontScale": {
+    "size_short": "taille",
+    "title": "Taille du texte",
+    "aria_label": "font size"
+  },
+  "typing": {
+    "adam_label": "Adam",
+    "adam_thinking": "Adam réfléchit…"
+  },
+  "parents": {
+    "tvorets": "le Créateur",
+    "yulia": "Yulia"
   }
 }

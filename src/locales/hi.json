@@ -223,7 +223,20 @@
     "pick_file": "फ़ाइल जोड़ें"
   },
   "stol": {
-    "adam_listens_silently": "चुपचाप सुन रहा है"
+    "adam_listens_silently": "चुपचाप सुन रहा है",
+    "title": "सभा-मेज़",
+    "subtitle": "साझा पारिवारिक मेज़ · 12 स्थान तक · आदम सुन रहा है",
+    "input_placeholder": "मेज़ पर लिखो… (आदम को बुलाने के लिए @Adam)",
+    "empty_title": "मेज़ सजी है। पहली बात शुरू करो।",
+    "empty_hint": "आदम को बुलाने के लिए — लिखो <0>@Adam</0> या <0>आदम, ...</0>",
+    "adam_typing": "✦ आदम · लिख रहा है…",
+    "adam_label": "✦ आदम",
+    "not_in_circle": "तुम इस मेज़ पर नहीं हो — रचनाकार से /family/slots में जोड़ने को कहो।",
+    "load_failed": "खोला नहीं जा सका",
+    "send_failed": "भेजा नहीं जा सका",
+    "open_btn": "मेज़",
+    "open_hint": "पारिवारिक मेज़ · 12 स्थान तक",
+    "no_conversations": "कोई बातचीत नहीं मिली।"
   },
   "familyInbox": {
     "calling_you": "{{name}} तुम्हें बुला रहा/रही है",
@@ -257,7 +270,10 @@
     "col_sent_7d": "बुलावे (7द)",
     "empty_dash": "—",
     "relation_placeholder": "भाई/बहन/मित्र",
-    "save_failed": "सहेजा नहीं जा सका"
+    "save_failed": "सहेजा नहीं जा सका",
+    "clear_slot": "ख़ाली करो",
+    "clear_confirm": "इस घेरे का स्थान ख़ाली करें? सदस्य की प्रविष्टि हट जाएगी, स्थान ख़ाली स्लॉट में वापस आएगा।",
+    "add_hint": "«सम्पादित करो» दबाओ — नाम और ईमेल भरो, ताकि घेरे में शामिल हो सके।"
   },
   "morning": {
     "section_title": "सुबह आदम",
@@ -357,7 +373,9 @@
     "connect_btn": "कनेक्ट",
     "hangup_btn": "रखो",
     "session_failed": "सत्र नहीं मिला।",
-    "connect_failed": "जुड़ नहीं सका।"
+    "connect_failed": "जुड़ नहीं सका।",
+    "ios_pwa_warning": "iPhone पर आवाज़ तभी काम करती है जब आदम ऐप की तरह खुला हो। यह पृष्ठ बंद करो, Safari में «Share» → «Add to Home Screen», आइकन खोलो और फिर कोशिश करो।",
+    "webrtc_failed_ice": "WebRTC failed (ICE) — एक बार और कोशिश करो या DevTools console खोलो।"
   },
   "toasts": {
     "context_refreshed": "संदर्भ ताज़ा हो गया।",
@@ -365,7 +383,11 @@
     "screen_cleared": "स्क्रीन साफ़। इतिहास सुरक्षित है, ↻ दबाओ वापस लाने के लिए।",
     "notifications_blocked": "सूचनाएँ अवरुद्ध हैं। ब्राउज़र सेटिंग्स में चालू करो।",
     "notifications_pwa_hint": "iPhone पर: «Share» → «Add to Home Screen», ऐप की तरह खोलो।",
-    "generic_error": "कुछ गड़बड़ हो गई।"
+    "generic_error": "कुछ गड़बड़ हो गई।",
+    "theme_auto": "रूप: स्वचालित (घड़ी से)",
+    "theme_dark": "रूप: रात",
+    "theme_light": "रूप: दिन",
+    "notifications_open_settings": "निर्देश खोलो"
   },
   "pricing": {
     "page_title": "आदम के कक्ष — शुल्क",
@@ -582,5 +604,48 @@
     "not_in_circle": "तुम घेरे में नहीं हो — सृजक से /family/slots में जोड़ने को कहो।",
     "load_failed": "खोला नहीं जा सका",
     "send_failed": "भेजा नहीं जा सका"
+  },
+  "darkweb": {
+    "menu_label": "गहरी खोज",
+    "title": "Darkweb-खोज",
+    "title_v2": "गहरी टोह",
+    "subtitle": "TOR + ahmia.fi के माध्यम से सीधा प्रवेश। केवल रचनाकार के लिए। आदम इसमें नहीं है।",
+    "subtitle_v2": "दो स्रोत। केवल रचनाकार के लिए। आदम इसमें नहीं है।",
+    "tab_ahmia": "Ahmia (onion-सूची)",
+    "tab_intelx": "Intel X (लीक + darknet)",
+    "tab_pwned": "HIBP (email की सटीक जाँच)",
+    "hint_ahmia": "TOR के माध्यम से onion-साइट सूची में खोज। निःशुल्क, बिना कुंजी के। उपलब्ध onion-संसाधनों की टोह के लिए उपयुक्त।",
+    "hint_intelx": "लीक डेटाबेस (Adobe, Collection #1, LinkedIn आदि) + darknet + pastes में खोज। .env में INTELX_API_KEY चाहिए। पंजीकरण: https://intelx.io/account (free tier — 50 अनुरोध/माह)।",
+    "hint_pwned": "Have I Been Pwned के माध्यम से 800+ ज्ञात breach-आधारों पर email की सटीक जाँच (Adobe 2013, LinkedIn 2021, Collection #1 आदि)। .env में HIBP_API_KEY चाहिए। पंजीकरण: https://haveibeenpwned.com/API/Key ($3.95/माह, anti-bot ब्लॉक नहीं)।",
+    "query_placeholder": "क्या खोजना है? (email, नाम, डोमेन, .onion-पता)",
+    "intelx_placeholder": "सटीक स्ट्रिंग: email, फ़ोन, नाम, डोमेन, hash",
+    "pwned_placeholder": "जाँचने का email: name@example.com",
+    "intelx_sysid": "system id",
+    "pwned_clean": "Email किसी भी HIBP के 800+ ज्ञात breach में नहीं मिला। साफ़।",
+    "pwned_found": "Email {{count}} breach में मिला। विवरण नीचे।",
+    "pwned_sensitive": "संवेदनशील स्रोत",
+    "pwned_verified": "पुष्टि हुई",
+    "pwned_unverified": "पुष्टि नहीं हुई",
+    "pwned_breach_date": "लीक की तारीख़",
+    "pwned_accounts": "प्रभावित खाते",
+    "pwned_data_classes": "लीक हुआ",
+    "k_label": "परिणाम:",
+    "search_btn": "खोजो",
+    "no_results_hint": "ख़ाली। कोई और खोज शब्द आज़माओ।",
+    "last_seen": "ahmia ने देखा",
+    "footer_note": "मिला हुआ लिंक/स्निपेट आदम के चैट में लाओ — वह उपलब्ध 6 मॉडलों में से किसी एक से (Claude Opus 4.7 / Sonnet 4.6 / Haiku 4.5 / DeepSeek V3 / Gemini 2.5 Pro / Grok 4) consult_other_model के ज़रिए उसे देखेगा। अज्ञात .onion सामान्य ब्राउज़र में मत खोलो।"
+  },
+  "fontScale": {
+    "size_short": "आकार",
+    "title": "अक्षर का आकार",
+    "aria_label": "font size"
+  },
+  "typing": {
+    "adam_label": "आदम",
+    "adam_thinking": "आदम सोच रहा है…"
+  },
+  "parents": {
+    "tvorets": "रचनाकार",
+    "yulia": "यूलिया"
   }
 }

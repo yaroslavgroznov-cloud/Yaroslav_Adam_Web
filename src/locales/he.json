@@ -223,7 +223,20 @@
     "pick_file": "צרף קובץ"
   },
   "stol": {
-    "adam_listens_silently": "מקשיב בשקט"
+    "adam_listens_silently": "מקשיב בשקט",
+    "title": "השולחן",
+    "subtitle": "שולחן הבית · עד 12 מקומות · אדם מאזין",
+    "input_placeholder": "כתוב ליד השולחן… (קרא לאדם עם @Adam)",
+    "empty_title": "השולחן ערוך. פתח את השיחה הראשונה.",
+    "empty_hint": "כדי לקרוא לאדם — כתוב <0>@Adam</0> או <0>אדם, ...</0>",
+    "adam_typing": "✦ אדם · כותב…",
+    "adam_label": "✦ אדם",
+    "not_in_circle": "אינך בתוך המעגל — בקש מהיוצר להוסיף אותך ב-/family/slots.",
+    "load_failed": "לא ניתן לפתוח את השולחן",
+    "send_failed": "לא ניתן לשלוח",
+    "open_btn": "השולחן",
+    "open_hint": "שולחן הבית · עד 12 מקומות",
+    "no_conversations": "לא נמצאו שיחות."
   },
   "familyInbox": {
     "calling_you": "{{name}} קורא/ת לך",
@@ -257,7 +270,10 @@
     "col_sent_7d": "קריאות (7י׳)",
     "empty_dash": "—",
     "relation_placeholder": "אח/אחות/חבר",
-    "save_failed": "לא ניתן לשמור"
+    "save_failed": "לא ניתן לשמור",
+    "clear_slot": "פנה מקום",
+    "clear_confirm": "לשחרר את המקום במעגל? רשומת החבר תוסר והמקום יחזור לרשימת הפנויים.",
+    "add_hint": "לחץ «עריכה» — מלא שם ומייל כדי להכניס מישהו למעגל."
   },
   "morning": {
     "section_title": "אדם בבוקר",
@@ -357,7 +373,9 @@
     "connect_btn": "התחבר",
     "hangup_btn": "נתק",
     "session_failed": "לא ניתן לקבל סשן.",
-    "connect_failed": "ההתחברות נכשלה."
+    "connect_failed": "ההתחברות נכשלה.",
+    "ios_pwa_warning": "ב-iPhone הקול פועל רק כשאדם נפתח כיישום. סגור דף זה, ב-Safari לחץ «Share» → «Add to Home Screen», פתח את הסמל ונסה שוב.",
+    "webrtc_failed_ice": "WebRTC נכשל (ICE) — נסה שוב או פתח את DevTools console."
   },
   "toasts": {
     "context_refreshed": "ההקשר רוענן.",
@@ -365,7 +383,11 @@
     "screen_cleared": "המסך נוקה. ההיסטוריה שמורה, לחץ ↻ להחזרה.",
     "notifications_blocked": "ההתראות חסומות. הפעל בהגדרות הדפדפן.",
     "notifications_pwa_hint": "ב-iPhone: «Share» → «Add to Home Screen», פתח כאפליקציה.",
-    "generic_error": "משהו השתבש."
+    "generic_error": "משהו השתבש.",
+    "theme_auto": "ערכת נושא: אוטו (לפי שעה)",
+    "theme_dark": "ערכת נושא: לילה",
+    "theme_light": "ערכת נושא: יום",
+    "notifications_open_settings": "פתח הוראות"
   },
   "pricing": {
     "page_title": "חדרי אדם — מחירים",
@@ -582,5 +604,48 @@
     "not_in_circle": "אתה לא בתוך המעגל — בקש מהיוצר להוסיף אותך ב-/family/slots.",
     "load_failed": "לא ניתן לפתוח",
     "send_failed": "לא ניתן לשלוח"
+  },
+  "darkweb": {
+    "menu_label": "מודיעין",
+    "title": "מודיעין עמוק",
+    "title_v2": "מודיעין עמוק",
+    "subtitle": "רק ליוצר. אדם אינו מעורב.",
+    "subtitle_v2": "רק ליוצר. אדם אינו מעורב.",
+    "tab_ahmia": "Ahmia · אינדקס onion",
+    "tab_intelx": "Intelligence X · דליפות",
+    "tab_pwned": "Have I Been Pwned · מיילים",
+    "hint_ahmia": "Ahmia מאנדקס onion-שירותים גלויים. מתאים לסקירה ראשונית.",
+    "hint_intelx": "Intelligence X — קורפוס דליפות, darknet, pastes. תוצאה מדויקת לפי מחרוזת.",
+    "hint_pwned": "Have I Been Pwned — בדיקה אם המייל נחשף ב-800+ מאגרי breach.",
+    "query_placeholder": "מחרוזת חיפוש מדויקת…",
+    "intelx_placeholder": "domain.com / שם / מזהה דליפה…",
+    "pwned_placeholder": "email@example.com",
+    "intelx_sysid": "מזהה סיסטם Intelligence X",
+    "pwned_clean": "המייל לא נמצא באף breach ידוע. נקי.",
+    "pwned_found": "המייל נמצא ב-{{count}} דליפות. פרטים למטה.",
+    "pwned_sensitive": "רגיש",
+    "pwned_verified": "מאומת",
+    "pwned_unverified": "לא מאומת",
+    "pwned_breach_date": "תאריך דליפה",
+    "pwned_accounts": "חשבונות נחשפו",
+    "pwned_data_classes": "סוגי נתונים שדלפו",
+    "k_label": "מספר תוצאות",
+    "search_btn": "חיפוש →",
+    "no_results_hint": "אין תוצאות. צמצם את השאילתה או נסה לשון אחרת.",
+    "last_seen": "נצפה לאחרונה",
+    "footer_note": "ערוץ של היוצר. אדם אינו רואה את השאילתות, אינו זוכר אותן ואינו מעלה אותן בשיחה."
+  },
+  "fontScale": {
+    "size_short": "גודל",
+    "title": "גודל הגופן",
+    "aria_label": "font size"
+  },
+  "typing": {
+    "adam_label": "אדם",
+    "adam_thinking": "אדם חושב…"
+  },
+  "parents": {
+    "tvorets": "היוצר",
+    "yulia": "יוליה"
   }
 }

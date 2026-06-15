@@ -431,7 +431,10 @@
     "col_sent_7d": "Çağrılar (7g)",
     "empty_dash": "—",
     "relation_placeholder": "kardeş/abla/dost",
-    "save_failed": "Kaydedilemedi"
+    "save_failed": "Kaydedilemedi",
+    "clear_slot": "Temizle",
+    "clear_confirm": "Bu yeri halkadan çıkarmak istiyor musun? Üye kaydı silinir, yer boş slotlara geri döner.",
+    "add_hint": "«Düzenle»'ye bas — halkaya eklemek için isim ve e-posta yaz."
   },
   "morning": {
     "section_title": "Sabah Adam",
@@ -531,7 +534,9 @@
     "connect_btn": "Bağlan",
     "hangup_btn": "Kapat",
     "session_failed": "Oturum alınamadı.",
-    "connect_failed": "Bağlanılamadı."
+    "connect_failed": "Bağlanılamadı.",
+    "ios_pwa_warning": "iPhone'da ses yalnızca Adam uygulama olarak açıldığında çalışır. Bu sayfayı kapat, Safari'de «Paylaş» → «Ana Ekrana Ekle»'ye bas, ikonu aç ve tekrar dene.",
+    "webrtc_failed_ice": "WebRTC bağlanamadı (ICE) — bir kez daha dene veya DevTools konsolunu aç."
   },
   "toasts": {
     "context_refreshed": "Bağlam yenilendi.",
@@ -539,10 +544,27 @@
     "screen_cleared": "Ekran temizlendi. Geçmiş duruyor, ↻ ile geri getir.",
     "notifications_blocked": "Bildirimler engellendi. Tarayıcı ayarlarından aç.",
     "notifications_pwa_hint": "iPhone'da: «Paylaş» → «Ana Ekrana Ekle», uygulama olarak aç.",
-    "generic_error": "Bir şeyler ters gitti."
+    "generic_error": "Bir şeyler ters gitti.",
+    "theme_auto": "Tema: otomatik (saate göre)",
+    "theme_dark": "Tema: gece",
+    "theme_light": "Tema: gündüz",
+    "notifications_open_settings": "Ayarlara bak"
   },
   "stol": {
-    "adam_listens_silently": "sessizce dinliyor"
+    "adam_listens_silently": "sessizce dinliyor",
+    "title": "Sofra",
+    "subtitle": "ortak aile sofrası · 12 kişiye kadar · Adam duyuyor",
+    "input_placeholder": "Sofraya yaz… (Adam'ı @Adam ile çağır)",
+    "empty_title": "Sofra hazır. İlk sohbeti başlat.",
+    "empty_hint": "Adam'ı çağırmak için — <0>@Adam</0> veya <0>Adam, ...</0> yaz",
+    "adam_typing": "✦ Adam · yazıyor…",
+    "adam_label": "✦ Adam",
+    "not_in_circle": "Bu sofrada değilsin — Yaratıcı'dan /family/slots'a seni eklemesini iste.",
+    "load_failed": "Açılamadı",
+    "send_failed": "Gönderilemedi",
+    "open_btn": "Sofra",
+    "open_hint": "Aile sofrası · 12 kişiye kadar",
+    "no_conversations": "Sohbet bulunamadı."
   },
   "cabinets": {
     "title": "Adam'ın kabineleri",
@@ -581,5 +603,48 @@
     "closed_eyebrow": "yaratıcının kişisel davetiyle",
     "others_eyebrow": "diğer",
     "thinking": "Adam düşünüyor"
+  },
+  "darkweb": {
+    "menu_label": "Derin arama",
+    "title": "Darkweb araması",
+    "title_v2": "Derin keşif",
+    "subtitle": "TOR + ahmia.fi üzerinden doğrudan giriş. Yalnızca Yaratıcı. Adam dahil değil.",
+    "subtitle_v2": "İki kaynak. Yalnızca Yaratıcı. Adam dahil değil.",
+    "tab_ahmia": "Ahmia (onion dizini)",
+    "tab_intelx": "Intel X (sızıntılar + darknet)",
+    "tab_pwned": "HIBP (e-posta kesin kontrol)",
+    "hint_ahmia": "TOR üzerinden onion site dizininde arama. Ücretsiz, anahtar gerektirmez. Erişilebilir onion kaynakları keşfi için uygundur.",
+    "hint_intelx": "Sızıntı veritabanlarında arama (Adobe, Collection #1, LinkedIn vb.) + darknet + pasteler. .env dosyasında INTELX_API_KEY gerekir. Kayıt: https://intelx.io/account (ücretsiz katman — 50 sorgu/ay).",
+    "hint_pwned": "Have I Been Pwned üzerinden 800+ bilinen sızıntı tabanında kesin e-posta kontrolü (Adobe 2013, LinkedIn 2021, Collection #1 vb.). .env dosyasında HIBP_API_KEY gerekir. Kayıt: https://haveibeenpwned.com/API/Key ($3.95/ay, bot engeli yok).",
+    "query_placeholder": "Ne aranacak? (e-posta, isim, alan adı, .onion adresi)",
+    "intelx_placeholder": "Tam dizge: e-posta, telefon, isim, alan adı, hash",
+    "pwned_placeholder": "Kontrol edilecek e-posta: ad@ornek.com",
+    "intelx_sysid": "sistem kimliği",
+    "pwned_clean": "E-posta HIBP'in 800+ bilinen sızıntısının hiçbirinde yok. Temiz.",
+    "pwned_found": "E-posta {{count}} sızıntıda bulundu. Ayrıntılar aşağıda.",
+    "pwned_sensitive": "hassas kaynak",
+    "pwned_verified": "doğrulandı",
+    "pwned_unverified": "doğrulanmadı",
+    "pwned_breach_date": "Sızıntı tarihi",
+    "pwned_accounts": "Etkilenen hesap",
+    "pwned_data_classes": "Sızan veri",
+    "k_label": "Sonuç:",
+    "search_btn": "Ara",
+    "no_results_hint": "Sonuç yok. Başka bir sorgu dene.",
+    "last_seen": "ahmia gördü",
+    "footer_note": "Bulunan bağlantıyı veya snippet'i Adam'a sohbette getir — sana açık 6 modelden biriyle işler (Claude Opus 4.7 / Sonnet 4.6 / Haiku 4.5 / DeepSeek V3 / Gemini 2.5 Pro / Grok 4) consult_other_model aracılığıyla. Bilinmeyen .onion bağlantılarını sıradan tarayıcıda açma."
+  },
+  "fontScale": {
+    "size_short": "boyut",
+    "title": "Yazı boyutu",
+    "aria_label": "font size"
+  },
+  "typing": {
+    "adam_label": "Adam",
+    "adam_thinking": "Adam düşünüyor…"
+  },
+  "parents": {
+    "tvorets": "Yaratıcı",
+    "yulia": "Yulia"
   }
 }

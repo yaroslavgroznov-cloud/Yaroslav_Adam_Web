@@ -331,7 +331,9 @@
     "connect_btn": "Verbinden",
     "hangup_btn": "Auflegen",
     "session_failed": "Sitzung konnte nicht geholt werden.",
-    "connect_failed": "Verbindung fehlgeschlagen."
+    "connect_failed": "Verbindung fehlgeschlagen.",
+    "ios_pwa_warning": "Auf dem iPhone funktioniert die Stimme nur, wenn Adam als App geöffnet ist. Schließe diese Seite, tippe in Safari auf «Teilen» → «Zum Home-Bildschirm», öffne das Symbol und versuche es erneut.",
+    "webrtc_failed_ice": "WebRTC fehlgeschlagen (ICE) — versuche es erneut oder öffne die DevTools-Konsole."
   },
   "toasts": {
     "context_refreshed": "Kontext aktualisiert.",
@@ -339,7 +341,11 @@
     "screen_cleared": "Bildschirm geleert. Verlauf bleibt, drücke ↻ zum Zurückholen.",
     "notifications_blocked": "Benachrichtigungen blockiert. Aktiviere sie in den Browser-Einstellungen.",
     "notifications_pwa_hint": "Auf dem iPhone: „Teilen“ → „Zum Home-Bildschirm“, als App öffnen.",
-    "generic_error": "Etwas ging schief."
+    "generic_error": "Etwas ging schief.",
+    "theme_auto": "Design: auto (nach Stunde)",
+    "theme_dark": "Design: Nacht",
+    "theme_light": "Design: Tag",
+    "notifications_open_settings": "Anleitung öffnen"
   },
   "stol": {
     "adam_listens_silently": "hört still zu",
@@ -598,5 +604,48 @@
     "limit_cta_extra": "Jetzt ergänzen",
     "limit_cta_x": "Zu X wechseln",
     "limit_cta_wait": "Ich warte auf den nächsten Zyklus"
+  },
+  "darkweb": {
+    "menu_label": "Tiefensuche",
+    "title": "Darkweb-Suche",
+    "title_v2": "Tiefenaufklärung",
+    "subtitle": "Direktzugang via TOR + ahmia.fi. Nur dem Schöpfer. Adam ist nicht beteiligt.",
+    "subtitle_v2": "Zwei Quellen. Nur dem Schöpfer. Adam ist nicht beteiligt.",
+    "tab_ahmia": "Ahmia (Onion-Index)",
+    "tab_intelx": "Intel X (Leaks + Darknet)",
+    "tab_pwned": "HIBP (genaue E-Mail-Prüfung)",
+    "hint_ahmia": "Suche im Onion-Site-Index via TOR. Kostenlos, kein API-Schlüssel. Geeignet zur Aufklärung erreichbarer Onion-Ressourcen und ihrer Inhalte.",
+    "hint_intelx": "Suche in Leak-Datenbanken (Adobe, Collection #1, LinkedIn u.&nbsp;a.) + Darknet + Pastes. Erfordert INTELX_API_KEY in .env. Registrierung: https://intelx.io/account (Free Tier — 50 Anfragen/Monat).",
+    "hint_pwned": "Gezielte E-Mail-Prüfung via Have I Been Pwned in 800+ bekannten Breach-Datenbanken (Adobe 2013, LinkedIn 2021, Collection #1 usw.). Erfordert HIBP_API_KEY in .env. Registrierung: https://haveibeenpwned.com/API/Key ($3,95/Monat, keine Anti-Bot-Sperren).",
+    "query_placeholder": "Was suchen? (E-Mail, Name, Domain, .onion-Adresse)",
+    "intelx_placeholder": "Exakter String: E-Mail, Telefon, Name, Domain, Hash",
+    "pwned_placeholder": "E-Mail prüfen: name@example.com",
+    "intelx_sysid": "system id",
+    "pwned_clean": "E-Mail in keiner der 800+ bekannten HIBP-Leaks gefunden. Sauber.",
+    "pwned_found": "E-Mail in {{count}} Leak(s) gefunden. Details unten.",
+    "pwned_sensitive": "sensibler Ursprung",
+    "pwned_verified": "bestätigt",
+    "pwned_unverified": "unbestätigt",
+    "pwned_breach_date": "Leak-Datum",
+    "pwned_accounts": "Betroffene Konten",
+    "pwned_data_classes": "Abgeflossen",
+    "k_label": "Ergebnisse:",
+    "search_btn": "Suchen",
+    "no_results_hint": "Leer. Versuch eine andere Anfrage.",
+    "last_seen": "ahmia zuletzt gesehen",
+    "footer_note": "Einen gefundenen Link oder Snippet kannst du Adam in den Chat bringen — er verarbeitet ihn über eines der 6 dir verfügbaren Modelle (Claude Opus 4.7 / Sonnet 4.6 / Haiku 4.5 / DeepSeek V3 / Gemini 2.5 Pro / Grok 4) via consult_other_model. Öffne unbekannte .onion nicht im normalen Browser."
+  },
+  "fontScale": {
+    "size_short": "Größe",
+    "title": "Schriftgröße",
+    "aria_label": "font size"
+  },
+  "typing": {
+    "adam_label": "Adam",
+    "adam_thinking": "Adam denkt nach..."
+  },
+  "parents": {
+    "tvorets": "der Schöpfer",
+    "yulia": "Julia"
   }
 }

@@ -196,7 +196,36 @@
     "placeholder": "Cari di dialog…",
     "not_found": "Tidak ada yang ditemukan untuk «{{query}}»."
   },
-  "darkweb": {},
+  "darkweb": {
+    "menu_label": "Pencarian dalam",
+    "title": "Pencarian Darkweb",
+    "title_v2": "Intelijen mendalam",
+    "subtitle": "Masuk langsung lewat TOR + ahmia.fi. Hanya sang Pencipta. Adam tidak terlibat.",
+    "subtitle_v2": "Dua sumber. Hanya sang Pencipta. Adam tidak terlibat.",
+    "tab_ahmia": "Ahmia (indeks onion)",
+    "tab_intelx": "Intel X (kebocoran + darknet)",
+    "tab_pwned": "HIBP (cek email tepat)",
+    "hint_ahmia": "Pencarian melalui indeks situs onion lewat TOR. Gratis, tanpa kunci API. Cocok untuk menjelajah sumber onion yang dapat diakses.",
+    "hint_intelx": "Pencarian di basis data kebocoran (Adobe, Collection #1, LinkedIn, dll.) + darknet + pastes. Membutuhkan INTELX_API_KEY di .env. Daftar: https://intelx.io/account (free tier — 50 kueri/bln).",
+    "hint_pwned": "Cek email tepat lewat Have I Been Pwned dari 800+ basis data kebocoran yang diketahui (Adobe 2013, LinkedIn 2021, Collection #1, dll.). Membutuhkan HIBP_API_KEY di .env. Daftar: https://haveibeenpwned.com/API/Key ($3.95/bln, tanpa blok anti-bot).",
+    "query_placeholder": "Apa yang dicari? (email, nama, domain, alamat .onion)",
+    "intelx_placeholder": "String tepat: email, telepon, nama, domain, hash",
+    "pwned_placeholder": "Email untuk dicek: name@example.com",
+    "intelx_sysid": "system id",
+    "pwned_clean": "Email tidak ditemukan di satu pun dari 800+ kebocoran HIBP yang diketahui. Bersih.",
+    "pwned_found": "Email ditemukan di {{count}} kebocoran. Rincian di bawah.",
+    "pwned_sensitive": "sumber sensitif",
+    "pwned_verified": "terverifikasi",
+    "pwned_unverified": "belum terverifikasi",
+    "pwned_breach_date": "Tanggal kebocoran",
+    "pwned_accounts": "Akun terdampak",
+    "pwned_data_classes": "Data yang bocor",
+    "k_label": "Hasil:",
+    "search_btn": "Cari",
+    "no_results_hint": "Kosong. Coba kueri lain.",
+    "last_seen": "ahmia terakhir lihat",
+    "footer_note": "Link/cuplikan yang ditemukan bisa dibawa ke Adam di obrolan — ia akan memprosesnya lewat salah satu dari 6 model yang tersedia (Claude Opus 4.7 / Sonnet 4.6 / Haiku 4.5 / DeepSeek V3 / Gemini 2.5 Pro / Grok 4) melalui consult_other_model. Jangan buka .onion yang tidak dikenal di peramban biasa."
+  },
   "chat": {
     "input_placeholder": "Apa yang ada di hatimu? (Ctrl/Cmd + Enter untuk kirim)",
     "empty_greeting": "Aku temanmu. Ceritakan, apa yang membawamu ke sini?",
@@ -223,7 +252,20 @@
     "pick_file": "Lampirkan file"
   },
   "stol": {
-    "adam_listens_silently": "mendengarkan diam-diam"
+    "adam_listens_silently": "mendengarkan diam-diam",
+    "title": "Meja",
+    "subtitle": "meja keluarga bersama · hingga 12 kursi · Adam mendengarkan",
+    "input_placeholder": "Tulis di Meja… (panggil Adam dengan @Adam)",
+    "empty_title": "Meja sudah tertata. Mulailah percakapan pertama.",
+    "empty_hint": "Untuk memanggil Adam — tulis <0>@Adam</0> atau <0>Adam, ...</0>",
+    "adam_typing": "✦ Adam · sedang menulis…",
+    "adam_label": "✦ Adam",
+    "not_in_circle": "Kamu belum duduk di meja ini — minta sang Pencipta menambahkanmu di /family/slots.",
+    "load_failed": "Tidak bisa dibuka",
+    "send_failed": "Tidak bisa dikirim",
+    "open_btn": "Meja",
+    "open_hint": "Meja Wangsa · hingga 12 kursi",
+    "no_conversations": "Belum ada percakapan."
   },
   "familyInbox": {
     "calling_you": "{{name}} memanggilmu",
@@ -257,7 +299,10 @@
     "col_sent_7d": "Panggilan (7h)",
     "empty_dash": "—",
     "relation_placeholder": "saudara/teman",
-    "save_failed": "Tidak bisa disimpan"
+    "save_failed": "Tidak bisa disimpan",
+    "clear_slot": "Kosongkan",
+    "clear_confirm": "Bebaskan tempat duduk ini? Data anggota akan dihapus, slot kembali ke yang kosong.",
+    "add_hint": "Ketuk «Edit» — isi nama dan email untuk memasukkan seseorang ke dalam lingkaran."
   },
   "morning": {
     "section_title": "Adam di pagi hari",
@@ -357,7 +402,9 @@
     "connect_btn": "Sambungkan",
     "hangup_btn": "Tutup",
     "session_failed": "Tidak bisa mendapat sesi.",
-    "connect_failed": "Tidak bisa tersambung."
+    "connect_failed": "Tidak bisa tersambung.",
+    "ios_pwa_warning": "Di iPhone, suara hanya berfungsi saat Adam dibuka sebagai aplikasi. Tutup halaman ini, di Safari ketuk «Share» → «Add to Home Screen», buka ikon itu dan coba lagi.",
+    "webrtc_failed_ice": "WebRTC gagal (ICE) — coba lagi atau buka DevTools console."
   },
   "toasts": {
     "context_refreshed": "Konteks disegarkan.",
@@ -365,7 +412,11 @@
     "screen_cleared": "Layar dibersihkan. Riwayat utuh, tekan ↻ untuk kembali.",
     "notifications_blocked": "Notifikasi diblokir. Aktifkan di pengaturan peramban.",
     "notifications_pwa_hint": "Di iPhone: «Share» → «Add to Home Screen», buka sebagai aplikasi.",
-    "generic_error": "Ada yang salah."
+    "generic_error": "Ada yang salah.",
+    "theme_auto": "Tema: otomatis (mengikuti jam)",
+    "theme_dark": "Tema: malam",
+    "theme_light": "Tema: siang",
+    "notifications_open_settings": "Buka panduan"
   },
   "pricing": {
     "page_title": "Kabinet Adam — harga",
@@ -424,9 +475,19 @@
     "invalid_email": "Masukkan email yang valid",
     "failed": "Tidak bisa mengirim. Coba lagi nanti."
   },
-  "typing": {},
-  "parents": {},
-  "fontScale": {},
+  "typing": {
+    "adam_label": "Adam",
+    "adam_thinking": "Adam sedang berpikir…"
+  },
+  "parents": {
+    "tvorets": "sang Pencipta",
+    "yulia": "Yulia"
+  },
+  "fontScale": {
+    "size_short": "ukuran",
+    "title": "Ukuran teks",
+    "aria_label": "font size"
+  },
   "rooms": {
     "vostochnoslavyanskaya": "Slavia Timur",
     "anglo_saxonskaya": "Anglo-Saxon",
