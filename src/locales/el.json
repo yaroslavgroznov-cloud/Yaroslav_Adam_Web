@@ -208,7 +208,15 @@
     "tier_all_access_desc": "Όλα τα 13 ανοικτά γραφεία χωρίς όρια",
     "tier_x_label": "X",
     "tier_x_name": "X",
-    "tier_x_desc": "Φωνή — χωρίς μηνιαία πλαίσια"
+    "tier_x_desc": "Φωνή — χωρίς μηνιαία πλαίσια",
+    "payment_methods_label": "Τρόπος πληρωμής",
+    "pay_paddle": "Κάρτα (κόσμος)",
+    "pay_paddle_hint": "Visa/Mastercard διεθνώς",
+    "pay_liqpay": "Κάρτα UA",
+    "pay_liqpay_hint": "Ουκρανικές κάρτες μέσω PrivatBank",
+    "pay_lemon": "Lemon (δοκιμή)",
+    "pay_lemon_hint": "Lemon Squeezy — λειτουργία δοκιμής",
+    "provider_verifying": "Ο πάροχος πληρωμής επαληθεύεται. Σύντομα διαθέσιμος."
   },
   "search": {
     "placeholder": "Αναζήτηση στον διάλογο…",

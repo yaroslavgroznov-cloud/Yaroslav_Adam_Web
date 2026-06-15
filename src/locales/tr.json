@@ -619,7 +619,15 @@
     "tier_all_access_desc": "13 açık kabinetin tümü sınırsız",
     "tier_x_label": "X",
     "tier_x_name": "X",
-    "tier_x_desc": "Ses — aylık çerçeveler olmadan"
+    "tier_x_desc": "Ses — aylık çerçeveler olmadan",
+    "payment_methods_label": "Ödeme yöntemi",
+    "pay_paddle": "Kart (dünya)",
+    "pay_paddle_hint": "Visa/Mastercard global",
+    "pay_liqpay": "Kart UA",
+    "pay_liqpay_hint": "PrivatBank ile Ukrayna kartları",
+    "pay_lemon": "Lemon (test)",
+    "pay_lemon_hint": "Lemon Squeezy — test modu",
+    "provider_verifying": "Ödeme sağlayıcısı doğrulanıyor. Yakında aktif olacak."
   },
   "darkweb": {
     "menu_label": "Derin arama",

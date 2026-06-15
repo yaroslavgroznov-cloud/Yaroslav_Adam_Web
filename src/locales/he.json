@@ -208,7 +208,15 @@
     "tier_all_access_desc": "כל 13 הקבינטים הפתוחים ללא הגבלה",
     "tier_x_label": "X",
     "tier_x_name": "X",
-    "tier_x_desc": "קול — ללא מסגרות חודשיות"
+    "tier_x_desc": "קול — ללא מסגרות חודשיות",
+    "payment_methods_label": "אמצעי תשלום",
+    "pay_paddle": "כרטיס (עולמי)",
+    "pay_paddle_hint": "Visa/Mastercard עולמי",
+    "pay_liqpay": "כרטיס UA",
+    "pay_liqpay_hint": "כרטיסים אוקראיניים דרך PrivatBank",
+    "pay_lemon": "Lemon (בדיקה)",
+    "pay_lemon_hint": "Lemon Squeezy — מצב בדיקה",
+    "provider_verifying": "ספק התשלום בתהליך אימות. נפעיל בקרוב."
   },
   "search": {
     "placeholder": "חיפוש בשיחה…",

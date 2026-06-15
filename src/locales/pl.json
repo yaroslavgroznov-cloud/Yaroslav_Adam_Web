@@ -207,7 +207,15 @@
     "tier_all_access_desc": "Wszystkie 13 otwartych gabinetów bez limitów",
     "tier_x_label": "X",
     "tier_x_name": "X",
-    "tier_x_desc": "Głos — bez miesięcznych ram"
+    "tier_x_desc": "Głos — bez miesięcznych ram",
+    "payment_methods_label": "Sposób płatności",
+    "pay_paddle": "Karta (świat)",
+    "pay_paddle_hint": "Visa/Mastercard globalnie",
+    "pay_liqpay": "Karta UA",
+    "pay_liqpay_hint": "Karty ukraińskie przez PrivatBank",
+    "pay_lemon": "Lemon (test)",
+    "pay_lemon_hint": "Lemon Squeezy — tryb testowy",
+    "provider_verifying": "Dostawca płatności jest weryfikowany. Wkrótce uruchomimy."
   },
   "stol": {
     "adam_listens_silently": "słucha w ciszy",

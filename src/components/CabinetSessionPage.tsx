@@ -64,6 +64,9 @@ export function CabinetSessionPage(): React.ReactElement {
   // занимают слишком много места — diog уменьшается. Сворачиваем оба по умолчанию;
   // тап на тонкую mini-bar разворачивает. На desktop (md:) логика игнорируется.
   const [mobileExpanded, setMobileExpanded] = useState(false)
+  // Тост «в верификации» — на клик кнопки оплаты провайдера который ещё не
+  // настроен (backend вернёт next_action.type === 'not_configured').
+  const [verifyToast, setVerifyToast] = useState<string>('')
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const endRef = useRef<HTMLDivElement | null>(null)
 
@@ -168,6 +171,71 @@ export function CabinetSessionPage(): React.ReactElement {
       const url = (res.next_action as { checkout_url?: string } | null)?.checkout_url
       if (url) window.location.href = url
       else setError(t('cabinets.payment_init_failed'))
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'error')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  // Универсальный обработчик клика кнопки оплаты. Распознаёт not_configured
+  // и показывает тост «в верификации» вместо ошибки. Иначе следует за
+  // checkout_url (LS/Paddle) или form (LiqPay).
+  async function payViaProvider(
+    provider: 'lemon_squeezy' | 'paddle' | 'liqpay',
+    mode: 'session' | 'subscription' = 'session',
+  ): Promise<void> {
+    if (!cabinet || !session) return
+    setBusy(true); setError(''); setVerifyToast('')
+    try {
+      const amount = mode === 'subscription'
+        ? (cabinet.price_usd_subscription_monthly ?? cabinet.price_usd_session)
+        : cabinet.price_usd_session
+      const res = await paymentInitiate({
+        kind: mode === 'subscription' ? 'subscription' : 'cabinet_session',
+        provider,
+        amount_usd: amount,
+        cabinet_session_id: session.id,
+        cabinet_slug: cabinet.slug,
+        mode,
+      })
+      const na = res.next_action as {
+        type?: string
+        checkout_url?: string
+        action?: string
+        fields?: Record<string, string>
+        message?: string
+      } | null
+
+      // Не настроен на бэке — тост «в верификации», не error.
+      if (na?.type === 'not_configured') {
+        setVerifyToast(t('cabinets.provider_verifying', { defaultValue: 'Платіжний сервіс у верифікації. Скоро увімкнемо.' }))
+        setTimeout(() => setVerifyToast(''), 5000)
+        return
+      }
+
+      // LS / Paddle — checkout URL
+      if (na?.checkout_url) {
+        window.location.href = na.checkout_url
+        return
+      }
+
+      // LiqPay — auto-submit form to action_url
+      if (na?.action && na.fields) {
+        const form = document.createElement('form')
+        form.method = 'POST'
+        form.action = na.action
+        for (const [k, v] of Object.entries(na.fields)) {
+          const inp = document.createElement('input')
+          inp.type = 'hidden'; inp.name = k; inp.value = v
+          form.appendChild(inp)
+        }
+        document.body.appendChild(form)
+        form.submit()
+        return
+      }
+
+      setError(t('cabinets.payment_init_failed'))
     } catch (e) {
       setError(e instanceof Error ? e.message : 'error')
     } finally {
@@ -655,22 +723,90 @@ export function CabinetSessionPage(): React.ReactElement {
               </button>
             </div>
 
-            {/* Альтернативный способ — крипто (USDT TRC20) для любых сумм */}
-            <div className="flex flex-wrap gap-3 mb-3">
-              <button
-                type="button"
-                onClick={() => void payCrypto()}
-                disabled={busy}
-                className="rounded-md border italic disabled:opacity-50"
-                style={{
-                  padding: '8px 16px', fontSize: '13px', fontFamily: 'inherit',
-                  backgroundColor: 'transparent',
-                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
-                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                }}
-              >
-                {t('cabinets.pay_crypto')}
-              </button>
+            {/* Способи оплати — 4 провайдери. Paddle/LiqPay у верифікації — клік
+                покаже тост, не помилку. LS і крипто живі (LS test-mode). */}
+            <div className="mt-2 mb-3">
+              <div className="italic mb-2" style={{ fontSize: '12px', opacity: 0.6, letterSpacing: '0.06em' }}>
+                {t('cabinets.payment_methods_label', { defaultValue: 'Спосіб оплати' })}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => void payViaProvider('paddle', 'session')}
+                  disabled={busy}
+                  className="rounded-md border italic disabled:opacity-50"
+                  style={{
+                    padding: '8px 14px', fontSize: '13px', fontFamily: 'inherit',
+                    backgroundColor: 'transparent',
+                    color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                    borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  }}
+                  title={t('cabinets.pay_paddle_hint', { defaultValue: 'Картка (світ)' })}
+                >
+                  {t('cabinets.pay_paddle', { defaultValue: 'Картка (світ)' })}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void payViaProvider('liqpay', 'session')}
+                  disabled={busy}
+                  className="rounded-md border italic disabled:opacity-50"
+                  style={{
+                    padding: '8px 14px', fontSize: '13px', fontFamily: 'inherit',
+                    backgroundColor: 'transparent',
+                    color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                    borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  }}
+                  title={t('cabinets.pay_liqpay_hint', { defaultValue: 'Картка Україна (ПриватБанк)' })}
+                >
+                  {t('cabinets.pay_liqpay', { defaultValue: 'Картка UA' })}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void payViaProvider('lemon_squeezy', 'session')}
+                  disabled={busy}
+                  className="rounded-md border italic disabled:opacity-50"
+                  style={{
+                    padding: '8px 14px', fontSize: '13px', fontFamily: 'inherit',
+                    backgroundColor: 'transparent',
+                    color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                    borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  }}
+                  title={t('cabinets.pay_lemon_hint', { defaultValue: 'Lemon Squeezy (тестовий)' })}
+                >
+                  {t('cabinets.pay_lemon', { defaultValue: 'Lemon (test)' })}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void payCrypto()}
+                  disabled={busy}
+                  className="rounded-md border italic disabled:opacity-50"
+                  style={{
+                    padding: '8px 14px', fontSize: '13px', fontFamily: 'inherit',
+                    backgroundColor: 'transparent',
+                    color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+                    borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                  }}
+                  title={t('cabinets.pay_crypto')}
+                >
+                  {t('cabinets.pay_crypto')}
+                </button>
+              </div>
+              {verifyToast && (
+                <div
+                  className="rounded-md italic mt-2"
+                  style={{
+                    padding: '8px 12px',
+                    fontSize: '13px',
+                    backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+                    color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                    border: `1px dashed ${isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'}`,
+                  }}
+                  role="status"
+                  aria-live="polite"
+                >
+                  ⏳ {verifyToast}
+                </div>
+              )}
             </div>
 
             {cryptoInfo && (

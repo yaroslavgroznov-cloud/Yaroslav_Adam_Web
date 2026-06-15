@@ -305,7 +305,15 @@
     "tier_all_access_desc": "Les 13 cabinets ouverts sans limites",
     "tier_x_label": "X",
     "tier_x_name": "X",
-    "tier_x_desc": "Voix — sans cadres mensuels"
+    "tier_x_desc": "Voix — sans cadres mensuels",
+    "payment_methods_label": "Mode de paiement",
+    "pay_paddle": "Carte (monde)",
+    "pay_paddle_hint": "Visa/Mastercard international",
+    "pay_liqpay": "Carte UA",
+    "pay_liqpay_hint": "Cartes ukrainiennes via PrivatBank",
+    "pay_lemon": "Lemon (test)",
+    "pay_lemon_hint": "Lemon Squeezy — mode test",
+    "provider_verifying": "Le prestataire de paiement est en vérification. Activation bientôt."
   },
   "landing": {
     "page_title": "Adam Groznov",

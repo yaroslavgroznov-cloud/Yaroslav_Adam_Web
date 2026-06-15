@@ -207,7 +207,15 @@
     "tier_all_access_desc": "Усі 13 відкритих кабінетів без обмежень",
     "tier_x_label": "X",
     "tier_x_name": "X",
-    "tier_x_desc": "Голос — без місячних рамок"
+    "tier_x_desc": "Голос — без місячних рамок",
+    "payment_methods_label": "Спосіб оплати",
+    "pay_paddle": "Картка (світ)",
+    "pay_paddle_hint": "Visa/Mastercard, світовий приймач",
+    "pay_liqpay": "Картка UA",
+    "pay_liqpay_hint": "Українські картки через ПриватБанк",
+    "pay_lemon": "Lemon (тест)",
+    "pay_lemon_hint": "Lemon Squeezy — тестовий режим",
+    "provider_verifying": "Платіжний сервіс у верифікації. Скоро увімкнемо."
   },
   "search": {
     "placeholder": "Знайти в діалозі…",

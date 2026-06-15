@@ -115,7 +115,7 @@ export async function cabinetChat(
 
 export async function paymentInitiate(opts: {
   kind: 'task' | 'cabinet_session' | 'subscription' | 'topup'
-  provider: 'lemon_squeezy' | 'stripe' | 'crypto_trc20' | 'crypto_sol' | 'crypto_btc'
+  provider: 'lemon_squeezy' | 'paddle' | 'liqpay' | 'crypto_trc20' | 'crypto_sol' | 'crypto_btc'
   amount_usd: number
   task_id?: number
   cabinet_session_id?: number

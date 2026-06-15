@@ -207,7 +207,15 @@
     "tier_all_access_desc": "All 13 open cabinets without limits",
     "tier_x_label": "X",
     "tier_x_name": "X",
-    "tier_x_desc": "Voice — without monthly frames"
+    "tier_x_desc": "Voice — without monthly frames",
+    "payment_methods_label": "Payment method",
+    "pay_paddle": "Card (global)",
+    "pay_paddle_hint": "Visa/Mastercard worldwide",
+    "pay_liqpay": "Card UA",
+    "pay_liqpay_hint": "Ukrainian cards via PrivatBank",
+    "pay_lemon": "Lemon (test)",
+    "pay_lemon_hint": "Lemon Squeezy — test mode",
+    "provider_verifying": "Payment provider is being verified. Going live soon."
   },
   "search": {
     "placeholder": "Find in dialog…",

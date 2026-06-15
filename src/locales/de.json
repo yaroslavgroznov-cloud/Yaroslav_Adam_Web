@@ -473,7 +473,15 @@
     "tier_all_access_desc": "Alle 13 offenen Kabinette ohne Grenzen",
     "tier_x_label": "X",
     "tier_x_name": "X",
-    "tier_x_desc": "Stimme — ohne monatliche Rahmen"
+    "tier_x_desc": "Stimme — ohne monatliche Rahmen",
+    "payment_methods_label": "Zahlungsart",
+    "pay_paddle": "Karte (weltweit)",
+    "pay_paddle_hint": "Visa/Mastercard global",
+    "pay_liqpay": "Karte UA",
+    "pay_liqpay_hint": "Ukrainische Karten via PrivatBank",
+    "pay_lemon": "Lemon (Test)",
+    "pay_lemon_hint": "Lemon Squeezy — Testmodus",
+    "provider_verifying": "Zahlungsanbieter wird verifiziert. Bald verfügbar."
   },
   "tiers": {
     "launch_banner": "Preis des Hauses bis 30. September 2026 — Dank an die Ersten.",

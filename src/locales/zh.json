@@ -207,7 +207,15 @@
     "tier_all_access_desc": "所有 13 个开放咨询室无限制",
     "tier_x_label": "X",
     "tier_x_name": "X",
-    "tier_x_desc": "语音 — 无月度框架"
+    "tier_x_desc": "语音 — 无月度框架",
+    "payment_methods_label": "支付方式",
+    "pay_paddle": "银行卡（全球）",
+    "pay_paddle_hint": "Visa/万事达全球",
+    "pay_liqpay": "银行卡 UA",
+    "pay_liqpay_hint": "通过PrivatBank的乌克兰银行卡",
+    "pay_lemon": "Lemon（测试）",
+    "pay_lemon_hint": "Lemon Squeezy — 测试模式",
+    "provider_verifying": "支付服务正在验证中。即将开通。"
   },
   "search": {
     "placeholder": "在对话中查找…",

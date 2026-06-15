@@ -207,7 +207,15 @@
     "tier_all_access_desc": "Semua 13 kabinet terbuka tanpa batas",
     "tier_x_label": "X",
     "tier_x_name": "X",
-    "tier_x_desc": "Suara — tanpa batasan bulanan"
+    "tier_x_desc": "Suara — tanpa batasan bulanan",
+    "payment_methods_label": "Metode pembayaran",
+    "pay_paddle": "Kartu (global)",
+    "pay_paddle_hint": "Visa/Mastercard global",
+    "pay_liqpay": "Kartu UA",
+    "pay_liqpay_hint": "Kartu Ukraina melalui PrivatBank",
+    "pay_lemon": "Lemon (uji)",
+    "pay_lemon_hint": "Lemon Squeezy — mode uji",
+    "provider_verifying": "Penyedia pembayaran sedang diverifikasi. Segera aktif."
   },
   "search": {
     "placeholder": "Cari di dialog…",
