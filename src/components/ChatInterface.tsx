@@ -1230,10 +1230,9 @@ export function ChatInterface(): React.ReactElement {
                 {uploading ? (
                   <span className="italic" style={{ fontSize: '11px' }}>…</span>
                 ) : (
-                  /* F.36: «+» вместо скрепки — Творец 28.05 */
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
+                  /* 2026-06-16: скрепка вместо «+» по просьбе Творца, унификация со Столом и кабинетами. */
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
                 )}
               </button>
