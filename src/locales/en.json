@@ -275,7 +275,10 @@
     "loading": "uploading…",
     "too_large": "File is larger than {{mb}} MB.",
     "upload_failed": "Upload failed",
-    "pick_file": "Attach file"
+    "pick_file": "Attach file",
+    "limit_reached": "Limit is {{n}} files per message.",
+    "total_too_large": "Total attachment size exceeds {{mb}} MB.",
+    "access_denied": "No access to this file."
   },
   "stol": {
     "title": "The Table",

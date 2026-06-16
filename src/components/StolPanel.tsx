@@ -21,6 +21,17 @@ import { filesConfig, uploadFile } from '../api/files'
 import type { FileMeta, FilesConfig } from '../api/files'
 import { AttachmentChip } from './AttachmentChip'
 
+// 2026-06-16: множественные attachments (до 5). Должно соответствовать
+// MAX_ATTACHMENTS_PER_MESSAGE в backend/app/routers/stol.py.
+const MAX_ATTACHMENTS = 5
+const MAX_TOTAL_BYTES = 30 * 1024 * 1024  // 30 MB суммарно
+const ACCEPT_STRING = (
+  'image/*,application/pdf,' +
+  '.doc,.docx,application/msword,' +
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document,' +
+  'text/plain,text/markdown'
+)
+
 function formatTime(iso: string): string {
   const d = new Date(iso)
   const pad = (n: number): string => String(n).padStart(2, '0')
@@ -60,9 +71,9 @@ function MessageRow({ msg, isDark, isMine }: {
         }}
       >
         {msg.content}
-        {msg.attachment && (
-          <AttachmentChip attachment={msg.attachment} isDark={isDark} />
-        )}
+        {msg.attachments && msg.attachments.map((a) => (
+          <AttachmentChip key={a.id} attachment={a} isDark={isDark} />
+        ))}
       </div>
     </div>
   )
@@ -87,9 +98,9 @@ export function StolPanel(): React.ReactElement {
   // но без adam_msg (т.е. passive trigger не сработал, и это нормально).
   const [adamSilent, setAdamSilent] = useState(false)
   const [currentUserEmail, setCurrentUserEmail] = useState('')
-  // F.11: attachment state
+  // F.11 / 2026-06-16: множественные attachments (до 5).
   const [filesCfg, setFilesCfg] = useState<FilesConfig | null>(null)
-  const [pendingFile, setPendingFile] = useState<FileMeta | null>(null)
+  const [pendingFiles, setPendingFiles] = useState<FileMeta[]>([])
   const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
   const endRef = useRef<HTMLDivElement | null>(null)
@@ -166,17 +177,44 @@ export function StolPanel(): React.ReactElement {
     el.style.height = Math.min(el.scrollHeight, maxHeight) + 'px'
   }
 
-  async function handleFilePick(file: File): Promise<void> {
-    if (!filesCfg?.enabled) return
-    if (file.size > filesCfg.max_bytes) {
-      setError(t('attachment.too_large', { mb: (filesCfg.max_bytes / 1024 / 1024).toFixed(0) }))
+  async function handleFilePick(fileList: FileList | File[] | null): Promise<void> {
+    if (!filesCfg?.enabled || !fileList) return
+    const incoming = Array.from(fileList)
+    if (incoming.length === 0) return
+
+    const free = Math.max(0, MAX_ATTACHMENTS - pendingFiles.length)
+    if (free === 0) {
+      setError(t('attachment.limit_reached', { n: MAX_ATTACHMENTS, defaultValue: `Лимит ${MAX_ATTACHMENTS} файлов на сообщение.` }))
       return
     }
+    const slice = incoming.slice(0, free)
+    const droppedExtra = incoming.length - slice.length
+
+    const alreadyBytes = pendingFiles.reduce((sum, f) => sum + f.size_bytes, 0)
+    const accepted: File[] = []
+    let runningTotal = alreadyBytes
+    for (const f of slice) {
+      if (f.size > filesCfg.max_bytes) {
+        setError(t('attachment.too_large', { mb: (filesCfg.max_bytes / 1024 / 1024).toFixed(0) }))
+        continue
+      }
+      if (runningTotal + f.size > MAX_TOTAL_BYTES) {
+        setError(t('attachment.total_too_large', { mb: (MAX_TOTAL_BYTES / 1024 / 1024).toFixed(0), defaultValue: `Суммарный размер вложений превышает ${MAX_TOTAL_BYTES / 1024 / 1024} MB.` }))
+        break
+      }
+      accepted.push(f)
+      runningTotal += f.size
+    }
+    if (accepted.length === 0) return
+
     setUploading(true)
     setError('')
     try {
-      const meta = await uploadFile(file)
-      setPendingFile(meta)
+      const uploaded = await Promise.all(accepted.map((f) => uploadFile(f)))
+      setPendingFiles((prev) => [...prev, ...uploaded])
+      if (droppedExtra > 0) {
+        setError(t('attachment.limit_reached', { n: MAX_ATTACHMENTS, defaultValue: `Лимит ${MAX_ATTACHMENTS} файлов на сообщение.` }))
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : t('attachment.upload_failed'))
     } finally {
@@ -184,21 +222,25 @@ export function StolPanel(): React.ReactElement {
     }
   }
 
+  function removePendingFile(id: number): void {
+    setPendingFiles((prev) => prev.filter((f) => f.id !== id))
+  }
+
   async function handleSend(): Promise<void> {
     if (!conv) return
     const content = input.trim()
-    if ((!content && !pendingFile) || busy || sendCooldown) return
-    // Если только файл без текста — даём пустую "."
-    const effectiveContent = content || (pendingFile ? '📎' : '')
+    if ((!content && pendingFiles.length === 0) || busy || sendCooldown) return
+    // Если только файлы без текста — placeholder.
+    const effectiveContent = content || (pendingFiles.length > 0 ? '📎' : '')
     setInput('')
     if (textareaRef.current) textareaRef.current.style.height = 'auto'
-    const attId = pendingFile?.id ?? null
-    setPendingFile(null)
+    const attIds = pendingFiles.map((f) => f.id)
+    setPendingFiles([])
     setBusy(true)
     const willTriggerAdam = /(?:^|[\s.,!?:;])(@?\s*(adam|адам))(?:$|[\s.,!?:;])/iu.test(effectiveContent)
     if (willTriggerAdam) setAdamThinking(true)
     try {
-      const newMsgs = await stolPostMessage(conv.id, effectiveContent, attId)
+      const newMsgs = await stolPostMessage(conv.id, effectiveContent, attIds.length > 0 ? attIds : null)
       setMessages((prev) => [...prev, ...newMsgs])
       if (newMsgs.length > 0) {
         lastIdRef.current = newMsgs[newMsgs.length - 1].id
@@ -226,8 +268,9 @@ export function StolPanel(): React.ReactElement {
   function handleDrop(e: React.DragEvent): void {
     e.preventDefault()
     setDragOver(false)
-    const f = e.dataTransfer.files?.[0]
-    if (f) void handleFilePick(f)
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      void handleFilePick(e.dataTransfer.files)
+    }
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>): void {
@@ -355,30 +398,54 @@ export function StolPanel(): React.ReactElement {
         )}
       </div>
 
-      {/* Pending attachment preview */}
-      {pendingFile && (
+      {/* Pending attachments preview (chips, до 5). 2026-06-16. */}
+      {pendingFiles.length > 0 && (
         <div
-          className="shrink-0 border-t px-4 sm:px-10 py-2 flex items-center gap-3"
+          className="shrink-0 border-t px-4 sm:px-10 py-2 flex items-center gap-2 flex-wrap"
           style={{
             borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
             backgroundColor: isDark ? 'rgba(168,140,95,0.10)' : 'rgba(168,140,95,0.06)',
           }}
+          role="region"
+          aria-live="polite"
+          aria-label={t('attachment.attached_label')}
         >
-          <span className="italic" style={{ fontSize: '13px',
+          <span className="italic shrink-0" style={{ fontSize: '13px',
             color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
-            {t('attachment.attached_label')}
+            {t('attachment.attached_label')} ({pendingFiles.length}/{MAX_ATTACHMENTS}):
           </span>
-          <span style={{ fontSize: '13px' }}>
-            {pendingFile.is_image ? '🖼' : '📎'} {pendingFile.original_name}
-          </span>
-          <button
-            onClick={() => setPendingFile(null)}
-            className="italic underline underline-offset-4 decoration-1 ml-auto"
-            style={{ fontSize: '12px',
-              color: gold }}
-          >
-            {t('attachment.remove')}
-          </button>
+          {pendingFiles.map((f) => (
+            <span
+              key={f.id}
+              className="italic rounded-md border inline-flex items-center gap-1.5"
+              style={{
+                fontSize: '12px',
+                padding: '3px 6px 3px 8px',
+                maxWidth: '220px',
+                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+              }}
+              title={f.original_name}
+            >
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {f.is_image ? '🖼' : '📎'} {f.original_name}
+              </span>
+              <button
+                type="button"
+                onClick={() => removePendingFile(f.id)}
+                aria-label={t('attachment.remove')}
+                title={t('attachment.remove')}
+                style={{
+                  background: 'transparent', border: 'none', cursor: 'pointer',
+                  padding: '0 2px', lineHeight: 1,
+                  fontSize: '14px',
+                  color: gold,
+                }}
+              >
+                ×
+              </button>
+            </span>
+          ))}
         </div>
       )}
 
@@ -393,18 +460,21 @@ export function StolPanel(): React.ReactElement {
             <input
               ref={fileInputRef}
               type="file"
+              multiple
               className="hidden"
-              accept="image/*,application/pdf"
+              accept={ACCEPT_STRING}
+              aria-label={t('attachment.pick_file')}
               onChange={(e) => {
-                const f = e.target.files?.[0]
-                if (f) void handleFilePick(f)
+                if (e.target.files && e.target.files.length > 0) {
+                  void handleFilePick(e.target.files)
+                }
                 e.target.value = ''
               }}
             />
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              disabled={uploading || busy}
+              disabled={uploading || busy || pendingFiles.length >= MAX_ATTACHMENTS}
               className="shrink-0 inline-flex items-center justify-center rounded-md border disabled:opacity-50"
               style={{
                 width: 54, height: 54,
@@ -451,7 +521,7 @@ export function StolPanel(): React.ReactElement {
         <button
           type="button"
           onClick={() => void handleSend()}
-          disabled={!input.trim() || busy || sendCooldown || !conv}
+          disabled={(!input.trim() && pendingFiles.length === 0) || busy || sendCooldown || !conv}
           aria-label={t('common.send')}
           title={t('common.send')}
           className="shrink-0 italic rounded-md border disabled:cursor-not-allowed disabled:opacity-60 inline-flex items-center justify-center gap-2"

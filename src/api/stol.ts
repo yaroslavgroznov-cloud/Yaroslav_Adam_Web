@@ -25,7 +25,8 @@ export interface StolMessage {
   content: string
   created_at: string
   is_adam: boolean
-  attachment?: StolAttachment | null
+  // 2026-06-16: было singular `attachment`, стало массив (до 5).
+  attachments: StolAttachment[]
 }
 
 async function jsonOrError<T>(res: Response): Promise<T> {
@@ -57,10 +58,10 @@ export async function stolMessages(
 }
 
 export async function stolPostMessage(
-  cid: number, content: string, attachmentId?: number | null,
+  cid: number, content: string, attachmentIds?: number[] | null,
 ): Promise<StolMessage[]> {
   const body: Record<string, unknown> = { content }
-  if (attachmentId != null) body.attachment_id = attachmentId
+  if (attachmentIds && attachmentIds.length > 0) body.attachment_ids = attachmentIds
   const res = await fetch(`${BASE}/stol/${cid}/message`, {
     method: 'POST',
     credentials: 'include',

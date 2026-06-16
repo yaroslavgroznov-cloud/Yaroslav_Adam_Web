@@ -43,11 +43,11 @@ export async function adamGetActive(room?: string): Promise<ActiveConversationRe
 }
 
 export async function adamChatRequest(
-  content: string, room?: string, attachmentId?: number | null,
+  content: string, room?: string, attachmentIds?: number[] | null,
 ): Promise<AdamChatResponse> {
   const body: Record<string, unknown> = { content }
   if (room) body.room = room
-  if (attachmentId != null) body.attachment_id = attachmentId
+  if (attachmentIds && attachmentIds.length > 0) body.attachment_ids = attachmentIds
   const res = await fetch(`${BASE}/adam/chat`, {
     method: 'POST',
     credentials: 'include',
@@ -93,14 +93,14 @@ export function adamChatStream(
   room: string | undefined,
   cb: StreamCallbacks,
   opts: StreamOptions = {},
-  attachmentId?: number | null,
+  attachmentIds?: number[] | null,
 ): () => void {
   const maxRetries = opts.retries ?? 2
   const backoffMs = opts.retryBackoffMs ?? 1000
   const controller = new AbortController()
   const body: Record<string, unknown> = { content }
   if (room) body.room = room
-  if (attachmentId != null) body.attachment_id = attachmentId
+  if (attachmentIds && attachmentIds.length > 0) body.attachment_ids = attachmentIds
 
   let attempt = 0
 

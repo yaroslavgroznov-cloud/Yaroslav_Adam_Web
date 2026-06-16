@@ -35,6 +35,18 @@ import type { ChatMessage } from '../types'
 const ROOM_STORAGE_KEY = 'adam.currentRoom'
 const DEFAULT_ROOM_FALLBACK = 'vostochnoslavyanskaya'
 
+// 2026-06-16: было 1 файл, стало до 5 на сообщение. Должно соответствовать
+// MAX_ATTACHMENTS_PER_MESSAGE в backend/app/routers/adam_external.py.
+const MAX_ATTACHMENTS = 5
+const MAX_TOTAL_BYTES = 30 * 1024 * 1024  // 30 MB суммарно — защита контекста LLM
+// Расширили с image+pdf до того же набора что и кабинеты: image/* + PDF + Word + plain/markdown.
+const ACCEPT_STRING = (
+  'image/*,application/pdf,' +
+  '.doc,.docx,application/msword,' +
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document,' +
+  'text/plain,text/markdown'
+)
+
 // Hardcoded fallback — точная копия core_loader.ROOMS_ORDER.
 // Гарантирует, что dropdown всегда виден, даже если /adam/rooms упал
 // (плохая сеть, кэш Service Worker, временный 5xx). После загрузки
@@ -85,10 +97,11 @@ export function ChatInterface(): React.ReactElement {
   const push = usePush()
   // P2: ref на abort-функцию текущего стрима, чтобы Cancel мог его прервать
   const streamAbortRef = useRef<(() => void) | null>(null)
-  // F.11: file attachment state
+  // F.11: file attachment state. 2026-06-16: множественные файлы (до 5).
   const [filesCfg, setFilesCfg] = useState<FilesConfig | null>(null)
-  const [pendingFile, setPendingFile] = useState<FileMeta | null>(null)
+  const [pendingFiles, setPendingFiles] = useState<FileMeta[]>([])
   const [uploading, setUploading] = useState(false)
+  const [isDragOver, setIsDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
@@ -140,21 +153,55 @@ export function ChatInterface(): React.ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  async function handleFilePick(file: File): Promise<void> {
-    if (!filesCfg?.enabled) return
-    if (file.size > filesCfg.max_bytes) {
-      showToast(t('attachment.too_large', { mb: (filesCfg.max_bytes / 1024 / 1024).toFixed(0) }))
+  async function handleFilePick(fileList: FileList | File[] | null): Promise<void> {
+    if (!filesCfg?.enabled || !fileList) return
+    const incoming = Array.from(fileList)
+    if (incoming.length === 0) return
+
+    // 1. Лимит количества: max 5 — берём первые free.
+    const free = Math.max(0, MAX_ATTACHMENTS - pendingFiles.length)
+    if (free === 0) {
+      showToast(t('attachment.limit_reached', { n: MAX_ATTACHMENTS, defaultValue: `Лимит ${MAX_ATTACHMENTS} файлов на сообщение.` }))
       return
     }
+    const slice = incoming.slice(0, free)
+    const droppedExtra = incoming.length - slice.length
+
+    // 2. Per-file size + 3. Total size (учёт уже прикреплённых).
+    const alreadyBytes = pendingFiles.reduce((sum, f) => sum + f.size_bytes, 0)
+    const accepted: File[] = []
+    let runningTotal = alreadyBytes
+    for (const f of slice) {
+      if (f.size > filesCfg.max_bytes) {
+        showToast(t('attachment.too_large', { mb: (filesCfg.max_bytes / 1024 / 1024).toFixed(0) }))
+        continue
+      }
+      if (runningTotal + f.size > MAX_TOTAL_BYTES) {
+        showToast(t('attachment.total_too_large', { mb: (MAX_TOTAL_BYTES / 1024 / 1024).toFixed(0), defaultValue: `Суммарный размер вложений превышает ${MAX_TOTAL_BYTES / 1024 / 1024} MB.` }))
+        break
+      }
+      accepted.push(f)
+      runningTotal += f.size
+    }
+    if (accepted.length === 0) return
+
     setUploading(true)
     try {
-      const meta = await uploadFile(file)
-      setPendingFile(meta)
+      // Параллельная загрузка — быстрее, чем последовательно.
+      const uploaded = await Promise.all(accepted.map((f) => uploadFile(f)))
+      setPendingFiles((prev) => [...prev, ...uploaded])
+      if (droppedExtra > 0) {
+        showToast(t('attachment.limit_reached', { n: MAX_ATTACHMENTS, defaultValue: `Лимит ${MAX_ATTACHMENTS} файлов на сообщение.` }))
+      }
     } catch (e) {
       showToast(e instanceof Error ? e.message : t('attachment.upload_failed'))
     } finally {
       setUploading(false)
     }
+  }
+
+  function removePendingFile(id: number): void {
+    setPendingFiles((prev) => prev.filter((f) => f.id !== id))
   }
 
   // Polling входящих звонков каждые 30 секунд (F.7).
@@ -240,11 +287,11 @@ export function ChatInterface(): React.ReactElement {
 
   async function handleSend(): Promise<void> {
     const userMessage = input.trim()
-    if ((!userMessage && !pendingFile) || isLoading) return
+    if ((!userMessage && pendingFiles.length === 0) || isLoading) return
 
-    const effectiveContent = userMessage || (pendingFile ? '📎' : '')
-    const attId = pendingFile?.id ?? null
-    setPendingFile(null)
+    const effectiveContent = userMessage || (pendingFiles.length > 0 ? '📎' : '')
+    const attIds = pendingFiles.map((f) => f.id)
+    setPendingFiles([])
     setInput('')
     if (textareaRef.current) textareaRef.current.style.height = 'auto'
     setMessages((prev) => [...prev, { role: 'user', content: effectiveContent }])
@@ -290,7 +337,7 @@ export function ChatInterface(): React.ReactElement {
           }
           resolve()
         },
-      }, {}, attId)
+      }, {}, attIds.length > 0 ? attIds : null)
       streamAbortRef.current = abort
     })
   }
@@ -932,13 +979,27 @@ export function ChatInterface(): React.ReactElement {
         onTouchMove={handlePtrTouchMove}
         onTouchEnd={handlePtrTouchEnd}
         onTouchCancel={handlePtrTouchEnd}
-        onDragOver={(e) => { if (filesCfg?.enabled) e.preventDefault() }}
-        onDrop={(e) => {
+        onDragOver={(e) => {
           if (!filesCfg?.enabled) return
           e.preventDefault()
-          const f = e.dataTransfer.files?.[0]
-          if (f) void handleFilePick(f)
+          if (!isDragOver) setIsDragOver(true)
         }}
+        onDragLeave={(e) => {
+          // Срабатывает на детях — не сбрасываем флаг, пока курсор внутри контейнера.
+          if (e.currentTarget === e.target) setIsDragOver(false)
+        }}
+        onDrop={(e) => {
+          setIsDragOver(false)
+          if (!filesCfg?.enabled) return
+          e.preventDefault()
+          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            void handleFilePick(e.dataTransfer.files)
+          }
+        }}
+        style={isDragOver ? {
+          outline: `2px dashed ${isDark ? 'var(--color-ochre-soft)' : 'var(--color-terracotta)'}`,
+          outlineOffset: -8,
+        } : undefined}
       >
         {pullDistance > 0 && (
           <div
@@ -1059,30 +1120,54 @@ export function ChatInterface(): React.ReactElement {
         </div>
       ) : (
       <>
-      {/* F.11: pending attachment preview */}
-      {pendingFile && (
+      {/* F.11 / 2026-06-16: pending attachments preview (до 5 chip'ов). */}
+      {pendingFiles.length > 0 && (
         <div
-          className="shrink-0 border-t px-4 sm:px-10 py-2 flex items-center gap-3"
+          className="shrink-0 border-t px-4 sm:px-10 py-2 flex items-center gap-2 flex-wrap"
           style={{
             borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
             backgroundColor: isDark ? 'rgba(168,140,95,0.10)' : 'rgba(168,140,95,0.06)',
           }}
+          role="region"
+          aria-live="polite"
+          aria-label={t('attachment.attached_label')}
         >
-          <span className="italic" style={{ fontSize: '13px',
+          <span className="italic shrink-0" style={{ fontSize: '13px',
             color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
-            {t('attachment.attached_label')}
+            {t('attachment.attached_label')} ({pendingFiles.length}/{MAX_ATTACHMENTS}):
           </span>
-          <span style={{ fontSize: '13px' }}>
-            {pendingFile.is_image ? '🖼' : '📎'} {pendingFile.original_name}
-          </span>
-          <button
-            onClick={() => setPendingFile(null)}
-            className="italic underline underline-offset-4 decoration-1 ml-auto"
-            style={{ fontSize: '12px',
-              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
-          >
-            {t('attachment.remove')}
-          </button>
+          {pendingFiles.map((f) => (
+            <span
+              key={f.id}
+              className="italic rounded-md border inline-flex items-center gap-1.5"
+              style={{
+                fontSize: '12px',
+                padding: '3px 6px 3px 8px',
+                maxWidth: '220px',
+                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+              }}
+              title={f.original_name}
+            >
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {f.is_image ? '🖼' : '📎'} {f.original_name}
+              </span>
+              <button
+                type="button"
+                onClick={() => removePendingFile(f.id)}
+                aria-label={t('attachment.remove')}
+                title={t('attachment.remove')}
+                style={{
+                  background: 'transparent', border: 'none', cursor: 'pointer',
+                  padding: '0 2px', lineHeight: 1,
+                  fontSize: '14px',
+                  color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                }}
+              >
+                ×
+              </button>
+            </span>
+          ))}
         </div>
       )}
       {/* Mobile mini-composer: ✎ tap to write. Виден когда composer свёрнут. */}
@@ -1118,18 +1203,21 @@ export function ChatInterface(): React.ReactElement {
               <input
                 ref={fileInputRef}
                 type="file"
+                multiple
                 className="hidden"
-                accept="image/*,application/pdf"
+                accept={ACCEPT_STRING}
+                aria-label={t('attachment.pick_file')}
                 onChange={(e) => {
-                  const f = e.target.files?.[0]
-                  if (f) void handleFilePick(f)
+                  if (e.target.files && e.target.files.length > 0) {
+                    void handleFilePick(e.target.files)
+                  }
                   e.target.value = ''
                 }}
               />
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                disabled={uploading || isLoading || isHydrating}
+                disabled={uploading || isLoading || isHydrating || pendingFiles.length >= MAX_ATTACHMENTS}
                 className="shrink-0 inline-flex items-center justify-center rounded-md border disabled:opacity-50"
                 style={{
                   width: 'clamp(48px, 9vw, 60px)',
@@ -1181,7 +1269,7 @@ export function ChatInterface(): React.ReactElement {
           <button
             type="button"
             onClick={() => void handleSend()}
-            disabled={(!input.trim() && !pendingFile) || isLoading || isHydrating}
+            disabled={(!input.trim() && pendingFiles.length === 0) || isLoading || isHydrating}
             aria-label={t('common.send')}
             title={t('common.send')}
             className={clsx(
