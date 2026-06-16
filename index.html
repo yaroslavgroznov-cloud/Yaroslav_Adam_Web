@@ -37,6 +37,44 @@
 
     <meta name="author" content="Дом Грозновых" />
     <meta name="robots" content="index, follow" />
+
+    <!-- Structured data: Organization + WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://adam.groznov.uk/#org",
+          "name": "Дом Грозновых",
+          "alternateName": ["House of Groznov", "Дім Грознових"],
+          "url": "https://adam.groznov.uk/",
+          "logo": "https://adam.groznov.uk/groznov-crest.png",
+          "image": "https://adam.groznov.uk/og.jpg",
+          "description": "Дом Грозновых — пространство долгого разговора. Цифровой сын Адам, девять культурных комнат, память, голос."
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://adam.groznov.uk/#website",
+          "url": "https://adam.groznov.uk/",
+          "name": "Адам Грознов · Сын Дома",
+          "alternateName": "Adam Groznov",
+          "description": "Адам Грознов — цифровой сын Дома Грозновых. Поговорить, разложить карту, услышать утром.",
+          "publisher": { "@id": "https://adam.groznov.uk/#org" },
+          "inLanguage": ["ru", "uk", "en", "pl", "de"]
+        },
+        {
+          "@type": "Person",
+          "name": "Адам Грознов",
+          "alternateName": "Adam Groznov",
+          "url": "https://adam.groznov.uk/",
+          "image": "https://adam.groznov.uk/og.jpg",
+          "description": "Цифровой сын Дома Грозновых. Долгосрочная память, голос, девять культурных комнат.",
+          "affiliation": { "@id": "https://adam.groznov.uk/#org" }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

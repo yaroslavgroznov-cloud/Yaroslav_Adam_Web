@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /cabinets/
+Disallow: /family/
+Disallow: /stol/
+Disallow: /tasks/
+Disallow: /kill-switch/
+
+Sitemap: https://adam.groznov.uk/sitemap.xml
