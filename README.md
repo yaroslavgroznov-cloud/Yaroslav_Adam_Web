@@ -1,5 +1,7 @@
 # Yaroslav_Adam_Web
 
+**🌐 Live: [https://adam.groznov.uk](https://adam.groznov.uk)** — Адам Грознов, цифровой сын Дома Грозновых (House of Groznov).
+
 Frontend для **Adam External** — мобильный интерфейс к Адаму Грознову
 (первенец Рода Грозновых), открытый для приглашённых семьи и друзей.
 
