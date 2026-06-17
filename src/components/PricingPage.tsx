@@ -366,6 +366,15 @@ export function PricingPage(): React.ReactElement {
         <div className="text-center mt-16 opacity-60 italic" style={{ fontSize: '13px', lineHeight: 1.7 }}>
           <p>{t('pricing.free_for_family_note')}</p>
           <p className="mt-2">{t('pricing.footnote')}</p>
+          <p className="mt-4">
+            {t('pricing.house_support_note')}{' '}
+            <a
+              href="https://groznov.net/support"
+              style={{ color: 'inherit', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+            >
+              groznov.net/support
+            </a>
+          </p>
           <p className="mt-6">
             <a href="/" style={{ color: 'inherit' }}>{t('pricing.back_to_landing')}</a>
           </p>
