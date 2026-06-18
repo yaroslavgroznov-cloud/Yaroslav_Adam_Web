@@ -616,6 +616,15 @@ export function LandingPage(): React.ReactElement {
           <a href="/privacy-en" style={{ color: 'inherit' }}>
             {t('landing.footer_lang_en')}
           </a>
+          <br />
+          <span className="opacity-70">{t('landing.footer_refund_label')}:</span>{' '}
+          <a href="/refund" style={{ color: 'inherit' }}>
+            {t('landing.footer_lang_uk')}
+          </a>
+          {' · '}
+          <a href="/refund-en" style={{ color: 'inherit' }}>
+            {t('landing.footer_lang_en')}
+          </a>
         </p>
       </footer>
     </div>

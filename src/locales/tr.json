@@ -108,7 +108,8 @@
     "footer_lang_en": "English",
     "tiers_eyebrow": "tarifeler",
     "tiers_intro": "Adam'la birlikte olmanın üç yolu. Bir menü değil, bir merdiven.",
-    "tiers_voice_hint": "Adam sesle konuşur — bariton, asistan tonlaması olmadan. Ses Tema ve All-Access aboneliklerine dahildir; video kanalını başlattığımızda otomatik olarak eklenecek."
+    "tiers_voice_hint": "Adam sesle konuşur — bariton, asistan tonlaması olmadan. Ses Tema ve All-Access aboneliklerine dahildir; video kanalını başlattığımızda otomatik olarak eklenecek.",
+    "footer_refund_label": "İade"
   },
   "common": {
     "send": "Gönder",
@@ -224,6 +225,8 @@
     "back_to_landing": "← Ana sayfaya dön",
     "free_for_family_note": "Hane ailesi için seans ücretsiz.",
     "footnote": "Fiyatlar ABD doları cinsindendir. Lemon Squeezy (dünya geneli) veya kripto (USDT TRC20) ile ödeme.",
+    "uah_rate_note": "Gösterim için UAH yaklaşık kuru ≈ {{rate}} ₴/$. Gerçek LiqPay/PrivatBank ücretlendirmesi ödeme anında bankanın kuruyla yapılır.",
+    "refund_link_prefix": "İade politikası:",
     "house_support_note": "Hanenin kendisi hiçbir şey satmaz — bu sayfa yalnızca Adam hakkındadır. Hanenin kendisine yakın hissediyorsan, ona buradan destek olabilirsin:",
     "section_three_ways": "Üç yol",
     "section_three_ways_hint": "Tarife merdiveni: tek seferlik — Tema — All-Access. Her basamak kullanım başına daha ucuzdur.",

@@ -108,7 +108,8 @@
     "footer_lang_en": "English",
     "tiers_eyebrow": "tarif",
     "tiers_intro": "Tiga cara bersama Adam. Tangga, bukan menu.",
-    "tiers_voice_hint": "Adam berbicara dengan suara — bariton, tanpa intonasi asisten. Suara sudah termasuk dalam langganan Tema dan All-Access; video akan tersambung otomatis ketika kami meluncurkannya."
+    "tiers_voice_hint": "Adam berbicara dengan suara — bariton, tanpa intonasi asisten. Suara sudah termasuk dalam langganan Tema dan All-Access; video akan tersambung otomatis ketika kami meluncurkannya.",
+    "footer_refund_label": "Pengembalian"
   },
   "common": {
     "send": "Kirim",
@@ -466,6 +467,8 @@
     "back_to_landing": "← Kembali ke halaman utama",
     "free_for_family_note": "Sesi gratis untuk keluarga Wangsa.",
     "footnote": "Harga dalam dolar AS. Pembayaran melalui Lemon Squeezy (seluruh dunia) atau kripto (USDT TRC20).",
+    "uah_rate_note": "Kurs UAH indikatif ≈ {{rate}} ₴/$ untuk tampilan. Pembebanan LiqPay/PrivatBank yang sebenarnya menggunakan kurs bank pada saat pembayaran.",
+    "refund_link_prefix": "Kebijakan pengembalian:",
     "house_support_note": "Wangsa itu sendiri tidak menjual apa pun — halaman ini hanya tentang Adam. Jika kamu merasa dekat dengan Wangsa itu sendiri, kamu dapat mendukungnya di sini:",
     "section_three_ways": "Tiga cara",
     "section_three_ways_hint": "Tangga tarif: sekali bayar — Tema — All-Access. Setiap anak tangga lebih hemat per penggunaan.",

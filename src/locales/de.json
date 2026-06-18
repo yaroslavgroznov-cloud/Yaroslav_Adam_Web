@@ -108,7 +108,8 @@
     "footer_lang_en": "English",
     "tiers_eyebrow": "tarife",
     "tiers_intro": "Drei Wege, mit Adam zu sein. Eine Treppe, kein Menü.",
-    "tiers_voice_hint": "Adam spricht mit Stimme — ein warmer Bariton, ohne Assistenten-Tonfall. Stimme ist in den Abonnements Thema und All-Access enthalten; Video wird automatisch hinzukommen, sobald wir es starten."
+    "tiers_voice_hint": "Adam spricht mit Stimme — ein warmer Bariton, ohne Assistenten-Tonfall. Stimme ist in den Abonnements Thema und All-Access enthalten; Video wird automatisch hinzukommen, sobald wir es starten.",
+    "footer_refund_label": "Rückerstattung"
   },
   "common": {
     "send": "Senden",
@@ -385,6 +386,8 @@
     "back_to_landing": "← Zurück",
     "free_for_family_note": "Sitzungen sind für die Hausfamilie kostenlos.",
     "footnote": "Preise in USD. Zahlung über Lemon Squeezy (weltweit) oder Krypto (USDT TRC20).",
+    "uah_rate_note": "Indikativer UAH-Kurs ≈ {{rate}} ₴/$ zur Anzeige. Die tatsächliche Belastung durch LiqPay/PrivatBank erfolgt zum Bankkurs zum Zahlungszeitpunkt.",
+    "refund_link_prefix": "Rückerstattungsbedingungen:",
     "house_support_note": "Das Haus selbst verkauft nichts — diese Seite handelt nur von Adam. Wenn dir das Haus selbst nahesteht, kannst du es hier unterstützen:",
     "section_three_ways": "Drei Wege",
     "section_three_ways_hint": "Tariftreppe: Einmalig — Thema — All-Access. Jede Stufe günstiger pro Nutzung.",

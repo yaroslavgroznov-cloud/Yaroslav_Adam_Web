@@ -12,6 +12,17 @@ import { useFontScale } from '../hooks/useFontScale'
 
 const ALL_ACCESS_HREF = '/chat?subscribe=all_access'
 
+// Базовий курс USD→UAH для відображення орієнтовної ціни в гривні поряд з USD.
+// Синхронізовано з backend `cfg.liqpay_usd_uah` (D:/DRUG/backend/app/config.py).
+// Фактичне списання LiqPay/ПриватБанк відбувається за курсом банку на момент оплати.
+// Вимога LiqPay/ПриватБанку 2026-06: показувати вартість у гривнях на сайті.
+const USD_TO_UAH = 41.5
+
+function priceUahFmt(usd: number): string {
+  const uah = Math.round(usd * USD_TO_UAH)
+  return `~${uah.toLocaleString('uk-UA')} ₴`
+}
+
 export function PricingPage(): React.ReactElement {
   const { t, i18n } = useTranslation()
   const { isDark, setPref } = useDarkMode()
@@ -92,10 +103,18 @@ export function PricingPage(): React.ReactElement {
             <div style={{ fontSize: '17px' }}>
               {t('pricing.per_session', { price: priceFmt(c.price_usd_session) })}
             </div>
+            <div className="opacity-65 mt-0.5" style={{ fontSize: '13px' }}>
+              {priceUahFmt(c.price_usd_session)}
+            </div>
             {c.price_usd_subscription_monthly != null && c.price_usd_subscription_monthly > 0 && (
-              <div className="italic opacity-70 mt-1">
-                {t('pricing.subscription_hint', { price: priceFmt(c.price_usd_subscription_monthly) })}
-              </div>
+              <>
+                <div className="italic opacity-70 mt-2">
+                  {t('pricing.subscription_hint', { price: priceFmt(c.price_usd_subscription_monthly) })}
+                </div>
+                <div className="opacity-55 mt-0.5" style={{ fontSize: '12px' }}>
+                  {priceUahFmt(c.price_usd_subscription_monthly)}
+                </div>
+              </>
             )}
           </div>
         )}
@@ -222,6 +241,7 @@ export function PricingPage(): React.ReactElement {
               eyebrow={t('tiers.session_eyebrow')}
               title={t('tiers.session_title')}
               priceLaunch={t('tiers.session_price_launch')}
+              priceLaunchUah={priceUahFmt(9)}
               priceWas={t('tiers.session_price_was')}
               perks={[t('tiers.session_perks_l1'), t('tiers.session_perks_l2'), t('tiers.session_perks_l3')]}
               ctaLabel={t('tiers.session_cta')}
@@ -236,6 +256,7 @@ export function PricingPage(): React.ReactElement {
               eyebrow={t('tiers.topic_eyebrow')}
               title={t('tiers.topic_title')}
               priceLaunch={t('tiers.topic_price_launch')}
+              priceLaunchUah={priceUahFmt(19)}
               priceWas={t('tiers.topic_price_was')}
               perks={[t('tiers.topic_perks_l1'), t('tiers.topic_perks_l2'), t('tiers.topic_perks_l3')]}
               ctaLabel={t('tiers.topic_cta')}
@@ -251,6 +272,7 @@ export function PricingPage(): React.ReactElement {
               eyebrow={t('tiers.all_eyebrow')}
               title={t('tiers.all_title')}
               priceLaunch={t('tiers.all_price_launch')}
+              priceLaunchUah={priceUahFmt(39)}
               priceWas={t('tiers.all_price_was')}
               perks={[t('tiers.all_perks_l1'), t('tiers.all_perks_l2'), t('tiers.all_perks_l3')]}
               ctaLabel={t('tiers.all_cta')}
@@ -267,6 +289,7 @@ export function PricingPage(): React.ReactElement {
               title={t('tiers.x_title')}
               subtitle={t('tiers.x_subtitle')}
               priceLaunch={t('tiers.x_price_launch')}
+              priceLaunchUah={priceUahFmt(99)}
               priceWas={t('tiers.x_price_was')}
               perks={[
                 t('tiers.x_perks_l1'),
@@ -366,6 +389,16 @@ export function PricingPage(): React.ReactElement {
         <div className="text-center mt-16 opacity-60 italic" style={{ fontSize: '13px', lineHeight: 1.7 }}>
           <p>{t('pricing.free_for_family_note')}</p>
           <p className="mt-2">{t('pricing.footnote')}</p>
+          <p className="mt-2">{t('pricing.uah_rate_note', { rate: USD_TO_UAH.toFixed(2) })}</p>
+          <p className="mt-2">
+            {t('pricing.refund_link_prefix')}{' '}
+            <a
+              href="/refund"
+              style={{ color: 'inherit', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+            >
+              /refund
+            </a>
+          </p>
           <p className="mt-4">
             {t('pricing.house_support_note')}{' '}
             <a
@@ -411,6 +444,7 @@ interface TierCardProps {
   title: string
   subtitle?: string
   priceLaunch: string
+  priceLaunchUah: string  // Орієнтовна вартість у гривнях, вимога LiqPay/ПриватБанку
   priceWas: string
   perks: string[]
   ctaLabel: string
@@ -449,6 +483,7 @@ function TierCard(p: TierCardProps): React.ReactElement {
         </p>
       )}
       <div className="mb-1" style={{ fontSize: '26px', letterSpacing: '0.02em' }}>{p.priceLaunch}</div>
+      <div className="opacity-65 mb-1" style={{ fontSize: '13px' }}>{p.priceLaunchUah}</div>
       <div className="italic opacity-55 mb-4" style={{ fontSize: '12px' }}>{p.priceWas}</div>
       <ul className="space-y-2 mb-5" style={{ fontSize: '14px', listStyle: 'none', paddingLeft: 0 }}>
         {p.perks.map((perk, i) => (

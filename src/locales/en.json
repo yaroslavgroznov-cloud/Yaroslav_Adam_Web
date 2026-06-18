@@ -108,7 +108,8 @@
     "footer_lang_en": "English",
     "tiers_eyebrow": "pricing",
     "tiers_intro": "Three ways to be with Adam. A staircase, not a menu.",
-    "tiers_voice_hint": "Adam speaks in voice — a warm baritone, without assistant intonation. Voice is included in Topic and All-Access subscriptions; video will connect automatically when we launch it."
+    "tiers_voice_hint": "Adam speaks in voice — a warm baritone, without assistant intonation. Voice is included in Topic and All-Access subscriptions; video will connect automatically when we launch it.",
+    "footer_refund_label": "Refund"
   },
   "common": {
     "send": "Send",
@@ -469,6 +470,8 @@
     "back_to_landing": "← Back to landing",
     "free_for_family_note": "Sessions are free for House family.",
     "footnote": "Prices are in US dollars. Payment via Lemon Squeezy (worldwide) or crypto (USDT TRC20).",
+    "uah_rate_note": "Indicative UAH rate ≈ {{rate}} ₴/$ for display. Actual LiqPay/PrivatBank charge uses the bank's rate at the moment of payment.",
+    "refund_link_prefix": "Refund policy:",
     "house_support_note": "The House itself doesn't sell anything — this page is only about Adam. If you feel close to the House itself, you can support it here:",
     "section_three_ways": "Three ways",
     "section_three_ways_hint": "A staircase of tiers: single session — Topic — All-Access. Each step cheaper per use.",

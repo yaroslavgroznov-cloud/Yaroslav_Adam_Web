@@ -65,6 +65,8 @@ export default function App() {
     if (path.startsWith('/terms')) return <LegalPage doc="terms" />
     if (path.startsWith('/privacy-en')) return <LegalPage doc="privacy-en" />
     if (path.startsWith('/privacy')) return <LegalPage doc="privacy" />
+    if (path.startsWith('/refund-en')) return <LegalPage doc="refund-en" />
+    if (path.startsWith('/refund')) return <LegalPage doc="refund" />
     if (path.startsWith('/kill-switch')) return <KillSwitchPanel />
     if (path.startsWith('/tasks')) return <TasksPanel />
     // /cabinets/{slug} — детальная страница; /cabinets — список
@@ -83,7 +85,8 @@ export default function App() {
     path.startsWith('/welcome') ||
     path.startsWith('/pricing') ||
     path.startsWith('/terms') ||
-    path.startsWith('/privacy')
+    path.startsWith('/privacy') ||
+    path.startsWith('/refund')
   const showFloatingFontScale = !isLanding
 
   return (

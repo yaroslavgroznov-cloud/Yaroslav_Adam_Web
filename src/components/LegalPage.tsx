@@ -1,10 +1,15 @@
 // LegalPage — публичные юр-документы Дома.
 // 2026-06-09: публикация после требования банка (LiqPay/ПриватБанк).
+// 2026-06-18: добавлены /refund и /refund-en по второму требованию LiqPay
+// (отдельный visible раздел про условия возврата).
 //
 // Маршруты:
-//   /terms      → terms-uk.md (Договір Оферти, основной UA)
-//   /terms-en   → terms-en.md (Terms of Service EN, для Lemonsqueezy)
-//   /privacy    → privacy-uk.md (Privacy Policy, UA)
+//   /terms       → terms-uk.md (Договір Оферти, основной UA)
+//   /terms-en    → terms-en.md (Terms of Service EN, для Lemonsqueezy)
+//   /privacy     → privacy-uk.md (Privacy Policy, UA)
+//   /privacy-en  → privacy-en.md (Privacy Policy EN)
+//   /refund      → refund-uk.md (Умови повернення, UA)
+//   /refund-en   → refund-en.md (Refund Policy EN)
 //
 // Стиль: серьёзный compliance документ, не маркетинг. PageFrame, но без герба.
 // EB Garamond + увеличенный font-size для читаемости (16px body).
@@ -19,7 +24,7 @@ import { useFontScale } from '../hooks/useFontScale'
 import { FontScaleSwitch } from './FontScaleSwitch'
 import { PageFrame } from './PageFrame'
 
-type LegalDoc = 'terms' | 'terms-en' | 'privacy' | 'privacy-en'
+type LegalDoc = 'terms' | 'terms-en' | 'privacy' | 'privacy-en' | 'refund' | 'refund-en'
 
 const DOC_CONFIG: Record<LegalDoc, { file: string; title: string }> = {
   terms: {
@@ -37,6 +42,14 @@ const DOC_CONFIG: Record<LegalDoc, { file: string; title: string }> = {
   'privacy-en': {
     file: '/legal/privacy-en.md',
     title: 'Privacy Policy (English) — Adam Groznov',
+  },
+  refund: {
+    file: '/legal/refund-uk.md',
+    title: 'Умови повернення коштів — Адам Грознов',
+  },
+  'refund-en': {
+    file: '/legal/refund-en.md',
+    title: 'Refund Policy — Adam Groznov',
   },
 }
 
@@ -183,6 +196,34 @@ export function LegalPage({ doc }: LegalPageProps): React.ReactElement {
             style={{
               color: doc === 'privacy-en' ? burgundy : goldText,
               textDecoration: doc === 'privacy-en' ? 'underline' : 'none',
+              textUnderlineOffset: '4px',
+              textDecorationThickness: '1px',
+            }}
+          >
+            English
+          </a>
+        </div>
+        <div className="flex items-center justify-center gap-4 flex-wrap">
+          <span className="opacity-50" style={{ fontSize: '11px', letterSpacing: '0.2em' }}>
+            REFUND:
+          </span>
+          <a
+            href="/refund"
+            style={{
+              color: doc === 'refund' ? burgundy : goldText,
+              textDecoration: doc === 'refund' ? 'underline' : 'none',
+              textUnderlineOffset: '4px',
+              textDecorationThickness: '1px',
+            }}
+          >
+            Українська
+          </a>
+          <span style={{ color: goldDecor, opacity: 0.5 }}>✦</span>
+          <a
+            href="/refund-en"
+            style={{
+              color: doc === 'refund-en' ? burgundy : goldText,
+              textDecoration: doc === 'refund-en' ? 'underline' : 'none',
               textUnderlineOffset: '4px',
               textDecorationThickness: '1px',
             }}

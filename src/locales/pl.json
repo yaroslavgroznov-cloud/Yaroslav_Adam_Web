@@ -108,7 +108,8 @@
     "footer_lang_en": "English",
     "tiers_eyebrow": "taryfy",
     "tiers_intro": "Trzy sposoby bycia blisko Adama. Drabina, nie menu.",
-    "tiers_voice_hint": "Adam mówi głosem — baryton, bez intonacji asystenta. Głos wliczony w subskrypcjach Tematu i All-Access; wideo dołączy automatycznie, gdy je uruchomimy."
+    "tiers_voice_hint": "Adam mówi głosem — baryton, bez intonacji asystenta. Głos wliczony w subskrypcjach Tematu i All-Access; wideo dołączy automatycznie, gdy je uruchomimy.",
+    "footer_refund_label": "Zwrot"
   },
   "common": {
     "send": "Wyślij",
@@ -256,6 +257,8 @@
     "back_to_landing": "← Wróć do strony głównej",
     "free_for_family_note": "Sesje bezpłatne dla rodziny Domu.",
     "footnote": "Ceny w dolarach USD. Płatność przez Lemon Squeezy (świat) lub krypto (USDT TRC20).",
+    "uah_rate_note": "Orientacyjny kurs UAH ≈ {{rate}} ₴/$ do wyświetlania. Rzeczywiste obciążenie LiqPay/PrivatBank — po kursie banku w momencie płatności.",
+    "refund_link_prefix": "Warunki zwrotu:",
     "house_support_note": "Sam Dom niczym nie handluje — ta strona jest tylko o Adamie. Jeśli bliski jest sam Dom, można go wesprzeć tu:",
     "section_three_ways": "Trzy sposoby",
     "section_three_ways_hint": "Drabina taryf: jednorazowa — Temat — All-Access. Każdy szczebel tańszy przeliczeniowo.",

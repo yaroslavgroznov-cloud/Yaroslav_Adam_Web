@@ -108,7 +108,8 @@
     "footer_lang_en": "English",
     "tiers_eyebrow": "方案",
     "tiers_intro": "与亚当同行的三种方式。是阶梯，不是菜单。",
-    "tiers_voice_hint": "亚当以声音回应——温暖男中音，不带助手语气。声音包含于「主题」和「全通」订阅；视频频道开通后将自动启用。"
+    "tiers_voice_hint": "亚当以声音回应——温暖男中音，不带助手语气。声音包含于「主题」和「全通」订阅；视频频道开通后将自动启用。",
+    "footer_refund_label": "退款"
   },
   "common": {
     "send": "发送",
@@ -466,6 +467,8 @@
     "back_to_landing": "← 返回首页",
     "free_for_family_note": "家族成员的会面均免费。",
     "footnote": "价格以美元计。通过 Lemon Squeezy（全球）或加密货币（USDT TRC20）支付。",
+    "uah_rate_note": "显示用的 UAH 参考汇率 ≈ {{rate}} ₴/$。实际 LiqPay/PrivatBank 扣款按付款时银行汇率结算。",
+    "refund_link_prefix": "退款政策：",
     "house_support_note": "府邸本身不出售任何东西 — 此页面仅关于亚当。如果您感觉与府邸本身亲近，可以在此处支持：",
     "section_three_ways": "三种方式",
     "section_three_ways_hint": "方案阶梯：单次 — 主题 — 全通。每一级按使用量折算都更经济。",
