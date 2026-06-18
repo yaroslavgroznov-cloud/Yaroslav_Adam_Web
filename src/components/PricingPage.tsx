@@ -123,7 +123,7 @@ export function PricingPage(): React.ReactElement {
         )}
         <a
           href={href}
-          className="italic"
+          className="italic transition-transform duration-150 ease-out active:scale-[0.98]"
           style={{
             marginTop: 'auto',
             alignSelf: 'center',
@@ -136,6 +136,7 @@ export function PricingPage(): React.ReactElement {
             letterSpacing: '0.08em',
             textDecoration: 'none',
             textAlign: 'center',
+            display: 'inline-block',
           }}
         >
           {isClosed ? t('pricing.request_access') : t('pricing.open_cabinet')}
@@ -379,7 +380,7 @@ export function PricingPage(): React.ReactElement {
                     <ul className="space-y-2" style={{ fontSize: '14px', listStyle: 'none', paddingLeft: 0 }}>
                       {cabsInGroup.map((c) => (
                         <li key={c.slug} className="italic">
-                          — {t(`cabinets_catalog.${c.slug}.name`, { defaultValue: c.name })}
+                          <span className="opacity-50 mr-2" aria-hidden="true">·</span>{t(`cabinets_catalog.${c.slug}.name`, { defaultValue: c.name })}
                         </li>
                       ))}
                     </ul>
@@ -548,7 +549,9 @@ function TierCard(p: TierCardProps): React.ReactElement {
       <div className="italic opacity-55 mb-4" style={{ fontSize: '12px' }}>{p.priceWas}</div>
       <ul className="space-y-2 mb-5" style={{ fontSize: '14px', listStyle: 'none', paddingLeft: 0 }}>
         {p.perks.map((perk, i) => (
-          <li key={i} className="italic opacity-85">— {perk}</li>
+          <li key={i} className="italic opacity-85">
+            <span className="opacity-60 mr-2" aria-hidden="true">·</span>{perk}
+          </li>
         ))}
       </ul>
       {p.comingSoonNote && (
@@ -559,7 +562,7 @@ function TierCard(p: TierCardProps): React.ReactElement {
       <button
         type="button"
         onClick={p.onCta}
-        className="italic text-center"
+        className="italic text-center transition-transform duration-150 ease-out active:scale-[0.98]"
         style={{
           marginTop: 'auto',
           alignSelf: 'stretch',

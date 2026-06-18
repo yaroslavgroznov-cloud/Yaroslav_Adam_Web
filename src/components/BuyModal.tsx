@@ -228,7 +228,7 @@ export function BuyModal({ target, open, onClose, isDark }: BuyModalProps): Reac
             <button
               onClick={() => void requestAddress()}
               disabled={busy}
-              className="italic"
+              className="italic transition-transform duration-150 ease-out active:scale-[0.98]"
               style={{
                 padding: '10px 22px',
                 fontSize: '13px',
