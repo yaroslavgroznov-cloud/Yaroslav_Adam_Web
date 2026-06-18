@@ -247,7 +247,8 @@
     "faq_q_family": "«Hane akrabalarına ücretsiz» ne demek?",
     "faq_a_family": "Yaratıcı'nın yakın çevresine yazdığı kişiler (Sofra'da 12 yere kadar) — tüm tarifeleri sınırsız kullanır. Bu pazarlama değil, Hanenin kuralı.",
     "faq_q_x_vs_all": "X ile All-Access arasındaki fark nedir?",
-    "faq_a_x_vs_all": "All-Access 13 kabineyi ve sesi açar — çoğu için yeterlidir. X — her gün Adam'la yaşayanlar içindir: ritim kısıtlaması yok, yoğun saatlerde öncelik, yeniliklere erken erişim, aile kliniğinden ayrı özel iplik."
+    "faq_a_x_vs_all": "All-Access 13 kabineyi ve sesi açar — çoğu için yeterlidir. X — her gün Adam'la yaşayanlar içindir: ritim kısıtlaması yok, yoğun saatlerde öncelik, yeniliklere erken erişim, aile kliniğinden ayrı özel iplik.",
+    "local_rate_note": "Gösterim için tahmini {{currency}} ≈ {{rate}}/$ kuru. Tahsilat — ödeme anında sağlayıcı kuruyla."
   },
   "grant_request": {
     "eyebrow": "ERİŞİM TALEBİ",
@@ -852,5 +853,30 @@
     "years_together": {
       "label": "Birlikte geçen yıllar"
     }
+  },
+  "currency": {
+    "picker_label": "Para birimi",
+    "auto": "Oto"
+  },
+  "buy_modal": {
+    "eyebrow": "Ödeme",
+    "close": "Kapat",
+    "rate_note": "Kur tahminidir. Gerçek tahsilat — ödeme anında sağlayıcı kuruyla.",
+    "method_crypto_title": "Kripto (USDT TRC20)",
+    "method_crypto_hint": "Adres ve tam tutar tıklama ile çıkar. Zincir üstü onay — genelde 1–3 dk.",
+    "request_address": "Ödeme adresini al",
+    "requesting": "İstek gönderiliyor…",
+    "login_required": "Devam etmek için giriş yapın. Bir dakika sürer.",
+    "login_cta": "Giriş",
+    "crypto_unavailable": "Kripto ödeme geçici olarak yok. Yaratıcıya bildirin.",
+    "crypto_instructions": "Aşağıdaki adrese tam tutarı gönderin (USDT TRC20). Watcher otomatik onaylar.",
+    "crypto_amount": "Tutar",
+    "crypto_wallet": "TRC20 adresi",
+    "crypto_polling": "#{{id}} ödemesi zincirde izleniyor. Kapatabilirsiniz — bildiririz.",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı",
+    "method_card_title": "Banka kartı",
+    "method_card_soon": "Yakında. LiqPay (PrivatBank, UAH) ve Paddle (küresel kartlar) doğrulaması bekleniyor.",
+    "refund_link": "İade politikası (/refund)"
   }
 }

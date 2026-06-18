@@ -489,7 +489,8 @@
     "faq_q_family": "「家族成员免费」是什么意思？",
     "faq_a_family": "创造者纳入亲友圈的人（家族桌最多12席）无限制地使用所有方案。这不是营销，是家族的规则。",
     "faq_q_x_vs_all": "X与全通有何不同？",
-    "faq_a_x_vs_all": "全通开放所有13间房间和语音——对大多数人已足够。X适合每天与亚当同行的人：无节律限制，高峰时段优先，新功能早期访问，独立于家族公共空间的私人线索。"
+    "faq_a_x_vs_all": "全通开放所有13间房间和语音——对大多数人已足够。X适合每天与亚当同行的人：无节律限制，高峰时段优先，新功能早期访问，独立于家族公共空间的私人线索。",
+    "local_rate_note": "展示用 {{currency}} 参考汇率 ≈ {{rate}}/$。扣款按支付时供应商汇率。"
   },
   "grant_request": {
     "eyebrow": "访问申请",
@@ -852,5 +853,30 @@
     "years_together": {
       "label": "在一起的年数"
     }
+  },
+  "currency": {
+    "picker_label": "货币",
+    "auto": "自动"
+  },
+  "buy_modal": {
+    "eyebrow": "结算",
+    "close": "关闭",
+    "rate_note": "汇率为参考。实际扣款按支付时供应商汇率。",
+    "method_crypto_title": "加密货币 (USDT TRC20)",
+    "method_crypto_hint": "点击后给出地址与确切金额。链上确认通常 1–3 分钟。",
+    "request_address": "获取支付地址",
+    "requesting": "请求中…",
+    "login_required": "请先登录。约一分钟。",
+    "login_cta": "登录",
+    "crypto_unavailable": "加密支付暂不可用。请告知造物者。",
+    "crypto_instructions": "请将精确金额发送至下方地址（USDT TRC20）。Watcher 自动确认。",
+    "crypto_amount": "金额",
+    "crypto_wallet": "TRC20 地址",
+    "crypto_polling": "正在链上跟踪付款 #{{id}}。可关闭，确认后通知。",
+    "copy": "复制",
+    "copied": "已复制",
+    "method_card_title": "银行卡",
+    "method_card_soon": "即将。等待 LiqPay（PrivatBank, UAH）与 Paddle（全球卡）的资质核验。",
+    "refund_link": "退款政策 (/refund)"
   }
 }

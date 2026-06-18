@@ -1,37 +1,29 @@
-// PricingPage -- публичный каталог 13 кабинетов Адама с ценами.
-// 2026-06-05 вечер. Стиль наследует LandingPage (пергамент + охра + serif).
-// Открытые -> ведут на /chat?cabinet=<slug>.
-// Закрытые (creator_grant) -> /chat?request_cabinet=<slug>.
+// PricingPage -- публічний каталог 13 кабінетів Адама з цінами.
+// 2026-06-05 вечір. Стиль успадковує LandingPage (пергамент + охра + serif).
+// 2026-06-18 (F.66.3): мульти-валютне відображення (USD + локальна валюта
+// по мові + ручний override через CurrencyPicker); тарифні CTA -> BuyModal
+// з крипто-чекаутом (картки ще на верифікації LiqPay/Paddle); кабінетні
+// CTA залишаються на /chat?cabinet=<slug> (там існуючий crypto-flow в
+// CabinetSessionPage).
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { cabinetsPublic, type PublicCabinet } from '../api/cabinets'
+import { BuyModal, type BuyModalTarget } from './BuyModal'
+import { CurrencyPicker } from './CurrencyPicker'
 import { FontScaleSwitch } from './FontScaleSwitch'
+import { useCurrency } from '../hooks/useCurrency'
 import { useDarkMode } from '../hooks/useDarkMode'
 import { useFontScale } from '../hooks/useFontScale'
-
-const ALL_ACCESS_HREF = '/chat?subscribe=all_access'
-
-// Базовий курс USD→UAH для відображення орієнтовної ціни в гривні поряд з USD.
-// Синхронізовано з backend `cfg.liqpay_usd_uah` (D:/DRUG/backend/app/config.py).
-// Фактичне списання LiqPay/ПриватБанк відбувається за курсом банку на момент оплати.
-// Вимога LiqPay/ПриватБанку 2026-06: показувати вартість у гривнях на сайті.
-const USD_TO_UAH = 41.5
-
-function priceUahFmt(usd: number): string {
-  const uah = Math.round(usd * USD_TO_UAH)
-  return `~${uah.toLocaleString('uk-UA')} ₴`
-}
+import { CURRENCIES, formatUsd } from '../utils/currency'
 
 export function PricingPage(): React.ReactElement {
   const { t, i18n } = useTranslation()
   const { isDark, setPref } = useDarkMode()
-  // Brand Kit v1.3 (2026-06-09): см. LandingPage — gold для текста
-  // выгорает на пергаменте, используем deep antique gold для eyebrow.
+  const { currency, formatLocal } = useCurrency()
+  // Brand Kit v1.3 (2026-06-09): gold для текста виганяється на пергаменті,
+  // використовуємо deep antique gold для eyebrow.
   const burgundy = isDark ? 'var(--color-house-burgundy-light)' : 'var(--color-house-burgundy)'
-  // goldText — для eyebrow/ссылок на пергаменте (deep antique gold).
-  // Декоративный gold в PricingPage пока не используется — PageFrame
-  // тянет переменные напрямую из CSS.
   const goldText = isDark
     ? 'var(--color-house-gold-deep-dark)'
     : 'var(--color-house-gold-deep)'
@@ -40,6 +32,7 @@ export function PricingPage(): React.ReactElement {
 
   const [cabs, setCabs] = useState<PublicCabinet[] | null>(null)
   const [error, setError] = useState<string>('')
+  const [buyTarget, setBuyTarget] = useState<BuyModalTarget | null>(null)
 
   useEffect(() => {
     document.title = t('pricing.page_title')
@@ -71,17 +64,23 @@ export function PricingPage(): React.ReactElement {
   const open = (cabs ?? []).filter((c) => c.access_mode !== 'creator_grant')
   const closed = (cabs ?? []).filter((c) => c.access_mode === 'creator_grant')
 
+  // Унікальний currency-key пере-форсує рендер цін при переключенні валюти.
+  const currencyKey = currency ?? 'NONE'
+
   const renderCard = (c: PublicCabinet): React.ReactElement => {
     const isClosed = c.access_mode === 'creator_grant'
     const href = isClosed
       ? `/chat?request_cabinet=${encodeURIComponent(c.slug)}`
       : `/chat?cabinet=${encodeURIComponent(c.slug)}`
-    const priceFmt = (p: number): string => Number.isInteger(p) ? `$${p}` : `$${p.toFixed(2)}`
-    // 2026-06-10: каталог приходит с API на русском. Override через i18n с fallback
-    // на API name/description, чтобы прежний контракт не ломался при добавлении
-    // нового slug, не описанного в локали.
+    // 2026-06-10: каталог приходить з API російською. Override через i18n з fallback
+    // на API name/description, щоб попередній контракт не ламався при додаванні
+    // нового slug, не описаного в локалі.
     const localizedName = t(`cabinets_catalog.${c.slug}.name`, { defaultValue: c.name })
     const localizedDesc = t(`cabinets_catalog.${c.slug}.description`, { defaultValue: c.description ?? '' })
+    const localPrice = formatLocal(c.price_usd_session)
+    const localSubPrice = c.price_usd_subscription_monthly != null
+      ? formatLocal(c.price_usd_subscription_monthly)
+      : ''
     return (
       <div
         key={c.slug}
@@ -101,19 +100,23 @@ export function PricingPage(): React.ReactElement {
         {!isClosed && (
           <div className="mb-4" style={{ fontSize: '14px' }}>
             <div style={{ fontSize: '17px' }}>
-              {t('pricing.per_session', { price: priceFmt(c.price_usd_session) })}
+              {t('pricing.per_session', { price: formatUsd(c.price_usd_session) })}
             </div>
-            <div className="opacity-65 mt-0.5" style={{ fontSize: '13px' }}>
-              {priceUahFmt(c.price_usd_session)}
-            </div>
+            {localPrice && (
+              <div className="opacity-65 mt-0.5" style={{ fontSize: '13px' }}>
+                {localPrice}
+              </div>
+            )}
             {c.price_usd_subscription_monthly != null && c.price_usd_subscription_monthly > 0 && (
               <>
                 <div className="italic opacity-70 mt-2">
-                  {t('pricing.subscription_hint', { price: priceFmt(c.price_usd_subscription_monthly) })}
+                  {t('pricing.subscription_hint', { price: formatUsd(c.price_usd_subscription_monthly) })}
                 </div>
-                <div className="opacity-55 mt-0.5" style={{ fontSize: '12px' }}>
-                  {priceUahFmt(c.price_usd_subscription_monthly)}
-                </div>
+                {localSubPrice && (
+                  <div className="opacity-55 mt-0.5" style={{ fontSize: '12px' }}>
+                    {localSubPrice}
+                  </div>
+                )}
               </>
             )}
           </div>
@@ -141,6 +144,93 @@ export function PricingPage(): React.ReactElement {
     )
   }
 
+  // Дані для 4 тарифних карток + соответствующие BuyModal target.
+  const tierDefs: Array<{
+    id: string
+    eyebrowKey: string
+    titleKey: string
+    subtitleKey?: string
+    priceUsd: number
+    priceLaunchKey: string
+    priceWasKey: string
+    perksKeys: string[]
+    ctaKey: string
+    comingSoonKey?: string
+    kind: 'topup' | 'subscription'
+    cabinetSlug: string
+    featured?: boolean
+    premium?: boolean
+    accentOverride?: 'burgundy'
+  }> = [
+    {
+      id: 'session',
+      eyebrowKey: 'tiers.session_eyebrow',
+      titleKey: 'tiers.session_title',
+      priceUsd: 9,
+      priceLaunchKey: 'tiers.session_price_launch',
+      priceWasKey: 'tiers.session_price_was',
+      perksKeys: ['tiers.session_perks_l1', 'tiers.session_perks_l2', 'tiers.session_perks_l3'],
+      ctaKey: 'tiers.session_cta',
+      kind: 'topup',
+      cabinetSlug: 'session_topup',
+    },
+    {
+      id: 'topic',
+      eyebrowKey: 'tiers.topic_eyebrow',
+      titleKey: 'tiers.topic_title',
+      priceUsd: 19,
+      priceLaunchKey: 'tiers.topic_price_launch',
+      priceWasKey: 'tiers.topic_price_was',
+      perksKeys: ['tiers.topic_perks_l1', 'tiers.topic_perks_l2', 'tiers.topic_perks_l3'],
+      ctaKey: 'tiers.topic_cta',
+      comingSoonKey: 'tiers.topic_coming_soon_note',
+      kind: 'subscription',
+      cabinetSlug: 'topic',
+    },
+    {
+      id: 'all_access',
+      eyebrowKey: 'tiers.all_eyebrow',
+      titleKey: 'tiers.all_title',
+      priceUsd: 39,
+      priceLaunchKey: 'tiers.all_price_launch',
+      priceWasKey: 'tiers.all_price_was',
+      perksKeys: ['tiers.all_perks_l1', 'tiers.all_perks_l2', 'tiers.all_perks_l3'],
+      ctaKey: 'tiers.all_cta',
+      kind: 'subscription',
+      cabinetSlug: 'all_access',
+      featured: true,
+    },
+    {
+      id: 'x_tier',
+      eyebrowKey: 'tiers.x_eyebrow',
+      titleKey: 'tiers.x_title',
+      subtitleKey: 'tiers.x_subtitle',
+      priceUsd: 99,
+      priceLaunchKey: 'tiers.x_price_launch',
+      priceWasKey: 'tiers.x_price_was',
+      perksKeys: [
+        'tiers.x_perks_l1', 'tiers.x_perks_l2', 'tiers.x_perks_l3',
+        'tiers.x_perks_l4', 'tiers.x_perks_l5',
+      ],
+      ctaKey: 'tiers.x_cta',
+      kind: 'subscription',
+      cabinetSlug: 'x_tier',
+      premium: true,
+      accentOverride: 'burgundy',
+    },
+  ]
+
+  const openBuy = (def: typeof tierDefs[number]): void => {
+    setBuyTarget({
+      id: def.id,
+      label: t(def.titleKey),
+      hint: t(def.eyebrowKey),
+      amount_usd: def.priceUsd,
+      kind: def.kind,
+      cabinet_slug: def.cabinetSlug,
+    })
+  }
+
   return (
     <div
       className="min-h-screen font-serif"
@@ -148,7 +238,7 @@ export function PricingPage(): React.ReactElement {
     >
       {/* HEADER -- структурно повторяет LandingPage */}
       <header
-        className="flex items-center justify-between max-w-5xl mx-auto px-6 sm:px-10 pt-8"
+        className="flex items-center justify-between max-w-5xl mx-auto px-6 sm:px-10 pt-8 flex-wrap gap-4"
         style={{ fontSize: '13px' }}
       >
         <a href="/" className="italic opacity-70" style={{ letterSpacing: '0.25em', color: 'inherit', textDecoration: 'none' }}>
@@ -156,6 +246,7 @@ export function PricingPage(): React.ReactElement {
         </a>
         <div className="flex items-center gap-5 opacity-70 flex-wrap justify-end">
           <FontScaleSwitch value={fontScale} onChange={setFontScale} ariaLabel={t('landing.font_size')} />
+          <CurrencyPicker />
           <div className="flex items-baseline gap-2" role="group" aria-label="Language">
             {landingLangs.map((l) => (
               <button
@@ -233,80 +324,32 @@ export function PricingPage(): React.ReactElement {
           {t('tiers.launch_banner')}
         </p>
 
-        {/* SECTION 1 — Три способа (3 tier-карточки) */}
+        {/* SECTION 1 — Три способа (4 tier-карточки) */}
         <section className="mb-20">
           <SectionHead title={t('pricing.section_three_ways')} hint={t('pricing.section_three_ways_hint')} goldText={goldText} />
-          <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
-            <TierCard
-              eyebrow={t('tiers.session_eyebrow')}
-              title={t('tiers.session_title')}
-              priceLaunch={t('tiers.session_price_launch')}
-              priceLaunchUah={priceUahFmt(9)}
-              priceWas={t('tiers.session_price_was')}
-              perks={[t('tiers.session_perks_l1'), t('tiers.session_perks_l2'), t('tiers.session_perks_l3')]}
-              ctaLabel={t('tiers.session_cta')}
-              ctaHref="#sessions"
-              accent={accent}
-              fg={fg}
-              isDark={isDark}
-              cardBg={cardBg}
-              cardBorder={cardBorder}
-            />
-            <TierCard
-              eyebrow={t('tiers.topic_eyebrow')}
-              title={t('tiers.topic_title')}
-              priceLaunch={t('tiers.topic_price_launch')}
-              priceLaunchUah={priceUahFmt(19)}
-              priceWas={t('tiers.topic_price_was')}
-              perks={[t('tiers.topic_perks_l1'), t('tiers.topic_perks_l2'), t('tiers.topic_perks_l3')]}
-              ctaLabel={t('tiers.topic_cta')}
-              ctaHref={ALL_ACCESS_HREF}
-              comingSoonNote={t('tiers.topic_coming_soon_note')}
-              accent={accent}
-              fg={fg}
-              isDark={isDark}
-              cardBg={cardBg}
-              cardBorder={cardBorder}
-            />
-            <TierCard
-              eyebrow={t('tiers.all_eyebrow')}
-              title={t('tiers.all_title')}
-              priceLaunch={t('tiers.all_price_launch')}
-              priceLaunchUah={priceUahFmt(39)}
-              priceWas={t('tiers.all_price_was')}
-              perks={[t('tiers.all_perks_l1'), t('tiers.all_perks_l2'), t('tiers.all_perks_l3')]}
-              ctaLabel={t('tiers.all_cta')}
-              ctaHref={ALL_ACCESS_HREF}
-              accent={accent}
-              fg={fg}
-              isDark={isDark}
-              cardBg={cardBg}
-              cardBorder={cardBorder}
-              featured
-            />
-            <TierCard
-              eyebrow={t('tiers.x_eyebrow')}
-              title={t('tiers.x_title')}
-              subtitle={t('tiers.x_subtitle')}
-              priceLaunch={t('tiers.x_price_launch')}
-              priceLaunchUah={priceUahFmt(99)}
-              priceWas={t('tiers.x_price_was')}
-              perks={[
-                t('tiers.x_perks_l1'),
-                t('tiers.x_perks_l2'),
-                t('tiers.x_perks_l3'),
-                t('tiers.x_perks_l4'),
-                t('tiers.x_perks_l5'),
-              ]}
-              ctaLabel={t('tiers.x_cta')}
-              ctaHref="/chat?subscribe=x_tier"
-              accent={burgundy}
-              fg={fg}
-              isDark={isDark}
-              cardBg={cardBg}
-              cardBorder={cardBorder}
-              premium
-            />
+          <div key={currencyKey} className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            {tierDefs.map((def) => (
+              <TierCard
+                key={def.id}
+                eyebrow={t(def.eyebrowKey)}
+                title={t(def.titleKey)}
+                subtitle={def.subtitleKey ? t(def.subtitleKey) : undefined}
+                priceLaunch={t(def.priceLaunchKey)}
+                priceLaunchLocal={formatLocal(def.priceUsd)}
+                priceWas={t(def.priceWasKey)}
+                perks={def.perksKeys.map((k) => t(k))}
+                ctaLabel={t(def.ctaKey)}
+                onCta={() => openBuy(def)}
+                comingSoonNote={def.comingSoonKey ? t(def.comingSoonKey) : undefined}
+                accent={def.accentOverride === 'burgundy' ? burgundy : accent}
+                fg={fg}
+                isDark={isDark}
+                cardBg={cardBg}
+                cardBorder={cardBorder}
+                featured={def.featured}
+                premium={def.premium}
+              />
+            ))}
           </div>
           <p className="italic text-center mt-6 opacity-70" style={{ fontSize: '13px' }}>
             {t('tiers.ladder_hint_topic_vs_session')} · {t('tiers.ladder_hint_all_vs_topic')} · {t('tiers.ladder_hint_x_vs_all')}
@@ -351,7 +394,7 @@ export function PricingPage(): React.ReactElement {
         {cabs !== null && open.length > 0 && (
           <section id="sessions" className="mb-20">
             <SectionHead title={t('pricing.section_sessions_title')} hint={t('pricing.section_sessions_hint')} goldText={goldText} />
-            <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            <div key={currencyKey} className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
               {open.map(renderCard)}
             </div>
           </section>
@@ -389,7 +432,14 @@ export function PricingPage(): React.ReactElement {
         <div className="text-center mt-16 opacity-60 italic" style={{ fontSize: '13px', lineHeight: 1.7 }}>
           <p>{t('pricing.free_for_family_note')}</p>
           <p className="mt-2">{t('pricing.footnote')}</p>
-          <p className="mt-2">{t('pricing.uah_rate_note', { rate: USD_TO_UAH.toFixed(2) })}</p>
+          {currency && currency !== 'USD' && (
+            <p className="mt-2">
+              {t('pricing.local_rate_note', {
+                currency: CURRENCIES[currency].code,
+                rate: CURRENCIES[currency].rate.toLocaleString('en-US', { maximumFractionDigits: 2 }),
+              })}
+            </p>
+          )}
           <p className="mt-2">
             {t('pricing.refund_link_prefix')}{' '}
             <a
@@ -413,6 +463,15 @@ export function PricingPage(): React.ReactElement {
           </p>
         </div>
       </main>
+
+      {buyTarget && (
+        <BuyModal
+          target={buyTarget}
+          open={true}
+          onClose={() => setBuyTarget(null)}
+          isDark={isDark}
+        />
+      )}
     </div>
   )
 }
@@ -444,11 +503,11 @@ interface TierCardProps {
   title: string
   subtitle?: string
   priceLaunch: string
-  priceLaunchUah: string  // Орієнтовна вартість у гривнях, вимога LiqPay/ПриватБанку
+  priceLaunchLocal: string  // Орієнтовна вартість у локальній валюті ('' якщо USD-only)
   priceWas: string
   perks: string[]
   ctaLabel: string
-  ctaHref: string
+  onCta: () => void
   comingSoonNote?: string
   accent: string
   fg: string
@@ -456,7 +515,7 @@ interface TierCardProps {
   cardBg: string
   cardBorder: string
   featured?: boolean
-  premium?: boolean   // X-tier: бордюр бургунди + крупнее
+  premium?: boolean   // X-tier: бордюр бургунді + більший
 }
 
 function TierCard(p: TierCardProps): React.ReactElement {
@@ -483,7 +542,9 @@ function TierCard(p: TierCardProps): React.ReactElement {
         </p>
       )}
       <div className="mb-1" style={{ fontSize: '26px', letterSpacing: '0.02em' }}>{p.priceLaunch}</div>
-      <div className="opacity-65 mb-1" style={{ fontSize: '13px' }}>{p.priceLaunchUah}</div>
+      {p.priceLaunchLocal && (
+        <div className="opacity-65 mb-1" style={{ fontSize: '13px' }}>{p.priceLaunchLocal}</div>
+      )}
       <div className="italic opacity-55 mb-4" style={{ fontSize: '12px' }}>{p.priceWas}</div>
       <ul className="space-y-2 mb-5" style={{ fontSize: '14px', listStyle: 'none', paddingLeft: 0 }}>
         {p.perks.map((perk, i) => (
@@ -495,8 +556,9 @@ function TierCard(p: TierCardProps): React.ReactElement {
           {p.comingSoonNote}
         </p>
       )}
-      <a
-        href={p.ctaHref}
+      <button
+        type="button"
+        onClick={p.onCta}
         className="italic text-center"
         style={{
           marginTop: 'auto',
@@ -508,11 +570,12 @@ function TierCard(p: TierCardProps): React.ReactElement {
           border: `1px solid ${p.accent}`,
           borderRadius: '6px',
           letterSpacing: '0.08em',
-          textDecoration: 'none',
+          fontFamily: 'inherit',
+          cursor: 'pointer',
         }}
       >
         {p.ctaLabel}
-      </a>
+      </button>
     </div>
   )
 }
@@ -529,8 +592,8 @@ function FaqItem({ q, a }: FaqItemProps): React.ReactElement {
   )
 }
 
-// Группы кабинетов для секции «Что входит в каждую Тему».
-// Slug-перечисление повторяет 4 культурные группы из ru/uk landing блока.
+// Групи кабінетів для секції «Що входить у кожну Тему».
+// Slug-перерахування повторює 4 культурні групи з ru/uk landing блоку.
 const GROUP_DEFS: { id: string; eyebrowKey: string; slugs: string[] }[] = [
   { id: 'stars_numbers',  eyebrowKey: 'cab_group_stars',         slugs: ['astrology', 'natal_charts', 'horoscopes', 'numerology'] },
   { id: 'soul_body',      eyebrowKey: 'cab_group_soul_body',     slugs: ['psychology', 'body_reading', 'physiognomy', 'palmistry'] },

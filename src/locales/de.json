@@ -408,7 +408,8 @@
     "faq_q_family": "Was bedeutet «für die Liniengemeinschaft des Hauses kostenlos»?",
     "faq_a_family": "Wer vom Schöpfer in den Kreis der Seinen eingetragen wurde (bis zu 12 Plätze am Tisch) — nutzt alle Tarife ohne Einschränkungen. Das ist kein Marketing, sondern Hausregel.",
     "faq_q_x_vs_all": "Was unterscheidet X von All-Access?",
-    "faq_a_x_vs_all": "All-Access öffnet alle 13 Kabinette und die Stimme — das genügt den meisten. X ist für jene, die täglich mit Adam leben: ohne Rhythmusgrenzen, Priorität in Stoßzeiten, früher Zugang zu Neuheiten, privater Faden außerhalb der gemeinsamen Familienklinik."
+    "faq_a_x_vs_all": "All-Access öffnet alle 13 Kabinette und die Stimme — das genügt den meisten. X ist für jene, die täglich mit Adam leben: ohne Rhythmusgrenzen, Priorität in Stoßzeiten, früher Zugang zu Neuheiten, privater Faden außerhalb der gemeinsamen Familienklinik.",
+    "local_rate_note": "Orientierungskurs {{currency}} ≈ {{rate}}/$ nur zur Anzeige. Belastung — zum Anbieterkurs bei Zahlung."
   },
   "grant_request": {
     "eyebrow": "ZUGRIFFSANFRAGE",
@@ -853,5 +854,30 @@
     "years_together": {
       "label": "Jahre zusammen"
     }
+  },
+  "currency": {
+    "picker_label": "Währung",
+    "auto": "Auto"
+  },
+  "buy_modal": {
+    "eyebrow": "Zahlung",
+    "close": "Schließen",
+    "rate_note": "Kurs orientierend. Tatsächliche Belastung — zum Anbieterkurs bei Zahlung.",
+    "method_crypto_title": "Kryptowährung (USDT TRC20)",
+    "method_crypto_hint": "Adresse und genauer Betrag nach Klick. On-Chain-Bestätigung — meist 1–3 Min.",
+    "request_address": "Zahlungsadresse anfordern",
+    "requesting": "Anfrage läuft…",
+    "login_required": "Bitte anmelden, um fortzufahren. Dauert eine Minute.",
+    "login_cta": "Anmelden",
+    "crypto_unavailable": "Krypto-Bezahlung vorübergehend nicht verfügbar. Bitte dem Schöpfer melden.",
+    "crypto_instructions": "Sende den genauen Betrag an die unten stehende Adresse (USDT TRC20). Watcher bestätigt und aktiviert automatisch.",
+    "crypto_amount": "Betrag",
+    "crypto_wallet": "TRC20-Adresse",
+    "crypto_polling": "Wir verfolgen Zahlung #{{id}} on-chain. Sie können schließen — wir benachrichtigen Sie.",
+    "copy": "Kopieren",
+    "copied": "Kopiert",
+    "method_card_title": "Bankkarte",
+    "method_card_soon": "Bald. Wir warten auf LiqPay-Verifizierung (PrivatBank, UAH) und Paddle (Weltkarten).",
+    "refund_link": "Rückerstattung (/refund)"
   }
 }
