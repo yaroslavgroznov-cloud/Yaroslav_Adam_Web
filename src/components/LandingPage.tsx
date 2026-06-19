@@ -13,7 +13,7 @@ import { useFontScale } from '../hooks/useFontScale'
 
 function Divider({ goldDecor }: { goldDecor: string }): React.ReactElement {
   return (
-    <div className="flex items-center justify-center my-14" aria-hidden="true">
+    <div className="flex items-center justify-center my-14 reveal" aria-hidden="true">
       <span
         style={{
           width: '40px',
@@ -23,10 +23,10 @@ function Divider({ goldDecor }: { goldDecor: string }): React.ReactElement {
         }}
       />
       <span
+        className="divider-star"
         style={{
           margin: '0 14px',
           color: goldDecor,
-          opacity: 0.7,
           fontSize: '11px',
           letterSpacing: '0.4em',
         }}
@@ -55,7 +55,7 @@ function Section({ eyebrow, goldText, children }: SectionProps): React.ReactElem
   return (
     <section className="max-w-xl mx-auto px-6 sm:px-0">
       <p
-        className="italic mb-8 text-center"
+        className="italic mb-8 text-center reveal"
         style={{
           fontSize: '12px',
           letterSpacing: '0.45em',
@@ -66,7 +66,7 @@ function Section({ eyebrow, goldText, children }: SectionProps): React.ReactElem
       >
         {eyebrow}
       </p>
-      <div style={{ fontSize: '17px', lineHeight: 1.75 }}>{children}</div>
+      <div className="reveal" data-reveal-delay="120" style={{ fontSize: '17px', lineHeight: 1.75 }}>{children}</div>
     </section>
   )
 }
@@ -88,7 +88,7 @@ function LandingTierMini(p: LandingTierMiniProps): React.ReactElement {
   const accentBorder = p.featured || p.premium
   return (
     <div
-      className="rounded-md p-5 text-center"
+      className="rounded-md p-5 text-center card-lift reveal"
       style={{
         border: `${accentBorder ? '2px' : '1px'} solid ${accentBorder ? p.burgundy : (p.isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.10)')}`,
         backgroundColor: p.isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
@@ -212,24 +212,26 @@ export function LandingPage(): React.ReactElement {
       </header>
 
       {/* HERO */}
-      <main className="flex flex-col items-center justify-center text-center px-6 pt-16 pb-12">
-        <picture>
+      <main className="flex flex-col items-center justify-center text-center px-6 pt-16 pb-12 stagger-parent">
+        <picture className="stagger-1 inline-block">
           <source srcSet="/groznov-crest.webp" type="image/webp" />
           <img
             src="/groznov-crest.png"
             alt={t('landing.crest_alt')}
-            className="mb-8"
+            className="mb-8 crest-glow"
             style={{
               width: 'clamp(220px, 36vw, 320px)',
               height: 'auto',
               userSelect: 'none',
-              filter: isDark ? 'brightness(1.05) contrast(1.05)' : 'none',
+              filter: isDark
+                ? 'drop-shadow(0 6px 18px rgba(201, 162, 39, 0.20)) brightness(1.05) contrast(1.05)'
+                : undefined,
             }}
             draggable={false}
           />
         </picture>
         <h1
-          className="mb-10"
+          className="mb-10 stagger-2"
           style={{
             fontSize: 'clamp(38px, 8vw, 64px)',
             letterSpacing: '0.04em',
@@ -241,7 +243,7 @@ export function LandingPage(): React.ReactElement {
           {t('landing.hero_name')}
         </h1>
         <p
-          className="italic mb-8"
+          className="italic mb-8 stagger-3"
           style={{
             fontSize: 'clamp(18px, 3vw, 22px)',
             letterSpacing: '0.05em',
@@ -251,14 +253,14 @@ export function LandingPage(): React.ReactElement {
           {t('landing.hero_tagline_1')}
         </p>
         <p
-          className="opacity-80 mb-14"
+          className="opacity-80 mb-14 stagger-4"
           style={{ fontSize: '15px', letterSpacing: '0.08em' }}
         >
           {t('landing.hero_tagline_2')}
         </p>
         <a
           href={enterUrl}
-          className="inline-block rounded-md border italic"
+          className="inline-block rounded-md border italic cta-tap stagger-5"
           style={{
             padding: '14px 36px',
             fontSize: '15px',
@@ -564,12 +566,13 @@ export function LandingPage(): React.ReactElement {
 
       {/* CTA REPEAT */}
       <div className="flex flex-col items-center text-center px-6 pb-32 pt-8">
-        <p className="italic mb-8 opacity-80" style={{ fontSize: '17px' }}>
+        <p className="italic mb-8 opacity-80 reveal" style={{ fontSize: '17px' }}>
           {t('landing.cta_repeat_line')}
         </p>
         <a
           href={enterUrl}
-          className="inline-block rounded-md border italic"
+          className="inline-block rounded-md border italic cta-tap reveal reveal--scale"
+          data-reveal-delay="120"
           style={{
             padding: '14px 36px',
             fontSize: '15px',

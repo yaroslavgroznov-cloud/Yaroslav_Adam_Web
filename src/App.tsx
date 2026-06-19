@@ -7,6 +7,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { ChatInterface } from './components/ChatInterface'
 import { FloatingFontScale } from './components/FloatingFontScale'
 import { useFontScale } from './hooks/useFontScale'
+import { useScrollReveal } from './hooks/useScrollReveal'
 
 const StolPanel = lazy(() =>
   import('./components/StolPanel').then(m => ({ default: m.StolPanel })))
@@ -48,6 +49,10 @@ export default function App() {
   // F.46: глобальный font scale применяется к <html> при загрузке и при
   // каждой смене. Один источник истины на весь SPA.
   useFontScale()
+
+  // Motion v1: IntersectionObserver следит за .reveal элементами и
+  // добавляет .is-visible при скролле в viewport. Один хук на всё приложение.
+  useScrollReveal()
 
   const [path, setPath] = useState<string>(
     typeof window !== 'undefined' ? window.location.pathname : '/',

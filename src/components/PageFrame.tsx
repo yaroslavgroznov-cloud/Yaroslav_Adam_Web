@@ -22,7 +22,8 @@ export function PageFrame({ isDark }: PageFrameProps): React.ReactElement {
     ? 'var(--color-house-gold-soft)'
     : 'var(--color-house-gold)'
 
-  // Корнерные засечки — L-shaped штрихи в gold, по 4 углам внешней рамки
+  // Корнерные засечки — L-shaped штрихи в gold, по 4 углам внешней рамки.
+  // Класс page-frame-corner — медленное мерцание opacity (motion v1).
   const corner: React.CSSProperties = {
     position: 'absolute',
     width: '14px',
@@ -59,8 +60,10 @@ export function PageFrame({ isDark }: PageFrameProps): React.ReactElement {
           opacity: 0.7,
         }}
       />
-      {/* Угловые засечки — L-shaped штрихи на внешней рамке */}
+      {/* Угловые засечки — L-shaped штрихи на внешней рамке.
+          Мерцают opacity 0.85↔1.0 с разным delay — золото «дышит». */}
       <div
+        className="page-frame-corner"
         style={{
           ...corner,
           top: '-1px',
@@ -70,30 +73,36 @@ export function PageFrame({ isDark }: PageFrameProps): React.ReactElement {
         }}
       />
       <div
+        className="page-frame-corner"
         style={{
           ...corner,
           top: '-1px',
           right: '-1px',
           borderTop: `2px solid ${gold}`,
           borderRight: `2px solid ${gold}`,
+          animationDelay: '1.25s',
         }}
       />
       <div
+        className="page-frame-corner"
         style={{
           ...corner,
           bottom: '-1px',
           left: '-1px',
           borderBottom: `2px solid ${gold}`,
           borderLeft: `2px solid ${gold}`,
+          animationDelay: '2.5s',
         }}
       />
       <div
+        className="page-frame-corner"
         style={{
           ...corner,
           bottom: '-1px',
           right: '-1px',
           borderBottom: `2px solid ${gold}`,
           borderRight: `2px solid ${gold}`,
+          animationDelay: '3.75s',
         }}
       />
     </div>

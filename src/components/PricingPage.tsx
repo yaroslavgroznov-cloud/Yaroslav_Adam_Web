@@ -84,7 +84,7 @@ export function PricingPage(): React.ReactElement {
     return (
       <div
         key={c.slug}
-        className="rounded-md p-6"
+        className="rounded-md p-6 card-lift reveal"
         style={{
           backgroundColor: cardBg,
           border: `1px solid ${cardBorder}`,
@@ -123,7 +123,7 @@ export function PricingPage(): React.ReactElement {
         )}
         <a
           href={href}
-          className="italic transition-transform duration-150 ease-out active:scale-[0.98]"
+          className="italic cta-tap"
           style={{
             marginTop: 'auto',
             alignSelf: 'center',
@@ -280,9 +280,9 @@ export function PricingPage(): React.ReactElement {
       </header>
 
       {/* HERO */}
-      <main className="max-w-5xl mx-auto px-6 sm:px-10 pt-20 pb-16">
+      <main className="max-w-5xl mx-auto px-6 sm:px-10 pt-20 pb-16 stagger-parent">
         <p
-          className="italic mb-4 text-center"
+          className="italic mb-4 text-center stagger-1"
           style={{
             fontSize: '12px',
             letterSpacing: '0.45em',
@@ -294,7 +294,7 @@ export function PricingPage(): React.ReactElement {
           {t('pricing.eyebrow')}
         </p>
         <h1
-          className="text-center mb-6"
+          className="text-center mb-6 stagger-2"
           style={{
             fontSize: 'clamp(34px, 7vw, 56px)',
             letterSpacing: '0.04em', fontWeight: 500, lineHeight: 1.1,
@@ -304,7 +304,7 @@ export function PricingPage(): React.ReactElement {
           {t('pricing.title')}
         </h1>
         <p
-          className="italic text-center mb-12 opacity-75 max-w-2xl mx-auto"
+          className="italic text-center mb-12 opacity-75 max-w-2xl mx-auto stagger-3"
           style={{ fontSize: '17px', lineHeight: 1.6 }}
         >
           {t('pricing.intro')}
@@ -371,7 +371,7 @@ export function PricingPage(): React.ReactElement {
                 return (
                   <div
                     key={g.id}
-                    className="rounded-md p-5"
+                    className="rounded-md p-5 card-lift reveal"
                     style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
                   >
                     <p className="italic mb-3 opacity-65" style={{ fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', color: goldText }}>
@@ -407,7 +407,7 @@ export function PricingPage(): React.ReactElement {
           <div key={`song-${currencyKey}`} className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
             {/* Кабинет как разовая сессия $9 */}
             <div
-              className="rounded-md p-6"
+              className="rounded-md p-6 card-lift reveal"
               style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}`, display: 'flex', flexDirection: 'column' }}
             >
               <p className="italic mb-1 opacity-70" style={{ fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
@@ -427,7 +427,7 @@ export function PricingPage(): React.ReactElement {
               </div>
               <a
                 href="/cabinets/songwriting"
-                className="italic transition-transform duration-150 ease-out active:scale-[0.98]"
+                className="italic cta-tap"
                 style={{
                   marginTop: 'auto', alignSelf: 'center',
                   padding: '10px 22px', fontSize: '14px',
@@ -442,7 +442,7 @@ export function PricingPage(): React.ReactElement {
             </div>
             {/* Boost поверх любой сессии */}
             <div
-              className="rounded-md p-6"
+              className="rounded-md p-6 card-lift reveal"
               style={{ backgroundColor: cardBg, border: `2px solid ${burgundy}`, display: 'flex', flexDirection: 'column' }}
             >
               <p className="italic mb-1 opacity-70" style={{ fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', color: burgundy }}>
@@ -462,7 +462,7 @@ export function PricingPage(): React.ReactElement {
               </div>
               <a
                 href="/songs/new"
-                className="italic transition-transform duration-150 ease-out active:scale-[0.98]"
+                className="italic cta-tap"
                 style={{
                   marginTop: 'auto', alignSelf: 'center',
                   padding: '10px 22px', fontSize: '14px',

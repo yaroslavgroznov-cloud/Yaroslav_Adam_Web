@@ -81,3 +81,196 @@ body {
   display: inline-block;
   animation: adam-bounce 1.4s infinite ease-in-out both;
 }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Adam · Motion Design System v1 (20.06.2026)
+   Skill: emil-design-eng. Зеркалирует canon из groznov.net global.css —
+   общий «голос Дома» в анимациях на двух сайтах. Только transform/opacity.
+   ───────────────────────────────────────────────────────────────────── */
+:root {
+  --ease-out:      cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out:   cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer:   cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-emil:     cubic-bezier(0.16, 1, 0.3, 1);
+
+  --dur-tap:    140ms;
+  --dur-fast:   180ms;
+  --dur-med:    280ms;
+  --dur-slow:   520ms;
+  --dur-reveal: 900ms;
+}
+
+/* Scroll reveal — JS добавляет .is-visible при попадании в viewport */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal--left  { transform: translateX(-24px); }
+.reveal--left.is-visible  { transform: translateX(0); }
+
+.reveal--right { transform: translateX(24px); }
+.reveal--right.is-visible { transform: translateX(0); }
+
+.reveal--scale { transform: scale(0.96); }
+.reveal--scale.is-visible { transform: scale(1); }
+
+.reveal[data-reveal-delay="60"]  { transition-delay:  60ms; }
+.reveal[data-reveal-delay="120"] { transition-delay: 120ms; }
+.reveal[data-reveal-delay="180"] { transition-delay: 180ms; }
+.reveal[data-reveal-delay="240"] { transition-delay: 240ms; }
+.reveal[data-reveal-delay="300"] { transition-delay: 300ms; }
+.reveal[data-reveal-delay="400"] { transition-delay: 400ms; }
+.reveal[data-reveal-delay="500"] { transition-delay: 500ms; }
+
+/* Hero stagger — для landing/cabinets/etc. */
+.stagger-parent .stagger-1,
+.stagger-parent .stagger-2,
+.stagger-parent .stagger-3,
+.stagger-parent .stagger-4,
+.stagger-parent .stagger-5 {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: stagger-rise var(--dur-slow) var(--ease-out) forwards;
+  will-change: opacity, transform;
+}
+.stagger-parent .stagger-1 { animation-delay:   0ms; }
+.stagger-parent .stagger-2 { animation-delay:  90ms; }
+.stagger-parent .stagger-3 { animation-delay: 180ms; }
+.stagger-parent .stagger-4 { animation-delay: 280ms; }
+.stagger-parent .stagger-5 { animation-delay: 380ms; }
+
+@keyframes stagger-rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hover lift — для тарифных карт, кабинетов и тайлов */
+.card-lift {
+  transition:
+    transform var(--dur-med) var(--ease-out),
+    box-shadow var(--dur-med) var(--ease-out),
+    border-color var(--dur-med) var(--ease-out);
+  will-change: transform;
+}
+@media (hover: hover) and (pointer: fine) {
+  .card-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px -22px rgba(42, 31, 21, 0.35);
+  }
+}
+
+/* Tap feedback на CTA-кнопки */
+.cta-tap {
+  transition: transform var(--dur-tap) var(--ease-out);
+}
+.cta-tap:active {
+  transform: scale(0.97);
+}
+
+/* House-link underline grow */
+.house-link {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  background-image: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-house-gold-deep) 70%, transparent),
+    color-mix(in srgb, var(--color-house-gold-deep) 70%, transparent)
+  );
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  transition: background-size var(--dur-med) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .house-link:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* Crest glow — для герба Hero в LandingPage. Idle breathing 8s + hover. */
+.crest-glow {
+  display: inline-block;
+  transition:
+    transform var(--dur-med) var(--ease-emil),
+    filter    var(--dur-med) var(--ease-out);
+  will-change: transform, filter;
+  filter: drop-shadow(0 6px 18px rgba(201, 162, 39, 0.16));
+  animation: crest-breathe 8s var(--ease-in-out) infinite;
+  transform-origin: center;
+}
+
+@keyframes crest-breathe {
+  0%, 100% { transform: scale(1)     rotate(0deg); }
+  50%      { transform: scale(1.018) rotate(-0.4deg); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .crest-glow:hover {
+    transform: scale(1.06) rotate(0.6deg);
+    filter:
+      drop-shadow(0 10px 28px rgba(201, 162, 39, 0.42))
+      drop-shadow(0 0 14px rgba(201, 162, 39, 0.18))
+      brightness(1.05);
+    animation-play-state: paused;
+  }
+}
+
+.crest-glow:active {
+  transform: scale(0.985);
+}
+
+/* «✦» divider star — медленное мерцание-вращение, тихое присутствие */
+.divider-star {
+  display: inline-block;
+  animation: divider-star-pulse 6s var(--ease-in-out) infinite;
+  transform-origin: center;
+}
+@keyframes divider-star-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1)    rotate(0deg); }
+  50%      { opacity: 0.9;  transform: scale(1.18) rotate(180deg); }
+}
+
+/* PageFrame угловые засечки — медленное мерцание золотом */
+.page-frame-corner {
+  animation: corner-glow 5s var(--ease-in-out) infinite;
+}
+@keyframes corner-glow {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1;    }
+}
+
+/* Reduced-motion respect */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .stagger-parent .stagger-1,
+  .stagger-parent .stagger-2,
+  .stagger-parent .stagger-3,
+  .stagger-parent .stagger-4,
+  .stagger-parent .stagger-5 {
+    transform: none !important;
+    animation: none !important;
+    transition: opacity var(--dur-fast) var(--ease-out) !important;
+    opacity: 1 !important;
+  }
+
+  .card-lift:hover,
+  .crest-glow:hover,
+  .cta-tap:active {
+    transform: none;
+  }
+
+  .crest-glow,
+  .divider-star,
+  .page-frame-corner {
+    animation: none;
+  }
+}
