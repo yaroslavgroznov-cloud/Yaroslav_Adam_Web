@@ -58,7 +58,7 @@ async function jsonOrError<T>(res: Response): Promise<T> {
     let detail = `HTTP ${res.status}`
     try {
       const j = await res.json()
-      if (j && typeof j.detail === 'string') detail = j.detail
+      if (j && typeof j.detail === 'string') detail = `HTTP ${res.status}: ${j.detail}`
     } catch { /* not json */ }
     throw new Error(detail)
   }
