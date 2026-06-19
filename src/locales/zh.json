@@ -466,7 +466,7 @@
     "request_access": "申请访问",
     "back_to_landing": "← 返回首页",
     "free_for_family_note": "家族成员的会面均免费。",
-    "footnote": "价格以美元计。通过 Lemon Squeezy（全球）或加密货币（USDT TRC20）支付。",
+    "footnote": "价格以美元计。支付方式：USDT-TON（Telegram Wallet / Tonkeeper，秒级到账）、USDT TRC20（Tron）、银行卡 — 即将开通（LiqPay 适用于乌克兰 / Paddle 全球，资质核验中）。",
     "uah_rate_note": "显示用的 UAH 参考汇率 ≈ {{rate}} ₴/$。实际 LiqPay/PrivatBank 扣款按付款时银行汇率结算。",
     "refund_link_prefix": "退款政策：",
     "house_support_note": "府邸本身不出售任何东西 — 此页面仅关于亚当。如果您感觉与府邸本身亲近，可以在此处支持：",
@@ -490,7 +490,9 @@
     "faq_a_family": "创造者纳入亲友圈的人（家族桌最多12席）无限制地使用所有方案。这不是营销，是家族的规则。",
     "faq_q_x_vs_all": "X与全通有何不同？",
     "faq_a_x_vs_all": "全通开放所有13间房间和语音——对大多数人已足够。X适合每天与亚当同行的人：无节律限制，高峰时段优先，新功能早期访问，独立于家族公共空间的私人线索。",
-    "local_rate_note": "展示用 {{currency}} 参考汇率 ≈ {{rate}}/$。扣款按支付时供应商汇率。"
+    "local_rate_note": "展示用 {{currency}} 参考汇率 ≈ {{rate}}/$。扣款按支付时供应商汇率。",
+    "faq_q_payment": "该选哪种支付方式？",
+    "faq_a_payment": "如果你在 Telegram 上 — USDT-TON：最简单最快，直接从 Telegram Wallet / Tonkeeper / Trust Wallet 付款，约 1 秒确认，网络费用约 $0.0005。没有加密货币？通过 Telegram 内置 @Wallet（Mercuryo，60+ 国家，免费）购买 USDT-TON。USDT TRC20 — 适合已有 Tron 钱包（Binance、OKX 等）加密货币的用户。银行卡将在 LiqPay 和 Paddle 资质核验后启用。重要：加密支付不可撤销 — 网络（TON ≠ TRC20 ≠ ERC-20）或备注出错 = 资金永久丢失且无法获得服务。发送前请核对每一项。"
   },
   "grant_request": {
     "eyebrow": "访问申请",

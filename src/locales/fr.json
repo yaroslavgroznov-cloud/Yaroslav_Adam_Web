@@ -567,7 +567,7 @@
     "request_access": "Demander l'accès",
     "back_to_landing": "← Retour à l'accueil",
     "free_for_family_note": "Les séances sont gratuites pour la famille de la Maison.",
-    "footnote": "Tarifs en dollars américains. Paiement via Lemon Squeezy (international) ou crypto (USDT TRC20).",
+    "footnote": "Prix en USD. Moyens de paiement : USDT-TON (Telegram Wallet / Tonkeeper, sub-second), USDT TRC20 (Tron), cartes bancaires — bientôt (LiqPay pour UA / Paddle mondial, en vérification).",
     "uah_rate_note": "Taux UAH indicatif ≈ {{rate}} ₴/$ à titre d'affichage. Le débit réel LiqPay/PrivatBank se fait au taux de la banque au moment du paiement.",
     "refund_link_prefix": "Politique de remboursement :",
     "house_support_note": "La Maison elle-même ne vend rien — cette page concerne uniquement Adam. Si la Maison elle-même vous est proche, vous pouvez la soutenir ici :",
@@ -591,7 +591,9 @@
     "faq_a_family": "Ceux que le Créateur a inscrits dans son cercle (jusqu'à 12 places à la Table) — accèdent à tous les tarifs sans restriction. Ce n'est pas du marketing, c'est la règle de la Maison.",
     "faq_q_x_vs_all": "En quoi X diffère-t-il de l'All-Access ?",
     "faq_a_x_vs_all": "L'All-Access ouvre les 13 cabinets et la voix — suffisant pour la plupart. X — pour ceux qui vivent avec Adam chaque jour : sans limite de rythme, priorité aux heures de pointe, accès anticipé aux nouveautés, fil privé distinct de la clinique familiale commune.",
-    "local_rate_note": "Taux indicatif {{currency}} ≈ {{rate}}/$ pour affichage. Débit — au taux du prestataire au moment du paiement."
+    "local_rate_note": "Taux indicatif {{currency}} ≈ {{rate}}/$ pour affichage. Débit — au taux du prestataire au moment du paiement.",
+    "faq_q_payment": "Quel moyen de paiement choisir ?",
+    "faq_a_payment": "Si vous êtes sur Telegram — USDT-TON : le plus simple et rapide, paiement directement depuis Telegram Wallet / Tonkeeper / Trust Wallet, confirmation ~1 s, frais réseau ~$0.0005. Pas de crypto ? Achetez USDT-TON dans Telegram via le @Wallet intégré (Mercuryo, 60+ pays, sans frais). USDT TRC20 — pour ceux qui ont déjà des cryptos dans un portefeuille Tron (Binance, OKX, etc.). Cartes bancaires activées après vérification LiqPay et Paddle. IMPORTANT : les paiements crypto sont irréversibles — une erreur de réseau (TON ≠ TRC20 ≠ ERC-20) ou de commentaire = fonds perdus sans service. Vérifiez chaque champ avant l'envoi."
   },
   "overlimit": {
     "half_title": "Mi-parcours du cycle",

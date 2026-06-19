@@ -425,6 +425,7 @@ export function PricingPage(): React.ReactElement {
             <FaqItem q={t('pricing.faq_q_topic_choice')} a={t('pricing.faq_a_topic_choice')} />
             <FaqItem q={t('pricing.faq_q_x_vs_all')} a={t('pricing.faq_a_x_vs_all')} />
             <FaqItem q={t('pricing.faq_q_video')} a={t('pricing.faq_a_video')} />
+            <FaqItem q={t('pricing.faq_q_payment')} a={t('pricing.faq_a_payment')} />
             <FaqItem q={t('pricing.faq_q_family')} a={t('pricing.faq_a_family')} />
           </div>
         </section>

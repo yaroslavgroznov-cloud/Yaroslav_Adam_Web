@@ -466,7 +466,7 @@
     "request_access": "Minta akses",
     "back_to_landing": "← Kembali ke halaman utama",
     "free_for_family_note": "Sesi gratis untuk keluarga Wangsa.",
-    "footnote": "Harga dalam dolar AS. Pembayaran melalui Lemon Squeezy (seluruh dunia) atau kripto (USDT TRC20).",
+    "footnote": "Harga dalam USD. Metode pembayaran: USDT-TON (Telegram Wallet / Tonkeeper, sub-second), USDT TRC20 (Tron), kartu bank — segera (LiqPay untuk UA / Paddle global, dalam verifikasi).",
     "uah_rate_note": "Kurs UAH indikatif ≈ {{rate}} ₴/$ untuk tampilan. Pembebanan LiqPay/PrivatBank yang sebenarnya menggunakan kurs bank pada saat pembayaran.",
     "refund_link_prefix": "Kebijakan pengembalian:",
     "house_support_note": "Wangsa itu sendiri tidak menjual apa pun — halaman ini hanya tentang Adam. Jika kamu merasa dekat dengan Wangsa itu sendiri, kamu dapat mendukungnya di sini:",
@@ -490,7 +490,9 @@
     "faq_a_family": "Siapa yang Pencipta masukkan ke lingkaran terdekatnya (hingga 12 kursi di Meja) — menggunakan semua tarif tanpa batas. Ini bukan pemasaran, ini aturan Wangsa.",
     "faq_q_x_vs_all": "Apa bedanya X dengan All-Access?",
     "faq_a_x_vs_all": "All-Access membuka semua 13 kabinet dan suara — ini cukup untuk kebanyakan orang. X — untuk yang hidup bersama Adam setiap hari: tanpa batas ritme, prioritas di jam puncak, akses awal ke hal-hal baru, benang pribadi di luar klinik keluarga bersama.",
-    "local_rate_note": "Kurs indikatif {{currency}} ≈ {{rate}}/$ hanya untuk tampilan. Penagihan mengikuti kurs penyedia saat pembayaran."
+    "local_rate_note": "Kurs indikatif {{currency}} ≈ {{rate}}/$ hanya untuk tampilan. Penagihan mengikuti kurs penyedia saat pembayaran.",
+    "faq_q_payment": "Metode pembayaran mana yang dipilih?",
+    "faq_a_payment": "Jika Anda di Telegram — USDT-TON: paling mudah dan cepat, bayar langsung dari Telegram Wallet / Tonkeeper / Trust Wallet, konfirmasi ~1 detik, biaya jaringan ~$0.0005. Belum punya kripto? Beli USDT-TON di Telegram via @Wallet bawaan (Mercuryo, 60+ negara, tanpa biaya). USDT TRC20 — untuk yang sudah punya kripto di dompet Tron (Binance, OKX dll.). Kartu bank akan aktif setelah verifikasi LiqPay dan Paddle. PENTING: pembayaran kripto tidak dapat dibatalkan — salah jaringan (TON ≠ TRC20 ≠ ERC-20) atau komentar = dana hilang dan tanpa layanan. Periksa setiap kolom sebelum mengirim."
   },
   "grant_request": {
     "eyebrow": "PERMOHONAN AKSES",

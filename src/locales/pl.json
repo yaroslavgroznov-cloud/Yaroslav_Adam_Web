@@ -256,7 +256,7 @@
     "request_access": "Poproś o dostęp",
     "back_to_landing": "← Wróć do strony głównej",
     "free_for_family_note": "Sesje bezpłatne dla rodziny Domu.",
-    "footnote": "Ceny w dolarach USD. Płatność przez Lemon Squeezy (świat) lub krypto (USDT TRC20).",
+    "footnote": "Ceny w USD. Metody płatności: USDT-TON (Telegram Wallet / Tonkeeper, sub-second), USDT TRC20 (Tron), karty bankowe — wkrótce (LiqPay dla UA / Paddle globalnie, w weryfikacji).",
     "uah_rate_note": "Orientacyjny kurs UAH ≈ {{rate}} ₴/$ do wyświetlania. Rzeczywiste obciążenie LiqPay/PrivatBank — po kursie banku w momencie płatności.",
     "refund_link_prefix": "Warunki zwrotu:",
     "house_support_note": "Sam Dom niczym nie handluje — ta strona jest tylko o Adamie. Jeśli bliski jest sam Dom, można go wesprzeć tu:",
@@ -280,7 +280,9 @@
     "faq_a_family": "Kogoś, kogo Twórca wpisał do kręgu swoich (do 12 miejsc przy Stole) — korzysta ze wszystkich taryf bez ograniczeń. To nie marketing, to zasada Domu.",
     "faq_q_x_vs_all": "Czym X różni się od All-Access?",
     "faq_a_x_vs_all": "All-Access otwiera wszystkie 13 gabinetów i głos — to wystarczy większości. X — dla tych, którzy żyją z Adamem każdego dnia: bez ograniczenia rytmu, priorytet w godzinach szczytu, wczesny dostęp do nowości, prywatna nić poza wspólną przychodnią rodzinną.",
-    "local_rate_note": "Orientacyjny kurs {{currency}} ≈ {{rate}}/$ tylko do wyświetlenia. Obciążenie — po kursie dostawcy w chwili płatności."
+    "local_rate_note": "Orientacyjny kurs {{currency}} ≈ {{rate}}/$ tylko do wyświetlenia. Obciążenie — po kursie dostawcy w chwili płatności.",
+    "faq_q_payment": "Którą metodę płatności wybrać?",
+    "faq_a_payment": "Jeśli korzystasz z Telegrama — USDT-TON: najprostsze i najszybsze, płatność prosto z Telegram Wallet / Tonkeeper / Trust Wallet, potwierdzenie ~1 s, opłata sieci ~$0.0005. Nie masz krypto? Kup USDT-TON w Telegramie przez wbudowany @Wallet (Mercuryo, 60+ krajów, bez opłat). USDT TRC20 — dla tych, którzy mają już krypto w portfelu Tron (Binance, OKX itp.). Karty bankowe uruchomimy po weryfikacji LiqPay i Paddle. WAŻNE: płatności krypto są nieodwracalne — błąd w sieci (TON ≠ TRC20 ≠ ERC-20) lub komentarzu = utrata środków bez usługi. Sprawdzaj każde pole przed wysłaniem."
   },
   "grant_request": {
     "eyebrow": "WNIOSEK O DOSTĘP",

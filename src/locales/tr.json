@@ -224,7 +224,7 @@
     "request_access": "Erişim iste",
     "back_to_landing": "← Ana sayfaya dön",
     "free_for_family_note": "Hane ailesi için seans ücretsiz.",
-    "footnote": "Fiyatlar ABD doları cinsindendir. Lemon Squeezy (dünya geneli) veya kripto (USDT TRC20) ile ödeme.",
+    "footnote": "Fiyatlar USD. Ödeme yöntemleri: USDT-TON (Telegram Wallet / Tonkeeper, sub-second), USDT TRC20 (Tron), banka kartları — yakında (UA için LiqPay / küresel Paddle, doğrulamada).",
     "uah_rate_note": "Gösterim için UAH yaklaşık kuru ≈ {{rate}} ₴/$. Gerçek LiqPay/PrivatBank ücretlendirmesi ödeme anında bankanın kuruyla yapılır.",
     "refund_link_prefix": "İade politikası:",
     "house_support_note": "Hanenin kendisi hiçbir şey satmaz — bu sayfa yalnızca Adam hakkındadır. Hanenin kendisine yakın hissediyorsan, ona buradan destek olabilirsin:",
@@ -248,7 +248,9 @@
     "faq_a_family": "Yaratıcı'nın yakın çevresine yazdığı kişiler (Sofra'da 12 yere kadar) — tüm tarifeleri sınırsız kullanır. Bu pazarlama değil, Hanenin kuralı.",
     "faq_q_x_vs_all": "X ile All-Access arasındaki fark nedir?",
     "faq_a_x_vs_all": "All-Access 13 kabineyi ve sesi açar — çoğu için yeterlidir. X — her gün Adam'la yaşayanlar içindir: ritim kısıtlaması yok, yoğun saatlerde öncelik, yeniliklere erken erişim, aile kliniğinden ayrı özel iplik.",
-    "local_rate_note": "Gösterim için tahmini {{currency}} ≈ {{rate}}/$ kuru. Tahsilat — ödeme anında sağlayıcı kuruyla."
+    "local_rate_note": "Gösterim için tahmini {{currency}} ≈ {{rate}}/$ kuru. Tahsilat — ödeme anında sağlayıcı kuruyla.",
+    "faq_q_payment": "Hangi ödeme yöntemini seçmeliyim?",
+    "faq_a_payment": "Telegram'da iseniz — USDT-TON: en kolay ve hızlısı, Telegram Wallet / Tonkeeper / Trust Wallet'tan doğrudan ödeme, ~1 sn onay, ağ ücreti ~$0.0005. Kriptonuz yok mu? Telegram'da entegre @Wallet üzerinden USDT-TON satın alın (Mercuryo, 60+ ülke, ücretsiz). USDT TRC20 — Tron cüzdanında (Binance, OKX vb.) zaten kriptosu olanlar için. Banka kartları LiqPay ve Paddle doğrulamasından sonra açılacak. ÖNEMLİ: kripto ödemeleri geri alınamaz — ağ (TON ≠ TRC20 ≠ ERC-20) veya yorum hatası = para kaybı ve hizmet yok. Göndermeden önce her alanı doğrulayın."
   },
   "grant_request": {
     "eyebrow": "ERİŞİM TALEBİ",
