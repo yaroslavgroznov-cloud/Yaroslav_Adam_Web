@@ -76,6 +76,16 @@ export function CabinetSessionPage(): React.ReactElement {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const endRef = useRef<HTMLDivElement | null>(null)
 
+  // F.66.5 hotfix 19.06: коли session з'являється (юзер натиснув «Начать
+  // сессию») — стерти застарілий verifyToast «Сначала заполни форму ниже».
+  // Без цього тост висить 5 сек і дезорієнтує юзера після того як форма
+  // вже зникла з UI.
+  useEffect(() => {
+    if (session && verifyToast) {
+      setVerifyToast('')
+    }
+  }, [session, verifyToast])
+
   useEffect(() => {
     void (async () => {
       try {
@@ -809,9 +819,9 @@ export function CabinetSessionPage(): React.ReactElement {
                     color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
                     borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
                   }}
-                  title={t('cabinets.pay_crypto', { defaultValue: 'Криптовалюта (TON / TRC20)' })}
+                  title={t('cabinets.pay_crypto_hint', { defaultValue: 'TON Pay (рекомендується) або USDT TRC20 — вибір усередині' })}
                 >
-                  {t('cabinets.pay_crypto', { defaultValue: 'Криптовалюта (TON / TRC20)' })}
+                  {t('cabinets.pay_crypto')}
                 </button>
               </div>
               {verifyToast && (

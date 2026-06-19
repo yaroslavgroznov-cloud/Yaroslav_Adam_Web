@@ -588,7 +588,7 @@
     "choose_payment": "Ödeme yöntemi",
     "pay_card": "Kart ${{price}}",
     "pay_monthly": "Abonelik ${{price}}/ay",
-    "pay_crypto": "USDT (TRC20)",
+    "pay_crypto": "Kripto (TON / TRC20)",
     "crypto_instructions": "Tam USDT tutarını TRC20 ağı üzerinden aşağıdaki adrese gönder. Blok zincirinde 1-3 onaydan sonra (genellikle 1-3 dakika) Adam seansını otomatik açacak.",
     "crypto_amount": "Tutar",
     "crypto_wallet": "Cüzdan",
@@ -635,7 +635,8 @@
     "pay_lemon": "Lemon (test)",
     "pay_lemon_hint": "Lemon Squeezy — test modu",
     "provider_verifying": "Ödeme sağlayıcısı doğrulanıyor. Yakında aktif olacak.",
-    "fill_form_first": "Önce aşağıdaki formu doldur ↓"
+    "fill_form_first": "Önce aşağıdaki formu doldur ↓",
+    "pay_crypto_hint": "TON Pay (önerilen) veya USDT TRC20 — içeride seçin"
   },
   "darkweb": {
     "menu_label": "Derin arama",

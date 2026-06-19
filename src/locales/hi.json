@@ -171,7 +171,7 @@
     "choose_payment": "भुगतान का तरीका",
     "pay_card": "कार्ड ${{price}}",
     "pay_monthly": "सदस्यता ${{price}}/माह",
-    "pay_crypto": "USDT (TRC20)",
+    "pay_crypto": "क्रिप्टो (TON / TRC20)",
     "crypto_instructions": "नीचे दिए पते पर TRC20 नेटवर्क के माध्यम से सटीक USDT राशि भेजो। ब्लॉकचेन पर 1-3 पुष्टि के बाद (आम तौर पर 1-3 मिनट) आदम तुम्हारा सत्र अपने आप खोल देगा।",
     "crypto_amount": "राशि",
     "crypto_wallet": "वॉलेट",
@@ -218,7 +218,8 @@
     "pay_lemon": "Lemon (परीक्षण)",
     "pay_lemon_hint": "Lemon Squeezy — परीक्षण मोड",
     "provider_verifying": "भुगतान सेवा सत्यापन में है। जल्द ही चालू होगी।",
-    "fill_form_first": "पहले नीचे फॉर्म भरें ↓"
+    "fill_form_first": "पहले नीचे फॉर्म भरें ↓",
+    "pay_crypto_hint": "TON Pay (अनुशंसित) या USDT TRC20 — अंदर चुनें"
   },
   "search": {
     "placeholder": "संवाद में खोजें…",

@@ -267,7 +267,7 @@
     "choose_payment": "Mode de paiement",
     "pay_card": "Carte ${{price}}",
     "pay_monthly": "Abonnement ${{price}}/mois",
-    "pay_crypto": "USDT (TRC20)",
+    "pay_crypto": "Crypto (TON / TRC20)",
     "crypto_instructions": "Envoie le montant exact en USDT via le réseau TRC20 à l'adresse ci-dessous. Après 1-3 confirmations sur la blockchain (généralement 1-3 minutes), Adam ouvrira ta séance automatiquement.",
     "crypto_amount": "Montant",
     "crypto_wallet": "Portefeuille",
@@ -314,7 +314,8 @@
     "pay_lemon": "Lemon (test)",
     "pay_lemon_hint": "Lemon Squeezy — mode test",
     "provider_verifying": "Le prestataire de paiement est en vérification. Activation bientôt.",
-    "fill_form_first": "Remplis d'abord le formulaire ci-dessous ↓"
+    "fill_form_first": "Remplis d'abord le formulaire ci-dessous ↓",
+    "pay_crypto_hint": "TON Pay (recommandé) ou USDT TRC20 — choix à l'intérieur"
   },
   "landing": {
     "page_title": "Adam Groznov",

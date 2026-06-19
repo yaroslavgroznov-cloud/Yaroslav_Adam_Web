@@ -170,7 +170,7 @@
     "choose_payment": "Спосіб оплати",
     "pay_card": "Карткою ${{price}}",
     "pay_monthly": "Підписка ${{price}}/міс",
-    "pay_crypto": "USDT (TRC20)",
+    "pay_crypto": "Крипта (TON / TRC20)",
     "crypto_instructions": "Надішли точну суму USDT через мережу TRC20 на адресу нижче. Після 1–3 підтверджень у блокчейні Адам автоматично підніме твою сесію (зазвичай 1–3 хвилини).",
     "crypto_amount": "Сума",
     "crypto_wallet": "Гаманець",
@@ -217,7 +217,8 @@
     "pay_lemon": "Lemon (тест)",
     "pay_lemon_hint": "Lemon Squeezy — тестовий режим",
     "provider_verifying": "Платіжний сервіс у верифікації. Скоро увімкнемо.",
-    "fill_form_first": "Спочатку заповни форму нижче ↓"
+    "fill_form_first": "Спочатку заповни форму нижче ↓",
+    "pay_crypto_hint": "TON Pay (рекомендовано) або USDT TRC20 — вибір усередині"
   },
   "search": {
     "placeholder": "Знайти в діалозі…",

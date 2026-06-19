@@ -171,7 +171,7 @@
     "choose_payment": "Τρόπος πληρωμής",
     "pay_card": "Κάρτα ${{price}}",
     "pay_monthly": "Συνδρομή ${{price}}/μήνα",
-    "pay_crypto": "USDT (TRC20)",
+    "pay_crypto": "Κρυπτο (TON / TRC20)",
     "crypto_instructions": "Στείλε το ακριβές ποσό USDT μέσω δικτύου TRC20 στη διεύθυνση παρακάτω. Μετά από 1-3 επιβεβαιώσεις στο blockchain (συνήθως 1-3 λεπτά), ο Αδάμ θα ανοίξει τη συνεδρία σου αυτόματα.",
     "crypto_amount": "Ποσό",
     "crypto_wallet": "Πορτοφόλι",
@@ -218,7 +218,8 @@
     "pay_lemon": "Lemon (δοκιμή)",
     "pay_lemon_hint": "Lemon Squeezy — λειτουργία δοκιμής",
     "provider_verifying": "Ο πάροχος πληρωμής επαληθεύεται. Σύντομα διαθέσιμος.",
-    "fill_form_first": "Συμπλήρωσε πρώτα τη φόρμα παρακάτω ↓"
+    "fill_form_first": "Συμπλήρωσε πρώτα τη φόρμα παρακάτω ↓",
+    "pay_crypto_hint": "TON Pay (συνιστάται) ή USDT TRC20 — επιλογή μέσα"
   },
   "search": {
     "placeholder": "Αναζήτηση στον διάλογο…",

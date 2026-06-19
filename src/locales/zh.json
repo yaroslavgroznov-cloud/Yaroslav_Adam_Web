@@ -170,7 +170,7 @@
     "choose_payment": "支付方式",
     "pay_card": "卡 ${{price}}",
     "pay_monthly": "订阅 ${{price}}/月",
-    "pay_crypto": "USDT (TRC20)",
+    "pay_crypto": "加密货币 (TON / TRC20)",
     "crypto_instructions": "请通过 TRC20 网络向下方地址发送准确的 USDT 金额。区块链上 1-3 个确认后（通常 1-3 分钟），亚当会自动为你开启会面。",
     "crypto_amount": "金额",
     "crypto_wallet": "钱包",
@@ -217,7 +217,8 @@
     "pay_lemon": "Lemon（测试）",
     "pay_lemon_hint": "Lemon Squeezy — 测试模式",
     "provider_verifying": "支付服务正在验证中。即将开通。",
-    "fill_form_first": "请先填写下方表单 ↓"
+    "fill_form_first": "请先填写下方表单 ↓",
+    "pay_crypto_hint": "TON Pay（推荐）或 USDT TRC20 — 在内部选择"
   },
   "search": {
     "placeholder": "在对话中查找…",

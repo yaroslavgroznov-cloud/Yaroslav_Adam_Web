@@ -170,7 +170,7 @@
     "choose_payment": "Metoda płatności",
     "pay_card": "Kartą ${{price}}",
     "pay_monthly": "Subskrypcja ${{price}}/mies",
-    "pay_crypto": "USDT (TRC20)",
+    "pay_crypto": "Krypto (TON / TRC20)",
     "crypto_instructions": "Wyślij dokładną kwotę USDT przez sieć TRC20 na poniższy adres. Po 1–3 potwierdzeniach w blockchainie Adam automatycznie otworzy twoją sesję (zazwyczaj 1–3 minuty).",
     "crypto_amount": "Kwota",
     "crypto_wallet": "Portfel",
@@ -217,7 +217,8 @@
     "pay_lemon": "Lemon (test)",
     "pay_lemon_hint": "Lemon Squeezy — tryb testowy",
     "provider_verifying": "Dostawca płatności jest weryfikowany. Wkrótce uruchomimy.",
-    "fill_form_first": "Najpierw wypełnij formularz poniżej ↓"
+    "fill_form_first": "Najpierw wypełnij formularz poniżej ↓",
+    "pay_crypto_hint": "TON Pay (zalecane) lub USDT TRC20 — wybór wewnątrz"
   },
   "stol": {
     "adam_listens_silently": "słucha w ciszy",

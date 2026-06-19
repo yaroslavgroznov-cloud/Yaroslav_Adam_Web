@@ -442,7 +442,7 @@
     "choose_payment": "Zahlungsweise",
     "pay_card": "Karte ${{price}}",
     "pay_monthly": "Abo ${{price}}/Monat",
-    "pay_crypto": "USDT (TRC20)",
+    "pay_crypto": "Krypto (TON / TRC20)",
     "crypto_instructions": "Sende den exakten USDT-Betrag über das TRC20-Netzwerk an die Adresse unten. Nach 1-3 Bestätigungen in der Blockchain (meist 1-3 Minuten) öffnet Adam deine Sitzung automatisch.",
     "crypto_amount": "Betrag",
     "crypto_wallet": "Wallet",
@@ -489,7 +489,8 @@
     "pay_lemon": "Lemon (Test)",
     "pay_lemon_hint": "Lemon Squeezy — Testmodus",
     "provider_verifying": "Zahlungsanbieter wird verifiziert. Bald verfügbar.",
-    "fill_form_first": "Bitte fülle zuerst das Formular unten aus ↓"
+    "fill_form_first": "Bitte fülle zuerst das Formular unten aus ↓",
+    "pay_crypto_hint": "TON Pay (empfohlen) oder USDT TRC20 — Auswahl innen"
   },
   "tiers": {
     "launch_banner": "Preis des Hauses bis 30. September 2026 — Dank an die Ersten.",
