@@ -877,6 +877,22 @@
     "copied": "Kopyalandı",
     "method_card_title": "Banka kartı",
     "method_card_soon": "Yakında. LiqPay (PrivatBank, UAH) ve Paddle (küresel kartlar) doğrulaması bekleniyor.",
-    "refund_link": "İade politikası (/refund)"
+    "refund_link": "İade politikası (/refund)",
+    "global_warning_title": "Ödeme öncesi DİKKATLİCE okuyun",
+    "global_warning_body": "Kripto ödemeleri geri alınamaz. Ağ, adres, tutar veya yorum hatası — para kalıcı olarak kaybolur ve hizmeti almazsınız. Yöntemi dikkatle seçin, göndermeden önce her alanı doğrulayın.",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "Telegram Wallet, Tonkeeper, Trust Wallet veya herhangi bir TON cüzdanından ödeme. ~1 sn onay, ağ ücreti ~$0.0005. Kriptonuz yok mu? Telegram'da @Wallet üzerinden USDT-TON satın alın (Mercuryo, 60+ ülke).",
+    "ton_warning": "Ağ: SADECE TON. TRC20, ERC-20, BEP-20 DEĞİL. Yanlış ağ = kalıcı kayıp.",
+    "ton_request": "Ödeme bilgilerini al",
+    "ton_instructions": "TON cüzdanınızı açın, USDT (Jetton) seçin, aşağıdaki adrese tam tutarı gönderin. Yorum alanı zorunludur — onsuz erişim açılmaz. ~30 saniyede onay.",
+    "ton_amount": "Tutar",
+    "ton_recipient": "TON adresi",
+    "ton_comment": "Yorum (Memo)",
+    "ton_comment_critical": "Doğru yorum olmadan ödeme kaybolur — on-chain eşleştirme yapamayız.",
+    "ton_polling": "#{{id}} ödemesi TON'da izleniyor. Kapatabilirsiniz — bildiririz.",
+    "ton_unavailable": "TON Pay geçici olarak yok. USDT TRC20 kullanın veya Yaratıcıya bildirin.",
+    "recommended": "Önerilen",
+    "trc20_warning": "Ağ: SADECE TRC20 (Tron). TON, ERC-20, BEP-20 DEĞİL. Yanlış ağ = kayıp.",
+    "trc20_amount_critical": "TAM tutarı tüm ondalıklarla gönderin. Watcher benzersiz tutarla eşleştirir — yuvarlama = kayıp."
   }
 }

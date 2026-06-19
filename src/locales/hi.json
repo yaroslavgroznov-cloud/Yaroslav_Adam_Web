@@ -878,6 +878,22 @@
     "copied": "कॉपी हो गया",
     "method_card_title": "बैंक कार्ड",
     "method_card_soon": "जल्द। LiqPay (PrivatBank, UAH) और Paddle (वैश्विक कार्ड) सत्यापन की प्रतीक्षा।",
-    "refund_link": "रिफंड नीति (/refund)"
+    "refund_link": "रिफंड नीति (/refund)",
+    "global_warning_title": "भुगतान से पहले ध्यान से पढ़ें",
+    "global_warning_body": "क्रिप्टो भुगतान अपरिवर्तनीय हैं। नेटवर्क, पता, राशि या टिप्पणी में गलती — धन हमेशा के लिए चला जाएगा, और सेवा नहीं मिलेगी। विधि सावधानी से चुनें, भेजने से पहले हर फ़ील्ड जांचें।",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "Telegram Wallet, Tonkeeper, Trust Wallet या किसी TON वॉलेट से भुगतान। पुष्टि ~1 सेकंड, शुल्क ~$0.0005। क्रिप्टो नहीं? Telegram में @Wallet से USDT-TON खरीदें (Mercuryo, 60+ देश)।",
+    "ton_warning": "नेटवर्क: केवल TON। TRC20/ERC-20/BEP-20 नहीं। गलत नेटवर्क = धन हमेशा के लिए जाएगा।",
+    "ton_request": "भुगतान विवरण प्राप्त करें",
+    "ton_instructions": "अपना TON वॉलेट खोलें, USDT (Jetton) चुनें, नीचे दिए पते पर सटीक राशि भेजें। टिप्पणी फ़ील्ड अनिवार्य है — इसके बिना पहुँच सक्रिय नहीं होगी। पुष्टि ~30 सेकंड में।",
+    "ton_amount": "राशि",
+    "ton_recipient": "TON पता",
+    "ton_comment": "टिप्पणी (Memo)",
+    "ton_comment_critical": "सटीक टिप्पणी के बिना भुगतान खो जाएगा — हम on-chain में पहचान नहीं पाएंगे।",
+    "ton_polling": "TON पर भुगतान #{{id}} ट्रैक हो रहा। बंद कर सकते हैं — पुष्टि पर सूचित करेंगे।",
+    "ton_unavailable": "TON Pay अनुपलब्ध। USDT TRC20 का उपयोग करें या निर्माता को बताएं।",
+    "recommended": "अनुशंसित",
+    "trc20_warning": "नेटवर्क: केवल TRC20 (Tron)। TON/ERC-20/BEP-20 नहीं। गलत नेटवर्क = धन जाएगा।",
+    "trc20_amount_critical": "सटीक राशि सहित सभी दशमलव भेजें। Watcher यूनिक राशि से मिलान करता है — गोलाई = नुकसान।"
   }
 }

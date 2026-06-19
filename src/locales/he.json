@@ -878,6 +878,22 @@
     "copied": "הועתק",
     "method_card_title": "כרטיס אשראי",
     "method_card_soon": "בקרוב. ממתינים לאימות LiqPay (PrivatBank, UAH) ו-Paddle (כרטיסים גלובליים).",
-    "refund_link": "מדיניות החזרים (/refund)"
+    "refund_link": "מדיניות החזרים (/refund)",
+    "global_warning_title": "יש לקרוא בקפידה לפני התשלום",
+    "global_warning_body": "תשלומי קריפטו אינם הפיכים. טעות ברשת, בכתובת, בסכום או בהערה — הכספים יאבדו לצמיתות והשירות לא יתקבל. בחר את השיטה בקפידה ובדוק כל שדה לפני השליחה.",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "תשלום מ-Telegram Wallet, Tonkeeper, Trust Wallet או כל ארנק TON. אישור ~1 שניה, עמלת רשת ~$0.0005. אין קריפטו? קנו USDT-TON ישירות בטלגרם דרך @Wallet (Mercuryo, 60+ מדינות).",
+    "ton_warning": "רשת: TON בלבד. לא TRC20, לא ERC-20, לא BEP-20. רשת אחרת = אובדן מוחלט.",
+    "ton_request": "קבלת פרטי תשלום",
+    "ton_instructions": "פתח את ארנק ה-TON, בחר USDT (Jetton), שלח את הסכום המדויק לכתובת למטה. שדה ההערה חובה — בלעדיו הגישה לא תופעל. אישור בתוך ~30 שניות.",
+    "ton_amount": "סכום",
+    "ton_recipient": "כתובת TON",
+    "ton_comment": "הערה (Memo)",
+    "ton_comment_critical": "בלי ההערה המדויקת התשלום ילך לאיבוד — לא נוכל לאתר אותו ב-on-chain.",
+    "ton_polling": "מעקב אחר תשלום #{{id}} ב-TON. אפשר לסגור — נעדכן באישור.",
+    "ton_unavailable": "TON Pay לא זמין כרגע. השתמשו ב-USDT TRC20 או הודיעו ליוצר.",
+    "recommended": "מומלץ",
+    "trc20_warning": "רשת: TRC20 (Tron) בלבד. לא TON, לא ERC-20, לא BEP-20. רשת אחרת = אובדן.",
+    "trc20_amount_critical": "שלחו את הסכום המדויק כולל כל הספרות. Watcher מזהה לפי הסכום הייחודי — עיגול = אובדן."
   }
 }

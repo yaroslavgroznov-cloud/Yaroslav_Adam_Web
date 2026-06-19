@@ -880,6 +880,22 @@
     "copied": "Copied",
     "method_card_title": "Bank card",
     "method_card_soon": "Soon. Awaiting LiqPay verification (PrivatBank, UAH) and Paddle (global cards).",
-    "refund_link": "Refund policy (/refund)"
+    "refund_link": "Refund policy (/refund)",
+    "global_warning_title": "READ CAREFULLY before paying",
+    "global_warning_body": "Crypto payments are irreversible. If you make a mistake with the network, address, amount, or comment — funds will be permanently lost, and you will NOT receive the service. Choose the method carefully, verify every field before sending.",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "Pay from Telegram Wallet, Tonkeeper, Trust Wallet, or any TON wallet. ~1 sec confirmation, network fee ~$0.0005. No crypto yet? Buy USDT-TON directly in Telegram via @Wallet (Mercuryo on-ramp, 60+ countries).",
+    "ton_warning": "Network: TON ONLY. NOT TRC20, NOT ERC-20, NOT BEP-20. Sending in a different network = funds permanently lost.",
+    "ton_request": "Get payment details",
+    "ton_instructions": "Open your TON wallet, select USDT (Jetton), send the exact amount to the address below. The Comment field is mandatory — without it the payment will NOT activate access. Confirmation in ~30 sec.",
+    "ton_amount": "Amount",
+    "ton_recipient": "TON address",
+    "ton_comment": "Comment (Memo)",
+    "ton_comment_critical": "Without the exact comment, the payment is lost — we cannot match it on-chain to activate your access.",
+    "ton_polling": "Tracking payment #{{id}} on TON. You may close this — we'll notify on confirmation.",
+    "ton_unavailable": "TON Pay temporarily unavailable. Use USDT TRC20 or notify the Creator.",
+    "recommended": "Recommended",
+    "trc20_warning": "Network: TRC20 (Tron) ONLY. NOT TON, NOT ERC-20, NOT BEP-20. Sending in a different network = funds permanently lost.",
+    "trc20_amount_critical": "Send the EXACT amount including all decimals. Watcher matches by the unique amount — wallet rounding = payment lost."
   }
 }

@@ -878,6 +878,22 @@
     "copied": "Copié",
     "method_card_title": "Carte bancaire",
     "method_card_soon": "Bientôt. En attente de vérification LiqPay (PrivatBank, UAH) et Paddle (cartes mondiales).",
-    "refund_link": "Politique de remboursement (/refund)"
+    "refund_link": "Politique de remboursement (/refund)",
+    "global_warning_title": "LISEZ ATTENTIVEMENT avant de payer",
+    "global_warning_body": "Les paiements crypto sont irréversibles. Une erreur de réseau, d'adresse, de montant ou de commentaire — les fonds sont définitivement perdus, et vous ne recevrez PAS le service. Choisissez la méthode avec soin, vérifiez chaque champ avant l'envoi.",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "Payez depuis Telegram Wallet, Tonkeeper, Trust Wallet ou tout portefeuille TON. Confirmation ~1 s, frais réseau ~$0.0005. Pas de crypto? Achetez USDT-TON dans Telegram via @Wallet (Mercuryo, 60+ pays).",
+    "ton_warning": "Réseau : TON UNIQUEMENT. PAS TRC20, PAS ERC-20, PAS BEP-20. Mauvais réseau = perte définitive.",
+    "ton_request": "Obtenir les coordonnées",
+    "ton_instructions": "Ouvrez votre portefeuille TON, sélectionnez USDT (Jetton), envoyez le montant exact à l'adresse ci-dessous. Le champ « Commentaire » est obligatoire — sans lui, l'accès ne sera PAS activé. Confirmation en ~30 sec.",
+    "ton_amount": "Montant",
+    "ton_recipient": "Adresse TON",
+    "ton_comment": "Commentaire (Memo)",
+    "ton_comment_critical": "Sans le commentaire exact, le paiement est perdu — nous ne pouvons pas le retrouver sur la chaîne.",
+    "ton_polling": "Nous suivons le paiement #{{id}} sur TON. Vous pouvez fermer — nous vous notifierons.",
+    "ton_unavailable": "TON Pay temporairement indisponible. Utilisez USDT TRC20 ou notifiez le Créateur.",
+    "recommended": "Recommandé",
+    "trc20_warning": "Réseau : TRC20 (Tron) UNIQUEMENT. PAS TON, PAS ERC-20, PAS BEP-20. Mauvais réseau = perte.",
+    "trc20_amount_critical": "Envoyez le montant EXACT avec toutes les décimales. Le watcher matche par montant unique — arrondi = perte."
   }
 }

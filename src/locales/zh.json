@@ -877,6 +877,22 @@
     "copied": "已复制",
     "method_card_title": "银行卡",
     "method_card_soon": "即将。等待 LiqPay（PrivatBank, UAH）与 Paddle（全球卡）的资质核验。",
-    "refund_link": "退款政策 (/refund)"
+    "refund_link": "退款政策 (/refund)",
+    "global_warning_title": "付款前请仔细阅读",
+    "global_warning_body": "加密支付不可撤销。网络、地址、金额或备注出错 — 资金将永久丢失，您将无法获得服务。请仔细选择方式，发送前核对每一项。",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "从 Telegram Wallet、Tonkeeper、Trust Wallet 或任何 TON 钱包付款。约 1 秒确认，网络费用约 $0.0005。没有加密货币？通过 Telegram 内的 @Wallet 用 Mercuryo 购买 USDT-TON（60+ 国家）。",
+    "ton_warning": "网络：仅 TON。不是 TRC20、ERC-20 或 BEP-20。错误网络 = 资金永久丢失。",
+    "ton_request": "获取付款信息",
+    "ton_instructions": "打开你的 TON 钱包，选择 USDT (Jetton)，将准确金额发送到下方地址。备注字段必填 — 没有备注无法激活访问。约 30 秒确认。",
+    "ton_amount": "金额",
+    "ton_recipient": "TON 地址",
+    "ton_comment": "备注 (Memo)",
+    "ton_comment_critical": "没有准确的备注，付款将无法识别 — 我们无法在链上匹配以激活访问。",
+    "ton_polling": "正在 TON 链上跟踪付款 #{{id}}。可关闭，确认后通知。",
+    "ton_unavailable": "TON Pay 暂不可用。请使用 USDT TRC20 或告知造物者。",
+    "recommended": "推荐",
+    "trc20_warning": "网络：仅 TRC20 (Tron)。不是 TON、ERC-20 或 BEP-20。错误网络 = 永久丢失。",
+    "trc20_amount_critical": "请发送精确金额，包含所有小数位。Watcher 按唯一金额匹配 — 四舍五入 = 丢失。"
   }
 }
