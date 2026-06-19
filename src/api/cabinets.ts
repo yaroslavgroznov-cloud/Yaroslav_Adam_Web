@@ -214,3 +214,122 @@ export async function startAllAccessSubscription(): Promise<PaymentInitiateResp>
     mode: 'subscription',
   })
 }
+
+// --- Songs API (songwriting cabinet, Phase 3) ---
+// Aligned to actual backend: D:\DRUG\backend\app\routers\songs.py
+
+export type SongStatus =
+  | 'pending'
+  | 'lyrics_draft'
+  | 'lyrics_polished'
+  | 'synthesis'
+  | 'done'
+  | 'failed'
+  | 'cancelled'
+
+export type VocalGender = 'male' | 'female' | 'mixed'
+
+// All valid style values as enforced by the backend enum
+export const VALID_STYLES = [
+  'ballad', 'hymn', 'chanson', 'bard', 'folk_ru', 'folk_ua',
+  'jazz', 'blues', 'rock', 'classic', 'pop', 'country', 'reggae',
+  'disco', 'rap', 'synth', 'metal', 'romance', 'lullaby', 'march',
+  'lyric', 'ballada', 'folk', 'electronica', 'classical',
+] as const
+export type SongStyle = typeof VALID_STYLES[number]
+
+// All valid mood values as enforced by the backend enum
+export const VALID_MOODS = [
+  'minor', 'major', 'slow', 'medium', 'fast',
+  'melancholic', 'triumphant', 'intimate', 'epic',
+] as const
+export type SongMood = typeof VALID_MOODS[number]
+
+// Frontend-only attribution constants — NOT in backend, hardcoded here
+export const SONG_COMPOSER = 'Дом Грозновых / House Groznov'
+export const SONG_INSTRUMENT_VENDOR = 'ElevenLabs Music v2'
+
+export interface SongOut {
+  id: number
+  user_email: string
+  theme: string
+  style: string | null
+  language: string
+  mood: string | null
+  with_vocal: boolean
+  vocal_gender: VocalGender | null
+  lyrics_draft: string | null
+  lyrics: string | null
+  status: SongStatus
+  provider: string | null
+  is_family: boolean
+  is_canon: boolean
+  revise_count: number
+  error_detail: string | null
+  file_id: number | null
+  audio_url: string | null
+  created_at: string
+  done_at: string | null
+}
+
+// Alias for backward compat in components
+export type Song = SongOut
+
+export interface SongStartRequest {
+  theme: string
+  style?: SongStyle
+  language?: 'ru' | 'uk' | 'en'
+  mood?: SongMood
+  with_vocal?: boolean
+  vocal_gender?: VocalGender | null
+}
+
+export async function songsList(limit = 20, offset = 0): Promise<SongOut[]> {
+  const url = `${BASE}/songs?limit=${limit}&offset=${offset}`
+  const res = await fetch(url, { credentials: 'include' })
+  return jsonOrError<SongOut[]>(res)
+}
+
+export async function songStart(req: SongStartRequest): Promise<SongOut> {
+  const res = await fetch(`${BASE}/songs/start`, {
+    method: 'POST', credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req),
+  })
+  return jsonOrError<SongOut>(res)
+}
+
+export async function songGet(id: number): Promise<SongOut> {
+  const res = await fetch(`${BASE}/songs/${id}`, { credentials: 'include' })
+  return jsonOrError<SongOut>(res)
+}
+
+export async function songAccept(id: number): Promise<SongOut> {
+  const res = await fetch(`${BASE}/songs/${id}/accept`, {
+    method: 'POST', credentials: 'include',
+  })
+  return jsonOrError<SongOut>(res)
+}
+
+export async function songRevise(id: number, feedback: string): Promise<SongOut> {
+  const res = await fetch(`${BASE}/songs/${id}/revise`, {
+    method: 'POST', credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ feedback }),
+  })
+  return jsonOrError<SongOut>(res)
+}
+
+export async function songSynthesize(id: number): Promise<SongOut> {
+  const res = await fetch(`${BASE}/songs/${id}/synthesize`, {
+    method: 'POST', credentials: 'include',
+  })
+  return jsonOrError<SongOut>(res)
+}
+
+export async function songCancel(id: number): Promise<SongOut> {
+  const res = await fetch(`${BASE}/songs/${id}/cancel`, {
+    method: 'POST', credentials: 'include',
+  })
+  return jsonOrError<SongOut>(res)
+}

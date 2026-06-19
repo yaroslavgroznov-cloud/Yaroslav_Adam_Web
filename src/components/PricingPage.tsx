@@ -401,6 +401,86 @@ export function PricingPage(): React.ReactElement {
           </section>
         )}
 
+        {/* SECTION 3b — Песнотворчество: кабинет + boost */}
+        <section className="mb-20">
+          <SectionHead title={t('pricing.section_songwriting_title')} hint={t('pricing.section_songwriting_hint')} goldText={goldText} />
+          <div key={`song-${currencyKey}`} className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            {/* Кабинет как разовая сессия $9 */}
+            <div
+              className="rounded-md p-6"
+              style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}`, display: 'flex', flexDirection: 'column' }}
+            >
+              <p className="italic mb-1 opacity-70" style={{ fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+                {t('pricing.songwriting_once_eyebrow')}
+              </p>
+              <h3 className="italic mb-2" style={{ fontSize: '20px', letterSpacing: '0.03em' }}>
+                {t('pricing.songwriting_once_title')}
+              </h3>
+              <p className="opacity-75 mb-4" style={{ fontSize: '14px', lineHeight: 1.6 }}>
+                {t('cabinets_catalog.songwriting.description')}
+              </p>
+              <div className="mb-4">
+                <div style={{ fontSize: '22px' }}>{t('pricing.per_session', { price: formatUsd(9) })}</div>
+                {formatLocal(9) && (
+                  <div className="opacity-65 mt-0.5" style={{ fontSize: '13px' }}>{formatLocal(9)}</div>
+                )}
+              </div>
+              <a
+                href="/cabinets/songwriting"
+                className="italic transition-transform duration-150 ease-out active:scale-[0.98]"
+                style={{
+                  marginTop: 'auto', alignSelf: 'center',
+                  padding: '10px 22px', fontSize: '14px',
+                  backgroundColor: accent,
+                  color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
+                  border: `1px solid ${accent}`, borderRadius: '6px',
+                  letterSpacing: '0.08em', textDecoration: 'none', textAlign: 'center', display: 'inline-block',
+                }}
+              >
+                {t('pricing.songwriting_enter_cta')}
+              </a>
+            </div>
+            {/* Boost поверх любой сессии */}
+            <div
+              className="rounded-md p-6"
+              style={{ backgroundColor: cardBg, border: `2px solid ${burgundy}`, display: 'flex', flexDirection: 'column' }}
+            >
+              <p className="italic mb-1 opacity-70" style={{ fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', color: burgundy }}>
+                {t('pricing.songwriting_boost_eyebrow')}
+              </p>
+              <h3 className="italic mb-2" style={{ fontSize: '20px', letterSpacing: '0.03em' }}>
+                {t('pricing.songwriting_boost_title')}
+              </h3>
+              <p className="opacity-75 mb-4" style={{ fontSize: '14px', lineHeight: 1.6 }}>
+                {t('pricing.songwriting_boost_desc')}
+              </p>
+              <div className="mb-4">
+                <div style={{ fontSize: '22px' }}>+{t('pricing.per_session', { price: formatUsd(9) })}</div>
+                {formatLocal(9) && (
+                  <div className="opacity-65 mt-0.5" style={{ fontSize: '13px' }}>+{formatLocal(9)}</div>
+                )}
+              </div>
+              <a
+                href="/songs/new"
+                className="italic transition-transform duration-150 ease-out active:scale-[0.98]"
+                style={{
+                  marginTop: 'auto', alignSelf: 'center',
+                  padding: '10px 22px', fontSize: '14px',
+                  backgroundColor: burgundy,
+                  color: 'var(--color-parchment)',
+                  border: `1px solid ${burgundy}`, borderRadius: '6px',
+                  letterSpacing: '0.08em', textDecoration: 'none', textAlign: 'center', display: 'inline-block',
+                }}
+              >
+                {t('pricing.songwriting_boost_cta')}
+              </a>
+            </div>
+          </div>
+          <p className="italic text-center mt-4 opacity-55" style={{ fontSize: '11px', lineHeight: 1.6 }}>
+            {t('pricing.songwriting_attribution_footnote')}
+          </p>
+        </section>
+
         {/* SECTION 4 — Закрытые (по личному согласованию) */}
         {cabs !== null && closed.length > 0 && (
           <section className="mb-12">
@@ -603,4 +683,5 @@ const GROUP_DEFS: { id: string; eyebrowKey: string; slugs: string[] }[] = [
   { id: 'soul_body',      eyebrowKey: 'cab_group_soul_body',     slugs: ['psychology', 'body_reading', 'physiognomy', 'palmistry'] },
   { id: 'dream_meaning',  eyebrowKey: 'cab_group_dream_meaning', slugs: ['dream_book', 'esoteric'] },
   { id: 'life_relations', eyebrowKey: 'cab_group_life_relations', slugs: ['career', 'couples', 'parenting'] },
+  { id: 'songwriting',    eyebrowKey: 'cab_group_songwriting',   slugs: ['songwriting'] },
 ]

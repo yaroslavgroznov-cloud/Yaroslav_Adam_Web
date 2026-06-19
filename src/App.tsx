@@ -26,6 +26,10 @@ const PricingPage = lazy(() =>
   import('./components/PricingPage').then(m => ({ default: m.PricingPage })))
 const LegalPage = lazy(() =>
   import('./components/LegalPage').then(m => ({ default: m.LegalPage })))
+const SongsPage = lazy(() =>
+  import('./components/SongsPage').then(m => ({ default: m.SongsPage })))
+const SongNewPage = lazy(() =>
+  import('./components/SongNewPage').then(m => ({ default: m.SongNewPage })))
 
 function Fallback(): React.ReactElement {
   return (
@@ -69,6 +73,9 @@ export default function App() {
     if (path.startsWith('/refund')) return <LegalPage doc="refund" />
     if (path.startsWith('/kill-switch')) return <KillSwitchPanel />
     if (path.startsWith('/tasks')) return <TasksPanel />
+    // /songs/new — форма создания; /songs — коллекция
+    if (path.startsWith('/songs/new')) return <SongNewPage />
+    if (path.startsWith('/songs')) return <SongsPage />
     // /cabinets/{slug} — детальная страница; /cabinets — список
     if (/^\/cabinets\/[^/]+/.test(path)) return <CabinetSessionPage />
     if (path.startsWith('/cabinets')) return <CabinetsPanel />
@@ -86,7 +93,8 @@ export default function App() {
     path.startsWith('/pricing') ||
     path.startsWith('/terms') ||
     path.startsWith('/privacy') ||
-    path.startsWith('/refund')
+    path.startsWith('/refund') ||
+    path.startsWith('/songs')
   const showFloatingFontScale = !isLanding
 
   return (

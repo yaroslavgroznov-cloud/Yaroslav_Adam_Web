@@ -96,6 +96,7 @@ export function BuyModal({ target, open, onClose, isDark }: BuyModalProps): Reac
 
   const usdFmt = formatUsd(target.amount_usd)
   const localFmt = formatLocal(target.amount_usd)
+  const isSongwriting = target.cabinet_slug === 'songwriting'
 
   function handleAuthError(e: unknown): boolean {
     const msg = e instanceof Error ? e.message : 'error'
@@ -242,11 +243,11 @@ export function BuyModal({ target, open, onClose, isDark }: BuyModalProps): Reac
           className="italic mb-1"
           style={{ fontSize: '22px', letterSpacing: '0.03em', color: burgundy }}
         >
-          {target.label}
+          {isSongwriting ? t('buy_modal.songwriting_title') : target.label}
         </h2>
         {target.hint && (
           <p className="italic opacity-75 mb-3" style={{ fontSize: '13px', lineHeight: 1.5 }}>
-            {target.hint}
+            {isSongwriting ? t('buy_modal.songwriting_hint') : target.hint}
           </p>
         )}
 
@@ -482,6 +483,32 @@ export function BuyModal({ target, open, onClose, isDark }: BuyModalProps): Reac
             {t('buy_modal.method_card_soon')}
           </p>
         </div>
+
+        {/* Songwriting: after payment info shown, link to /songs/new */}
+        {isSongwriting && (tonInfo !== null || trcInfo !== null) && (
+          <div className="rounded-md p-3 mt-3 text-center" style={{ border: `1px solid ${cardBorder}` }}>
+            <p className="italic mb-2" style={{ fontSize: '12px', lineHeight: 1.5 }}>
+              {t('buy_modal.songwriting_after_pay_hint')}
+            </p>
+            <a
+              href="/songs/new"
+              className="italic transition-transform duration-150 ease-out active:scale-[0.98]"
+              style={{
+                display: 'inline-block',
+                padding: '8px 18px',
+                fontSize: '13px',
+                backgroundColor: burgundy,
+                color: 'var(--color-parchment)',
+                border: `1px solid ${burgundy}`,
+                borderRadius: '6px',
+                textDecoration: 'none',
+                letterSpacing: '0.06em',
+              }}
+            >
+              {t('buy_modal.songwriting_cta_new')}
+            </a>
+          </div>
+        )}
 
         {/* Footer — refund link */}
         <p className="italic opacity-55 mt-4 text-center" style={{ fontSize: '11px', lineHeight: 1.5 }}>
