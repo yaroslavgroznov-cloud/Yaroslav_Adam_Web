@@ -13,6 +13,7 @@ import type { Cabinet, CabinetSession, CabinetMessageAttachment } from '../api/c
 import { filesConfig, uploadFile } from '../api/files'
 import type { FileMeta, FilesConfig } from '../api/files'
 import { useDarkMode } from '../hooks/useDarkMode'
+import { BuyModal, type BuyModalTarget } from './BuyModal'
 import { MessageBubble } from './MessageBubble'
 
 interface ChatLine {
@@ -55,7 +56,12 @@ export function CabinetSessionPage(): React.ReactElement {
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
-  const [cryptoInfo, setCryptoInfo] = useState<{wallet: string; amount: string; payment_id: number} | null>(null)
+  // F.66.5 (2026-06-19): inline TRC20-only UI замінено на BuyModal — єдиний
+  // UX з 3-рівневими попередженнями (global + per-method + per-detail) + TON
+  // Pay як основний метод. Сам BuyModal не потребує cabinet_session_id для
+  // crypto-провайдерів (TON Pay / TRC20 матчаться через reference / unique
+  // amount; активація йде через backend `_activate_payment` по payment_id).
+  const [buyTarget, setBuyTarget] = useState<BuyModalTarget | null>(null)
   // F.41/F.58: attachments в кабинете
   const [filesCfg, setFilesCfg] = useState<FilesConfig | null>(null)
   const [pendingFiles, setPendingFiles] = useState<FileMeta[]>([])
@@ -261,36 +267,24 @@ export function CabinetSessionPage(): React.ReactElement {
     }
   }
 
-  async function payCrypto(): Promise<void> {
+  // F.66.5: відкриває BuyModal замість inline TRC20-only UI. BuyModal сам
+  // пропонує 3 методи (TON Pay рекомендований / TRC20 / Card placeholder)
+  // з обов'язковими попередженнями про незворотність крипто-платежів.
+  function openBuyModal(): void {
     if (!cabinet) return
     if (!session) {
       setVerifyToast(t('cabinets.fill_form_first', { defaultValue: 'Спочатку заповни форму нижче ↓' }))
       setTimeout(() => setVerifyToast(''), 5000)
       return
     }
-    setBusy(true); setError('')
-    try {
-      const res = await paymentInitiate({
-        kind: 'cabinet_session',
-        provider: 'crypto_trc20',
-        amount_usd: cabinet.price_usd_session,
-        cabinet_session_id: session.id,
-      })
-      const na = res.next_action as { wallet?: string; amount_usd?: number; payment_id?: number } | null
-      if (na?.wallet && na.amount_usd != null && na.payment_id != null) {
-        setCryptoInfo({
-          wallet: na.wallet,
-          amount: na.amount_usd.toFixed(6),
-          payment_id: na.payment_id,
-        })
-      } else {
-        setError(t('cabinets.crypto_unavailable'))
-      }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'error')
-    } finally {
-      setBusy(false)
-    }
+    setBuyTarget({
+      id: `cabinet:${cabinet.slug}`,
+      label: cabinet.name,
+      hint: t('cabinets.tier_session_desc', { defaultValue: '' }),
+      amount_usd: cabinet.price_usd_session,
+      kind: 'cabinet_session',
+      cabinet_slug: cabinet.slug,
+    })
   }
 
   useEffect(() => {
@@ -806,7 +800,7 @@ export function CabinetSessionPage(): React.ReactElement {
                 </button>
                 <button
                   type="button"
-                  onClick={() => void payCrypto()}
+                  onClick={openBuyModal}
                   disabled={busy}
                   className="rounded-md border italic disabled:opacity-50"
                   style={{
@@ -815,9 +809,9 @@ export function CabinetSessionPage(): React.ReactElement {
                     color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
                     borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
                   }}
-                  title={t('cabinets.pay_crypto')}
+                  title={t('cabinets.pay_crypto', { defaultValue: 'Криптовалюта (TON / TRC20)' })}
                 >
-                  {t('cabinets.pay_crypto')}
+                  {t('cabinets.pay_crypto', { defaultValue: 'Криптовалюта (TON / TRC20)' })}
                 </button>
               </div>
               {verifyToast && (
@@ -838,29 +832,9 @@ export function CabinetSessionPage(): React.ReactElement {
               )}
             </div>
 
-            {cryptoInfo && (
-              <div
-                className="rounded-md border p-4 mt-2"
-                style={{
-                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                  backgroundColor: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-                  fontSize: '13px',
-                }}
-              >
-                <p className="italic mb-2 opacity-80">{t('cabinets.crypto_instructions')}</p>
-                <div className="mb-2">
-                  <span className="opacity-60">{t('cabinets.crypto_amount')}: </span>
-                  <code style={{ fontSize: '15px', fontWeight: 600 }}>{cryptoInfo.amount} USDT</code>
-                </div>
-                <div className="mb-2">
-                  <span className="opacity-60">{t('cabinets.crypto_wallet')}: </span>
-                  <code style={{ fontSize: '13px', wordBreak: 'break-all' }}>{cryptoInfo.wallet}</code>
-                </div>
-                <div className="opacity-70 italic" style={{ fontSize: '12px' }}>
-                  {t('cabinets.crypto_polling', { id: cryptoInfo.payment_id })}
-                </div>
-              </div>
-            )}
+            {/* F.66.5: inline crypto-info блок видалено — BuyModal показує
+                реквізити з 3-рівневими попередженнями (TON/TRC20 network
+                warning + critical comment/amount warning). */}
           </section>
         )}
 
@@ -1131,6 +1105,18 @@ export function CabinetSessionPage(): React.ReactElement {
           </section>
         )}
       </div>
+
+      {/* F.66.5: BuyModal — єдиний UX оплати для кабінету з 3-рівневими
+          попередженнями. Відкривається кнопкою "Криптовалюта (TON / TRC20)"
+          у payment_methods row після створення сесії. */}
+      {buyTarget && (
+        <BuyModal
+          target={buyTarget}
+          open={true}
+          onClose={() => setBuyTarget(null)}
+          isDark={isDark}
+        />
+      )}
     </div>
   )
 }

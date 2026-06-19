@@ -38,7 +38,7 @@ export interface CurrencyDef {
 // При значній зміні курсу - оновлювати разом з cfg.liqpay_usd_uah.
 export const CURRENCIES: Record<CurrencyCode, CurrencyDef> = {
   USD: { code: 'USD', symbol: '$',  position: 'before', rate: 1,      fmtLocale: 'en-US' },
-  UAH: { code: 'UAH', symbol: '₴',  position: 'after',  rate: 41.5,   fmtLocale: 'uk-UA' },
+  UAH: { code: 'UAH', symbol: '₴',  position: 'after',  rate: 44.5,   fmtLocale: 'uk-UA' },
   EUR: { code: 'EUR', symbol: '€',  position: 'after',  rate: 0.92,   fmtLocale: 'de-DE' },
   PLN: { code: 'PLN', symbol: 'zł', position: 'after',  rate: 4.0,    fmtLocale: 'pl-PL' },
   ILS: { code: 'ILS', symbol: '₪',  position: 'before', rate: 3.65,   fmtLocale: 'he-IL' },

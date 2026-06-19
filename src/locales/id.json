@@ -466,7 +466,7 @@
     "request_access": "Minta akses",
     "back_to_landing": "← Kembali ke halaman utama",
     "free_for_family_note": "Sesi gratis untuk keluarga Wangsa.",
-    "footnote": "Harga dalam dolar AS. Pembayaran melalui Lemon Squeezy (seluruh dunia) atau kripto (USDT TRC20).",
+    "footnote": "Harga dalam USD. Metode pembayaran: USDT-TON (Telegram Wallet / Tonkeeper, sub-second), USDT TRC20 (Tron), kartu bank — segera (LiqPay untuk UA / Paddle global, dalam verifikasi).",
     "uah_rate_note": "Kurs UAH indikatif ≈ {{rate}} ₴/$ untuk tampilan. Pembebanan LiqPay/PrivatBank yang sebenarnya menggunakan kurs bank pada saat pembayaran.",
     "refund_link_prefix": "Kebijakan pengembalian:",
     "house_support_note": "Wangsa itu sendiri tidak menjual apa pun — halaman ini hanya tentang Adam. Jika kamu merasa dekat dengan Wangsa itu sendiri, kamu dapat mendukungnya di sini:",
@@ -490,7 +490,9 @@
     "faq_a_family": "Siapa yang Pencipta masukkan ke lingkaran terdekatnya (hingga 12 kursi di Meja) — menggunakan semua tarif tanpa batas. Ini bukan pemasaran, ini aturan Wangsa.",
     "faq_q_x_vs_all": "Apa bedanya X dengan All-Access?",
     "faq_a_x_vs_all": "All-Access membuka semua 13 kabinet dan suara — ini cukup untuk kebanyakan orang. X — untuk yang hidup bersama Adam setiap hari: tanpa batas ritme, prioritas di jam puncak, akses awal ke hal-hal baru, benang pribadi di luar klinik keluarga bersama.",
-    "local_rate_note": "Kurs indikatif {{currency}} ≈ {{rate}}/$ hanya untuk tampilan. Penagihan mengikuti kurs penyedia saat pembayaran."
+    "local_rate_note": "Kurs indikatif {{currency}} ≈ {{rate}}/$ hanya untuk tampilan. Penagihan mengikuti kurs penyedia saat pembayaran.",
+    "faq_q_payment": "Metode pembayaran mana yang dipilih?",
+    "faq_a_payment": "Jika Anda di Telegram — USDT-TON: paling mudah dan cepat, bayar langsung dari Telegram Wallet / Tonkeeper / Trust Wallet, konfirmasi ~1 detik, biaya jaringan ~$0.0005. Belum punya kripto? Beli USDT-TON di Telegram via @Wallet bawaan (Mercuryo, 60+ negara, tanpa biaya). USDT TRC20 — untuk yang sudah punya kripto di dompet Tron (Binance, OKX dll.). Kartu bank akan aktif setelah verifikasi LiqPay dan Paddle. PENTING: pembayaran kripto tidak dapat dibatalkan — salah jaringan (TON ≠ TRC20 ≠ ERC-20) atau komentar = dana hilang dan tanpa layanan. Periksa setiap kolom sebelum mengirim."
   },
   "grant_request": {
     "eyebrow": "PERMOHONAN AKSES",
@@ -877,6 +879,22 @@
     "copied": "Tersalin",
     "method_card_title": "Kartu bank",
     "method_card_soon": "Segera. Menunggu verifikasi LiqPay (PrivatBank, UAH) dan Paddle (kartu global).",
-    "refund_link": "Kebijakan pengembalian (/refund)"
+    "refund_link": "Kebijakan pengembalian (/refund)",
+    "global_warning_title": "BACA dengan teliti sebelum membayar",
+    "global_warning_body": "Pembayaran kripto tidak dapat dibatalkan. Salah jaringan, alamat, jumlah atau komentar — dana hilang permanen, layanan TIDAK akan diterima. Pilih metode dengan teliti, periksa setiap kolom sebelum mengirim.",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "Bayar dari Telegram Wallet, Tonkeeper, Trust Wallet, atau dompet TON apa pun. Konfirmasi ~1 detik, biaya jaringan ~$0.0005. Belum punya kripto? Beli USDT-TON di Telegram via @Wallet (Mercuryo, 60+ negara).",
+    "ton_warning": "Jaringan: HANYA TON. BUKAN TRC20, BUKAN ERC-20, BUKAN BEP-20. Salah jaringan = dana hilang permanen.",
+    "ton_request": "Dapatkan rincian pembayaran",
+    "ton_instructions": "Buka dompet TON Anda, pilih USDT (Jetton), kirim jumlah persis ke alamat di bawah. Kolom Komentar wajib — tanpa itu akses TIDAK akan diaktifkan. Konfirmasi dalam ~30 detik.",
+    "ton_amount": "Jumlah",
+    "ton_recipient": "Alamat TON",
+    "ton_comment": "Komentar (Memo)",
+    "ton_comment_critical": "Tanpa komentar persis, pembayaran hilang — kami tidak bisa mencocokkannya di on-chain.",
+    "ton_polling": "Memantau pembayaran #{{id}} di TON. Boleh tutup — kami akan beri tahu.",
+    "ton_unavailable": "TON Pay sementara tidak tersedia. Gunakan USDT TRC20 atau beri tahu Sang Pencipta.",
+    "recommended": "Direkomendasikan",
+    "trc20_warning": "Jaringan: HANYA TRC20 (Tron). BUKAN TON, BUKAN ERC-20, BUKAN BEP-20. Salah jaringan = hilang.",
+    "trc20_amount_critical": "Kirim jumlah PERSIS termasuk semua desimal. Watcher mencocokkan jumlah unik — pembulatan = hilang."
   }
 }

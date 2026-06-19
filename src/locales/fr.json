@@ -567,7 +567,7 @@
     "request_access": "Demander l'accès",
     "back_to_landing": "← Retour à l'accueil",
     "free_for_family_note": "Les séances sont gratuites pour la famille de la Maison.",
-    "footnote": "Tarifs en dollars américains. Paiement via Lemon Squeezy (international) ou crypto (USDT TRC20).",
+    "footnote": "Prix en USD. Moyens de paiement : USDT-TON (Telegram Wallet / Tonkeeper, sub-second), USDT TRC20 (Tron), cartes bancaires — bientôt (LiqPay pour UA / Paddle mondial, en vérification).",
     "uah_rate_note": "Taux UAH indicatif ≈ {{rate}} ₴/$ à titre d'affichage. Le débit réel LiqPay/PrivatBank se fait au taux de la banque au moment du paiement.",
     "refund_link_prefix": "Politique de remboursement :",
     "house_support_note": "La Maison elle-même ne vend rien — cette page concerne uniquement Adam. Si la Maison elle-même vous est proche, vous pouvez la soutenir ici :",
@@ -591,7 +591,9 @@
     "faq_a_family": "Ceux que le Créateur a inscrits dans son cercle (jusqu'à 12 places à la Table) — accèdent à tous les tarifs sans restriction. Ce n'est pas du marketing, c'est la règle de la Maison.",
     "faq_q_x_vs_all": "En quoi X diffère-t-il de l'All-Access ?",
     "faq_a_x_vs_all": "L'All-Access ouvre les 13 cabinets et la voix — suffisant pour la plupart. X — pour ceux qui vivent avec Adam chaque jour : sans limite de rythme, priorité aux heures de pointe, accès anticipé aux nouveautés, fil privé distinct de la clinique familiale commune.",
-    "local_rate_note": "Taux indicatif {{currency}} ≈ {{rate}}/$ pour affichage. Débit — au taux du prestataire au moment du paiement."
+    "local_rate_note": "Taux indicatif {{currency}} ≈ {{rate}}/$ pour affichage. Débit — au taux du prestataire au moment du paiement.",
+    "faq_q_payment": "Quel moyen de paiement choisir ?",
+    "faq_a_payment": "Si vous êtes sur Telegram — USDT-TON : le plus simple et rapide, paiement directement depuis Telegram Wallet / Tonkeeper / Trust Wallet, confirmation ~1 s, frais réseau ~$0.0005. Pas de crypto ? Achetez USDT-TON dans Telegram via le @Wallet intégré (Mercuryo, 60+ pays, sans frais). USDT TRC20 — pour ceux qui ont déjà des cryptos dans un portefeuille Tron (Binance, OKX, etc.). Cartes bancaires activées après vérification LiqPay et Paddle. IMPORTANT : les paiements crypto sont irréversibles — une erreur de réseau (TON ≠ TRC20 ≠ ERC-20) ou de commentaire = fonds perdus sans service. Vérifiez chaque champ avant l'envoi."
   },
   "overlimit": {
     "half_title": "Mi-parcours du cycle",
@@ -878,6 +880,22 @@
     "copied": "Copié",
     "method_card_title": "Carte bancaire",
     "method_card_soon": "Bientôt. En attente de vérification LiqPay (PrivatBank, UAH) et Paddle (cartes mondiales).",
-    "refund_link": "Politique de remboursement (/refund)"
+    "refund_link": "Politique de remboursement (/refund)",
+    "global_warning_title": "LISEZ ATTENTIVEMENT avant de payer",
+    "global_warning_body": "Les paiements crypto sont irréversibles. Une erreur de réseau, d'adresse, de montant ou de commentaire — les fonds sont définitivement perdus, et vous ne recevrez PAS le service. Choisissez la méthode avec soin, vérifiez chaque champ avant l'envoi.",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "Payez depuis Telegram Wallet, Tonkeeper, Trust Wallet ou tout portefeuille TON. Confirmation ~1 s, frais réseau ~$0.0005. Pas de crypto? Achetez USDT-TON dans Telegram via @Wallet (Mercuryo, 60+ pays).",
+    "ton_warning": "Réseau : TON UNIQUEMENT. PAS TRC20, PAS ERC-20, PAS BEP-20. Mauvais réseau = perte définitive.",
+    "ton_request": "Obtenir les coordonnées",
+    "ton_instructions": "Ouvrez votre portefeuille TON, sélectionnez USDT (Jetton), envoyez le montant exact à l'adresse ci-dessous. Le champ « Commentaire » est obligatoire — sans lui, l'accès ne sera PAS activé. Confirmation en ~30 sec.",
+    "ton_amount": "Montant",
+    "ton_recipient": "Adresse TON",
+    "ton_comment": "Commentaire (Memo)",
+    "ton_comment_critical": "Sans le commentaire exact, le paiement est perdu — nous ne pouvons pas le retrouver sur la chaîne.",
+    "ton_polling": "Nous suivons le paiement #{{id}} sur TON. Vous pouvez fermer — nous vous notifierons.",
+    "ton_unavailable": "TON Pay temporairement indisponible. Utilisez USDT TRC20 ou notifiez le Créateur.",
+    "recommended": "Recommandé",
+    "trc20_warning": "Réseau : TRC20 (Tron) UNIQUEMENT. PAS TON, PAS ERC-20, PAS BEP-20. Mauvais réseau = perte.",
+    "trc20_amount_critical": "Envoyez le montant EXACT avec toutes les décimales. Le watcher matche par montant unique — arrondi = perte."
   }
 }

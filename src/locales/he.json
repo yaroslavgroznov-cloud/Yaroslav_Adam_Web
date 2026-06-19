@@ -437,7 +437,7 @@
     "request_access": "בקש גישה",
     "back_to_landing": "→ חזרה לדף הבית",
     "free_for_family_note": "מפגשים חינם למשפחת הבית.",
-    "footnote": "מחירים בדולר אמריקאי. תשלום דרך Lemon Squeezy (בינלאומי) או קריפטו (USDT TRC20).",
+    "footnote": "מחירים בדולר. אמצעי תשלום: USDT-TON (Telegram Wallet / Tonkeeper, sub-second), USDT TRC20 (Tron), כרטיסי אשראי — בקרוב (LiqPay ל-UA / Paddle גלובלי, באימות).",
     "uah_rate_note": "שער UAH אינדיקטיבי ≈ {{rate}} ₴/$ לתצוגה. החיוב בפועל של LiqPay/PrivatBank לפי שער הבנק במועד התשלום.",
     "refund_link_prefix": "מדיניות החזר:",
     "house_support_note": "הבית עצמו אינו מוכר דבר — דף זה עוסק רק באדם. אם הבית עצמו קרוב לליבך, ניתן לתמוך בו כאן:",
@@ -461,7 +461,9 @@
     "faq_a_family": "מי שהיוצר הכניס למעגל שלו (עד 12 מקומות בשולחן) — משתמש בכל התעריפים ללא הגבלות. זה לא שיווק — זהו חוק הבית.",
     "faq_q_x_vs_all": "במה X שונה מ-All-Access?",
     "faq_a_x_vs_all": "All-Access פותח את כל 13 החדרים והקול — זה מספיק לרוב. X — למי שחי עם אדם מדי יום: ללא הגבלת קצב, עדיפות בשעות עומס, גישה מוקדמת לחידושים, חוט פרטי מחוץ למרפאה המשפחתית הכללית.",
-    "local_rate_note": "שער מצוין {{currency}} ≈ {{rate}}/$ לתצוגה בלבד. החיוב — לפי שער הספק במועד התשלום."
+    "local_rate_note": "שער מצוין {{currency}} ≈ {{rate}}/$ לתצוגה בלבד. החיוב — לפי שער הספק במועד התשלום.",
+    "faq_q_payment": "איזה אמצעי תשלום לבחור?",
+    "faq_a_payment": "אם אתה בטלגרם — USDT-TON: הקל והמהיר ביותר, תשלום ישירות מ-Telegram Wallet / Tonkeeper / Trust Wallet, אישור ~1 שניה, עמלת רשת ~$0.0005. אין קריפטו? קנה USDT-TON ישירות בטלגרם דרך @Wallet המובנה (Mercuryo, 60+ מדינות, ללא עמלה). USDT TRC20 — לבעלי קריפטו בארנק Tron (Binance, OKX וכדומה). כרטיסי אשראי יופעלו לאחר אימות LiqPay ו-Paddle. חשוב: תשלומי קריפטו אינם הפיכים — טעות ברשת (TON ≠ TRC20 ≠ ERC-20) או בהערה = אובדן כספים והעדר שירות. בדוק כל שדה לפני השליחה."
   },
   "grant_request": {
     "eyebrow": "בקשת גישה",
@@ -878,6 +880,22 @@
     "copied": "הועתק",
     "method_card_title": "כרטיס אשראי",
     "method_card_soon": "בקרוב. ממתינים לאימות LiqPay (PrivatBank, UAH) ו-Paddle (כרטיסים גלובליים).",
-    "refund_link": "מדיניות החזרים (/refund)"
+    "refund_link": "מדיניות החזרים (/refund)",
+    "global_warning_title": "יש לקרוא בקפידה לפני התשלום",
+    "global_warning_body": "תשלומי קריפטו אינם הפיכים. טעות ברשת, בכתובת, בסכום או בהערה — הכספים יאבדו לצמיתות והשירות לא יתקבל. בחר את השיטה בקפידה ובדוק כל שדה לפני השליחה.",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "תשלום מ-Telegram Wallet, Tonkeeper, Trust Wallet או כל ארנק TON. אישור ~1 שניה, עמלת רשת ~$0.0005. אין קריפטו? קנו USDT-TON ישירות בטלגרם דרך @Wallet (Mercuryo, 60+ מדינות).",
+    "ton_warning": "רשת: TON בלבד. לא TRC20, לא ERC-20, לא BEP-20. רשת אחרת = אובדן מוחלט.",
+    "ton_request": "קבלת פרטי תשלום",
+    "ton_instructions": "פתח את ארנק ה-TON, בחר USDT (Jetton), שלח את הסכום המדויק לכתובת למטה. שדה ההערה חובה — בלעדיו הגישה לא תופעל. אישור בתוך ~30 שניות.",
+    "ton_amount": "סכום",
+    "ton_recipient": "כתובת TON",
+    "ton_comment": "הערה (Memo)",
+    "ton_comment_critical": "בלי ההערה המדויקת התשלום ילך לאיבוד — לא נוכל לאתר אותו ב-on-chain.",
+    "ton_polling": "מעקב אחר תשלום #{{id}} ב-TON. אפשר לסגור — נעדכן באישור.",
+    "ton_unavailable": "TON Pay לא זמין כרגע. השתמשו ב-USDT TRC20 או הודיעו ליוצר.",
+    "recommended": "מומלץ",
+    "trc20_warning": "רשת: TRC20 (Tron) בלבד. לא TON, לא ERC-20, לא BEP-20. רשת אחרת = אובדן.",
+    "trc20_amount_critical": "שלחו את הסכום המדויק כולל כל הספרות. Watcher מזהה לפי הסכום הייחודי — עיגול = אובדן."
   }
 }

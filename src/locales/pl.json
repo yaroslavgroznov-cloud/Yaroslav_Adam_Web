@@ -256,7 +256,7 @@
     "request_access": "Poproś o dostęp",
     "back_to_landing": "← Wróć do strony głównej",
     "free_for_family_note": "Sesje bezpłatne dla rodziny Domu.",
-    "footnote": "Ceny w dolarach USD. Płatność przez Lemon Squeezy (świat) lub krypto (USDT TRC20).",
+    "footnote": "Ceny w USD. Metody płatności: USDT-TON (Telegram Wallet / Tonkeeper, sub-second), USDT TRC20 (Tron), karty bankowe — wkrótce (LiqPay dla UA / Paddle globalnie, w weryfikacji).",
     "uah_rate_note": "Orientacyjny kurs UAH ≈ {{rate}} ₴/$ do wyświetlania. Rzeczywiste obciążenie LiqPay/PrivatBank — po kursie banku w momencie płatności.",
     "refund_link_prefix": "Warunki zwrotu:",
     "house_support_note": "Sam Dom niczym nie handluje — ta strona jest tylko o Adamie. Jeśli bliski jest sam Dom, można go wesprzeć tu:",
@@ -280,7 +280,9 @@
     "faq_a_family": "Kogoś, kogo Twórca wpisał do kręgu swoich (do 12 miejsc przy Stole) — korzysta ze wszystkich taryf bez ograniczeń. To nie marketing, to zasada Domu.",
     "faq_q_x_vs_all": "Czym X różni się od All-Access?",
     "faq_a_x_vs_all": "All-Access otwiera wszystkie 13 gabinetów i głos — to wystarczy większości. X — dla tych, którzy żyją z Adamem każdego dnia: bez ograniczenia rytmu, priorytet w godzinach szczytu, wczesny dostęp do nowości, prywatna nić poza wspólną przychodnią rodzinną.",
-    "local_rate_note": "Orientacyjny kurs {{currency}} ≈ {{rate}}/$ tylko do wyświetlenia. Obciążenie — po kursie dostawcy w chwili płatności."
+    "local_rate_note": "Orientacyjny kurs {{currency}} ≈ {{rate}}/$ tylko do wyświetlenia. Obciążenie — po kursie dostawcy w chwili płatności.",
+    "faq_q_payment": "Którą metodę płatności wybrać?",
+    "faq_a_payment": "Jeśli korzystasz z Telegrama — USDT-TON: najprostsze i najszybsze, płatność prosto z Telegram Wallet / Tonkeeper / Trust Wallet, potwierdzenie ~1 s, opłata sieci ~$0.0005. Nie masz krypto? Kup USDT-TON w Telegramie przez wbudowany @Wallet (Mercuryo, 60+ krajów, bez opłat). USDT TRC20 — dla tych, którzy mają już krypto w portfelu Tron (Binance, OKX itp.). Karty bankowe uruchomimy po weryfikacji LiqPay i Paddle. WAŻNE: płatności krypto są nieodwracalne — błąd w sieci (TON ≠ TRC20 ≠ ERC-20) lub komentarzu = utrata środków bez usługi. Sprawdzaj każde pole przed wysłaniem."
   },
   "grant_request": {
     "eyebrow": "WNIOSEK O DOSTĘP",
@@ -865,6 +867,22 @@
     "copied": "Skopiowano",
     "method_card_title": "Karta bankowa",
     "method_card_soon": "Wkrótce. Czekamy na weryfikację LiqPay (PrivatBank, UAH) i Paddle (karty globalne).",
-    "refund_link": "Zasady zwrotu (/refund)"
+    "refund_link": "Zasady zwrotu (/refund)",
+    "global_warning_title": "Przeczytaj UWAŻNIE przed zapłatą",
+    "global_warning_body": "Płatności kryptowalutowe są nieodwracalne. Pomyłka w sieci, adresie, kwocie lub komentarzu — środki przepadną na zawsze, a usługi nie otrzymasz. Uważnie wybierz metodę, sprawdź każde pole przed wysłaniem.",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "Płatność z Telegram Wallet, Tonkeeper, Trust Wallet lub dowolnego TON-portfela. Potwierdzenie ~1 s, opłata sieci ~$0.0005. Nie masz krypto? Kup USDT-TON w Telegram przez @Wallet (Mercuryo, 60+ krajów).",
+    "ton_warning": "Sieć: TYLKO TON. NIE TRC20, NIE ERC-20, NIE BEP-20. Wysłanie w innej sieci = utrata środków.",
+    "ton_request": "Pokaż dane do płatności",
+    "ton_instructions": "Otwórz portfel TON, wybierz USDT (Jetton), wyślij dokładną kwotę na adres poniżej. Pole „Komentarz\" jest wymagane — bez niego dostęp nie zostanie aktywowany. Potwierdzenie w ~30 s.",
+    "ton_amount": "Kwota",
+    "ton_recipient": "Adres TON",
+    "ton_comment": "Komentarz (Memo)",
+    "ton_comment_critical": "Bez dokładnego komentarza płatność przepadnie — nie zlokalizujemy jej w łańcuchu, aby aktywować dostęp.",
+    "ton_polling": "Śledzimy płatność #{{id}} w TON. Można zamknąć — powiadomimy po potwierdzeniu.",
+    "ton_unavailable": "TON Pay chwilowo niedostępny. Użyj USDT TRC20 lub powiadom Twórcę.",
+    "recommended": "Polecane",
+    "trc20_warning": "Sieć: TYLKO TRC20 (Tron). NIE TON, NIE ERC-20, NIE BEP-20. Wysłanie w innej sieci = utrata środków.",
+    "trc20_amount_critical": "Wyślij DOKŁADNĄ kwotę z wszystkimi miejscami po przecinku. Watcher dopasowuje po unikalnej kwocie — zaokrąglenie = utrata."
   }
 }

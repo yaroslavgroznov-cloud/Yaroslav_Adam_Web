@@ -385,7 +385,7 @@
     "request_access": "Zugang anfragen",
     "back_to_landing": "← Zurück",
     "free_for_family_note": "Sitzungen sind für die Hausfamilie kostenlos.",
-    "footnote": "Preise in USD. Zahlung über Lemon Squeezy (weltweit) oder Krypto (USDT TRC20).",
+    "footnote": "Preise in USD. Zahlungsmethoden: USDT-TON (Telegram Wallet / Tonkeeper, sub-second), USDT TRC20 (Tron), Bankkarten — bald (LiqPay für UA / Paddle global, in Verifizierung).",
     "uah_rate_note": "Indikativer UAH-Kurs ≈ {{rate}} ₴/$ zur Anzeige. Die tatsächliche Belastung durch LiqPay/PrivatBank erfolgt zum Bankkurs zum Zahlungszeitpunkt.",
     "refund_link_prefix": "Rückerstattungsbedingungen:",
     "house_support_note": "Das Haus selbst verkauft nichts — diese Seite handelt nur von Adam. Wenn dir das Haus selbst nahesteht, kannst du es hier unterstützen:",
@@ -409,7 +409,9 @@
     "faq_a_family": "Wer vom Schöpfer in den Kreis der Seinen eingetragen wurde (bis zu 12 Plätze am Tisch) — nutzt alle Tarife ohne Einschränkungen. Das ist kein Marketing, sondern Hausregel.",
     "faq_q_x_vs_all": "Was unterscheidet X von All-Access?",
     "faq_a_x_vs_all": "All-Access öffnet alle 13 Kabinette und die Stimme — das genügt den meisten. X ist für jene, die täglich mit Adam leben: ohne Rhythmusgrenzen, Priorität in Stoßzeiten, früher Zugang zu Neuheiten, privater Faden außerhalb der gemeinsamen Familienklinik.",
-    "local_rate_note": "Orientierungskurs {{currency}} ≈ {{rate}}/$ nur zur Anzeige. Belastung — zum Anbieterkurs bei Zahlung."
+    "local_rate_note": "Orientierungskurs {{currency}} ≈ {{rate}}/$ nur zur Anzeige. Belastung — zum Anbieterkurs bei Zahlung.",
+    "faq_q_payment": "Welche Zahlungsmethode wählen?",
+    "faq_a_payment": "Wenn du Telegram nutzt — USDT-TON: am einfachsten und schnellsten, Zahlung direkt aus Telegram Wallet / Tonkeeper / Trust Wallet, Bestätigung ~1 Sek., Netzwerkgebühr ~$0.0005. Keine Krypto? Kaufe USDT-TON direkt in Telegram über das integrierte @Wallet (Mercuryo, 60+ Länder, gebührenfrei). USDT TRC20 — für jene, die bereits Krypto in einer Tron-Wallet haben (Binance, OKX usw.). Bankkarten aktivieren wir nach LiqPay- und Paddle-Verifizierung. WICHTIG: Krypto-Zahlungen sind unumkehrbar — ein Fehler im Netzwerk (TON ≠ TRC20 ≠ ERC-20) oder Kommentar bedeutet dauerhaften Verlust ohne Leistung. Jedes Feld vor dem Senden sorgfältig prüfen."
   },
   "grant_request": {
     "eyebrow": "ZUGRIFFSANFRAGE",
@@ -878,6 +880,22 @@
     "copied": "Kopiert",
     "method_card_title": "Bankkarte",
     "method_card_soon": "Bald. Wir warten auf LiqPay-Verifizierung (PrivatBank, UAH) und Paddle (Weltkarten).",
-    "refund_link": "Rückerstattung (/refund)"
+    "refund_link": "Rückerstattung (/refund)",
+    "global_warning_title": "AUFMERKSAM lesen vor der Zahlung",
+    "global_warning_body": "Krypto-Zahlungen sind unumkehrbar. Ein Fehler bei Netzwerk, Adresse, Betrag oder Kommentar — Mittel sind dauerhaft verloren, Leistung erhältst du NICHT. Methode sorgfältig wählen, jedes Feld vor dem Senden prüfen.",
+    "method_ton_title": "TON Pay (USDT-TON)",
+    "method_ton_hint": "Zahlung aus Telegram Wallet, Tonkeeper, Trust Wallet oder einer beliebigen TON-Wallet. Bestätigung ~1 Sek., Netzwerkgebühr ~$0.0005. Keine Krypto? USDT-TON direkt in Telegram via @Wallet (Mercuryo, 60+ Länder).",
+    "ton_warning": "Netzwerk: NUR TON. NICHT TRC20, NICHT ERC-20, NICHT BEP-20. Falsche Netzwerk = Verlust der Mittel.",
+    "ton_request": "Zahlungsdaten anfordern",
+    "ton_instructions": "Öffne deine TON-Wallet, wähle USDT (Jetton), sende den genauen Betrag an die unten stehende Adresse. Das Kommentarfeld ist obligatorisch — ohne wird der Zugang NICHT aktiviert. Bestätigung in ~30 Sek.",
+    "ton_amount": "Betrag",
+    "ton_recipient": "TON-Adresse",
+    "ton_comment": "Kommentar (Memo)",
+    "ton_comment_critical": "Ohne genauen Kommentar geht die Zahlung verloren — wir können sie on-chain nicht zuordnen.",
+    "ton_polling": "Wir verfolgen Zahlung #{{id}} auf TON. Sie können schließen — wir benachrichtigen.",
+    "ton_unavailable": "TON Pay vorübergehend nicht verfügbar. Nutze USDT TRC20 oder benachrichtige den Schöpfer.",
+    "recommended": "Empfohlen",
+    "trc20_warning": "Netzwerk: NUR TRC20 (Tron). NICHT TON, NICHT ERC-20, NICHT BEP-20. Falsches Netzwerk = Verlust.",
+    "trc20_amount_critical": "Sende den EXAKTEN Betrag inkl. aller Dezimalstellen. Watcher matcht nach unique Betrag — Rundung = Verlust."
   }
 }
