@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import {
   songStart, songGet, songAccept, songRevise, songSynthesize,
 } from '../api/cabinets'
-import type { Song, VocalGender, SongStyle } from '../api/cabinets'
+import type { Song, VocalGender } from '../api/cabinets'
 import { useDarkMode } from '../hooks/useDarkMode'
 
 type VocalType = VocalGender | 'instrumental'

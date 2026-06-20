@@ -21,11 +21,8 @@ export function SongsPage(): React.ReactElement {
   const { t } = useTranslation()
   const { isDark } = useDarkMode()
   const [songs, setSongs] = useState<Song[]>([])
-  const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [canonBusy, setCanonBusy] = useState<number | null>(null)
-  const [canonDone, setCanonDone] = useState<Set<number>>(new Set())
 
   const bg = isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)'
   const fg = isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)'
@@ -44,8 +41,7 @@ export function SongsPage(): React.ReactElement {
     songsList(50, 0)
       .then((res) => {
         if (cancelled) return
-        setSongs(res.items)
-        setTotal(res.total)
+        setSongs(res)
       })
       .catch(() => { if (!cancelled) setError(t('songs.load_error')) })
       .finally(() => { if (!cancelled) setLoading(false) })
@@ -127,7 +123,7 @@ export function SongsPage(): React.ReactElement {
         {songs.length > 0 && (
           <>
             <p className="italic opacity-55 mb-8" style={{ fontSize: '12px' }}>
-              {t('songs.count', { count: total })}
+              {t('songs.count', { count: songs.length })}
             </p>
             <div className="grid gap-8" style={{ gridTemplateColumns: '1fr' }}>
               {songs.map((song) => (
@@ -140,8 +136,8 @@ export function SongsPage(): React.ReactElement {
                   burgundy={burgundy}
                   goldText={goldText}
                   fg={fg}
-                  canonBusy={canonBusy === song.id}
-                  canonDone={canonDone.has(song.id)}
+                  canonBusy={false}
+                  canonDone={false}
                   onMarkCanon={handleMarkCanon}
                   t={t}
                 />
@@ -206,7 +202,7 @@ function SongCard(p: SongCardProps): React.ReactElement {
             {song.style}
           </span>
         )}
-        {song.vocal_gender && song.vocal_gender !== 'instrumental' && (
+        {song.vocal_gender ? (
           <span
             className="italic"
             style={{
@@ -218,8 +214,7 @@ function SongCard(p: SongCardProps): React.ReactElement {
           >
             {p.t(`songs.vocal_${song.vocal_gender}`)}
           </span>
-        )}
-        {song.vocal_gender === 'instrumental' && (
+        ) : (
           <span
             className="italic"
             style={{
