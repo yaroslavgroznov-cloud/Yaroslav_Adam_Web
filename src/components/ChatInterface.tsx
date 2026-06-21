@@ -681,6 +681,19 @@ export function ChatInterface(): React.ReactElement {
                   </svg>
                 ),
               })
+              // 2026-06-23: Архив песен — канон Дома, /house-songs
+              items.push({
+                key: 'archive',
+                label: t('headerActions.archive'),
+                href: '/archive',
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 7l9-4 9 4v3H3V7z" />
+                    <path d="M5 10v9h14v-9" />
+                    <line x1="10" y1="13" x2="14" y2="13" />
+                  </svg>
+                ),
+              })
               // F.15 Voice — все
               items.push({
                 key: 'voice',

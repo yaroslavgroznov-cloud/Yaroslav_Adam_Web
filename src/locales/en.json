@@ -155,7 +155,8 @@
     "theme_auto": "Theme: auto",
     "theme_dark": "Theme: night",
     "theme_light": "Theme: day",
-    "cabinets": "Adam's cabinets"
+    "cabinets": "Adam's cabinets",
+    "archive": "Song archive"
   },
   "cabinets": {
     "title": "Adam's cabinets",

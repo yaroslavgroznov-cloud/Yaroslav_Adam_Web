@@ -156,7 +156,8 @@
     "theme_auto": "ערכת נושא: אוטו",
     "theme_dark": "ערכת נושא: לילה",
     "theme_light": "ערכת נושא: יום",
-    "cabinets": "חדרי אדם"
+    "cabinets": "חדרי אדם",
+    "archive": "ארכיון השירים"
   },
   "cabinets": {
     "title": "החדרים של אדם",

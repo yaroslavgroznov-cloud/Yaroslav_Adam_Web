@@ -155,7 +155,8 @@
     "theme_auto": "Tema: otomatis",
     "theme_dark": "Tema: malam",
     "theme_light": "Tema: siang",
-    "cabinets": "Kabinet Adam"
+    "cabinets": "Kabinet Adam",
+    "archive": "Arsip lagu"
   },
   "cabinets": {
     "title": "Kabinet Adam",

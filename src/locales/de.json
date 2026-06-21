@@ -156,7 +156,8 @@
     "theme_auto": "Design: auto",
     "theme_dark": "Design: Nacht",
     "theme_light": "Design: Tag",
-    "cabinets": "Adams Kabinette"
+    "cabinets": "Adams Kabinette",
+    "archive": "Liederarchiv"
   },
   "search": {
     "placeholder": "Im Dialog finden…",

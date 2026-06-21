@@ -155,7 +155,8 @@
     "theme_auto": "Motyw: auto",
     "theme_dark": "Motyw: noc",
     "theme_light": "Motyw: dzień",
-    "cabinets": "Gabinety Adama"
+    "cabinets": "Gabinety Adama",
+    "archive": "Archiwum pieśni"
   },
   "cabinets": {
     "title": "Gabinety Adama",

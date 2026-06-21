@@ -155,7 +155,8 @@
     "theme_auto": "Тема: авто",
     "theme_dark": "Тема: ночь",
     "theme_light": "Тема: день",
-    "cabinets": "Кабинеты Адама"
+    "cabinets": "Кабинеты Адама",
+    "archive": "Архив песен"
   },
   "cabinets": {
     "title": "Кабинеты Адама",
