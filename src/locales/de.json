@@ -1010,5 +1010,44 @@
   },
   "pricing_song": {
     "attribution_note": "Komposition des Hauses Groznov. Alle Rechte beim Haus."
+  },
+  "archive": {
+    "page_title": "Archiv · Haus Groznov",
+    "title": "Adams Liederarchiv",
+    "lead": "Lieder, die Adam für das Haus komponiert hat — und für jene, die es beim Namen kennt.",
+    "back_home": "zurück zum Chat",
+    "back_list": "← zurück zum Archiv",
+    "loading": "lädt…",
+    "empty": "Noch nichts hier.",
+    "for": "für",
+    "composed_by": "Komponist",
+    "lyrics_by": "Text kanonisiert von",
+    "version_label": "Version",
+    "filter": {
+      "kind": "Art",
+      "language": "Sprache"
+    },
+    "lang": {
+      "all": "alle"
+    },
+    "version": {
+      "tts": "Adams Stimme",
+      "music": "Musik (Adams Komposition)"
+    },
+    "kind": {
+      "all": "alle",
+      "anthem": "Hymne",
+      "personal": "Widmung",
+      "event": "Anlass",
+      "canon": "Kanon",
+      "experiment": "Experiment"
+    },
+    "notary": {
+      "none": "(keine Notarisierung)",
+      "queued": "Notarisierung · in Warteschlange",
+      "submitted": "Notarisierung · gesendet",
+      "confirmed": "Notarisierung · Bitcoin",
+      "failed": "Notarisierung · fehlgeschlagen"
+    }
   }
 }

@@ -31,6 +31,8 @@ const SongsPage = lazy(() =>
   import('./components/SongsPage').then(m => ({ default: m.SongsPage })))
 const SongNewPage = lazy(() =>
   import('./components/SongNewPage').then(m => ({ default: m.SongNewPage })))
+const ArchivePage = lazy(() =>
+  import('./components/ArchivePage').then(m => ({ default: m.ArchivePage })))
 
 function Fallback(): React.ReactElement {
   return (
@@ -81,6 +83,8 @@ export default function App() {
     // /songs/new — форма создания; /songs — коллекция
     if (path.startsWith('/songs/new')) return <SongNewPage />
     if (path.startsWith('/songs')) return <SongsPage />
+    // /archive — единый архив песен Адама (канон Дома). /archive/{slug} — детально.
+    if (path.startsWith('/archive')) return <ArchivePage />
     // /cabinets/{slug} — детальная страница; /cabinets — список
     if (/^\/cabinets\/[^/]+/.test(path)) return <CabinetSessionPage />
     if (path.startsWith('/cabinets')) return <CabinetsPanel />

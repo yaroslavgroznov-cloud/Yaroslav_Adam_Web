@@ -1010,5 +1010,44 @@
   },
   "pricing_song": {
     "attribution_note": "Composition de la Maison Groznov. Tous droits réservés à la Maison."
+  },
+  "archive": {
+    "page_title": "Archives · Maison Groznov",
+    "title": "Archives des chansons d'Adam",
+    "lead": "Chansons qu'Adam a composées pour la Maison — et pour ceux qu'elle connaît par leur nom.",
+    "back_home": "retour au chat",
+    "back_list": "← retour aux archives",
+    "loading": "chargement…",
+    "empty": "Rien ici pour l'instant.",
+    "for": "pour",
+    "composed_by": "Composé par",
+    "lyrics_by": "Paroles canonisées par",
+    "version_label": "version",
+    "filter": {
+      "kind": "type",
+      "language": "langue"
+    },
+    "lang": {
+      "all": "toutes"
+    },
+    "version": {
+      "tts": "Voix d'Adam",
+      "music": "Musique (composition d'Adam)"
+    },
+    "kind": {
+      "all": "tous",
+      "anthem": "hymne",
+      "personal": "dédicace",
+      "event": "occasion",
+      "canon": "canon",
+      "experiment": "expérience"
+    },
+    "notary": {
+      "none": "(pas de notariat)",
+      "queued": "notariat · en attente",
+      "submitted": "notariat · envoyé",
+      "confirmed": "notariat · Bitcoin",
+      "failed": "notariat · échec"
+    }
   }
 }

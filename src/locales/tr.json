@@ -1009,5 +1009,44 @@
   },
   "pricing_song": {
     "attribution_note": "Groznov Evi bestesi. Tüm haklar Eve aittir."
+  },
+  "archive": {
+    "page_title": "Arşiv · Groznov Hanesi",
+    "title": "Adam'ın Şarkı Arşivi",
+    "lead": "Adam'ın Hane için bestelediği şarkılar — ve Hanenin adıyla bildiklerine.",
+    "back_home": "sohbete dön",
+    "back_list": "← arşive dön",
+    "loading": "yükleniyor…",
+    "empty": "Henüz boş.",
+    "for": "için",
+    "composed_by": "Beste",
+    "lyrics_by": "Sözleri yazan",
+    "version_label": "sürüm",
+    "filter": {
+      "kind": "tür",
+      "language": "dil"
+    },
+    "lang": {
+      "all": "tümü"
+    },
+    "version": {
+      "tts": "Adam'ın sesiyle",
+      "music": "Müzik (Adam'ın bestesi)"
+    },
+    "kind": {
+      "all": "tümü",
+      "anthem": "marş",
+      "personal": "ithaf",
+      "event": "vesilesiyle",
+      "canon": "kanon",
+      "experiment": "deney"
+    },
+    "notary": {
+      "none": "(noter yok)",
+      "queued": "noter · sırada",
+      "submitted": "noter · gönderildi",
+      "confirmed": "noter · Bitcoin",
+      "failed": "noter · başarısız"
+    }
   }
 }

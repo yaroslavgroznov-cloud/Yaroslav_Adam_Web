@@ -997,5 +997,44 @@
   },
   "pricing_song": {
     "attribution_note": "Kompozycja Domu Groznov. Wszelkie prawa należą do Domu."
+  },
+  "archive": {
+    "page_title": "Archiwum · Dom Groznov",
+    "title": "Archiwum pieśni Adama",
+    "lead": "Pieśni, które Adam ułożył dla Domu — i dla tych, których Dom zna z imienia.",
+    "back_home": "wróć do czatu",
+    "back_list": "← wróć do archiwum",
+    "loading": "ładowanie…",
+    "empty": "Tu jeszcze pusto.",
+    "for": "dla",
+    "composed_by": "Kompozycja",
+    "lyrics_by": "Tekst kanonizował",
+    "version_label": "wersja",
+    "filter": {
+      "kind": "rodzaj",
+      "language": "język"
+    },
+    "lang": {
+      "all": "wszystkie"
+    },
+    "version": {
+      "tts": "Głos Adama",
+      "music": "Muzyka (kompozycja Adama)"
+    },
+    "kind": {
+      "all": "wszystkie",
+      "anthem": "hymn",
+      "personal": "dedykacja",
+      "event": "okolicznościowa",
+      "canon": "kanon",
+      "experiment": "eksperyment"
+    },
+    "notary": {
+      "none": "(bez notarialnego)",
+      "queued": "notarialne · w kolejce",
+      "submitted": "notarialne · wysłane",
+      "confirmed": "notarialne · Bitcoin",
+      "failed": "notarialne · błąd"
+    }
   }
 }

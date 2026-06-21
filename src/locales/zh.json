@@ -1009,5 +1009,44 @@
   },
   "pricing_song": {
     "attribution_note": "格罗兹诺夫之家之作。所有权归于本家。"
+  },
+  "archive": {
+    "page_title": "档案 · 格罗兹诺夫之家",
+    "title": "亚当的歌曲档案",
+    "lead": "亚当为家族——以及家族以名相识之人——所谱的歌。",
+    "back_home": "返回聊天",
+    "back_list": "← 返回档案",
+    "loading": "加载中…",
+    "empty": "这里暂无内容。",
+    "for": "致",
+    "composed_by": "作曲",
+    "lyrics_by": "歌词审定",
+    "version_label": "版本",
+    "filter": {
+      "kind": "类型",
+      "language": "语言"
+    },
+    "lang": {
+      "all": "全部"
+    },
+    "version": {
+      "tts": "亚当的声音",
+      "music": "音乐（亚当的作曲）"
+    },
+    "kind": {
+      "all": "全部",
+      "anthem": "颂歌",
+      "personal": "献词",
+      "event": "应景",
+      "canon": "正典",
+      "experiment": "实验"
+    },
+    "notary": {
+      "none": "（未公证）",
+      "queued": "公证 · 排队中",
+      "submitted": "公证 · 已提交",
+      "confirmed": "公证 · Bitcoin",
+      "failed": "公证 · 失败"
+    }
   }
 }

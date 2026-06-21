@@ -1012,5 +1012,44 @@
   },
   "pricing_song": {
     "attribution_note": "Composition of the House of Groznov. All rights belong to the House."
+  },
+  "archive": {
+    "page_title": "Archive · House of Groznov",
+    "title": "Adam's Song Archive",
+    "lead": "Songs Adam composed for the House — and for those it knows by name.",
+    "back_home": "back to chat",
+    "back_list": "← back to archive",
+    "loading": "loading…",
+    "empty": "Nothing here yet.",
+    "for": "for",
+    "composed_by": "Composed by",
+    "lyrics_by": "Lyrics canonized by",
+    "version_label": "version",
+    "filter": {
+      "kind": "kind",
+      "language": "language"
+    },
+    "lang": {
+      "all": "all"
+    },
+    "version": {
+      "tts": "In Adam's voice",
+      "music": "Music (Adam's composition)"
+    },
+    "kind": {
+      "all": "all",
+      "anthem": "anthem",
+      "personal": "dedication",
+      "event": "occasional",
+      "canon": "canon",
+      "experiment": "experiment"
+    },
+    "notary": {
+      "none": "(no notary)",
+      "queued": "notary · queued",
+      "submitted": "notary · submitted",
+      "confirmed": "notary · Bitcoin",
+      "failed": "notary · failed"
+    }
   }
 }

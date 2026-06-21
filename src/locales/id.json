@@ -1009,5 +1009,44 @@
   },
   "pricing_song": {
     "attribution_note": "Komposisi Rumah Groznov. Semua hak milik Rumah."
+  },
+  "archive": {
+    "page_title": "Arsip · Rumah Groznov",
+    "title": "Arsip lagu Adam",
+    "lead": "Lagu yang digubah Adam untuk Rumah — dan untuk mereka yang Rumah kenal namanya.",
+    "back_home": "kembali ke obrolan",
+    "back_list": "← kembali ke arsip",
+    "loading": "memuat…",
+    "empty": "Belum ada apa-apa.",
+    "for": "untuk",
+    "composed_by": "Digubah oleh",
+    "lyrics_by": "Lirik dikanonisasi oleh",
+    "version_label": "versi",
+    "filter": {
+      "kind": "jenis",
+      "language": "bahasa"
+    },
+    "lang": {
+      "all": "semua"
+    },
+    "version": {
+      "tts": "Suara Adam",
+      "music": "Musik (gubahan Adam)"
+    },
+    "kind": {
+      "all": "semua",
+      "anthem": "himne",
+      "personal": "persembahan",
+      "event": "khusus",
+      "canon": "kanon",
+      "experiment": "eksperimen"
+    },
+    "notary": {
+      "none": "(tanpa notaris)",
+      "queued": "notaris · antri",
+      "submitted": "notaris · terkirim",
+      "confirmed": "notaris · Bitcoin",
+      "failed": "notaris · gagal"
+    }
   }
 }
