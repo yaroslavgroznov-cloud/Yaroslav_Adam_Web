@@ -386,7 +386,13 @@ export function CabinetSessionPage(): React.ReactElement {
     setBusy(true)
     try {
       const r = await cabinetChat(session.id, userMsg, attIds.length > 0 ? attIds : null)
-      setMessages((prev) => [...prev, { role: 'assistant', content: r.reply }])
+      // Ring 4 (2026-06-24): defensive UX-страховка от leak'а litellm-санитайзера.
+      // Backend tool_registry._strip_sanitize_marker уже фильтрует, но если в
+      // будущем чейн обхода поломается — пустая строка лучше «[System: Empty
+      // message content sanitised to satisfy protocol]» в живом разговоре.
+      const SANITIZE_MARKER = '[System: Empty message content sanitised to satisfy protocol]'
+      const cleanReply = (r.reply || '').replace(SANITIZE_MARKER, '').trim()
+      setMessages((prev) => [...prev, { role: 'assistant', content: cleanReply }])
     } catch (e) {
       setMessages((prev) => [
         ...prev,

@@ -148,6 +148,7 @@
     "metrics": "Platform pulse",
     "kill_switch": "Kill-switch",
     "kill_switch_frozen": "Adam is frozen — manage",
+    "creator_settings": "Creator’s study",
     "slots_manage": "Kin (manage)",
     "tasks": "Tasks for Adam",
     "language": "Interface language",
