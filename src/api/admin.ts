@@ -25,6 +25,11 @@ export interface LlmModelInfo {
   id: string
   name: string
   description: string
+  // Ring 5 (2026-06-24): backend marks местные модели без function calling
+  // (q4 Qwen). UI показывает chip-warning, чтобы Творец понимал что
+  // compose_song / send_email / accept_song_draft с этой моделью работать не будут.
+  supports_tools?: boolean
+  supports_vision?: boolean
 }
 
 export interface LlmModelStatus {

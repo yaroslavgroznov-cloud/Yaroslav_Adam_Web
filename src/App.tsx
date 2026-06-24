@@ -33,6 +33,8 @@ const SongNewPage = lazy(() =>
   import('./components/SongNewPage').then(m => ({ default: m.SongNewPage })))
 const ArchivePage = lazy(() =>
   import('./components/ArchivePage').then(m => ({ default: m.ArchivePage })))
+const CreatorSettingsPanel = lazy(() =>
+  import('./components/CreatorSettingsPanel').then(m => ({ default: m.CreatorSettingsPanel })))
 
 function Fallback(): React.ReactElement {
   return (
@@ -79,6 +81,10 @@ export default function App() {
     if (path.startsWith('/refund-en')) return <LegalPage doc="refund-en" />
     if (path.startsWith('/refund')) return <LegalPage doc="refund" />
     if (path.startsWith('/kill-switch')) return <KillSwitchPanel />
+    // Ring 6 (2026-06-24): /me — кабинет Творца (F.94 биография + F.67
+    // proactive + F.69 Google OAuth). Только creator (backend режет 403
+    // если не Творец, UI покажет access_denied).
+    if (path.startsWith('/me')) return <CreatorSettingsPanel />
     if (path.startsWith('/tasks')) return <TasksPanel />
     // /songs/new — форма создания; /songs — коллекция
     if (path.startsWith('/songs/new')) return <SongNewPage />
