@@ -11,10 +11,6 @@ import { useScrollReveal } from './hooks/useScrollReveal'
 
 const StolPanel = lazy(() =>
   import('./components/StolPanel').then(m => ({ default: m.StolPanel })))
-const FamilySlotsPanel = lazy(() =>
-  import('./components/FamilySlotsPanel').then(m => ({ default: m.FamilySlotsPanel })))
-const KillSwitchPanel = lazy(() =>
-  import('./components/KillSwitchPanel').then(m => ({ default: m.KillSwitchPanel })))
 const TasksPanel = lazy(() =>
   import('./components/TasksPanel').then(m => ({ default: m.TasksPanel })))
 const CabinetsPanel = lazy(() =>
@@ -33,8 +29,11 @@ const SongNewPage = lazy(() =>
   import('./components/SongNewPage').then(m => ({ default: m.SongNewPage })))
 const ArchivePage = lazy(() =>
   import('./components/ArchivePage').then(m => ({ default: m.ArchivePage })))
-const CreatorSettingsPanel = lazy(() =>
-  import('./components/CreatorSettingsPanel').then(m => ({ default: m.CreatorSettingsPanel })))
+
+// 2026-07-02: FamilySlotsPanel, KillSwitchPanel, CreatorSettingsPanel мигрированы
+// в Yaroslav_Kabinet_Tvortsa (privat.groznov.uk). Adam_Web остаётся гостевым
+// фронтом — управляющих панелей здесь больше нет. См.
+// [[feedback_backend_creator_frontend_guests]] в auto-memory СС.
 
 function Fallback(): React.ReactElement {
   return (
@@ -80,11 +79,9 @@ export default function App() {
     if (path.startsWith('/privacy')) return <LegalPage doc="privacy" />
     if (path.startsWith('/refund-en')) return <LegalPage doc="refund-en" />
     if (path.startsWith('/refund')) return <LegalPage doc="refund" />
-    if (path.startsWith('/kill-switch')) return <KillSwitchPanel />
-    // Ring 6 (2026-06-24): /me — кабинет Творца (F.94 биография + F.67
-    // proactive + F.69 Google OAuth). Только creator (backend режет 403
-    // если не Творец, UI покажет access_denied).
-    if (path.startsWith('/me')) return <CreatorSettingsPanel />
+    // 2026-07-02: /kill-switch и /me переехали в Yaroslav_Kabinet_Tvortsa
+    // (privat.groznov.uk). Гости, случайно набравшие эти пути, попадают
+    // на чат — правильное дефолтное поведение.
     if (path.startsWith('/tasks')) return <TasksPanel />
     // /songs/new — форма создания; /songs — коллекция
     if (path.startsWith('/songs/new')) return <SongNewPage />
@@ -97,7 +94,9 @@ export default function App() {
     // F.56: /stol — канонический URL Стола; /family/chat — deprecated alias
     // (PWA с закешированной старой ссылкой не сломается).
     if (path.startsWith('/stol') || path.startsWith('/family/chat')) return <StolPanel />
-    if (path.startsWith('/family/slots') || path.startsWith('/family')) return <FamilySlotsPanel />
+    // 2026-07-02: /family/slots (управление семейным roster'ом) переехало
+    // в Yaroslav_Kabinet_Tvortsa. /family/chat остаётся как deprecated alias
+    // на /stol (см. выше).
     return <ChatInterface />
   }
 

@@ -16,8 +16,8 @@ import { HeaderOverflowMenu } from './HeaderOverflowMenu'
 import type { OverflowItem } from './HeaderOverflowMenu'
 import { IosInstallHint } from './IosInstallHint'
 import { LanguageSwitcher } from './LanguageSwitcher'
-import { DarkwebSearchModal } from './DarkwebSearchModal'
-import { LlmModelSwitcher } from './LlmModelSwitcher'
+// 2026-07-02: DarkwebSearchModal + LlmModelSwitcher мигрировали в
+// Yaroslav_Kabinet_Tvortsa (privat.groznov.uk).
 import { VoiceModal } from './VoiceModal'
 import { useDarkMode } from '../hooks/useDarkMode'
 import { notificationsHelp } from '../utils/notificationsHelp'
@@ -67,8 +67,8 @@ const ROOMS_FALLBACK: RoomInfo[] = [
 export function ChatInterface(): React.ReactElement {
   const { t } = useTranslation()
   const [showLangSwitcher, setShowLangSwitcher] = useState(false)
-  const [showLlmSwitcher, setShowLlmSwitcher] = useState(false)
-  const [showDarkweb, setShowDarkweb] = useState(false)
+  // 2026-07-02: showLlmSwitcher + showDarkweb удалены (панели мигрировали
+  // в Yaroslav_Kabinet_Tvortsa).
   const [showVoice, setShowVoice] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
@@ -720,18 +720,9 @@ export function ChatInterface(): React.ReactElement {
                     </svg>
                   ),
                 })
-                items.push({
-                  key: 'kill-switch',
-                  label: frozenState?.is_frozen ? t('headerActions.kill_switch_frozen') : t('headerActions.kill_switch'),
-                  href: '/kill-switch',
-                  badge: frozenState?.is_frozen ? 'frozen' : null,
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="3" y="11" width="18" height="11" rx="2" />
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                    </svg>
-                  ),
-                })
+                // 2026-07-02: kill-switch мигрировал в Yaroslav_Kabinet_Tvortsa
+                // (privat.groznov.uk) — управляющие панели на публичном фронте
+                // = архитектурная ошибка ([[feedback_backend_creator_frontend_guests]])
                 items.push({
                   key: 'tasks',
                   label: t('headerActions.tasks'),
@@ -743,69 +734,12 @@ export function ChatInterface(): React.ReactElement {
                     </svg>
                   ),
                 })
-                items.push({
-                  key: 'slots',
-                  label: t('headerActions.slots_manage'),
-                  href: '/family/slots',
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg>
-                  ),
-                })
+                // 2026-07-02: family/slots roster → Yaroslav_Kabinet_Tvortsa
               }
-              // Ring 6 (2026-06-24): /me — кабинет Творца (биография F.94
-              // + proactive F.67 + Google OAuth F.69). Только creator.
-              if (whoami?.is_creator) {
-                items.push({
-                  key: 'me-settings',
-                  label: t('headerActions.creator_settings'),
-                  href: '/me',
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="3" />
-                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                    </svg>
-                  ),
-                })
-              }
-              // F.58: Darkweb-поиск — ТОЛЬКО Творцу
-              if (whoami?.is_creator) {
-                items.push({
-                  key: 'darkweb',
-                  label: t('darkweb.menu_label'),
-                  onClick: () => setShowDarkweb(true),
-                  icon: (
-                    // Глобус с замком — darkweb metaphor
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="10" r="6" />
-                      <path d="M6 10h12" />
-                      <path d="M12 4c2 2 2 10 0 12" />
-                      <path d="M12 4c-2 2-2 10 0 12" />
-                      <rect x="9" y="16" width="6" height="5" rx="1" />
-                    </svg>
-                  ),
-                })
-              }
-              // F.14: LLM model switcher — ТОЛЬКО Творцу
-              if (whoami?.is_creator) {
-                items.push({
-                  key: 'llm-model',
-                  label: t('llmSwitcher.title'),
-                  onClick: () => setShowLlmSwitcher(true),
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="3" y="3" width="18" height="18" rx="2" />
-                      <path d="M9 8h6" />
-                      <path d="M9 12h6" />
-                      <path d="M9 16h4" />
-                    </svg>
-                  ),
-                })
-              }
+              // 2026-07-02: /me (CreatorSettings), Darkweb search, LLM model
+              // switcher — все мигрировали в Yaroslav_Kabinet_Tvortsa. Гости на
+              // adam.groznov.uk управляющие панели не видят вовсе. См. правило
+              // [[feedback_backend_creator_frontend_guests]] в auto-memory СС.
               // F.32: тема (Auto → Dark → Light → Auto)
               items.push({
                 key: 'theme',
@@ -896,15 +830,8 @@ export function ChatInterface(): React.ReactElement {
         <LanguageSwitcher isDark={isDark} onClose={() => setShowLangSwitcher(false)} />
       )}
 
-      {/* LLM model switcher — только Творцу */}
-      {showLlmSwitcher && whoami?.is_creator && (
-        <LlmModelSwitcher isDark={isDark} onClose={() => setShowLlmSwitcher(false)} />
-      )}
-
-      {/* F.58: Darkweb-поиск — только Творцу */}
-      {showDarkweb && whoami?.is_creator && (
-        <DarkwebSearchModal onClose={() => setShowDarkweb(false)} />
-      )}
+      {/* 2026-07-02: LlmModelSwitcher + DarkwebSearchModal мигрировали в
+          Yaroslav_Kabinet_Tvortsa (privat.groznov.uk) */}
 
       {/* F.15 Voice — OpenAI Realtime */}
       {showVoice && (
