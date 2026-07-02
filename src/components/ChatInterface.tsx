@@ -709,20 +709,12 @@ export function ChatInterface(): React.ReactElement {
               })
               // Parents-only
               if (whoami?.role === 'parent') {
-                items.push({
-                  key: 'metrics',
-                  label: t('headerActions.metrics'),
-                  href: '/admin/metrics',
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="3 17 9 11 13 15 21 7" />
-                      <polyline points="14 7 21 7 21 14" />
-                    </svg>
-                  ),
-                })
-                // 2026-07-02: kill-switch мигрировал в Yaroslav_Kabinet_Tvortsa
-                // (privat.groznov.uk) — управляющие панели на публичном фронте
-                // = архитектурная ошибка ([[feedback_backend_creator_frontend_guests]])
+                // 2026-07-02: «Пульс платформы» (/admin/metrics) убран из
+                // публичного меню — доступен только в приватном Кабинете Творца
+                // (privat.groznov.uk → раздел «Пульс платформы»). Гости и
+                // внешняя аудитория не должны видеть операционные метрики
+                // Дома даже случайно. См. [[feedback_backend_creator_frontend_guests]].
+                // kill-switch — там же (в Кабинете Творца).
                 items.push({
                   key: 'tasks',
                   label: t('headerActions.tasks'),
