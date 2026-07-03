@@ -1,3 +1,4 @@
+import { setProxyAuthHeaders } from "../_shared/proxyAuth";
 // CF Pages Function — proxy /house-songs/* на adam-api backend.
 // House Songs archive (canon Дома), 2026-06-23.
 // Паттерн идентичен /songs/[[path]].ts.
@@ -58,8 +59,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params, next
     if (lk === "host" || lk === "cookie" || lk.startsWith("cf-")) continue
     forwardHeaders.set(k, v)
   }
-  forwardHeaders.set("X-Adam-User-Email", email)
-  forwardHeaders.set("X-Adam-Proxy-Secret", env.ADAM_PROXY_SECRET)
+  await setProxyAuthHeaders(forwardHeaders, env.ADAM_PROXY_SECRET, email)
 
   const init: RequestInit = { method: request.method, headers: forwardHeaders, redirect: "manual" }
   if (request.method !== "GET" && request.method !== "HEAD") {

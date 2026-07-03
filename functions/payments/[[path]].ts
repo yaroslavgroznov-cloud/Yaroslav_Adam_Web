@@ -1,3 +1,4 @@
+import { setProxyAuthHeaders } from "../_shared/proxyAuth";
 // CF Pages Function — proxy /payments/* на adam-api backend.
 // F.42, 2026-05-28.
 
@@ -52,8 +53,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params, next
     if (lk === "host" || lk === "cookie" || lk.startsWith("cf-")) continue
     forwardHeaders.set(k, v)
   }
-  if (email) forwardHeaders.set("X-Adam-User-Email", email)
-  forwardHeaders.set("X-Adam-Proxy-Secret", env.ADAM_PROXY_SECRET)
+  if (email) await setProxyAuthHeaders(forwardHeaders, env.ADAM_PROXY_SECRET, email)
 
   const init: RequestInit = { method: request.method, headers: forwardHeaders, redirect: "manual" }
   if (request.method !== "GET" && request.method !== "HEAD") {

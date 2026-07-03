@@ -1,3 +1,4 @@
+import { setProxyAuthHeaders } from "../_shared/proxyAuth";
 // CF Pages Function — proxy /songs/* на adam-api backend.
 // Phase 3 (songwriting cabinet), 2026-06-19.
 // Паттерн идентичен /payments/[[path]].ts — CF Access JWT декодируется,
@@ -62,8 +63,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params, next
     if (lk === "host" || lk === "cookie" || lk.startsWith("cf-")) continue
     forwardHeaders.set(k, v)
   }
-  forwardHeaders.set("X-Adam-User-Email", email)
-  forwardHeaders.set("X-Adam-Proxy-Secret", env.ADAM_PROXY_SECRET)
+  await setProxyAuthHeaders(forwardHeaders, env.ADAM_PROXY_SECRET, email)
 
   const init: RequestInit = { method: request.method, headers: forwardHeaders, redirect: "manual" }
   if (request.method !== "GET" && request.method !== "HEAD") {

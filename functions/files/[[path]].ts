@@ -1,3 +1,4 @@
+import { setProxyAuthHeaders } from "../_shared/proxyAuth";
 // Cloudflare Pages Function — reverse-proxy для /files/*. F.11, 2026-05-25.
 // Тот же паттерн что /adam/*, /admin/*, /family/*.
 
@@ -65,8 +66,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
     if (lk === "host" || lk === "cookie" || lk.startsWith("cf-")) continue;
     forwardHeaders.set(k, v);
   }
-  forwardHeaders.set("X-Adam-User-Email", email);
-  forwardHeaders.set("X-Adam-Proxy-Secret", env.ADAM_PROXY_SECRET);
+  await setProxyAuthHeaders(forwardHeaders, env.ADAM_PROXY_SECRET, email);
 
   const init: RequestInit = {
     method: request.method,

@@ -1,3 +1,4 @@
+import { setProxyAuthHeaders } from "../_shared/proxyAuth";
 // Cloudflare Pages Function — reverse-proxy для /me/* (Творец-only).
 // Ring 6 (2026-06-24): F.94 биография + F.67 proactive. Та же логика
 // что в /admin/*, target path /me/<...>.
@@ -62,8 +63,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
     if (lk === "host" || lk === "cookie" || lk.startsWith("cf-")) continue;
     forwardHeaders.set(k, v);
   }
-  forwardHeaders.set("X-Adam-User-Email", email);
-  forwardHeaders.set("X-Adam-Proxy-Secret", env.ADAM_PROXY_SECRET);
+  await setProxyAuthHeaders(forwardHeaders, env.ADAM_PROXY_SECRET, email);
 
   const init: RequestInit = {
     method: request.method,

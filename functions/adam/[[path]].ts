@@ -1,3 +1,4 @@
+import { setProxyAuthHeaders } from "../_shared/proxyAuth";
 // Cloudflare Pages Function — reverse-proxy на DRUG backend.
 //
 // Маршрут: adam.groznov.uk/adam/*  →  Function  →  https://adam-api.groznov.uk/adam/*
@@ -6,10 +7,11 @@
 // 1. CF Access защищает adam.groznov.uk (Pages). У пользователя cookie CF_Authorization.
 // 2. Function извлекает email из этой cookie (JWT decode).
 // 3. Function отправляет запрос на adam-api.groznov.uk БЕЗ прямой auth от пользователя,
-//    но с trusted headers:
+//    но с trusted headers (H4: короткоживущая HMAC-подпись, не статичный секрет):
 //      X-Adam-User-Email: <email из JWT>
-//      X-Adam-Proxy-Secret: <env.ADAM_PROXY_SECRET>
-// 4. DRUG backend проверяет proxy-secret и принимает email.
+//      X-Adam-Auth-Ts:    <unix_ts>
+//      X-Adam-Auth-Sig:   HMAC-SHA256(ADAM_PROXY_SECRET, email + "\n" + ts)
+// 4. DRUG backend проверяет свежесть ts + подпись и принимает email.
 //
 // Это даёт same-origin для пользователя (один OTP на adam.groznov.uk) и
 // решает iOS Safari ITP проблему cross-domain cookies.
@@ -82,8 +84,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
     if (lk === "host" || lk === "cookie" || lk.startsWith("cf-")) continue;
     forwardHeaders.set(k, v);
   }
-  forwardHeaders.set("X-Adam-User-Email", email);
-  forwardHeaders.set("X-Adam-Proxy-Secret", env.ADAM_PROXY_SECRET);
+  await setProxyAuthHeaders(forwardHeaders, env.ADAM_PROXY_SECRET, email);
 
   // Прокидываем body для не-GET методов.
   const init: RequestInit = {

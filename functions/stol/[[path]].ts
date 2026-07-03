@@ -1,3 +1,4 @@
+import { setProxyAuthHeaders } from "../_shared/proxyAuth";
 // CF Pages Function — proxy /stol/* на adam-api backend.
 // F.56, 2026-05-29. Идентичная логика с /cabinets, /family, /tasks etc.
 // Раньше всё ходило через /family/chat (тот proxy остаётся для PWA с
@@ -53,8 +54,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params, next
     if (lk === "host" || lk === "cookie" || lk.startsWith("cf-")) continue
     forwardHeaders.set(k, v)
   }
-  forwardHeaders.set("X-Adam-User-Email", email)
-  forwardHeaders.set("X-Adam-Proxy-Secret", env.ADAM_PROXY_SECRET)
+  await setProxyAuthHeaders(forwardHeaders, env.ADAM_PROXY_SECRET, email)
 
   const init: RequestInit = { method: request.method, headers: forwardHeaders, redirect: "manual" }
   if (request.method !== "GET" && request.method !== "HEAD") {
