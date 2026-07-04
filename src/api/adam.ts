@@ -26,6 +26,16 @@ export interface RoomsResponse {
   default: string
 }
 
+// Сырой ответ backend: rating (+1/-1/null) — прошлая оценка юзера. Мапим
+// на локальное поле feedback, чтобы кнопки 👍/👎 подсветились после гидрации
+// (возобновляемая разметка от зачатия — L0 самообучения, 2026-07-04).
+interface RawActiveMessage {
+  role: 'user' | 'assistant'
+  content: string
+  id?: string
+  rating?: 1 | -1 | null
+}
+
 export async function adamGetActive(room?: string): Promise<ActiveConversationResponse> {
   const url = room ? `${BASE}/adam/active?room=${encodeURIComponent(room)}` : `${BASE}/adam/active`
   const res = await fetch(url, {
@@ -39,7 +49,16 @@ export async function adamGetActive(room?: string): Promise<ActiveConversationRe
     } catch { /* not json */ }
     throw new Error(detail)
   }
-  return (await res.json()) as ActiveConversationResponse
+  const raw = (await res.json()) as { conversation_id: string; messages: RawActiveMessage[] }
+  return {
+    conversation_id: raw.conversation_id,
+    messages: raw.messages.map((m) => ({
+      role: m.role,
+      content: m.content,
+      id: m.id,
+      feedback: m.rating ?? null,
+    })),
+  }
 }
 
 export async function adamChatRequest(
