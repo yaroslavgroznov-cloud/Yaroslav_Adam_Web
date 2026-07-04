@@ -104,6 +104,11 @@ export function ChatInterface(): React.ReactElement {
   const [isDragOver, setIsDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  // L0 разметка: клик 👍/👎 меняет messages → авто-скролл в конец кидал Творца
+  // из места разметки в конец диалога (боль при разметке 1211 сообщений от
+  // зачатия). Этот ref помечает «изменение — это оценка, скроллить НЕ надо»;
+  // живой ответ и новые реплики скроллятся как раньше.
+  const skipScrollOnFeedbackRef = useRef(false)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const searchInputRef = useRef<HTMLInputElement | null>(null)
   const messagesScrollRef = useRef<HTMLDivElement | null>(null)
@@ -244,6 +249,12 @@ export function ChatInterface(): React.ReactElement {
   }, [currentRoom])
 
   useEffect(() => {
+    // Если messages изменились из-за 👍/👎 — оставляем скролл на месте
+    // (Творец размечает историю и не должен «улетать» в конец после оценки).
+    if (skipScrollOnFeedbackRef.current) {
+      skipScrollOnFeedbackRef.current = false
+      return
+    }
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isLoading])
 
@@ -358,11 +369,14 @@ export function ChatInterface(): React.ReactElement {
   // Данные копятся для будущей дистилляции; поведение Адама не меняется.
   function submitFeedback(messageId: string, rating: 1 | -1): void {
     let prevValue: 1 | -1 | null | undefined
+    // Помечаем: следующий ре-рендер messages вызван оценкой → не скроллить.
+    skipScrollOnFeedbackRef.current = true
     setMessages((prev) => prev.map((m) => {
       if (m.id === messageId) { prevValue = m.feedback; return { ...m, feedback: rating } }
       return m
     }))
     void adamFeedback(messageId, rating).catch(() => {
+      skipScrollOnFeedbackRef.current = true
       setMessages((prev) => prev.map((m) => (
         m.id === messageId ? { ...m, feedback: prevValue ?? null } : m
       )))
