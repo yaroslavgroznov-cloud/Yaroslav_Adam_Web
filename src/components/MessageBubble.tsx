@@ -14,10 +14,17 @@ interface MessageBubbleProps {
   isDark?: boolean
   /** Label над bubble Адама (например "Адам" или "✦ Адам — специалист по религии") */
   adamLabel?: string
+  /** L0 самообучения: id ответа Адама (для 👍/👎). Если нет — кнопки не рисуем. */
+  messageId?: string
+  /** Текущая оценка (1 = 👍, -1 = 👎, null/undefined = нет). */
+  feedback?: 1 | -1 | null
+  /** Клик по 👍/👎. rating: 1 или -1 (повторный клик по активному — снимает). */
+  onFeedback?: (messageId: string, rating: 1 | -1) => void
 }
 
 export function MessageBubble({
   role, content, isDark = false, adamLabel = 'Адам',
+  messageId, feedback, onFeedback,
 }: MessageBubbleProps): React.ReactElement {
   if (role === 'user') {
     return (
@@ -72,6 +79,31 @@ export function MessageBubble({
         >
           {content}
         </div>
+        {messageId && onFeedback && (
+          <div className="flex gap-3 mt-1 ml-1">
+            {([1, -1] as const).map((r) => {
+              const active = feedback === r
+              return (
+                <button
+                  key={r}
+                  onClick={() => onFeedback(messageId, r)}
+                  aria-label={r === 1 ? 'Хороший ответ' : 'Плохой ответ'}
+                  title={r === 1 ? 'Хороший ответ' : 'Плохой ответ'}
+                  className="transition-opacity"
+                  style={{
+                    fontSize: '13px',
+                    opacity: active ? 1 : 0.4,
+                    color: active
+                      ? (r === 1 ? 'var(--color-ochre-dark)' : 'var(--color-terracotta-dark)')
+                      : (isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)'),
+                  }}
+                >
+                  {r === 1 ? '👍' : '👎'}
+                </button>
+              )
+            })}
+          </div>
+        )}
       </div>
     </div>
   )

@@ -73,8 +73,26 @@ export async function adamGetRooms(): Promise<RoomsResponse> {
 
 export interface StreamCallbacks {
   onDelta: (text: string) => void
-  onDone: () => void
+  // L0: message_id ассистентского сообщения приходит в событии 'done'.
+  onDone: (messageId?: string) => void
   onError: (detail: string) => void
+}
+
+// L0 самообучения: 👍/👎 на ответ Адама. rating: 1 = 👍, -1 = 👎.
+export async function adamFeedback(
+  messageId: string, rating: 1 | -1, reason?: string,
+): Promise<void> {
+  const res = await fetch(`${BASE}/adam/feedback`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message_id: messageId, rating, reason: reason ?? null }),
+  })
+  if (!res.ok) {
+    let detail = `HTTP ${res.status}`
+    try { const j = await res.json(); if (j && typeof j.detail === 'string') detail = j.detail } catch { /* */ }
+    throw new Error(detail)
+  }
 }
 
 export interface StreamOptions {
@@ -136,7 +154,7 @@ export function adamChatStream(
           buffer = buffer.slice(sep + 2)
           if (!frame.startsWith('data: ')) continue
           const json = frame.slice(6)
-          let evt: { type?: string; text?: string; detail?: string }
+          let evt: { type?: string; text?: string; detail?: string; message_id?: string | null }
           try {
             evt = JSON.parse(json)
           } catch {
@@ -146,7 +164,7 @@ export function adamChatStream(
             firstDeltaSeen = true
             cb.onDelta(evt.text)
           } else if (evt.type === 'done') {
-            cb.onDone()
+            cb.onDone(evt.message_id ?? undefined)
             return
           } else if (evt.type === 'error') {
             cb.onError(evt.detail ?? 'stream error')

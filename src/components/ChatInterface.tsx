@@ -21,7 +21,7 @@ import { LanguageSwitcher } from './LanguageSwitcher'
 import { VoiceModal } from './VoiceModal'
 import { useDarkMode } from '../hooks/useDarkMode'
 import { notificationsHelp } from '../utils/notificationsHelp'
-import { adamChatStream, adamGetActive, adamGetRooms } from '../api/adam'
+import { adamChatStream, adamFeedback, adamGetActive, adamGetRooms } from '../api/adam'
 import type { RoomInfo } from '../api/adam'
 import { adminGetState, adminWhoami } from '../api/admin'
 import type { SystemState, Whoami } from '../api/admin'
@@ -322,9 +322,20 @@ export function ChatInterface(): React.ReactElement {
             return next
           })
         },
-        onDone: () => {
+        onDone: (messageId) => {
           setIsLoading(false)
           streamAbortRef.current = null
+          // L0 самообучения: привязываем id к последнему ответу Адама — для 👍/👎.
+          if (messageId) {
+            setMessages((prev) => {
+              const next = prev.slice()
+              const last = next[next.length - 1]
+              if (last && last.role === 'assistant') {
+                next[next.length - 1] = { ...last, id: messageId }
+              }
+              return next
+            })
+          }
           resolve()
         },
         onError: (detail) => {
@@ -339,6 +350,23 @@ export function ChatInterface(): React.ReactElement {
         },
       }, {}, attIds.length > 0 ? attIds : null)
       streamAbortRef.current = abort
+    })
+  }
+
+  // L0 самообучения (2026-07-04): 👍/👎 на ответ Адама. Оптимистично
+  // обновляем локально, шлём на backend; при ошибке — откат + toast.
+  // Данные копятся для будущей дистилляции; поведение Адама не меняется.
+  function submitFeedback(messageId: string, rating: 1 | -1): void {
+    let prevValue: 1 | -1 | null | undefined
+    setMessages((prev) => prev.map((m) => {
+      if (m.id === messageId) { prevValue = m.feedback; return { ...m, feedback: rating } }
+      return m
+    }))
+    void adamFeedback(messageId, rating).catch(() => {
+      setMessages((prev) => prev.map((m) => (
+        m.id === messageId ? { ...m, feedback: prevValue ?? null } : m
+      )))
+      showToast(t('toasts.generic_error'))
     })
   }
 
@@ -996,7 +1024,15 @@ export function ChatInterface(): React.ReactElement {
             </p>
           )}
           {displayedMessages.map((msg, i) => (
-            <MessageBubble key={i} role={msg.role} content={msg.content} isDark={isDark} />
+            <MessageBubble
+              key={i}
+              role={msg.role}
+              content={msg.content}
+              isDark={isDark}
+              messageId={msg.id}
+              feedback={msg.feedback}
+              onFeedback={submitFeedback}
+            />
           ))}
           {isLoading && !searchQuery && (
             <div className="flex items-center gap-3">
