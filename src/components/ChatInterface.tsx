@@ -316,6 +316,9 @@ export function ChatInterface(): React.ReactElement {
     await new Promise<void>((resolve) => {
       const abort = adamChatStream(effectiveContent, currentRoom, {
         onDelta: (text) => {
+          // Пустые delta — SSE-heartbeat (B2, не-Anthropic+tools держат соединение
+          // каждые 15с): не гасим TypingIndicator и не создаём пустой bubble.
+          if (text.length === 0) return
           if (!firstDeltaSeen) {
             firstDeltaSeen = true
             setIsLoading(false)
