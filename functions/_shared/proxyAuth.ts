@@ -7,7 +7,8 @@
 //
 // Теперь прокси вычисляет короткоживущую подпись
 //   HMAC-SHA256(secret, `${email}\n${unix_ts}`)
-// и шлёт X-Adam-User-Email + X-Adam-Auth-Ts + X-Adam-Auth-Sig. По проводу
+// и шлёт X-Adam-User-Email + X-Adam-Auth-Ts + X-Adam-Auth-Nonce +
+// X-Adam-Auth-Sig (v2: nonce в подписи, анти-реплей). По проводу
 // ходит только производная — не сам ключ. Backend (cf_access.py) сверяет
 // свежесть ts (окно ±60с) и пересчитывает HMAC в постоянном времени.
 //
@@ -16,15 +17,22 @@
 const encoder = new TextEncoder();
 
 /**
- * Собирает заголовки доверенной личности для запроса к backend.
+ * Собирает заголовки доверенной личности для запроса к backend (протокол v2).
  * Ключ (env.ADAM_PROXY_SECRET) никогда не покидает Function — на провод
- * уходит только HMAC-подпись над (email, unix_ts).
+ * уходит только HMAC-подпись над (email, unix_ts, nonce). Nonce случайный,
+ * одноразовый: backend помнит увиденные nonce в окне TTL — перехваченную
+ * подпись нельзя реплеить даже внутри 60-секундного окна ts.
  */
 export async function proxyAuthHeaders(
   secret: string,
   email: string,
 ): Promise<Record<string, string>> {
   const ts = Math.floor(Date.now() / 1000).toString();
+  const nonceBytes = new Uint8Array(16);
+  crypto.getRandomValues(nonceBytes);
+  const nonce = Array.from(nonceBytes)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
   const key = await crypto.subtle.importKey(
     "raw",
     encoder.encode(secret),
@@ -35,7 +43,11 @@ export async function proxyAuthHeaders(
   const sigBuf = await crypto.subtle.sign(
     "HMAC",
     key,
-    encoder.encode(`${email}\n${ts}`),
+    // Разделитель — только escape-последовательность \n, НЕ перенос строки в
+    // исходнике: при core.autocrlf=true чекаут превратил бы такой перенос в
+    // \r\n, подпись ушла бы над `email\r\nts\r\nnonce`, а backend считает над
+    // `email\nts\nnonce` — молчаливый reason=bad_sig на каждом запросе.
+    encoder.encode(`${email}\n${ts}\n${nonce}`),
   );
   const sig = Array.from(new Uint8Array(sigBuf))
     .map((b) => b.toString(16).padStart(2, "0"))
@@ -43,6 +55,7 @@ export async function proxyAuthHeaders(
   return {
     "X-Adam-User-Email": email,
     "X-Adam-Auth-Ts": ts,
+    "X-Adam-Auth-Nonce": nonce,
     "X-Adam-Auth-Sig": sig,
   };
 }
