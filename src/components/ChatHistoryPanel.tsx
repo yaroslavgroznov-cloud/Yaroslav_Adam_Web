@@ -8,6 +8,7 @@
 // список из них нечитаем. Надзаголовки липкие, потому что при прокрутке
 // теряется ответ на вопрос «а это какой давности».
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { ConversationBrief } from '../api/adam'
 import { useModalShell } from '../hooks/useModalShell'
@@ -27,7 +28,10 @@ interface ChatHistoryPanelProps {
 
 /** Группа по КАЛЕНДАРНЫМ суткам, а не по «24 часа назад»: сообщение вчера в
  *  23:00, открытое сегодня в 10:00, иначе попадало бы в «Сегодня». */
-function gruppa(iso: string): string {
+const GRUPPY = ['today', 'yesterday', 'week', 'month', 'older'] as const
+type Gruppa = typeof GRUPPY[number]
+
+function gruppa(iso: string): Gruppa {
   const d = new Date(iso)
   const den = 24 * 60 * 60 * 1000
   const nachaloSegodnya = new Date()
@@ -35,18 +39,17 @@ function gruppa(iso: string): string {
   const nachaloDnya = new Date(d)
   nachaloDnya.setHours(0, 0, 0, 0)
   const sutki = Math.round((nachaloSegodnya.getTime() - nachaloDnya.getTime()) / den)
-  if (sutki <= 0) return 'Сегодня'
-  if (sutki === 1) return 'Вчера'
-  if (sutki <= 7) return 'За неделю'
-  if (sutki <= 30) return 'За месяц'
-  return 'Раньше'
+  if (sutki <= 0) return 'today'
+  if (sutki === 1) return 'yesterday'
+  if (sutki <= 7) return 'week'
+  if (sutki <= 30) return 'month'
+  return 'older'
 }
-
-const PORYADOK = ['Сегодня', 'Вчера', 'За неделю', 'За месяц', 'Раньше']
 
 export function ChatHistoryPanel({
   isDark, items, error, currentId, onOpen, onClose, onNew, onRetry,
 }: ChatHistoryPanelProps): React.ReactElement {
+  const { t } = useTranslation()
   const border = isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'
   const fg = isDark ? 'var(--color-pergament-light)' : 'var(--color-umber-deep)'
   const muted = isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)'
@@ -61,13 +64,13 @@ export function ChatHistoryPanel({
   }
 
   const sgruppirovano = useMemo(() => {
-    const m = new Map<string, ConversationBrief[]>()
+    const m = new Map<Gruppa, ConversationBrief[]>()
     for (const it of items ?? []) {
       const g = gruppa(it.last_message_at)
       if (!m.has(g)) m.set(g, [])
       m.get(g)!.push(it)
     }
-    return PORYADOK.filter((g) => m.has(g)).map((g) => ({ title: g, rows: m.get(g)! }))
+    return GRUPPY.filter((g) => m.has(g)).map((g) => ({ key: g, rows: m.get(g)! }))
   }, [items])
 
   const panelRef = useModalShell(true, onClose)
@@ -82,7 +85,7 @@ export function ChatHistoryPanel({
           border: 'none',
         }}
         onClick={onClose}
-        aria-label="Закрыть историю"
+        aria-label={t('history.close_aria')}
       />
       <aside
         id="chat-history-panel"
@@ -90,7 +93,7 @@ export function ChatHistoryPanel({
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
-        aria-label="История чатов"
+        aria-label={t('history.title')}
         className="h-full flex flex-col border-l shadow-2xl drawer-right"
         style={{ backgroundColor: bg, borderColor: border, color: fg, width: 'min(420px, 92vw)' }}
       >
@@ -99,7 +102,7 @@ export function ChatHistoryPanel({
           style={{ borderColor: border, height: 52 }}
         >
           <h2 className="flex-1 italic m-0" style={{ fontSize: '16px', letterSpacing: '0.04em' }}>
-            История чатов
+            {t('history.title')}
           </h2>
           <button
             type="button"
@@ -115,14 +118,14 @@ export function ChatHistoryPanel({
                 ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
             }}
           >
-            + Новый
+            {t('history.new_short')}
           </button>
           <button
             type="button"
             onClick={onClose}
             className="side-item inline-flex items-center justify-center"
             style={{ width: 32, height: 32, minHeight: 32, borderColor: border, color: muted }}
-            aria-label="Закрыть"
+            aria-label={t('history.close')}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -137,7 +140,7 @@ export function ChatHistoryPanel({
           {error && (
             <div className="flex flex-col items-center gap-3 mt-10 px-6 text-center">
               <p className="italic m-0" style={{ fontSize: '14px', color: muted }}>
-                Не дотянулся до истории.
+                {t('history.failed')}
               </p>
               <button
                 type="button"
@@ -145,7 +148,7 @@ export function ChatHistoryPanel({
                 className="side-item px-3 py-2"
                 style={{ fontSize: '13px', borderColor: border, color: fg, minHeight: 34 }}
               >
-                Ещё раз
+                {t('history.retry')}
               </button>
             </div>
           )}
@@ -155,26 +158,26 @@ export function ChatHistoryPanel({
               <span className="adam-bounce" style={{ animationDelay: '0ms' }}>✦</span>
               <span className="adam-bounce" style={{ animationDelay: '160ms' }}>✦</span>
               <span className="adam-bounce" style={{ animationDelay: '320ms' }}>✦</span>
-              <br />Поднимаю историю…
+              <br />{t('history.loading')}
             </p>
           )}
           {!error && items !== null && items.length === 0 && (
             <div className="flex flex-col items-center mt-10 px-6 text-center">
               <span aria-hidden="true" style={{ fontSize: '20px', opacity: 0.5, color: muted }}>✦</span>
               <p className="italic mt-2" style={{ fontSize: '14px', color: muted, maxWidth: 260 }}>
-                Прошлых бесед пока нет. Нить начинается здесь.
+                {t('history.empty')}
               </p>
             </div>
           )}
 
           {sgruppirovano.map((g) => (
-            <div key={g.title} className="mb-4">
+            <div key={g.key} className="mb-4">
               <p
                 className="hist-group-title italic px-3 m-0"
                 style={{ fontSize: '11px', letterSpacing: '0.08em',
                          textTransform: 'uppercase', color: muted }}
               >
-                {g.title}
+                {t(`history.group_${g.key}`)}
               </p>
               <div className="flex flex-col gap-1">
                 {g.rows.map((c) => {
@@ -182,7 +185,7 @@ export function ChatHistoryPanel({
                   const d = new Date(c.last_message_at)
                   // Для давних бесед показываем год: без него беседа прошлого
                   // года неотличима от сегодняшней.
-                  const davnyaya = g.title === 'Раньше'
+                  const davnyaya = g.key === 'older'
                   return (
                     <button
                       key={c.id}
@@ -202,9 +205,9 @@ export function ChatHistoryPanel({
                           ...(davnyaya ? { year: 'numeric' } : {}),
                           hour: '2-digit', minute: '2-digit',
                         })}
-                        {' · '}{c.message_count} сообщ.
-                        {c.is_active ? ' · текущий' : ''}
-                        {c.has_summary ? ' · в долгой памяти' : ''}
+                        {' · '}{t('history.msg_count', { count: c.message_count })}
+                        {c.is_active ? ` · ${t('history.current')}` : ''}
+                        {c.has_summary ? ` · ${t('history.in_memory')}` : ''}
                       </span>
                     </button>
                   )
@@ -218,8 +221,7 @@ export function ChatHistoryPanel({
           className="shrink-0 px-4 py-2.5 border-t italic"
           style={{ borderColor: border, fontSize: '11px', color: muted }}
         >
-          Закрытая беседа не стирается: она уходит в долгую память Адама и
-          остаётся здесь.
+          {t('history.footer')}
         </footer>
       </aside>
     </div>

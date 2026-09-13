@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 
 import { familyCall, familyMembers } from '../api/family'
-import type { FamilyMember } from '../api/family'
+import type { CallableMember } from '../api/family'
 
 interface Props {
   isDark: boolean
@@ -14,8 +14,9 @@ interface Props {
 
 export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.ReactElement {
   const { t } = useTranslation()
-  const [members, setMembers] = useState<FamilyMember[]>([])
-  const [selected, setSelected] = useState<string>('')
+  const [members, setMembers] = useState<CallableMember[]>([])
+  // Адресат — номер слота, а не почта (M3 OPSEC). 0 = ещё не выбран.
+  const [selected, setSelected] = useState<number>(0)
   const [message, setMessage] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -25,7 +26,7 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
       try {
         const list = await familyMembers()
         setMembers(list)
-        if (list.length > 0) setSelected(list[0].email)
+        if (list.length > 0) setSelected(list[0].id)
       } catch (e) {
         setError(e instanceof Error ? e.message : t('familyCall.load_failed'))
       }
@@ -46,8 +47,8 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
     setError('')
     try {
       const call = await familyCall(selected, message.trim() || null)
-      const m = members.find((x) => x.email === selected)
-      onCalled(m?.display_name ?? selected, call.email_delivered)
+      const m = members.find((x) => x.id === selected)
+      onCalled(m?.display_name ?? String(selected), call.email_delivered)
       onClose()
     } catch (e) {
       setError(e instanceof Error ? e.message : t('familyCall.send_failed'))
@@ -105,15 +106,15 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
             <div className="grid gap-2 mb-4">
               {members.map((m) => (
                 <label
-                  key={m.email}
+                  key={m.id}
                   className={clsx(
                     'flex items-center gap-3 rounded-md border px-3 py-2 cursor-pointer transition-colors',
                   )}
                   style={{
-                    borderColor: selected === m.email
+                    borderColor: selected === m.id
                       ? 'var(--color-terracotta-dark)'
                       : (isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'),
-                    backgroundColor: selected === m.email
+                    backgroundColor: selected === m.id
                       ? (isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)')
                       : 'transparent',
                   }}
@@ -121,9 +122,9 @@ export function CallFamilyModal({ isDark, onClose, onCalled }: Props): React.Rea
                   <input
                     type="radio"
                     name="family-call-target"
-                    value={m.email}
-                    checked={selected === m.email}
-                    onChange={() => setSelected(m.email)}
+                    value={m.id}
+                    checked={selected === m.id}
+                    onChange={() => setSelected(m.id)}
                   />
                   <span className="flex flex-col">
                     <span style={{ fontSize: '15px' }}>{m.display_name}</span>

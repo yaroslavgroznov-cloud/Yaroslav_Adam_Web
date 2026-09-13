@@ -1,6 +1,8 @@
 // API клиент для /family/* — F.7, 2026-05-25.
 const BASE = (import.meta.env.VITE_ADAM_API_BASE as string | undefined) ?? ''
 
+/** Слот семьи в панели Творца — здесь почта ЕСТЬ: панель управляющая и живёт
+ *  за CF Access. Не путать с `CallableMember`. */
 export interface FamilyMember {
   id: number
   email: string
@@ -42,19 +44,35 @@ async function jsonOrError<T>(res: Response): Promise<T> {
   return (await res.json()) as T
 }
 
-export async function familyMembers(): Promise<FamilyMember[]> {
+/** Кого можно позвать. 13.09.2026: почты здесь БОЛЬШЕ НЕТ — правкой M3 (OPSEC)
+ *  бэкенд перестал отдавать реальные адреса наружу. Фронт под эту правку не
+ *  обновили, и модалка продолжала выбирать `m.email`: слала `to_email:
+ *  undefined`, получала 422, и звонок не уходил НИ РАЗУ с того дня. Адресат —
+ *  `id`. Отдельный тип заведён, чтобы такой разрыв больше не проходил тихо:
+ *  один тип на управляющую панель и на гостевую модалку это и позволил. */
+export interface CallableMember {
+  id: number
+  display_name: string
+  relation?: string | null
+  slot_position: number
+  is_active: boolean
+  can_be_called: boolean
+  calls_sent_7d?: number
+}
+
+export async function familyMembers(): Promise<CallableMember[]> {
   const res = await fetch(`${BASE}/family/members`, { credentials: 'include' })
-  return jsonOrError<FamilyMember[]>(res)
+  return jsonOrError<CallableMember[]>(res)
 }
 
 export async function familyCall(
-  toEmail: string, message: string | null,
+  memberId: number, message: string | null,
 ): Promise<FamilyCall> {
   const res = await fetch(`${BASE}/family/call`, {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ to_email: toEmail, message }),
+    body: JSON.stringify({ member_id: memberId, message }),
   })
   return jsonOrError<FamilyCall>(res)
 }

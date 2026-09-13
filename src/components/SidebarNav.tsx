@@ -20,6 +20,7 @@
 // Логика осталась в ChatInterface — переносим расположение, а не поведение.
 import React, { useRef } from 'react'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 
 import { useModalShell } from '../hooks/useModalShell'
 
@@ -65,6 +66,7 @@ export function SidebarNav({
   isDark, groups, collapsed, onToggleCollapsed, mobileOpen, onCloseMobile,
   footer,
 }: SidebarNavProps): React.ReactElement {
+  const { t } = useTranslation()
   const border = isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'
   const fg = isDark ? 'var(--color-pergament-light)' : 'var(--color-umber-deep)'
   const muted = isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)'
@@ -194,7 +196,7 @@ export function SidebarNav({
         backgroundColor: bg, borderColor: border, color: fg,
         width: vYashchike ? 'min(300px, 86vw)' : undefined,
       }}
-      aria-label="Меню Адама"
+      aria-label={t('sidebar.menu_aria')}
     >
       <div
         className={clsx('flex items-center gap-2 border-b shrink-0',
@@ -224,9 +226,9 @@ export function SidebarNav({
             onClick={onToggleCollapsed}
             className="side-item shrink-0 hidden md:inline-flex items-center justify-center"
             style={{ width: 28, height: 28, minHeight: 28, color: muted, borderColor: border }}
-            aria-label={uzko ? 'Развернуть меню' : 'Свернуть меню'}
+            aria-label={uzko ? t('sidebar.expand') : t('sidebar.collapse')}
             aria-expanded={!uzko}
-            title={uzko ? 'Развернуть меню' : 'Свернуть меню'}
+            title={uzko ? t('sidebar.expand') : t('sidebar.collapse')}
           >
             {shevron(uzko ? 'right' : 'left')}
           </button>
@@ -237,8 +239,8 @@ export function SidebarNav({
             onClick={onCloseMobile}
             className="side-item shrink-0 inline-flex items-center justify-center"
             style={{ width: 32, height: 32, minHeight: 32, color: muted, borderColor: border }}
-            aria-label="Закрыть меню"
-            title="Закрыть меню"
+            aria-label={t('sidebar.close')}
+            title={t('sidebar.close')}
           >
             {krest}
           </button>
@@ -304,7 +306,7 @@ export function SidebarNav({
           className="md:hidden fixed inset-0 z-40 flex"
           role="dialog"
           aria-modal="true"
-          aria-label="Меню Адама"
+          aria-label={t('sidebar.menu_aria')}
           ref={yashchikRef as React.RefObject<HTMLDivElement>}
           tabIndex={-1}
         >
@@ -323,7 +325,7 @@ export function SidebarNav({
               border: 'none',
             }}
             onClick={onCloseMobile}
-            aria-label="Закрыть меню"
+            aria-label={t('sidebar.close')}
           />
         </div>
       )}

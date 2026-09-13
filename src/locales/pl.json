@@ -464,15 +464,15 @@
     "limit_cta_wait": "Poczekam na następny cykl"
   },
   "toasts": {
-    "context_refreshed": "Kontekst odswiezony.",
-    "context_load_failed": "Nie udalo sie podniesc historii.",
-    "notifications_blocked": "Powiadomienia zablokowane. Wlacz je w ustawieniach przegladarki.",
-    "notifications_pwa_hint": "Na iPhonie: «Udostepnij» → «Dodaj do ekranu domowego», otworz jako aplikacje.",
-    "generic_error": "Cos poszlo nie tak.",
+    "context_refreshed": "Kontekst odświeżony.",
+    "context_load_failed": "Nie udało się podnieść historii.",
+    "notifications_blocked": "Powiadomienia zablokowane. Włącz je w ustawieniach przeglądarki.",
+    "notifications_pwa_hint": "Na iPhonie: «Udostępnij» → «Dodaj do ekranu domowego», otwórz jako aplikację.",
+    "generic_error": "Coś poszło nie tak.",
     "theme_auto": "Motyw: auto (wg godziny)",
     "theme_dark": "Motyw: noc",
-    "theme_light": "Motyw: dzien",
-    "notifications_open_settings": "Otworz instrukcje",
+    "theme_light": "Motyw: dzień",
+    "notifications_open_settings": "Otwórz instrukcję",
     "new_chat_started": "Nowy dialog otwarty.",
     "history_opened": "Otwarto miniony dialog — tylko do odczytu."
   },
@@ -601,13 +601,13 @@
     "called_no_email": "{{name}} zobaczy powiadomienie, gdy sie pojawi."
   },
   "chat": {
-    "input_placeholder": "Co lezysz na sercu? (Ctrl/Cmd + Enter — wyslij)",
-    "empty_greeting": "Jestem twoim przyjacielem. Opowiedz, z czym przyszedles?",
+    "input_placeholder": "Co leży na sercu? (Ctrl/Cmd + Enter — wyślij)",
+    "empty_greeting": "Jestem twoim przyjacielem. Opowiedz, z czym przyszedłeś?",
     "hydrating": "Podnoszenie naszej nici…",
     "interrupt": "przerwij",
     "interrupt_marker": " …(przerwano przez ciebie)",
-    "ptr_pull": "Pociagnij nizej…",
-    "ptr_ready": "Pusc — odswieze nic"
+    "ptr_pull": "Pociągnij niżej…",
+    "ptr_ready": "Puść — odświeżę nić"
   },
   "attachment": {
     "attached_label": "zalaczono:",
@@ -1044,6 +1044,49 @@
     "history": "Historia czatów",
     "house": "Dom",
     "settings": "Ustawienia",
-    "open_menu": "Menu"
+    "open_menu": "Menu",
+    "menu_aria": "Menu Adama",
+    "expand": "Rozwiń menu",
+    "collapse": "Zwiń menu",
+    "close": "Zamknij menu",
+    "font_size": "Rozmiar czcionki",
+    "font_normal": "Zwykły",
+    "font_large": "Duży",
+    "font_xl": "Bardzo duży"
+  },
+  "history": {
+    "title": "Historia czatów",
+    "new_short": "+ Nowy",
+    "close": "Zamknij",
+    "close_aria": "Zamknij historię",
+    "loading": "Podnoszę historię…",
+    "empty": "Nie ma jeszcze dawnych rozmów. Nić zaczyna się tutaj.",
+    "failed": "Nie dosięgnąłem historii.",
+    "retry": "Jeszcze raz",
+    "msg_count": "{{count}} wiad.",
+    "current": "bieżący",
+    "in_memory": "w długiej pamięci",
+    "footer": "Zamknięta rozmowa nie znika: przechodzi do długiej pamięci Adama i zostaje tutaj.",
+    "group_today": "Dzisiaj",
+    "group_yesterday": "Wczoraj",
+    "group_week": "Ostatni tydzień",
+    "group_month": "Ostatni miesiąc",
+    "group_older": "Wcześniej"
+  },
+  "context": {
+    "title": "Okno rozmowy",
+    "measuring": "Mierzę okno…",
+    "failed": "Gęstość okna niezmierzona — powtórz",
+    "total_of": "Łącznie z {{limit}}",
+    "detail": "W streszczeniu {{summary}} wiad., na żywo {{live}}. Liczy — {{by}}.",
+    "aria": "Okno rozmowy zajęte w {{percent}} procentach",
+    "parts_core": "Jądro i kanony",
+    "parts_tools": "Narzędzia",
+    "parts_korpus": "Podniesiony Korpus",
+    "parts_ramki": "Podniesione Ramy",
+    "parts_summary": "Streszczenie pamięci",
+    "parts_history": "Żywa historia",
+    "by_tokenizer": "tokenizer modelu",
+    "by_estimate": "szacunek po gęstości"
   }
 }

@@ -817,11 +817,11 @@ export function ChatInterface(): React.ReactElement {
               {!sidebarCollapsed && (
               <span className="italic px-2" style={{ fontSize: '11px', letterSpacing: '0.06em',
                 color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}>
-                {t('fontScale.label', { defaultValue: 'Размер шрифта' })}
+                {t('sidebar.font_size')}
               </span>
               )}
               <div className={clsx('flex gap-1', sidebarCollapsed ? 'flex-col items-stretch' : 'items-stretch')} role="group"
-                   aria-label={t('fontScale.label', { defaultValue: 'Размер шрифта' })}>
+                   aria-label={t('sidebar.font_size')}>
                 {(['normal', 'large', 'xl'] as const).map((sc, i) => (
                   <button
                     key={sc}
@@ -837,8 +837,8 @@ export function ChatInterface(): React.ReactElement {
                       borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
                     }}
                     aria-pressed={fontScale === sc}
-                    aria-label={['Обычный', 'Крупный', 'Очень крупный'][i]}
-                    title={['Обычный', 'Крупный', 'Очень крупный'][i]}
+                    aria-label={t(['sidebar.font_normal', 'sidebar.font_large', 'sidebar.font_xl'][i])}
+                    title={t(['sidebar.font_normal', 'sidebar.font_large', 'sidebar.font_xl'][i])}
                   >
                     А
                   </button>
