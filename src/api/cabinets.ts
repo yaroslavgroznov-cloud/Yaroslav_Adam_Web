@@ -216,7 +216,7 @@ export async function startAllAccessSubscription(): Promise<PaymentInitiateResp>
 }
 
 // --- Songs API (songwriting cabinet, Phase 3) ---
-// Aligned to actual backend: D:\DRUG\backend\app\routers\songs.py
+// Aligned to actual backend: /data/stack/DRUG/backend/app/routers/songs.py
 
 export type SongStatus =
   | 'pending'

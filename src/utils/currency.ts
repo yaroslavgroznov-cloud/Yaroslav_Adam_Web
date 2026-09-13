@@ -10,7 +10,7 @@
 // localStorage, broadcast подією 'adam-currency-change').
 //
 // Курси - hardcoded snapshot, синхронізується ручно. Той самий патерн, що
-// й `cfg.liqpay_usd_uah` на backend (D:/DRUG/backend/app/config.py).
+// й `cfg.liqpay_usd_uah` на backend (/data/stack/DRUG/backend/app/config.py).
 // На сторінці явно вказано "ОРІЄНТОВНО, фактичне списання за курсом банку".
 
 export type CurrencyCode =
