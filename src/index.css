@@ -274,3 +274,147 @@ body {
     animation: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ДИАЛОГОВОЕ ОКНО АДАМА — левая колонка и история чатов (13.09.2026)
+
+   Слово Творца: «собери интерфейс по лучшим мировым аналогам и правилам».
+   Значения взяты из канона Дома (длительности, кривые, палитра выше в этом
+   файле), а не из чужих систем: у Дома засечковый шрифт, тёплая палитра и
+   6px радиус — серо-синий ChatGPT здесь был бы потерей лица.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ФОКУС С КЛАВИАТУРЫ. До этой правки понятия «фокус-кольцо» у Дома не было
+   вовсе: `outline-none` стоял в 20+ местах, замены не было ни одной — и
+   клавиатурный обход шёл вслепую. Цвет кольца переключается по теме, потому
+   что тема живёт в JS (useDarkMode), а не классом на <html>:
+   днём терракота даёт 7.17:1 к фону колонки, ночью золото — 7.35:1.
+   Единый цвет на обе темы проваливается на активном фоне — проверено счётом. */
+:where(a, button, select, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--ring, var(--color-terracotta));
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ПУНКТ ЛЕВОЙ КОЛОНКИ.
+   Наведение — ФОНОМ, а не прозрачностью. Прежний код ставил
+   `hover:opacity-100` классом и `opacity` инлайном: инлайн побеждает, и
+   наведение не срабатывало НИКОГДА. Вдобавок transition-colors прозрачность
+   не анимирует. */
+.side-item {
+  min-height: 40px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-tap) var(--ease-out);
+}
+.side-item:hover:not(:disabled) { background-color: var(--side-hover); }
+.side-item:active:not(:disabled) {
+  background-color: var(--side-press);
+  transform: scale(0.985);
+}
+.side-item[data-active='1'] {
+  background-color: var(--side-active);
+  /* Второй признак активного, помимо цвета: фон активного отличается от
+     фона колонки всего на несколько процентов яркости, и признак только
+     цветом нарушает WCAG 1.4.1. Засечка слева — голос Дома и второй сигнал. */
+  box-shadow: inset 3px 0 0 var(--side-mark);
+}
+.side-item:disabled { opacity: 0.55; cursor: default; }
+.side-item--primary { min-height: 44px; }
+.side-item--primary:hover { background-color: var(--side-primary-hover) !important; }
+.side-item--primary:active { transform: scale(0.97); }
+/* У залитой кнопки outline лёг бы на терракоту (1.6:1 — невидим): выносим
+   кольцо двойной тенью на фон колонки. */
+.side-item--primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--side-bg), 0 0 0 4px var(--ring);
+}
+
+/* ПОДПИСЬ СВЁРНУТОЙ КОЛОНКИ. У контейнера групп `overflow-y: auto`, поэтому
+   вторая ось вычисляется в `auto` и любой absolute-тултип будет обрезан по
+   краю колонки. Отсюда `fixed` и координата от JS. */
+.side-tip::after {
+  content: attr(data-tip);
+  position: fixed;
+  top: var(--tip-y, 0);
+  left: 68px;
+  transform: translateY(-50%) translateX(-4px);
+  padding: 5px 9px;
+  border-radius: 6px;
+  font: italic 12px/1.3 var(--font-serif);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  background: var(--tip-bg);
+  color: var(--tip-fg);
+  border: 1px solid var(--tip-border);
+  box-shadow: 0 8px 20px -10px rgba(42, 31, 21, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 60;
+  transition: opacity var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out);
+}
+.side-tip:hover::after,
+.side-tip:focus-visible::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ШИРИНА КОЛОНКИ. 280 мс и кривая ящика — у Дома она была заведена
+   (`--ease-drawer`) и не использовалась нигде. */
+.side-col { transition: width var(--dur-med) var(--ease-drawer); }
+
+/* КАРТОЧКА БЕСЕДЫ В ИСТОРИИ. Наведения у неё не было вовсе. */
+.hist-card {
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: background-color var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-out),
+              transform var(--dur-tap) var(--ease-out);
+}
+.hist-card:hover { background-color: var(--side-hover); }
+.hist-card:active { transform: scale(0.99); }
+.hist-card[data-active='1'] {
+  background-color: var(--side-active);
+  box-shadow: inset 3px 0 0 var(--side-mark);
+}
+/* Превью — две строки. В одну «Расскажи, как…» неотличимо от «Расскажи, что…» */
+.hist-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* Надзаголовок группы липнет: у Творца 17 бесед, прокрутка теряет контекст. */
+.hist-group-title {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--hist-bg);
+  padding-block: 6px;
+}
+
+/* ВЫДВИЖНАЯ ПАНЕЛЬ. */
+@keyframes drawer-in-left  { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes drawer-in-right { from { transform: translateX(100%);  } to { transform: translateX(0); } }
+@keyframes scrim-in        { from { opacity: 0; } to { opacity: 1; } }
+.drawer-left  { animation: drawer-in-left  var(--dur-med) var(--ease-drawer) both; }
+.drawer-right { animation: drawer-in-right var(--dur-med) var(--ease-drawer) both; }
+.drawer-scrim { animation: scrim-in var(--dur-fast) var(--ease-out) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer-left, .drawer-right, .drawer-scrim { animation: none !important; }
+  .side-col { transition: none !important; }
+  .side-item, .hist-card {
+    transition: background-color var(--dur-fast) linear !important;
+  }
+  .side-item:active, .hist-card:active, .side-item--primary:active { transform: none !important; }
+  .side-tip::after {
+    transition: opacity var(--dur-fast) linear !important;
+    transform: translateY(-50%) !important;
+  }
+}

@@ -138,7 +138,6 @@
   "headerActions": {
     "search": "Ara",
     "refresh": "Yenile",
-    "close_dialog": "Diyaloğu kapat",
     "call_family": "Yakınlarını çağır",
     "stol": "Sofra · ortak aile sofrası",
     "notifications_on": "Bildirimler açık",
@@ -566,14 +565,15 @@
   "toasts": {
     "context_refreshed": "Bağlam yenilendi.",
     "context_load_failed": "Geçmiş açılamadı.",
-    "screen_cleared": "Ekran temizlendi. Geçmiş duruyor, ↻ ile geri getir.",
     "notifications_blocked": "Bildirimler engellendi. Tarayıcı ayarlarından aç.",
     "notifications_pwa_hint": "iPhone'da: «Paylaş» → «Ana Ekrana Ekle», uygulama olarak aç.",
     "generic_error": "Bir şeyler ters gitti.",
     "theme_auto": "Tema: otomatik (saate göre)",
     "theme_dark": "Tema: gece",
     "theme_light": "Tema: gündüz",
-    "notifications_open_settings": "Ayarlara bak"
+    "notifications_open_settings": "Ayarlara bak",
+    "new_chat_started": "Yeni diyalog açıldı.",
+    "history_opened": "Geçmiş diyalog açıldı — yalnızca okuma."
   },
   "stol": {
     "adam_listens_silently": "sessizce dinliyor",
@@ -1050,5 +1050,12 @@
       "confirmed": "noter · Bitcoin",
       "failed": "noter · başarısız"
     }
+  },
+  "sidebar": {
+    "new_chat": "Yeni sohbet",
+    "history": "Sohbet geçmişi",
+    "house": "Ev",
+    "settings": "Ayarlar",
+    "open_menu": "Menü"
   }
 }

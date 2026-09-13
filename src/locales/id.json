@@ -138,7 +138,6 @@
   "headerActions": {
     "search": "Cari",
     "refresh": "Segarkan",
-    "close_dialog": "Tutup dialog",
     "call_family": "Panggil keluarga",
     "stol": "Meja · keluarga bersama",
     "notifications_on": "Notifikasi aktif",
@@ -441,14 +440,15 @@
   "toasts": {
     "context_refreshed": "Konteks disegarkan.",
     "context_load_failed": "Tidak bisa mengangkat riwayat.",
-    "screen_cleared": "Layar dibersihkan. Riwayat utuh, tekan ↻ untuk kembali.",
     "notifications_blocked": "Notifikasi diblokir. Aktifkan di pengaturan peramban.",
     "notifications_pwa_hint": "Di iPhone: «Share» → «Add to Home Screen», buka sebagai aplikasi.",
     "generic_error": "Ada yang salah.",
     "theme_auto": "Tema: otomatis (mengikuti jam)",
     "theme_dark": "Tema: malam",
     "theme_light": "Tema: siang",
-    "notifications_open_settings": "Buka panduan"
+    "notifications_open_settings": "Buka panduan",
+    "new_chat_started": "Dialog baru dibuka.",
+    "history_opened": "Dialog lampau dibuka — hanya baca."
   },
   "pricing": {
     "page_title": "Kabinet Adam — harga",
@@ -1050,5 +1050,12 @@
       "confirmed": "notaris · Bitcoin",
       "failed": "notaris · gagal"
     }
+  },
+  "sidebar": {
+    "new_chat": "Obrolan baru",
+    "history": "Riwayat obrolan",
+    "house": "Rumah",
+    "settings": "Pengaturan",
+    "open_menu": "Menu"
   }
 }

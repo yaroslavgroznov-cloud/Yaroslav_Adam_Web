@@ -25,7 +25,6 @@
   "headerActions": {
     "search": "Recherche",
     "refresh": "Actualiser",
-    "close_dialog": "Fermer le dialogue",
     "call_family": "Appeler les siens",
     "stol": "Table · famille",
     "notifications_on": "Notifications activées",
@@ -230,14 +229,15 @@
   "toasts": {
     "context_refreshed": "Contexte actualisé.",
     "context_load_failed": "Impossible de relever l'historique.",
-    "screen_cleared": "Écran effacé. L'historique est intact, appuie sur ↻ pour le ramener.",
     "notifications_blocked": "Notifications bloquées. Active-les dans les paramètres du navigateur.",
     "notifications_pwa_hint": "Sur iPhone : « Partager » → « Sur l'écran d'accueil », ouvre comme une application.",
     "generic_error": "Quelque chose s'est mal passé.",
     "theme_auto": "Thème : auto (selon l'heure)",
     "theme_dark": "Thème : nuit",
     "theme_light": "Thème : jour",
-    "notifications_open_settings": "Ouvrir les instructions"
+    "notifications_open_settings": "Ouvrir les instructions",
+    "new_chat_started": "Nouveau dialogue ouvert.",
+    "history_opened": "Dialogue passé ouvert — lecture seule."
   },
   "stol": {
     "title": "la Table",
@@ -1051,5 +1051,12 @@
       "confirmed": "notariat · Bitcoin",
       "failed": "notariat · échec"
     }
+  },
+  "sidebar": {
+    "new_chat": "Nouveau dialogue",
+    "history": "Historique des dialogues",
+    "house": "Maison",
+    "settings": "Réglages",
+    "open_menu": "Menu"
   }
 }

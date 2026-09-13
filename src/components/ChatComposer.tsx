@@ -68,7 +68,7 @@ export function ChatComposer({
         placeholder={placeholder}
         disabled={disabled}
         className={clsx(
-          'flex-1 min-w-0 rounded-md border outline-none resize-none transition-colors duration-700 ease-in-out disabled:opacity-60',
+          'flex-1 min-w-0 rounded-md border resize-none transition-colors duration-700 ease-in-out disabled:opacity-60',
           isDark ? 'dom-input-dark' : 'dom-input',
         )}
         style={{

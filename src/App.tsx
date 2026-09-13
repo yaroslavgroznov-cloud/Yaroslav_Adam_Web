@@ -109,7 +109,10 @@ export default function App() {
     path.startsWith('/privacy') ||
     path.startsWith('/refund') ||
     path.startsWith('/songs')
-  const showFloatingFontScale = !isLanding
+  // 13.09.2026: на /chat регулятор шрифта переехал в подвал левой колонки —
+  // плавающий здесь стал бы вторым тем же контролом, а дубли Творец уже
+  // назвал поимённо (два выбора комнаты).
+  const showFloatingFontScale = !isLanding && !path.startsWith('/chat')
 
   return (
     <>

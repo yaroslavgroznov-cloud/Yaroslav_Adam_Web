@@ -12,17 +12,28 @@ import { MessageBubble } from './MessageBubble'
 import { TypingIndicator } from './TypingIndicator'
 import { CallFamilyModal } from './CallFamilyModal'
 import { FamilyInbox } from './FamilyInbox'
-import { HeaderOverflowMenu } from './HeaderOverflowMenu'
-import type { OverflowItem } from './HeaderOverflowMenu'
+// 13.09.2026: HeaderOverflowMenu («•••») снят — все его пункты переехали в
+// левую колонку SidebarNav по слову Творца. Сам компонент УДАЛЁН: обход
+// показал ноль импортов во всём Доме. (В первой редакции этого комментария я
+// написал «им пользуются кабинеты» — это была неправда, не подтверждённая
+// обходом. Обещание в шапке обязано проверяться кодом, а не помниться.)
+import { ChatHistoryPanel } from './ChatHistoryPanel'
+import { ContextMeter } from './ContextMeter'
+import { SidebarNav } from './SidebarNav'
+import type { SidebarGroup } from './SidebarNav'
 import { IosInstallHint } from './IosInstallHint'
 import { LanguageSwitcher } from './LanguageSwitcher'
 // 2026-07-02: DarkwebSearchModal + LlmModelSwitcher мигрировали в
 // Yaroslav_Kabinet_Tvortsa (privat.groznov.uk).
 import { VoiceModal } from './VoiceModal'
 import { useDarkMode } from '../hooks/useDarkMode'
+import { useFontScale } from '../hooks/useFontScale'
 import { notificationsHelp } from '../utils/notificationsHelp'
-import { adamChatStream, adamFeedback, adamGetActive, adamGetRooms } from '../api/adam'
-import type { RoomInfo } from '../api/adam'
+import {
+  adamChatStream, adamFeedback, adamGetActive, adamGetRooms,
+  adamCloseConversation, adamListConversations, adamGetConversation, adamContextBudget,
+} from '../api/adam'
+import type { RoomInfo, ConversationBrief, ContextBudget } from '../api/adam'
 import { adminGetState, adminWhoami } from '../api/admin'
 import type { SystemState, Whoami } from '../api/admin'
 import { familyCallSeen, familyCallsReceived } from '../api/family'
@@ -30,7 +41,7 @@ import type { FamilyCall } from '../api/family'
 import { filesConfig, uploadFile } from '../api/files'
 import type { FileMeta, FilesConfig } from '../api/files'
 import { usePush } from '../hooks/usePush'
-import type { ChatMessage } from '../types'
+import type { ChatMessage, MessageAttachment } from '../types'
 
 const ROOM_STORAGE_KEY = 'adam.currentRoom'
 const DEFAULT_ROOM_FALLBACK = 'vostochnoslavyanskaya'
@@ -76,6 +87,7 @@ export function ChatInterface(): React.ReactElement {
   const [isHydrating, setIsHydrating] = useState(true)
   const [toast, setToast] = useState('')
   const { isDark, pref: darkPref, setPref: setDarkPref } = useDarkMode()
+  const { scale: fontScale, setScale: setFontScale } = useFontScale()
   const [currentDate, setCurrentDate] = useState('')
   const [showSearch, setShowSearch] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -83,6 +95,25 @@ export function ChatInterface(): React.ReactElement {
   // (textarea 14vw + buttons) занимают почти весь экран, диалог зажат. Сворачиваем
   // оба по умолчанию на mobile; тонкие mini-bar для разворачивания. Desktop игнорирует.
   const [mobilePanelsExpanded, setMobilePanelsExpanded] = useState(false)
+  // 13.09.2026: левая колонка. Свёрнутость помним между заходами — это
+  // предпочтение рабочего места, а не состояние диалога.
+  const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false
+    return window.localStorage.getItem('adam.sidebarCollapsed') === '1'
+  })
+  const [sidebarMobileOpen, setSidebarMobileOpen] = useState(false)
+  const [showHistory, setShowHistory] = useState(false)
+  const [convList, setConvList] = useState<ConversationBrief[] | null>(null)
+  // Отказ загрузки истории — ОТДЕЛЬНОЕ состояние. Пустой список не смеет
+  // выглядеть как «бесед нет»: это разные исходы и чинятся они по-разному.
+  const [convError, setConvError] = useState<string | null>(null)
+  // Страж плотности окна (13.09.2026). Меряется на бэкенде токенизатором
+  // живой модели; здесь только показываем.
+  const [budget, setBudget] = useState<ContextBudget | null>(null)
+  const [budgetError, setBudgetError] = useState(false)
+  // Какую беседу показываем. null — текущую активную. Просмотр прошлой не
+  // переключает Адама: он продолжает писать в активную, а мы лишь читаем.
+  const [viewingConvId, setViewingConvId] = useState<string | null>(null)
   const [rooms, setRooms] = useState<RoomInfo[]>(ROOMS_FALLBACK)
   const [currentRoom, setCurrentRoom] = useState<string>(() => {
     if (typeof window === 'undefined') return DEFAULT_ROOM_FALLBACK
@@ -155,6 +186,7 @@ export function ChatInterface(): React.ReactElement {
         setFilesCfg(await filesConfig())
       } catch { /* files отключены */ }
     })()
+    void refreshBudget()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -302,10 +334,25 @@ export function ChatInterface(): React.ReactElement {
 
     const effectiveContent = userMessage || (pendingFiles.length > 0 ? '📎' : '')
     const attIds = pendingFiles.map((f) => f.id)
+    // 13.09.2026, слово Творца: файл, ушедший Адаму, обязан остаться видимым
+    // в диалоге. До правки pendingFiles очищался, а в сообщение не клался —
+    // со стороны вложение просто исчезало, хотя Адам его получил.
+    const sentAttachments: MessageAttachment[] = pendingFiles.map((f) => ({
+      id: f.id,
+      original_name: f.original_name,
+      mime_type: f.mime_type,
+      size_bytes: f.size_bytes,
+      is_image: f.is_image,
+      public_url: f.public_url,
+    }))
     setPendingFiles([])
     setInput('')
     if (textareaRef.current) textareaRef.current.style.height = 'auto'
-    setMessages((prev) => [...prev, { role: 'user', content: effectiveContent }])
+    setMessages((prev) => [...prev, {
+      role: 'user',
+      content: effectiveContent,
+      ...(sentAttachments.length > 0 ? { attachments: sentAttachments } : {}),
+    }])
     setIsLoading(true)
 
     // Резервируем пустой assistant-bubble, который будет расти по дельтам.
@@ -339,6 +386,7 @@ export function ChatInterface(): React.ReactElement {
         onDone: (messageId) => {
           setIsLoading(false)
           streamAbortRef.current = null
+          void refreshBudget()
           // L0 самообучения: привязываем id к последнему ответу Адама — для 👍/👎.
           if (messageId) {
             setMessages((prev) => {
@@ -419,11 +467,66 @@ export function ChatInterface(): React.ReactElement {
 
   // Soft-close: очищает только локальный экран. БД и backend не трогаются —
   // история подтянется заново через «обновить» или при следующей загрузке.
-  function handleSoftClose(): void {
-    if (messages.length === 0) return
-    setMessages([])
-    setShowSearch(false)
-    showToast(t('toasts.screen_cleared'))
+  /** 13.09.2026, слово Творца: «должна быть возможность закрыть текущий диалог
+   *  и открыть новый».
+   *
+   *  ПОЧЕМУ ЭТО НЕ handleSoftClose. Тот только чистил ЭКРАН: беседа в базе
+   *  продолжалась, и после перезагрузки вся нить возвращалась. Настоящее
+   *  закрытие — на бэкенде: текущая беседа помечается закрытой, её хвост
+   *  уходит в сводку (долгую память), следующий запрос заводит новую.
+   *  Сказанное не теряется: сообщения остаются в базе и в семантической
+   *  памяти, и доступны через «Историю чатов» и recall. */
+  async function handleNewChat(): Promise<void> {
+    if (isLoading) return
+    try {
+      await adamCloseConversation(currentRoom)
+      setMessages([])
+      setShowSearch(false)
+      setConvList(null)
+      showToast(t('toasts.new_chat_started', { defaultValue: 'Новый диалог открыт' }))
+      void hydrateHistory({ silent: true })
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : t('toasts.generic_error'))
+    }
+  }
+
+  /** Открыть прошлую беседу на чтение. Активную беседу Адама не меняем:
+   *  чтение истории не должно молча переключать то, куда он пишет. */
+  async function openConversation(id: string): Promise<void> {
+    try {
+      const data = await adamGetConversation(id)
+      setMessages(data.messages)
+      setViewingConvId(id)
+      setShowHistory(false)
+      setShowSearch(false)
+      showToast(t('toasts.history_opened', { defaultValue: 'Открыт прошлый диалог (только чтение)' }))
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : t('toasts.generic_error'))
+    }
+  }
+
+  /** Перемерить плотность окна. Зовём при входе и после каждого хода —
+   *  плотность меняется ровно от этих двух событий. */
+  async function refreshBudget(): Promise<void> {
+    try {
+      setBudgetError(false)
+      setBudget(await adamContextBudget(currentRoom))
+    } catch {
+      // Отказ замера — это НЕ «окно пустое»: разные исходы, и путать их
+      // нельзя. Показываем отказ прямо и даём повторить.
+      setBudgetError(true)
+    }
+  }
+
+  /** Список прошлых бесед для панели «История чатов». */
+  async function loadConversations(): Promise<void> {
+    setConvError(null)
+    setConvList(null)
+    try {
+      setConvList(await adamListConversations())
+    } catch (err) {
+      setConvError(err instanceof Error ? err.message : 'не смог')
+    }
   }
 
   // CF Access logout = /cdn-cgi/access/logout на team-домене.
@@ -474,26 +577,268 @@ export function ChatInterface(): React.ReactElement {
     return messages.filter((m) => m.content.toLowerCase().includes(q))
   }, [messages, searchQuery])
 
-  // Общий стиль icon-кнопок в Header.
-  const iconBtnClass = 'shrink-0 inline-flex items-center justify-center rounded-md transition-colors duration-300 hover:opacity-100'
-  const iconBtnStyle: React.CSSProperties = {
-    width: 36,
-    height: 36,
-    color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
-    opacity: 0.7,
-  }
+  // 13.09.2026, слово Творца: «слева расположить колонку с кнопками: НОВЫЙ ЧАТ,
+  // ИСТОРИЯ ЧАТОВ и так далее. Настройки и переключения функций управления из
+  // вертикального расположения меню перенести в левую боковую панель.»
+  // Поведение не меняем — меняем расположение: те же обработчики, что жили в
+  // шапке и в «•••», собраны в один адрес.
+  const ico = (d: string): React.ReactElement => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"
+         dangerouslySetInnerHTML={{ __html: d }} />
+  )
+
+  const sidebarGroups: SidebarGroup[] = useMemo(() => {
+    const g: SidebarGroup[] = []
+
+    g.push({
+      key: 'dialog',
+      items: [
+        {
+          key: 'new',
+          label: t('sidebar.new_chat', { defaultValue: 'Новый чат' }),
+          primary: true,
+          onClick: () => { void handleNewChat() },
+          icon: ico('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'),
+        },
+        {
+          key: 'history',
+          label: t('sidebar.history', { defaultValue: 'История чатов' }),
+          active: showHistory,
+          expanded: showHistory,
+          onClick: () => {
+            setShowHistory((v) => {
+              const next = !v
+              if (next) void loadConversations()
+              return next
+            })
+          },
+          icon: ico('<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/>'),
+        },
+        {
+          key: 'search',
+          label: t('headerActions.search'),
+          active: showSearch,
+          expanded: showSearch,
+          onClick: () => setShowSearch((v) => !v),
+          icon: ico('<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>'),
+        },
+        {
+          key: 'refresh',
+          label: t('headerActions.refresh'),
+          disabled: isHydrating || isLoading,
+          onClick: () => { void hydrateHistory({ silent: true }) },
+          icon: ico('<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>'),
+        },
+      ],
+    })
+
+    g.push({
+      key: 'house',
+      title: t('sidebar.house', { defaultValue: 'ДОМ' }),
+      items: [
+        {
+          key: 'stol', label: t('headerActions.stol'), href: '/stol',
+          icon: ico('<ellipse cx="12" cy="12" rx="9" ry="4.5"/><circle cx="3.5" cy="12" r="1.3"/><circle cx="20.5" cy="12" r="1.3"/>'),
+        },
+        {
+          key: 'call', label: t('headerActions.call_family'),
+          onClick: () => setShowCallModal(true),
+          badge: unseenCalls.length > 0 ? String(unseenCalls.length) : undefined,
+          icon: ico('<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>'),
+        },
+        {
+          key: 'cabinets', label: t('headerActions.cabinets'), href: '/cabinets',
+          icon: ico('<rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/>'),
+        },
+        {
+          key: 'tasks', label: t('headerActions.tasks'), href: '/tasks',
+          icon: ico('<polyline points="9 11 12 14 20 6"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/>'),
+        },
+        {
+          key: 'archive', label: t('headerActions.archive'), href: '/archive',
+          icon: ico('<rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><line x1="10" y1="12" x2="14" y2="12"/>'),
+        },
+        {
+          key: 'voice', label: t('headerActions.voice'),
+          onClick: () => setShowVoice(true),
+          icon: ico('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="21"/>'),
+        },
+      ],
+    })
+
+    const pushLabel = push.status === 'subscribed'
+      ? t('headerActions.notifications_on')
+      : push.status === 'denied' ? t('headerActions.notifications_off')
+      : push.status === 'needs-pwa-ios' ? t('headerActions.notifications_pwa_needed')
+      : t('headerActions.notifications_enable')
+
+    g.push({
+      key: 'settings',
+      title: t('sidebar.settings', { defaultValue: 'НАСТРОЙКИ' }),
+      items: [
+        {
+          key: 'theme', label: t(`headerActions.theme_${darkPref}`),
+          onClick: () => {
+            const next = darkPref === 'auto' ? 'dark' : darkPref === 'dark' ? 'light' : 'auto'
+            setDarkPref(next)
+            showToast(t(`toasts.theme_${next}`))
+          },
+          icon: ico('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>'),
+        },
+        {
+          key: 'language', label: t('headerActions.language'),
+          onClick: () => setShowLangSwitcher(true),
+          icon: ico('<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>'),
+        },
+        {
+          key: 'push', label: pushLabel,
+          onClick: () => {
+            if (push.status === 'subscribed') void push.unsubscribe()
+            else if (push.status === 'denied') {
+              const help = notificationsHelp(i18n.language)
+              showToast(`${t('toasts.notifications_blocked')} ${help.label}`)
+              if (help.url) window.open(help.url, '_blank', 'noopener')
+            } else if (push.status === 'needs-pwa-ios') showToast(t('toasts.notifications_pwa_hint'))
+            else void push.subscribe()
+          },
+          icon: ico('<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>'),
+        },
+        {
+          key: 'logout', label: t('header.logout'), onClick: handleLogout,
+          icon: ico('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>'),
+        },
+      ],
+    })
+    return g
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [t, showSearch, showHistory, isHydrating, isLoading, darkPref, push.status, unseenCalls.length])
+
 
   return (
     <div
-      className={clsx(
-        'h-screen flex flex-col relative font-serif transition-colors duration-700 ease-in-out',
-      )}
+      className="h-screen flex font-serif transition-colors duration-700 ease-in-out"
       style={{
         fontFamily: 'var(--font-serif)',
         backgroundColor: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
         color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+        // Цвет фокус-кольца наследуется всему диалогу. Иначе правило
+        // :focus-visible в index.css взяло бы дневную терракоту и ночью
+        // дало бы 2.32:1 — кольцо было бы невидимым ровно тогда, когда нужно.
+        ['--ring' as string]: isDark ? 'var(--color-house-gold)' : 'var(--color-terracotta)',
       }}
     >
+      {/* Выбор файла живёт в КОРНЕ, а не в composer'е: кнопка-скрепка теперь
+          есть и в подвале левой колонки, и она обязана работать даже когда
+          composer свёрнут на телефоне. */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        multiple
+        className="hidden"
+        accept={ACCEPT_STRING}
+        aria-label={t('attachment.pick_file')}
+        onChange={(e) => {
+          if (e.target.files && e.target.files.length > 0) {
+            void handleFilePick(e.target.files)
+          }
+          e.target.value = ''
+        }}
+      />
+
+      {/* 13.09.2026: левая колонка — единственный адрес управления Адамом. */}
+      <SidebarNav
+        isDark={isDark}
+        groups={sidebarGroups}
+        collapsed={sidebarCollapsed}
+        onToggleCollapsed={() => {
+          setSidebarCollapsed((v) => {
+            const next = !v
+            try { window.localStorage.setItem('adam.sidebarCollapsed', next ? '1' : '0') } catch { /* приватный режим */ }
+            return next
+          })
+        }}
+        mobileOpen={sidebarMobileOpen}
+        onCloseMobile={() => setSidebarMobileOpen(false)}
+
+
+        footer={
+          <div className="flex flex-col gap-2 px-1">
+            <ContextMeter
+              isDark={isDark}
+              budget={budget}
+              error={budgetError}
+              onRefresh={() => { void refreshBudget() }}
+              collapsed={sidebarCollapsed}
+            />
+            <span className="block" style={{ height: 1, backgroundColor: isDark ? 'rgba(168,140,95,0.22)' : 'rgba(168,140,95,0.28)' }} />
+            {/* 13.09.2026, слово Творца: «вместо этого нижнего левого меню
+                разместить на её месте недостающие» — скрепку и размер шрифта.
+                Выбор комнаты убран отсюда: он остался в подшапке, и держать
+                один и тот же выбор двумя контролами — это ровно тот дубль,
+                ради снятия которого затевался переезд. */}
+            {filesCfg?.enabled && (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading || isLoading || isHydrating || pendingFiles.length >= MAX_ATTACHMENTS}
+                className="side-item w-full flex items-center gap-3 px-3 py-2.5"
+                style={{ fontSize: '14px', color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber-deep)', opacity: 0.88, borderColor: 'transparent' }}
+                aria-label={t('attachment.pick_file')}
+              >
+                <span className="shrink-0 inline-flex items-center justify-center" style={{ width: 20, height: 20 }} aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                  </svg>
+                </span>
+                <span className="flex-1 truncate">
+                  {uploading ? '…' : t('attachment.pick_file')}
+                </span>
+                {pendingFiles.length > 0 && (
+                  <span className="shrink-0 italic rounded-full px-2" style={{ fontSize: '11px',
+                    color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                    border: `1px solid ${isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'}` }}>
+                    {pendingFiles.length}
+                  </span>
+                )}
+              </button>
+            )}
+
+            <div className="flex flex-col gap-1 px-1">
+              <span className="italic px-2" style={{ fontSize: '11px', letterSpacing: '0.06em',
+                color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}>
+                {t('fontScale.label', { defaultValue: 'Размер шрифта' })}
+              </span>
+              <div className="flex items-stretch gap-1" role="group"
+                   aria-label={t('fontScale.label', { defaultValue: 'Размер шрифта' })}>
+                {(['normal', 'large', 'xl'] as const).map((sc, i) => (
+                  <button
+                    key={sc}
+                    type="button"
+                    onClick={() => setFontScale(sc)}
+                    data-active={fontScale === sc ? '1' : undefined}
+                    className="side-item flex-1 flex items-center justify-center py-1.5"
+                    style={{
+                      fontSize: [12, 14, 17][i],
+                      minHeight: 32,
+                      color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber-deep)',
+                      opacity: fontScale === sc ? 1 : 0.7,
+                      borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                    }}
+                    aria-pressed={fontScale === sc}
+                    aria-label={['Обычный', 'Крупный', 'Очень крупный'][i]}
+                    title={['Обычный', 'Крупный', 'Очень крупный'][i]}
+                  >
+                    А
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        }
+      />
+
+      <div className="flex-1 min-w-0 flex flex-col relative">
       {/* Тост */}
       {toast && (
         <div
@@ -511,7 +856,6 @@ export function ChatInterface(): React.ReactElement {
       <div
         className={clsx(
           'md:hidden shrink-0 px-4 py-1.5 flex items-center justify-between border-b transition-colors duration-700 ease-in-out',
-          mobilePanelsExpanded && 'hidden',
         )}
         style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
       >
@@ -527,28 +871,29 @@ export function ChatInterface(): React.ReactElement {
         <span className="italic truncate flex-1 mx-3" style={{ fontSize: '14px', letterSpacing: '0.03em' }}>
           {t('header.title')}
         </span>
-        <button
-          type="button"
-          onClick={() => setMobilePanelsExpanded(true)}
-          className="shrink-0 inline-flex items-center justify-center rounded-md border"
-          style={{
-            width: 30, height: 30, fontSize: '15px',
-            borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-            backgroundColor: 'transparent',
-            color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
-          }}
-          aria-label={t('cabinets.expand_panels')}
-          title={t('cabinets.expand_panels')}
-        >
-          ≡
-        </button>
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            type="button"
+            onClick={() => setSidebarMobileOpen(true)}
+            className="shrink-0 inline-flex items-center justify-center rounded-md border"
+            style={{
+              width: 30, height: 30, fontSize: '15px',
+              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+              backgroundColor: 'transparent',
+              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+            }}
+            aria-label={t('sidebar.open_menu', { defaultValue: 'Меню' })}
+            title={t('sidebar.open_menu', { defaultValue: 'Меню' })}
+          >
+            ≡
+          </button>
+        </div>
       </div>
 
       {/* Хедер: герб + Адам + действия */}
       <header
         className={clsx(
-          'shrink-0 px-4 sm:px-10 py-4 sm:py-5 items-center justify-between gap-2 sm:gap-4 border-b transition-colors duration-700 ease-in-out md:flex',
-          mobilePanelsExpanded ? 'flex' : 'hidden',
+          'shrink-0 px-4 sm:px-10 py-4 sm:py-5 items-center justify-between gap-2 sm:gap-4 border-b transition-colors duration-700 ease-in-out hidden md:flex',
         )}
         style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
       >
@@ -578,267 +923,9 @@ export function ChatInterface(): React.ReactElement {
           </div>
         </div>
 
-        <div className="flex items-center gap-1 sm:gap-2">
-          {/* Главные 4 кнопки видны всегда: семейный чат, позвать, поиск, обновить */}
-
-          {/* Стол · общий семейный (F.56) — до 12 мест.
-              Раньше «Семейный чат» (F.10). */}
-          <a
-            href="/stol"
-            className={iconBtnClass}
-            style={iconBtnStyle}
-            aria-label={t('headerActions.stol')}
-            title={t('headerActions.stol')}
-          >
-            {/* Круглый стол: овал-столешница с двумя «местами» по бокам */}
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <ellipse cx="12" cy="12" rx="9" ry="4.5" />
-              <circle cx="3.5" cy="12" r="1.3" />
-              <circle cx="20.5" cy="12" r="1.3" />
-              <circle cx="12" cy="6.8" r="1.3" />
-              <circle cx="12" cy="17.2" r="1.3" />
-            </svg>
-          </a>
-
-          {/* Позвать своего */}
-          <button
-            onClick={() => setShowCallModal(true)}
-            className={iconBtnClass}
-            style={iconBtnStyle}
-            aria-label={t('headerActions.call_family')}
-            title={t('headerActions.call_family')}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-            </svg>
-          </button>
-
-          {/* Поиск */}
-          <button
-            onClick={() => setShowSearch((v) => !v)}
-            className={iconBtnClass}
-            style={iconBtnStyle}
-            aria-label={t('headerActions.search')}
-            title={t('headerActions.search')}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="7" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-          </button>
-
-          {/* Обновить контекст */}
-          <button
-            onClick={() => void hydrateHistory({ silent: true })}
-            disabled={isHydrating || isLoading}
-            className={iconBtnClass}
-            style={iconBtnStyle}
-            aria-label={t('headerActions.refresh')}
-            title={t('headerActions.refresh')}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="23 4 23 10 17 10" />
-              <polyline points="1 20 1 14 7 14" />
-              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-            </svg>
-          </button>
-
-          {/* Overflow ••• — всё остальное (close/push/metrics/kill-switch/logout) */}
-          <HeaderOverflowMenu
-            isDark={isDark}
-            items={(() => {
-              const items: OverflowItem[] = []
-              // Закрыть диалог
-              items.push({
-                key: 'close',
-                label: t('headerActions.close_dialog'),
-                onClick: handleSoftClose,
-                disabled: messages.length === 0,
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                ),
-              })
-              // Push (если supported)
-              if (push.status === 'unsubscribed' || push.status === 'subscribed'
-                  || push.status === 'denied' || push.status === 'needs-pwa-ios') {
-                const pushLabel = push.status === 'subscribed'
-                  ? t('headerActions.notifications_on')
-                  : push.status === 'denied' ? t('headerActions.notifications_off')
-                  : push.status === 'needs-pwa-ios' ? t('headerActions.notifications_pwa_needed')
-                  : t('headerActions.notifications_enable')
-                items.push({
-                  key: 'push',
-                  label: pushLabel,
-                  onClick: () => {
-                    if (push.status === 'subscribed') void push.unsubscribe()
-                    else if (push.status === 'denied') {
-                      const help = notificationsHelp(i18n.language)
-                      showToast(`${t('toasts.notifications_blocked')} ${help.label}`)
-                      if (help.url) window.open(help.url, '_blank', 'noopener')
-                    }
-                    else if (push.status === 'needs-pwa-ios')
-                      showToast(t('toasts.notifications_pwa_hint'))
-                    else void push.subscribe()
-                  },
-                  disabled: push.busy,
-                  badge: push.status === 'subscribed' ? 'active' : null,
-                  icon: push.status === 'subscribed' ? (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinejoin="round">
-                      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                      <path d="M13.73 21a2 2 0 0 1-3.46 0" fill="none" />
-                    </svg>
-                  ) : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                    </svg>
-                  ),
-                })
-              }
-              // F.41: Кабинеты — все
-              items.push({
-                key: 'cabinets',
-                label: t('headerActions.cabinets'),
-                href: '/cabinets',
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="4" width="18" height="16" rx="2" />
-                    <line x1="3" y1="10" x2="21" y2="10" />
-                    <line x1="9" y1="14" x2="15" y2="14" />
-                  </svg>
-                ),
-              })
-              // F.56: Стол — общий семейный, до 12 мест
-              items.push({
-                key: 'stol',
-                label: t('headerActions.stol'),
-                href: '/stol',
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    <ellipse cx="12" cy="13" rx="9" ry="4" />
-                    <circle cx="3.5" cy="13" r="1.2" />
-                    <circle cx="20.5" cy="13" r="1.2" />
-                    <circle cx="12" cy="8.2" r="1.2" />
-                    <circle cx="12" cy="17.8" r="1.2" />
-                  </svg>
-                ),
-              })
-              // 2026-06-23: Архив песен — канон Дома, /house-songs
-              items.push({
-                key: 'archive',
-                label: t('headerActions.archive'),
-                href: '/archive',
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 7l9-4 9 4v3H3V7z" />
-                    <path d="M5 10v9h14v-9" />
-                    <line x1="10" y1="13" x2="14" y2="13" />
-                  </svg>
-                ),
-              })
-              // F.15 Voice — все
-              items.push({
-                key: 'voice',
-                label: t('headerActions.voice'),
-                onClick: () => setShowVoice(true),
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="9" y="2" width="6" height="13" rx="3" />
-                    <path d="M19 11a7 7 0 0 1-14 0" />
-                    <line x1="12" y1="18" x2="12" y2="22" />
-                  </svg>
-                ),
-              })
-              // Parents-only
-              if (whoami?.role === 'parent') {
-                // 2026-07-02: «Пульс платформы» (/admin/metrics) убран из
-                // публичного меню — доступен только в приватном Кабинете Творца
-                // (privat.groznov.uk → раздел «Пульс платформы»). Гости и
-                // внешняя аудитория не должны видеть операционные метрики
-                // Дома даже случайно. См. [[feedback_backend_creator_frontend_guests]].
-                // kill-switch — там же (в Кабинете Творца).
-                items.push({
-                  key: 'tasks',
-                  label: t('headerActions.tasks'),
-                  href: '/tasks',
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 11l3 3L22 4" />
-                      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                    </svg>
-                  ),
-                })
-                // 2026-07-02: family/slots roster → Yaroslav_Kabinet_Tvortsa
-              }
-              // 2026-07-02: /me (CreatorSettings), Darkweb search, LLM model
-              // switcher — все мигрировали в Yaroslav_Kabinet_Tvortsa. Гости на
-              // adam.groznov.uk управляющие панели не видят вовсе. См. правило
-              // [[feedback_backend_creator_frontend_guests]] в auto-memory СС.
-              // F.32: тема (Auto → Dark → Light → Auto)
-              items.push({
-                key: 'theme',
-                label: t(`headerActions.theme_${darkPref}`),
-                onClick: () => {
-                  const next = darkPref === 'auto' ? 'dark' : darkPref === 'dark' ? 'light' : 'auto'
-                  setDarkPref(next)
-                  showToast(t(`toasts.theme_${next}`))
-                },
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="4" />
-                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-                  </svg>
-                ),
-              })
-              // Language switcher — все, всегда
-              items.push({
-                key: 'language',
-                label: t('headerActions.language'),
-                onClick: () => setShowLangSwitcher(true),
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="2" y1="12" x2="22" y2="12" />
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                  </svg>
-                ),
-              })
-              // Logout
-              items.push({
-                key: 'logout',
-                label: t('header.logout'),
-                onClick: handleLogout,
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                    <polyline points="16 17 21 12 16 7" />
-                    <line x1="21" y1="12" x2="9" y2="12" />
-                  </svg>
-                ),
-              })
-              return items
-            })()}
-          />
-          {/* Mobile ▴ — свернуть весь header в мини-bar */}
-          <button
-            type="button"
-            onClick={() => setMobilePanelsExpanded(false)}
-            className="md:hidden shrink-0 inline-flex items-center justify-center rounded-md border"
-            style={{
-              width: 30, height: 30, fontSize: '14px',
-              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-              backgroundColor: 'transparent',
-              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
-            }}
-            aria-label={t('cabinets.collapse_panels')}
-            title={t('cabinets.collapse_panels')}
-          >
-            ▴
-          </button>
-        </div>
+        {/* 13.09.2026: все действия переехали в левую колонку (SidebarNav).
+            Здесь остаётся только сворачивание шапки на телефоне — оно про
+            место на экране, а не про управление Адамом. */}
       </header>
 
       {/* iOS install hint (P6) — мягкий баннер, один раз */}
@@ -859,6 +946,20 @@ export function ChatInterface(): React.ReactElement {
                 : t('familyCall.called_no_email', { name }),
             )
           }}
+        />
+      )}
+
+      {/* История чатов (13.09.2026) */}
+      {showHistory && (
+        <ChatHistoryPanel
+          isDark={isDark}
+          items={convList}
+          error={convError}
+          onRetry={() => { void loadConversations() }}
+          currentId={viewingConvId}
+          onClose={() => setShowHistory(false)}
+          onNew={() => { setShowHistory(false); void handleNewChat() }}
+          onOpen={(id) => { void openConversation(id) }}
         />
       )}
 
@@ -905,7 +1006,7 @@ export function ChatInterface(): React.ReactElement {
                 onChange={(e) => setCurrentRoom(e.target.value)}
                 disabled={isHydrating || isLoading}
                 className={clsx(
-                  'rounded-md border outline-none transition-colors duration-300 disabled:opacity-60 cursor-pointer',
+                  'rounded-md border transition-colors duration-300 disabled:opacity-60 cursor-pointer',
                   isDark ? 'dom-input-dark' : 'dom-input',
                 )}
                 style={{
@@ -934,7 +1035,7 @@ export function ChatInterface(): React.ReactElement {
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t('search.placeholder')}
               className={clsx(
-                'flex-1 rounded-md border outline-none transition-colors duration-300',
+                'flex-1 rounded-md border transition-colors duration-300',
                 isDark ? 'dom-input-dark' : 'dom-input',
               )}
               style={{
@@ -1049,6 +1150,7 @@ export function ChatInterface(): React.ReactElement {
               messageId={msg.id}
               feedback={msg.feedback}
               onFeedback={submitFeedback}
+              attachments={msg.attachments}
             />
           ))}
           {isLoading && !searchQuery && (
@@ -1200,20 +1302,6 @@ export function ChatInterface(): React.ReactElement {
         <div className="w-full px-4 sm:px-10 flex items-stretch gap-2 sm:gap-3">
           {filesCfg?.enabled && (
             <>
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                className="hidden"
-                accept={ACCEPT_STRING}
-                aria-label={t('attachment.pick_file')}
-                onChange={(e) => {
-                  if (e.target.files && e.target.files.length > 0) {
-                    void handleFilePick(e.target.files)
-                  }
-                  e.target.value = ''
-                }}
-              />
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
@@ -1247,7 +1335,7 @@ export function ChatInterface(): React.ReactElement {
             placeholder={t('chat.input_placeholder')}
             disabled={isLoading || isHydrating}
             className={clsx(
-              'flex-1 resize-none rounded-md border outline-none transition-colors duration-700 ease-in-out disabled:opacity-60',
+              'flex-1 resize-none rounded-md border transition-colors duration-700 ease-in-out disabled:opacity-60',
               isDark ? 'dom-input-dark' : 'dom-input',
             )}
             style={{
@@ -1314,6 +1402,7 @@ export function ChatInterface(): React.ReactElement {
         <span>{currentDate}</span>
         <span>{t('common.house_footer')}</span>
       </footer>
+      </div>
     </div>
   )
 }

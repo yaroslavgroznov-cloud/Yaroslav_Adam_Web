@@ -7,7 +7,7 @@
 // на adam-api.groznov.uk (с inject X-Adam-User-Email + X-Adam-Proxy-Secret).
 //
 // Same-origin — один OTP на adam.groznov.uk покрывает всё, iOS Safari работает.
-import type { ChatMessage, AdamChatResponse } from '../types'
+import type { ChatMessage, AdamChatResponse, MessageAttachment } from '../types'
 
 const BASE = (import.meta.env.VITE_ADAM_API_BASE as string | undefined) ?? ''
 
@@ -34,6 +34,24 @@ interface RawActiveMessage {
   content: string
   id?: string
   rating?: 1 | -1 | null
+  // 13.09.2026: вложения этого сообщения (связь 0067). Бэкенд всегда шлёт
+  // массив; пустой — «к этому сообщению файлов не привязано».
+  attachments?: MessageAttachment[]
+}
+
+/** Краткая карточка беседы для панели «История чатов». */
+export interface ConversationBrief {
+  id: string
+  room: string
+  started_at: string
+  last_message_at: string
+  message_count: number
+  /** Первая реплика пользователя — заголовок карточки. */
+  preview: string
+  /** Текущая ли это беседа (в неё пишем). */
+  is_active: boolean
+  /** Есть ли сводка — значит хвост уже в долгой памяти. */
+  has_summary: boolean
 }
 
 export async function adamGetActive(room?: string): Promise<ActiveConversationResponse> {
@@ -57,6 +75,7 @@ export async function adamGetActive(room?: string): Promise<ActiveConversationRe
       content: m.content,
       id: m.id,
       feedback: m.rating ?? null,
+      ...(m.attachments && m.attachments.length > 0 ? { attachments: m.attachments } : {}),
     })),
   }
 }
@@ -224,4 +243,79 @@ export async function adamHealthRequest(): Promise<{ status: string; sprint: str
   const res = await fetch(`${BASE}/adam/health`, { credentials: 'include' })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return res.json()
+}
+
+
+/** Закрыть текущую беседу и открыть новую (слово Творца 13.09.2026).
+ *
+ *  Сказанное не пропадает: сообщения остаются в базе и в семантической памяти,
+ *  а хвост беседы уходит в сводку — «долгую память» Адама. Закрытая беседа
+ *  видна в «Истории чатов».
+ */
+export async function adamCloseConversation(room?: string): Promise<{ closed_id: string | null }> {
+  const res = await fetch(`${BASE}/adam/conversations/close`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(room ? { room } : {}),
+  })
+  if (!res.ok) {
+    let detail = `HTTP ${res.status}`
+    try {
+      const j = await res.json()
+      if (j && typeof j.detail === 'string') detail = j.detail
+    } catch { /* not json */ }
+    throw new Error(detail)
+  }
+  return (await res.json()) as { closed_id: string | null }
+}
+
+/** Список бесед пользователя — свежие сверху. */
+export async function adamListConversations(): Promise<ConversationBrief[]> {
+  const res = await fetch(`${BASE}/adam/conversations`, { credentials: 'include' })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  const j = (await res.json()) as { conversations: ConversationBrief[] }
+  return j.conversations
+}
+
+/** Сообщения одной беседы — для просмотра из «Истории чатов». */
+export async function adamGetConversation(id: string): Promise<ActiveConversationResponse> {
+  const res = await fetch(`${BASE}/adam/conversations/${encodeURIComponent(id)}`, {
+    credentials: 'include',
+  })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  const raw = (await res.json()) as { conversation_id: string; messages: RawActiveMessage[] }
+  return {
+    conversation_id: raw.conversation_id,
+    messages: raw.messages.map((m) => ({
+      role: m.role,
+      content: m.content,
+      id: m.id,
+      feedback: m.rating ?? null,
+      ...(m.attachments && m.attachments.length > 0 ? { attachments: m.attachments } : {}),
+    })),
+  }
+}
+
+
+/** Плотность окна диалога — из чего сложен ход Адама прямо сейчас. */
+export interface ContextBudgetPart { key: string; label: string; tokens: number }
+export interface ContextBudget {
+  total: number
+  limit: number
+  percent: number
+  parts: ContextBudgetPart[]
+  model: string
+  counted_by: string
+  messages_after_summary: number
+  messages_in_summary: number
+}
+
+export async function adamContextBudget(room?: string): Promise<ContextBudget> {
+  const url = room
+    ? `${BASE}/adam/context/budget?room=${encodeURIComponent(room)}`
+    : `${BASE}/adam/context/budget`
+  const res = await fetch(url, { credentials: 'include' })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return (await res.json()) as ContextBudget
 }

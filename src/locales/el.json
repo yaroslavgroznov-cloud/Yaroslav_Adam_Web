@@ -138,7 +138,6 @@
   "headerActions": {
     "search": "Αναζήτηση",
     "refresh": "Ανανέωση",
-    "close_dialog": "Κλείσιμο διαλόγου",
     "call_family": "Κάλεσε τους δικούς σου",
     "family_chat": "Οικογενειακή συνομιλία",
     "notifications_on": "Ειδοποιήσεις ενεργές",
@@ -412,14 +411,15 @@
   "toasts": {
     "context_refreshed": "Το πλαίσιο ανανεώθηκε.",
     "context_load_failed": "Δεν σήκωσα το ιστορικό.",
-    "screen_cleared": "Καθάρισα την οθόνη. Το ιστορικό μένει, πάτα ↻ για επαναφορά.",
     "notifications_blocked": "Οι ειδοποιήσεις είναι φραγμένες. Ενεργοποίησέ τις στις ρυθμίσεις.",
     "notifications_pwa_hint": "Στο iPhone: «Share» → «Add to Home Screen», άνοιξε ως εφαρμογή.",
     "generic_error": "Κάτι πήγε στραβά.",
     "theme_auto": "Θέμα: αυτόματο (κατά ώρα)",
     "theme_dark": "Θέμα: νύχτα",
     "theme_light": "Θέμα: μέρα",
-    "notifications_open_settings": "Άνοιξε τις οδηγίες"
+    "notifications_open_settings": "Άνοιξε τις οδηγίες",
+    "new_chat_started": "Άνοιξε νέος διάλογος.",
+    "history_opened": "Άνοιξε παλιός διάλογος — μόνο ανάγνωση."
   },
   "pricing": {
     "page_title": "Γραφεία Αδάμ — τιμές",
@@ -1051,5 +1051,12 @@
       "confirmed": "συμβ. · Bitcoin",
       "failed": "συμβ. · απέτυχε"
     }
+  },
+  "sidebar": {
+    "new_chat": "Νέα συνομιλία",
+    "history": "Ιστορικό συνομιλιών",
+    "house": "Σπίτι",
+    "settings": "Ρυθμίσεις",
+    "open_menu": "Μενού"
   }
 }

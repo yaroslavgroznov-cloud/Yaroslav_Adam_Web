@@ -138,7 +138,6 @@
   "headerActions": {
     "search": "חיפוש",
     "refresh": "רענון",
-    "close_dialog": "סגירת השיחה",
     "call_family": "קריאה לבני הבית",
     "family_chat": "צ׳אט משפחתי",
     "notifications_on": "התראות פעילות",
@@ -412,14 +411,15 @@
   "toasts": {
     "context_refreshed": "ההקשר רוענן.",
     "context_load_failed": "לא ניתן להעלות היסטוריה.",
-    "screen_cleared": "המסך נוקה. ההיסטוריה שמורה, לחץ ↻ להחזרה.",
     "notifications_blocked": "ההתראות חסומות. הפעל בהגדרות הדפדפן.",
     "notifications_pwa_hint": "ב-iPhone: «Share» → «Add to Home Screen», פתח כאפליקציה.",
     "generic_error": "משהו השתבש.",
     "theme_auto": "ערכת נושא: אוטו (לפי שעה)",
     "theme_dark": "ערכת נושא: לילה",
     "theme_light": "ערכת נושא: יום",
-    "notifications_open_settings": "פתח הוראות"
+    "notifications_open_settings": "פתח הוראות",
+    "new_chat_started": "שיחה חדשה נפתחה.",
+    "history_opened": "שיחה קודמת נפתחה — לקריאה בלבד."
   },
   "pricing": {
     "page_title": "חדרי אדם — מחירים",
@@ -1051,5 +1051,12 @@
       "confirmed": "נוטריון · Bitcoin",
       "failed": "נוטריון · נכשל"
     }
+  },
+  "sidebar": {
+    "new_chat": "שיחה חדשה",
+    "history": "היסטוריית שיחות",
+    "house": "הבית",
+    "settings": "הגדרות",
+    "open_menu": "תפריט"
   }
 }

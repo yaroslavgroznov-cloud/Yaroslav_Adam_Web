@@ -138,7 +138,6 @@
   "headerActions": {
     "search": "खोज",
     "refresh": "ताज़ा करो",
-    "close_dialog": "संवाद बंद करो",
     "call_family": "अपनों को बुलाओ",
     "family_chat": "पारिवारिक चैट",
     "notifications_on": "सूचनाएँ चालू",
@@ -412,14 +411,15 @@
   "toasts": {
     "context_refreshed": "संदर्भ ताज़ा हो गया।",
     "context_load_failed": "इतिहास नहीं उठा सका।",
-    "screen_cleared": "स्क्रीन साफ़। इतिहास सुरक्षित है, ↻ दबाओ वापस लाने के लिए।",
     "notifications_blocked": "सूचनाएँ अवरुद्ध हैं। ब्राउज़र सेटिंग्स में चालू करो।",
     "notifications_pwa_hint": "iPhone पर: «Share» → «Add to Home Screen», ऐप की तरह खोलो।",
     "generic_error": "कुछ गड़बड़ हो गई।",
     "theme_auto": "रूप: स्वचालित (घड़ी से)",
     "theme_dark": "रूप: रात",
     "theme_light": "रूप: दिन",
-    "notifications_open_settings": "निर्देश खोलो"
+    "notifications_open_settings": "निर्देश खोलो",
+    "new_chat_started": "नई बातचीत शुरू हो गई।",
+    "history_opened": "पिछली बातचीत खुली — केवल पढ़ने के लिए।"
   },
   "pricing": {
     "page_title": "आदम के कक्ष — शुल्क",
@@ -1051,5 +1051,12 @@
       "confirmed": "नोटरी · Bitcoin",
       "failed": "नोटरी · विफल"
     }
+  },
+  "sidebar": {
+    "new_chat": "नई बातचीत",
+    "history": "बातचीत का इतिहास",
+    "house": "घर",
+    "settings": "सेटिंग्स",
+    "open_menu": "मेन्यू"
   }
 }

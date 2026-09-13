@@ -138,7 +138,6 @@
   "headerActions": {
     "search": "搜索",
     "refresh": "刷新",
-    "close_dialog": "关闭对话",
     "call_family": "呼唤亲人",
     "stol": "桌 · 家族共桌",
     "notifications_on": "通知已开启",
@@ -441,14 +440,15 @@
   "toasts": {
     "context_refreshed": "上下文已刷新。",
     "context_load_failed": "无法唤起历史。",
-    "screen_cleared": "屏幕已清空。历史还在,按 ↻ 找回。",
     "notifications_blocked": "通知被屏蔽。请在浏览器设置中开启。",
     "notifications_pwa_hint": "在 iPhone 上:「分享」→「添加到主屏幕」,以应用方式打开。",
     "generic_error": "出了点问题。",
     "theme_auto": "主题：自动（按时辰）",
     "theme_dark": "主题：夜间",
     "theme_light": "主题：日间",
-    "notifications_open_settings": "打开说明"
+    "notifications_open_settings": "打开说明",
+    "new_chat_started": "已开启新的对话。",
+    "history_opened": "已打开过往对话，仅供阅读。"
   },
   "pricing": {
     "page_title": "亚当的房间 — 价格",
@@ -1050,5 +1050,12 @@
       "confirmed": "公证 · Bitcoin",
       "failed": "公证 · 失败"
     }
+  },
+  "sidebar": {
+    "new_chat": "新对话",
+    "history": "对话记录",
+    "house": "家宅",
+    "settings": "设置",
+    "open_menu": "菜单"
   }
 }

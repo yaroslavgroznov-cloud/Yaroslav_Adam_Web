@@ -138,7 +138,6 @@
   "headerActions": {
     "search": "Поиск",
     "refresh": "Обновить",
-    "close_dialog": "Закрыть диалог",
     "call_family": "Позвать своего",
     "stol": "Стол · общий семейный",
     "notifications_on": "Уведомления включены",
@@ -444,14 +443,15 @@
   "toasts": {
     "context_refreshed": "Контекст обновлён.",
     "context_load_failed": "Не удалось поднять историю.",
-    "screen_cleared": "Экран очищен. История цела, нажми ↻ чтобы вернуть.",
     "notifications_blocked": "Уведомления заблокированы. Включи в настройках браузера.",
     "notifications_pwa_hint": "На iPhone: «Поделиться» → «На экран Домой», открой как приложение.",
     "generic_error": "Что-то пошло не так.",
     "theme_auto": "Тема: авто (по часу)",
     "theme_dark": "Тема: ночь",
     "theme_light": "Тема: день",
-    "notifications_open_settings": "Открыть инструкцию"
+    "notifications_open_settings": "Открыть инструкцию",
+    "new_chat_started": "Новый диалог открыт.",
+    "history_opened": "Открыт прошлый диалог — только чтение."
   },
   "pricing": {
     "page_title": "Кабинеты Адама — цены",
@@ -1053,5 +1053,12 @@
       "confirmed": "нотариат · Bitcoin",
       "failed": "нотариат · ошибка"
     }
+  },
+  "sidebar": {
+    "new_chat": "Новый чат",
+    "history": "История чатов",
+    "house": "Дом",
+    "settings": "Настройки",
+    "open_menu": "Меню"
   }
 }

@@ -8,6 +8,8 @@
 // Работает одинаково в light/dark теме через isDark prop.
 import React from 'react'
 
+import type { MessageAttachment } from '../types'
+
 interface MessageBubbleProps {
   role: 'user' | 'assistant'
   content: string
@@ -20,12 +22,66 @@ interface MessageBubbleProps {
   feedback?: 1 | -1 | null
   /** Клик по 👍/👎. rating: 1 или -1 (повторный клик по активному — снимает). */
   onFeedback?: (messageId: string, rating: 1 | -1) => void
+  /** 13.09.2026: файлы, прикреплённые К ЭТОМУ сообщению. Показываются внутри
+   *  пузыря и НЕ исчезают после отправки — слово Творца. */
+  attachments?: MessageAttachment[]
+}
+
+/** Чипы вложений внутри пузыря. Картинка — превью, прочее — имя файла.
+ *  Ссылка открывается только если бэкенд отдал public_url; иначе чип немой,
+ *  но видимый: пропасть из диалога он не должен в любом случае. */
+function AttachmentChips(
+  { items, isDark }: { items: MessageAttachment[]; isDark: boolean },
+): React.ReactElement {
+  return (
+    <div className="flex flex-wrap gap-1.5 mb-2">
+      {items.map((a) => {
+        const chip = (
+          <span
+            className="italic rounded-md border inline-flex items-center gap-1.5"
+            style={{
+              fontSize: '12px',
+              padding: '3px 8px',
+              maxWidth: '220px',
+              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+              backgroundColor: isDark ? 'rgba(168,140,95,0.18)' : 'rgba(168,140,95,0.12)',
+            }}
+            title={a.original_name}
+          >
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {a.is_image ? '🖼' : '📎'} {a.original_name}
+            </span>
+          </span>
+        )
+        if (a.is_image && a.public_url) {
+          return (
+            <a key={a.id} href={a.public_url} target="_blank" rel="noreferrer"
+               className="block" style={{ lineHeight: 0 }}>
+              <img
+                src={a.public_url}
+                alt={a.original_name}
+                className="rounded-md border object-cover"
+                style={{
+                  maxWidth: 160, maxHeight: 160,
+                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                }}
+              />
+            </a>
+          )
+        }
+        return a.public_url
+          ? <a key={a.id} href={a.public_url} target="_blank" rel="noreferrer">{chip}</a>
+          : <span key={a.id}>{chip}</span>
+      })}
+    </div>
+  )
 }
 
 export function MessageBubble({
   role, content, isDark = false, adamLabel = 'Адам',
-  messageId, feedback, onFeedback,
+  messageId, feedback, onFeedback, attachments,
 }: MessageBubbleProps): React.ReactElement {
+  const hasAtt = !!attachments && attachments.length > 0
   if (role === 'user') {
     return (
       <div className="flex justify-end mb-3">
@@ -44,7 +100,8 @@ export function MessageBubble({
               : 'var(--color-terracotta)',
           }}
         >
-          {content}
+          {hasAtt && <AttachmentChips items={attachments!} isDark={isDark} />}
+          {content === '📎' && hasAtt ? null : content}
         </div>
       </div>
     )

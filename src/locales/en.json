@@ -138,7 +138,6 @@
   "headerActions": {
     "search": "Search",
     "refresh": "Refresh",
-    "close_dialog": "Close dialog",
     "call_family": "Call your kin",
     "stol": "Table · family",
     "notifications_on": "Notifications on",
@@ -444,14 +443,15 @@
   "toasts": {
     "context_refreshed": "Context refreshed.",
     "context_load_failed": "Could not raise the history.",
-    "screen_cleared": "Screen cleared. History is intact, press ↻ to bring it back.",
     "notifications_blocked": "Notifications are blocked. Enable them in browser settings.",
     "notifications_pwa_hint": "On iPhone: «Share» → «Add to Home Screen», open as an app.",
     "generic_error": "Something went wrong.",
     "theme_auto": "Theme: auto (by hour)",
     "theme_dark": "Theme: night",
     "theme_light": "Theme: day",
-    "notifications_open_settings": "Open instructions"
+    "notifications_open_settings": "Open instructions",
+    "new_chat_started": "New dialog opened.",
+    "history_opened": "Past dialog opened — read only."
   },
   "pricing": {
     "page_title": "Adam's cabinets — pricing",
@@ -1053,5 +1053,12 @@
       "confirmed": "notary · Bitcoin",
       "failed": "notary · failed"
     }
+  },
+  "sidebar": {
+    "new_chat": "New chat",
+    "history": "Chat history",
+    "house": "House",
+    "settings": "Settings",
+    "open_menu": "Menu"
   }
 }

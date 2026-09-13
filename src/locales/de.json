@@ -138,7 +138,6 @@
   "headerActions": {
     "search": "Suche",
     "refresh": "Aktualisieren",
-    "close_dialog": "Dialog schließen",
     "call_family": "Die Deinen rufen",
     "family_chat": "Familienchat",
     "notifications_on": "Benachrichtigungen an",
@@ -343,14 +342,15 @@
   "toasts": {
     "context_refreshed": "Kontext aktualisiert.",
     "context_load_failed": "Konnte den Verlauf nicht holen.",
-    "screen_cleared": "Bildschirm geleert. Verlauf bleibt, drücke ↻ zum Zurückholen.",
     "notifications_blocked": "Benachrichtigungen blockiert. Aktiviere sie in den Browser-Einstellungen.",
     "notifications_pwa_hint": "Auf dem iPhone: „Teilen“ → „Zum Home-Bildschirm“, als App öffnen.",
     "generic_error": "Etwas ging schief.",
     "theme_auto": "Design: auto (nach Stunde)",
     "theme_dark": "Design: Nacht",
     "theme_light": "Design: Tag",
-    "notifications_open_settings": "Anleitung öffnen"
+    "notifications_open_settings": "Anleitung öffnen",
+    "new_chat_started": "Neuer Dialog eröffnet.",
+    "history_opened": "Früherer Dialog geöffnet — nur Lesen."
   },
   "stol": {
     "adam_listens_silently": "hört still zu",
@@ -1051,5 +1051,12 @@
       "confirmed": "Notarisierung · Bitcoin",
       "failed": "Notarisierung · fehlgeschlagen"
     }
+  },
+  "sidebar": {
+    "new_chat": "Neuer Chat",
+    "history": "Chat-Verlauf",
+    "house": "Haus",
+    "settings": "Einstellungen",
+    "open_menu": "Menü"
   }
 }

@@ -138,7 +138,6 @@
   "headerActions": {
     "search": "Szukaj",
     "refresh": "Odśwież",
-    "close_dialog": "Zamknij dialog",
     "call_family": "Zawołaj swoich",
     "stol": "Stół · wspólny rodzinny",
     "notifications_on": "Powiadomienia włączone",
@@ -467,14 +466,15 @@
   "toasts": {
     "context_refreshed": "Kontekst odswiezony.",
     "context_load_failed": "Nie udalo sie podniesc historii.",
-    "screen_cleared": "Ekran wyczyszczony. Historia cala — nacisnij ↻, by ja przywrocic.",
     "notifications_blocked": "Powiadomienia zablokowane. Wlacz je w ustawieniach przegladarki.",
     "notifications_pwa_hint": "Na iPhonie: «Udostepnij» → «Dodaj do ekranu domowego», otworz jako aplikacje.",
     "generic_error": "Cos poszlo nie tak.",
     "theme_auto": "Motyw: auto (wg godziny)",
     "theme_dark": "Motyw: noc",
     "theme_light": "Motyw: dzien",
-    "notifications_open_settings": "Otworz instrukcje"
+    "notifications_open_settings": "Otworz instrukcje",
+    "new_chat_started": "Nowy dialog otwarty.",
+    "history_opened": "Otwarto miniony dialog — tylko do odczytu."
   },
   "familyInbox": {
     "calling_you": "{{name}} przyzywa cie",
@@ -1038,5 +1038,12 @@
       "confirmed": "notarialne · Bitcoin",
       "failed": "notarialne · błąd"
     }
+  },
+  "sidebar": {
+    "new_chat": "Nowy czat",
+    "history": "Historia czatów",
+    "house": "Dom",
+    "settings": "Ustawienia",
+    "open_menu": "Menu"
   }
 }
