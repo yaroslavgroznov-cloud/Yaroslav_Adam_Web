@@ -782,19 +782,28 @@ export function ChatInterface(): React.ReactElement {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading || isLoading || isHydrating || pendingFiles.length >= MAX_ATTACHMENTS}
-                className="side-item w-full flex items-center gap-3 px-3 py-2.5"
+                className={clsx('side-item w-full flex items-center gap-3 py-2.5',
+                  sidebarCollapsed ? 'justify-center px-0 side-tip' : 'px-3')}
                 style={{ fontSize: '14px', color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber-deep)', opacity: 0.88, borderColor: 'transparent' }}
                 aria-label={t('attachment.pick_file')}
+                data-tip={sidebarCollapsed ? t('attachment.pick_file') : undefined}
+                onMouseEnter={(e) => {
+                  if (!sidebarCollapsed) return
+                  const r = e.currentTarget.getBoundingClientRect()
+                  e.currentTarget.style.setProperty('--tip-y', `${r.top + r.height / 2}px`)
+                }}
               >
                 <span className="shrink-0 inline-flex items-center justify-center" style={{ width: 20, height: 20 }} aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                   </svg>
                 </span>
-                <span className="flex-1 truncate">
-                  {uploading ? '…' : t('attachment.pick_file')}
-                </span>
-                {pendingFiles.length > 0 && (
+                {!sidebarCollapsed && (
+                  <span className="flex-1 truncate">
+                    {uploading ? '…' : t('attachment.pick_file')}
+                  </span>
+                )}
+                {pendingFiles.length > 0 && !sidebarCollapsed && (
                   <span className="shrink-0 italic rounded-full px-2" style={{ fontSize: '11px',
                     color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
                     border: `1px solid ${isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'}` }}>
@@ -805,11 +814,13 @@ export function ChatInterface(): React.ReactElement {
             )}
 
             <div className="flex flex-col gap-1 px-1">
+              {!sidebarCollapsed && (
               <span className="italic px-2" style={{ fontSize: '11px', letterSpacing: '0.06em',
                 color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}>
                 {t('fontScale.label', { defaultValue: 'Размер шрифта' })}
               </span>
-              <div className="flex items-stretch gap-1" role="group"
+              )}
+              <div className={clsx('flex gap-1', sidebarCollapsed ? 'flex-col items-stretch' : 'items-stretch')} role="group"
                    aria-label={t('fontScale.label', { defaultValue: 'Размер шрифта' })}>
                 {(['normal', 'large', 'xl'] as const).map((sc, i) => (
                   <button

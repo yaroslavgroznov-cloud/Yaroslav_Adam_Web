@@ -59,15 +59,11 @@ interface SidebarNavProps {
   onCloseMobile: () => void
   /** Низ колонки: выбор комнаты. */
   footer?: React.ReactNode
-  /** Подпись выбранной комнаты — показывается вместо подвала, когда свёрнуто. */
-  footerHint?: string
-  /** Развернуть колонку и увести фокус в подвал (клик по иконке комнаты). */
-  onExpandToFooter?: () => void
 }
 
 export function SidebarNav({
   isDark, groups, collapsed, onToggleCollapsed, mobileOpen, onCloseMobile,
-  footer, footerHint, onExpandToFooter,
+  footer,
 }: SidebarNavProps): React.ReactElement {
   const border = isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)'
   const fg = isDark ? 'var(--color-pergament-light)' : 'var(--color-umber-deep)'
@@ -198,7 +194,7 @@ export function SidebarNav({
         backgroundColor: bg, borderColor: border, color: fg,
         width: vYashchike ? 'min(300px, 86vw)' : undefined,
       }}
-      aria-label={footerHint ? `Меню Адама, комната: ${footerHint}` : 'Меню Адама'}
+      aria-label="Меню Адама"
     >
       <div
         className={clsx('flex items-center gap-2 border-b shrink-0',
@@ -282,30 +278,12 @@ export function SidebarNav({
 
       {footer && (
         <div className="shrink-0 border-t px-2 py-3 flex flex-col gap-2" style={{ borderColor: border }}>
-          {uzko ? (
-            // Выбор комнаты — не украшение: терять его при сворачивании нельзя.
-            <button
-              type="button"
-              onClick={onExpandToFooter}
-              className="side-item side-tip w-full flex items-center justify-center py-2.5"
-              style={{ color: fg, opacity: 0.88, borderColor: 'transparent' }}
-              data-tip={footerHint ? `Комната: ${footerHint}` : 'Комната'}
-              aria-label={footerHint ? `Комната: ${footerHint}` : 'Комната'}
-              onMouseEnter={(e) => {
-                const r = e.currentTarget.getBoundingClientRect()
-                e.currentTarget.style.setProperty('--tip-y', `${r.top + r.height / 2}px`)
-              }}
-              onFocus={(e) => {
-                const r = e.currentTarget.getBoundingClientRect()
-                e.currentTarget.style.setProperty('--tip-y', `${r.top + r.height / 2}px`)
-              }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M3 10.5 12 3l9 7.5" /><path d="M5 9.8V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.8" />
-              </svg>
-            </button>
-          ) : footer}
+          {/* В узкой колонке подвал НЕ исчезает и не подменяется чужой
+              иконкой: 13.09 Творец сказал прямо — «скрепку не вижу». Прежняя
+              редакция рисовала здесь выбор комнаты, который к тому же уехал
+              в подшапку, и кнопка осталась мёртвой. Теперь узкий режим —
+              это тот же подвал, только без подписей. */}
+          {footer}
         </div>
       )}
     </nav>
