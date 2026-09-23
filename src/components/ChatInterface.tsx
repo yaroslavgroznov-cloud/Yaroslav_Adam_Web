@@ -41,7 +41,8 @@ import type { FamilyCall } from '../api/family'
 import { filesConfig, uploadFile } from '../api/files'
 import type { FileMeta, FilesConfig } from '../api/files'
 import { usePush } from '../hooks/usePush'
-import type { ChatMessage, MessageAttachment } from '../types'
+import type { ChatMessage, HodMysliSobytie, MessageAttachment } from '../types'
+import { HodMysli } from './HodMysli'
 
 const ROOM_STORAGE_KEY = 'adam.currentRoom'
 const DEFAULT_ROOM_FALLBACK = 'vostochnoslavyanskaya'
@@ -84,6 +85,8 @@ export function ChatInterface(): React.ReactElement {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  // 23.09.2026: живой ход мысли текущего хода (до и во время ответа).
+  const [liveMysli, setLiveMysli] = useState<HodMysliSobytie[]>([])
   const [isHydrating, setIsHydrating] = useState(true)
   const [toast, setToast] = useState('')
   const { isDark, pref: darkPref, setPref: setDarkPref } = useDarkMode()
@@ -359,9 +362,31 @@ export function ChatInterface(): React.ReactElement {
     // Первый токен → isLoading=false (TypingIndicator уходит, появляется текст).
     let firstDeltaSeen = false
     let assistantStarted = false
+    // 23.09.2026: цепочка мыслей этого хода. Живёт в окне, пока Адам думает,
+    // и уходит в сообщение вместе с первым словом ответа.
+    let mysli: HodMysliSobytie[] = []
+    setLiveMysli([])
 
     await new Promise<void>((resolve) => {
       const abort = adamChatStream(effectiveContent, currentRoom, {
+        onMysl: (evt) => {
+          const posl = mysli[mysli.length - 1]
+          if (evt.type === 'reasoning' && posl && posl.type === 'reasoning' && posl.shag === evt.shag) {
+            mysli = [...mysli.slice(0, -1), { ...posl, text: posl.text + evt.text }]
+          } else {
+            mysli = [...mysli, evt]
+          }
+          if (!assistantStarted) {
+            setLiveMysli(mysli)
+          } else {
+            setMessages((prev) => {
+              const next = prev.slice()
+              const last = next[next.length - 1]
+              if (last && last.role === 'assistant') next[next.length - 1] = { ...last, hod_mysli: mysli }
+              return next
+            })
+          }
+        },
         onDelta: (text) => {
           // Пустые delta — SSE-heartbeat (B2, не-Anthropic+tools держат соединение
           // каждые 15с): не гасим TypingIndicator и не создаём пустой bubble.
@@ -373,18 +398,20 @@ export function ChatInterface(): React.ReactElement {
           setMessages((prev) => {
             if (!assistantStarted) {
               assistantStarted = true
-              return [...prev, { role: 'assistant', content: text }]
+              setLiveMysli([])
+              return [...prev, { role: 'assistant', content: text, hod_mysli: mysli.length ? mysli : null }]
             }
             const next = prev.slice()
             const last = next[next.length - 1]
             if (last && last.role === 'assistant') {
-              next[next.length - 1] = { role: 'assistant', content: last.content + text }
+              next[next.length - 1] = { ...last, content: last.content + text }
             }
             return next
           })
         },
         onDone: (messageId) => {
           setIsLoading(false)
+          setLiveMysli([])
           streamAbortRef.current = null
           void refreshBudget()
           // L0 самообучения: привязываем id к последнему ответу Адама — для 👍/👎.
@@ -402,6 +429,7 @@ export function ChatInterface(): React.ReactElement {
         },
         onError: (detail) => {
           setIsLoading(false)
+          setLiveMysli([])
           streamAbortRef.current = null
           showToast(detail || t('toasts.generic_error'))
           // Если ничего не успело прийти — убираем пустой assistant bubble.
@@ -1162,11 +1190,18 @@ export function ChatInterface(): React.ReactElement {
               feedback={msg.feedback}
               onFeedback={submitFeedback}
               attachments={msg.attachments}
+              hodMysli={msg.hod_mysli}
             />
           ))}
           {isLoading && !searchQuery && (
             <div className="flex items-center gap-3">
-              <TypingIndicator />
+              {liveMysli.length > 0 ? (
+                <div className="flex justify-start mb-3" style={{ maxWidth: '78%', flex: 1 }}>
+                  <HodMysli items={liveMysli} isDark={isDark} live />
+                </div>
+              ) : (
+                <TypingIndicator />
+              )}
               <button
                 onClick={handleCancelStream}
                 className="italic underline underline-offset-4 decoration-1 transition-opacity hover:opacity-100"

@@ -1100,5 +1100,16 @@
     "parts_history": "Riwayat utuh",
     "by_tokenizer": "tokenizer model",
     "by_estimate": "perkiraan dari kepadatan"
+  },
+  "hodMysli": {
+    "title": "Alur pikiran",
+    "live": "Adam sedang menalar",
+    "steps": "langkah: {{count}}",
+    "tools": "alat: {{list}}",
+    "chars": "{{n}} karakter",
+    "error": "galat",
+    "show": "tampilkan",
+    "hide": "sembunyikan",
+    "step": "Langkah {{n}}"
   }
 }

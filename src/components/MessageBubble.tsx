@@ -8,7 +8,8 @@
 // Работает одинаково в light/dark теме через isDark prop.
 import React from 'react'
 
-import type { MessageAttachment } from '../types'
+import type { HodMysliSobytie, MessageAttachment } from '../types'
+import { HodMysli } from './HodMysli'
 
 interface MessageBubbleProps {
   role: 'user' | 'assistant'
@@ -25,6 +26,8 @@ interface MessageBubbleProps {
   /** 13.09.2026: файлы, прикреплённые К ЭТОМУ сообщению. Показываются внутри
    *  пузыря и НЕ исчезают после отправки — слово Творца. */
   attachments?: MessageAttachment[]
+  /** 23.09.2026: ход мысли Адама — свёрнутая цепочка над ответом. */
+  hodMysli?: HodMysliSobytie[] | null
 }
 
 /** Чипы вложений внутри пузыря. Картинка — превью, прочее — имя файла.
@@ -79,7 +82,7 @@ function AttachmentChips(
 
 export function MessageBubble({
   role, content, isDark = false, adamLabel = 'Адам',
-  messageId, feedback, onFeedback, attachments,
+  messageId, feedback, onFeedback, attachments, hodMysli,
 }: MessageBubbleProps): React.ReactElement {
   const hasAtt = !!attachments && attachments.length > 0
   if (role === 'user') {
@@ -120,6 +123,7 @@ export function MessageBubble({
         >
           ✦ {adamLabel}
         </p>
+        {hodMysli && hodMysli.length > 0 && <HodMysli items={hodMysli} isDark={isDark} />}
         <div
           className="px-4 py-3 rounded-2xl border text-base whitespace-pre-wrap"
           style={{

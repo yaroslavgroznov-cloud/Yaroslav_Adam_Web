@@ -1088,5 +1088,16 @@
     "parts_history": "Żywa historia",
     "by_tokenizer": "tokenizer modelu",
     "by_estimate": "szacunek po gęstości"
+  },
+  "hodMysli": {
+    "title": "Tok myślenia",
+    "live": "Adam rozważa",
+    "steps": "kroki: {{count}}",
+    "tools": "narzędzia: {{list}}",
+    "chars": "{{n}} zn.",
+    "error": "błąd",
+    "show": "pokaż",
+    "hide": "zwiń",
+    "step": "Krok {{n}}"
   }
 }

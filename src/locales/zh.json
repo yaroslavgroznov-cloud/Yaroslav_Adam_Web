@@ -1100,5 +1100,16 @@
     "parts_history": "鲜活对话",
     "by_tokenizer": "模型分词器",
     "by_estimate": "按密度估算"
+  },
+  "hodMysli": {
+    "title": "思路",
+    "live": "亚当正在思考",
+    "steps": "步骤：{{count}}",
+    "tools": "工具：{{list}}",
+    "chars": "{{n}} 字符",
+    "error": "错误",
+    "show": "展开",
+    "hide": "收起",
+    "step": "第 {{n}} 步"
   }
 }

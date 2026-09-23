@@ -1103,5 +1103,16 @@
     "parts_history": "Live history",
     "by_tokenizer": "the model's tokenizer",
     "by_estimate": "a density estimate"
+  },
+  "hodMysli": {
+    "title": "Train of thought",
+    "live": "Adam is reasoning",
+    "steps": "steps: {{count}}",
+    "tools": "tools: {{list}}",
+    "chars": "{{n}} chars",
+    "error": "error",
+    "show": "show",
+    "hide": "hide",
+    "step": "Step {{n}}"
   }
 }

@@ -7,7 +7,7 @@
 // на adam-api.groznov.uk (с inject X-Adam-User-Email + X-Adam-Proxy-Secret).
 //
 // Same-origin — один OTP на adam.groznov.uk покрывает всё, iOS Safari работает.
-import type { ChatMessage, AdamChatResponse, MessageAttachment } from '../types'
+import type { ChatMessage, AdamChatResponse, HodMysliSobytie, MessageAttachment } from '../types'
 
 const BASE = (import.meta.env.VITE_ADAM_API_BASE as string | undefined) ?? ''
 
@@ -111,6 +111,8 @@ export async function adamGetRooms(): Promise<RoomsResponse> {
 
 export interface StreamCallbacks {
   onDelta: (text: string) => void
+  /** 23.09.2026: ход мысли — размышления и шаги инструментов, до ответа. */
+  onMysl?: (evt: HodMysliSobytie) => void
   // L0: message_id ассистентского сообщения приходит в событии 'done'.
   onDone: (messageId?: string) => void
   onError: (detail: string) => void
@@ -192,13 +194,24 @@ export function adamChatStream(
           buffer = buffer.slice(sep + 2)
           if (!frame.startsWith('data: ')) continue
           const json = frame.slice(6)
-          let evt: { type?: string; text?: string; detail?: string; message_id?: string | null }
+          let evt: {
+            type?: string; text?: string; detail?: string; message_id?: string | null
+            shag?: number; imya?: string; ok?: boolean
+          }
           try {
             evt = JSON.parse(json)
           } catch {
             continue
           }
-          if (evt.type === 'delta' && typeof evt.text === 'string') {
+          if (evt.type === 'reasoning' || evt.type === 'tool' || evt.type === 'tool_result') {
+            // Сервер уже работает над ходом: повтор после этого отправил бы
+            // вопрос второй раз — поэтому мысль считается «первым знаком».
+            firstDeltaSeen = true
+            cb.onMysl?.({
+              type: evt.type, text: evt.text ?? '', shag: evt.shag ?? 0,
+              imya: evt.imya, ok: evt.ok,
+            })
+          } else if (evt.type === 'delta' && typeof evt.text === 'string') {
             firstDeltaSeen = true
             cb.onDelta(evt.text)
           } else if (evt.type === 'done') {

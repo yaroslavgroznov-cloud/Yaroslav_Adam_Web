@@ -1100,5 +1100,16 @@
     "parts_history": "Canlı geçmiş",
     "by_tokenizer": "modelin tokenleştiricisi",
     "by_estimate": "yoğunluğa göre tahmin"
+  },
+  "hodMysli": {
+    "title": "Düşünce akışı",
+    "live": "Adam düşünüyor",
+    "steps": "adım: {{count}}",
+    "tools": "araçlar: {{list}}",
+    "chars": "{{n}} karakter",
+    "error": "hata",
+    "show": "göster",
+    "hide": "gizle",
+    "step": "Adım {{n}}"
   }
 }

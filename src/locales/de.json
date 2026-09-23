@@ -1101,5 +1101,16 @@
     "parts_history": "Lebendiger Verlauf",
     "by_tokenizer": "der Tokenizer des Modells",
     "by_estimate": "Schätzung nach Dichte"
+  },
+  "hodMysli": {
+    "title": "Gedankengang",
+    "live": "Adam überlegt",
+    "steps": "Schritte: {{count}}",
+    "tools": "Werkzeuge: {{list}}",
+    "chars": "{{n}} Zeichen",
+    "error": "Fehler",
+    "show": "anzeigen",
+    "hide": "einklappen",
+    "step": "Schritt {{n}}"
   }
 }

@@ -1,8 +1,19 @@
 // Adam Mobile Interface — типы. Sprint D unification, 2026-05-24.
 
+/** 23.09.2026: одно событие хода мысли Адама (размышление или шаг инструмента). */
+export interface HodMysliSobytie {
+  type: 'reasoning' | 'tool' | 'tool_result'
+  text: string
+  shag: number
+  imya?: string
+  ok?: boolean
+}
+
 export interface ChatMessage {
   role: 'user' | 'assistant'
   content: string
+  /** 23.09.2026, слово Творца: цепочка рассуждений видна в диалоге. */
+  hod_mysli?: HodMysliSobytie[] | null
   // L0 самообучения (2026-07-04): id ассистентского сообщения (для 👍/👎)
   // и локальное состояние оценки.
   id?: string

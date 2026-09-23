@@ -1101,5 +1101,16 @@
     "parts_history": "Historique vivant",
     "by_tokenizer": "le tokeniseur du modèle",
     "by_estimate": "une estimation par densité"
+  },
+  "hodMysli": {
+    "title": "Fil de la pensée",
+    "live": "Adam réfléchit",
+    "steps": "étapes : {{count}}",
+    "tools": "outils : {{list}}",
+    "chars": "{{n}} car.",
+    "error": "erreur",
+    "show": "afficher",
+    "hide": "replier",
+    "step": "Étape {{n}}"
   }
 }
