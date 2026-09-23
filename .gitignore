@@ -34,3 +34,5 @@ dist-ssr
 .env.*
 !.env.production
 !.env.example
+.claude-flow/
+.swarm/
