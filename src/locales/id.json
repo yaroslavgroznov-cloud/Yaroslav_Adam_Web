@@ -1110,6 +1110,10 @@
     "error": "galat",
     "show": "tampilkan",
     "hide": "sembunyikan",
-    "step": "Langkah {{n}}"
+    "step": "Langkah {{n}}",
+    "toksPerSec": "{{n}} tok/s",
+    "answerRate": "jawaban · {{n}} tok/s",
+    "toksCount": "{{n}} tok",
+    "answerToks": "jawaban · {{n}} tok"
   }
 }

@@ -43,6 +43,7 @@ import type { FileMeta, FilesConfig } from '../api/files'
 import { usePush } from '../hooks/usePush'
 import type { ChatMessage, HodMysliSobytie, MessageAttachment } from '../types'
 import { HodMysli } from './HodMysli'
+import { createStreamRateMeter } from '../lib/streamRate'
 
 const ROOM_STORAGE_KEY = 'adam.currentRoom'
 const DEFAULT_ROOM_FALLBACK = 'vostochnoslavyanskaya'
@@ -87,6 +88,11 @@ export function ChatInterface(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(false)
   // 23.09.2026: живой ход мысли текущего хода (до и во время ответа).
   const [liveMysli, setLiveMysli] = useState<HodMysliSobytie[]>([])
+  // 24.09.2026: скорость (ток/с) и накопление токенов — рассуждение и ответ раздельно.
+  const [liveReasonRate, setLiveReasonRate] = useState(0)
+  const [liveReasonToks, setLiveReasonToks] = useState(0)
+  const [liveAnswerRate, setLiveAnswerRate] = useState(0)
+  const [liveAnswerToks, setLiveAnswerToks] = useState(0)
   const [isHydrating, setIsHydrating] = useState(true)
   const [toast, setToast] = useState('')
   const { isDark, pref: darkPref, setPref: setDarkPref } = useDarkMode()
@@ -366,6 +372,12 @@ export function ChatInterface(): React.ReactElement {
     // и уходит в сообщение вместе с первым словом ответа.
     let mysli: HodMysliSobytie[] = []
     setLiveMysli([])
+    setLiveReasonRate(0)
+    setLiveReasonToks(0)
+    setLiveAnswerRate(0)
+    setLiveAnswerToks(0)
+    const reasonMeter = createStreamRateMeter()
+    const answerMeter = createStreamRateMeter()
 
     await new Promise<void>((resolve) => {
       const abort = adamChatStream(effectiveContent, currentRoom, {
@@ -375,6 +387,11 @@ export function ChatInterface(): React.ReactElement {
             mysli = [...mysli.slice(0, -1), { ...posl, text: posl.text + evt.text }]
           } else {
             mysli = [...mysli, evt]
+          }
+          if (evt.type === 'reasoning' && evt.text) {
+            const snap = reasonMeter.note(evt.text)
+            setLiveReasonToks(snap.toks)
+            setLiveReasonRate(snap.toksPerSec)
           }
           if (!assistantStarted) {
             setLiveMysli(mysli)
@@ -391,6 +408,9 @@ export function ChatInterface(): React.ReactElement {
           // Пустые delta — SSE-heartbeat (B2, не-Anthropic+tools держат соединение
           // каждые 15с): не гасим TypingIndicator и не создаём пустой bubble.
           if (text.length === 0) return
+          const snap = answerMeter.note(text)
+          setLiveAnswerToks(snap.toks)
+          setLiveAnswerRate(snap.toksPerSec)
           if (!firstDeltaSeen) {
             firstDeltaSeen = true
             setIsLoading(false)
@@ -412,6 +432,10 @@ export function ChatInterface(): React.ReactElement {
         onDone: (messageId) => {
           setIsLoading(false)
           setLiveMysli([])
+          setLiveReasonRate(0)
+          setLiveReasonToks(0)
+          setLiveAnswerRate(0)
+          setLiveAnswerToks(0)
           streamAbortRef.current = null
           void refreshBudget()
           // L0 самообучения: привязываем id к последнему ответу Адама — для 👍/👎.
@@ -430,6 +454,10 @@ export function ChatInterface(): React.ReactElement {
         onError: (detail) => {
           setIsLoading(false)
           setLiveMysli([])
+          setLiveReasonRate(0)
+          setLiveReasonToks(0)
+          setLiveAnswerRate(0)
+          setLiveAnswerToks(0)
           streamAbortRef.current = null
           showToast(detail || t('toasts.generic_error'))
           // Если ничего не успело прийти — убираем пустой assistant bubble.
@@ -471,6 +499,11 @@ export function ChatInterface(): React.ReactElement {
     abort()
     streamAbortRef.current = null
     setIsLoading(false)
+    setLiveMysli([])
+    setLiveReasonRate(0)
+    setLiveReasonToks(0)
+    setLiveAnswerRate(0)
+    setLiveAnswerToks(0)
     setMessages((prev) => {
       if (prev.length === 0) return prev
       const last = prev[prev.length - 1]
@@ -1197,7 +1230,13 @@ export function ChatInterface(): React.ReactElement {
             <div className="flex items-center gap-3">
               {liveMysli.length > 0 ? (
                 <div className="flex justify-start mb-3" style={{ maxWidth: '78%', flex: 1 }}>
-                  <HodMysli items={liveMysli} isDark={isDark} live />
+                  <HodMysli
+                    items={liveMysli}
+                    isDark={isDark}
+                    live
+                    toksCount={liveReasonToks}
+                    toksPerSec={liveReasonRate}
+                  />
                 </div>
               ) : (
                 <TypingIndicator />
@@ -1215,6 +1254,15 @@ export function ChatInterface(): React.ReactElement {
               >
                 {t('chat.interrupt')}
               </button>
+            </div>
+          )}
+          {!isLoading && liveAnswerToks > 0 && (
+            <div
+              className="text-xs italic opacity-60 mb-2 tabular-nums"
+              style={{ color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
+            >
+              {t('hodMysli.answerToks', { n: liveAnswerToks })}
+              {liveAnswerRate > 0 ? ` · ${t('hodMysli.toksPerSec', { n: liveAnswerRate })}` : ''}
             </div>
           )}
           <div ref={messagesEndRef} />

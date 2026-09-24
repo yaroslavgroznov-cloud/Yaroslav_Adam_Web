@@ -1111,6 +1111,10 @@
     "error": "שגיאה",
     "show": "הצג",
     "hide": "כווץ",
-    "step": "צעד {{n}}"
+    "step": "צעד {{n}}",
+    "toksPerSec": "{{n}} tok/s",
+    "answerRate": "תשובה · {{n}} tok/s",
+    "toksCount": "{{n}} tok",
+    "answerToks": "תשובה · {{n}} tok"
   }
 }

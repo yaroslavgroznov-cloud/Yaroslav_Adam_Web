@@ -1113,6 +1113,10 @@
     "error": "error",
     "show": "show",
     "hide": "hide",
-    "step": "Step {{n}}"
+    "step": "Step {{n}}",
+    "toksPerSec": "{{n}} tok/s",
+    "answerRate": "answer · {{n}} tok/s",
+    "toksCount": "{{n}} tok",
+    "answerToks": "answer · {{n}} tok"
   }
 }

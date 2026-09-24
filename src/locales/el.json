@@ -1111,6 +1111,10 @@
     "error": "σφάλμα",
     "show": "εμφάνιση",
     "hide": "σύμπτυξη",
-    "step": "Βήμα {{n}}"
+    "step": "Βήμα {{n}}",
+    "toksPerSec": "{{n}} tok/s",
+    "answerRate": "απάντηση · {{n}} tok/s",
+    "toksCount": "{{n}} tok",
+    "answerToks": "απάντηση · {{n}} tok"
   }
 }

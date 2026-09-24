@@ -1111,6 +1111,10 @@
     "error": "त्रुटि",
     "show": "दिखाएँ",
     "hide": "छिपाएँ",
-    "step": "चरण {{n}}"
+    "step": "चरण {{n}}",
+    "toksPerSec": "{{n}} tok/s",
+    "answerRate": "उत्तर · {{n}} tok/s",
+    "toksCount": "{{n}} tok",
+    "answerToks": "उत्तर · {{n}} tok"
   }
 }

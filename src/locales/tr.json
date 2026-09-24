@@ -1110,6 +1110,10 @@
     "error": "hata",
     "show": "göster",
     "hide": "gizle",
-    "step": "Adım {{n}}"
+    "step": "Adım {{n}}",
+    "toksPerSec": "{{n}} tok/s",
+    "answerRate": "yanıt · {{n}} tok/s",
+    "toksCount": "{{n}} tok",
+    "answerToks": "yanıt · {{n}} tok"
   }
 }

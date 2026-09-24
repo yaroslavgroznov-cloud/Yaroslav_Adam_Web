@@ -1111,6 +1111,10 @@
     "error": "Fehler",
     "show": "anzeigen",
     "hide": "einklappen",
-    "step": "Schritt {{n}}"
+    "step": "Schritt {{n}}",
+    "toksPerSec": "{{n}} Tok/s",
+    "answerRate": "Antwort · {{n}} Tok/s",
+    "toksCount": "{{n}} Tok",
+    "answerToks": "Antwort · {{n}} Tok"
   }
 }

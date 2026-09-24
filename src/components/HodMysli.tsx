@@ -16,9 +16,13 @@ interface Props {
   items: HodMysliSobytie[]
   isDark: boolean
   live?: boolean
+  /** 24.09.2026: живая скорость рассуждения (ток/с), только в live. */
+  toksPerSec?: number
+  /** 24.09.2026: накоплено токенов рассуждения, только в live. */
+  toksCount?: number
 }
 
-export function HodMysli({ items, isDark, live = false }: Props): React.ReactElement | null {
+export function HodMysli({ items, isDark, live = false, toksPerSec, toksCount }: Props): React.ReactElement | null {
   const { t } = useTranslation()
   const [open, setOpen] = useState(live)
   const niz = useRef<HTMLDivElement | null>(null)
@@ -32,6 +36,8 @@ export function HodMysli({ items, isDark, live = false }: Props): React.ReactEle
   const instr = Array.from(new Set(items.filter((i) => i.type === 'tool' && i.imya).map((i) => i.imya!)))
   const cvet = isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)'
   const fon = isDark ? 'rgba(168,140,95,0.10)' : 'rgba(168,140,95,0.08)'
+  const showToks = live && typeof toksCount === 'number' && toksCount > 0
+  const showRate = live && typeof toksPerSec === 'number' && toksPerSec > 0
 
   return (
     <div className="mb-2" style={{ fontSize: '13px', color: cvet }}>
@@ -47,6 +53,12 @@ export function HodMysli({ items, isDark, live = false }: Props): React.ReactEle
           <span className="adam-bounce" aria-hidden>…</span>
         )}
         <span className="opacity-70">· {t('hodMysli.steps', { count: shagov })}</span>
+        {showToks && (
+          <span className="opacity-70 tabular-nums">· {t('hodMysli.toksCount', { n: toksCount })}</span>
+        )}
+        {showRate && (
+          <span className="opacity-70 tabular-nums">· {t('hodMysli.toksPerSec', { n: toksPerSec })}</span>
+        )}
         {instr.length > 0 && (
           <span className="opacity-70">· {t('hodMysli.tools', { list: instr.join(', ') })}</span>
         )}

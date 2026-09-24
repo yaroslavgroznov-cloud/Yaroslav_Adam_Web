@@ -1098,6 +1098,10 @@
     "error": "błąd",
     "show": "pokaż",
     "hide": "zwiń",
-    "step": "Krok {{n}}"
+    "step": "Krok {{n}}",
+    "toksPerSec": "{{n}} tok/s",
+    "answerRate": "odpowiedź · {{n}} tok/s",
+    "toksCount": "{{n}} tok",
+    "answerToks": "odpowiedź · {{n}} tok"
   }
 }

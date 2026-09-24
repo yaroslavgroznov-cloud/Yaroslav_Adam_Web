@@ -1110,6 +1110,10 @@
     "error": "错误",
     "show": "展开",
     "hide": "收起",
-    "step": "第 {{n}} 步"
+    "step": "第 {{n}} 步",
+    "toksPerSec": "{{n}} tok/s",
+    "answerRate": "回答 · {{n}} tok/s",
+    "toksCount": "{{n}} tok",
+    "answerToks": "回答 · {{n}} tok"
   }
 }
