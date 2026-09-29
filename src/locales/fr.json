@@ -57,7 +57,21 @@
     "interrupt": "interrompre",
     "interrupt_marker": " …(interrompu par toi)",
     "ptr_pull": "Tire plus bas…",
-    "ptr_ready": "Lâche — je rafraîchis le fil"
+    "ptr_ready": "Lâche — je rafraîchis le fil",
+    "copy": "Copier",
+    "copied": "Copié",
+    "copy_code": "Copier le code",
+    "regenerate": "Autre version",
+    "variant": "Version {{n}} sur {{total}}",
+    "prev_variant": "Version précédente",
+    "next_variant": "Version suivante",
+    "actions": "Actions sur la réponse",
+    "good": "Bonne réponse",
+    "bad": "Mauvaise réponse",
+    "stop": "Arrêter",
+    "scroll_down": "Aller au dernier message",
+    "role_user": "Toi",
+    "role_adam": "Adam"
   },
   "frozen": {
     "title": "Adam se repose",
@@ -237,7 +251,9 @@
     "theme_light": "Thème : jour",
     "notifications_open_settings": "Ouvrir les instructions",
     "new_chat_started": "Nouveau dialogue ouvert.",
-    "history_opened": "Dialogue passé ouvert — lecture seule."
+    "history_opened": "Dialogue passé ouvert — lecture seule.",
+    "dialog_copied": "Conversation copiée dans le presse-papiers",
+    "copy_failed": "Impossible de copier"
   },
   "stol": {
     "title": "la Table",
@@ -1065,7 +1081,9 @@
     "font_size": "Taille du texte",
     "font_normal": "Normale",
     "font_large": "Grande",
-    "font_xl": "Très grande"
+    "font_xl": "Très grande",
+    "copy_dialog": "Copier la conversation",
+    "download_dialog": "Télécharger la conversation (.md)"
   },
   "history": {
     "title": "Historique des dialogues",

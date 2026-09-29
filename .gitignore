@@ -36,3 +36,4 @@ dist-ssr
 !.env.example
 .claude-flow/
 .swarm/
+ruvector.db

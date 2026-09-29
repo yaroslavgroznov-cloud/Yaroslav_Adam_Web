@@ -264,7 +264,21 @@
     "interrupt": "interrupt",
     "interrupt_marker": " …(interrupted by you)",
     "ptr_pull": "Pull lower…",
-    "ptr_ready": "Release — I'll refresh the thread"
+    "ptr_ready": "Release — I'll refresh the thread",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copy_code": "Copy code",
+    "regenerate": "Another version",
+    "variant": "Version {{n}} of {{total}}",
+    "prev_variant": "Previous version",
+    "next_variant": "Next version",
+    "actions": "Answer actions",
+    "good": "Good answer",
+    "bad": "Bad answer",
+    "stop": "Stop",
+    "scroll_down": "Jump to latest",
+    "role_user": "You",
+    "role_adam": "Adam"
   },
   "frozen": {
     "title": "Adam is resting",
@@ -451,7 +465,9 @@
     "theme_light": "Theme: day",
     "notifications_open_settings": "Open instructions",
     "new_chat_started": "New dialog opened.",
-    "history_opened": "Past dialog opened — read only."
+    "history_opened": "Past dialog opened — read only.",
+    "dialog_copied": "Conversation copied to clipboard",
+    "copy_failed": "Could not copy"
   },
   "pricing": {
     "page_title": "Adam's cabinets — pricing",
@@ -1067,7 +1083,9 @@
     "font_size": "Text size",
     "font_normal": "Normal",
     "font_large": "Large",
-    "font_xl": "Extra large"
+    "font_xl": "Extra large",
+    "copy_dialog": "Copy conversation",
+    "download_dialog": "Download conversation (.md)"
   },
   "history": {
     "title": "Chat history",

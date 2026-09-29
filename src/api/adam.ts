@@ -7,7 +7,7 @@
 // на adam-api.groznov.uk (с inject X-Adam-User-Email + X-Adam-Proxy-Secret).
 //
 // Same-origin — один OTP на adam.groznov.uk покрывает всё, iOS Safari работает.
-import type { ChatMessage, AdamChatResponse, HodMysliSobytie, MessageAttachment } from '../types'
+import type { ChatMessage, AdamChatResponse, HodMysliSobytie, MessageAttachment, MessageVariant } from '../types'
 
 const BASE = (import.meta.env.VITE_ADAM_API_BASE as string | undefined) ?? ''
 
@@ -37,6 +37,25 @@ interface RawActiveMessage {
   // 13.09.2026: вложения этого сообщения (связь 0067). Бэкенд всегда шлёт
   // массив; пустой — «к этому сообщению файлов не привязано».
   attachments?: MessageAttachment[]
+  // 23.09.2026: ход мысли. Бэкенд отдаёт его с 23.09, но до 29.09 здесь поле
+  // не читалось — и цепочка пропадала после перезагрузки, хотя лежала в базе.
+  hod_mysli?: HodMysliSobytie[] | null
+  // 29.09.2026: прежние варианты ответа.
+  varianty?: MessageVariant[]
+}
+
+/** Одно сообщение из сырого ответа — в вид окна. Общая для активной беседы и
+ *  просмотра прошлой: разные копии маппинга уже однажды разошлись. */
+function toChatMessage(m: RawActiveMessage): ChatMessage {
+  return {
+    role: m.role,
+    content: m.content,
+    id: m.id,
+    feedback: m.rating ?? null,
+    ...(m.attachments && m.attachments.length > 0 ? { attachments: m.attachments } : {}),
+    ...(m.hod_mysli && m.hod_mysli.length > 0 ? { hod_mysli: m.hod_mysli } : {}),
+    ...(m.varianty && m.varianty.length > 0 ? { varianty: m.varianty } : {}),
+  }
 }
 
 /** Краткая карточка беседы для панели «История чатов». */
@@ -68,16 +87,7 @@ export async function adamGetActive(room?: string): Promise<ActiveConversationRe
     throw new Error(detail)
   }
   const raw = (await res.json()) as { conversation_id: string; messages: RawActiveMessage[] }
-  return {
-    conversation_id: raw.conversation_id,
-    messages: raw.messages.map((m) => ({
-      role: m.role,
-      content: m.content,
-      id: m.id,
-      feedback: m.rating ?? null,
-      ...(m.attachments && m.attachments.length > 0 ? { attachments: m.attachments } : {}),
-    })),
-  }
+  return { conversation_id: raw.conversation_id, messages: raw.messages.map(toChatMessage) }
 }
 
 export async function adamChatRequest(
@@ -138,6 +148,10 @@ export async function adamFeedback(
 export interface StreamOptions {
   retries?: number          // макс число ретраев (default 2)
   retryBackoffMs?: number   // base backoff (default 1000) — 1s, 2s, 4s...
+  /** 29.09.2026: «другой вариант» — id ответа Адама, который сказать иначе.
+   *  Вопрос бэкенд берёт из базы; повтор до первого знака безопасен: вопрос
+   *  заново не пишется. */
+  regenerateId?: string
 }
 
 // SSE-стрим ответа Адама. Парсит "data: {json}\n\n" события.
@@ -159,6 +173,7 @@ export function adamChatStream(
   const body: Record<string, unknown> = { content }
   if (room) body.room = room
   if (attachmentIds && attachmentIds.length > 0) body.attachment_ids = attachmentIds
+  if (opts.regenerateId) body.regenerate_id = opts.regenerateId
 
   let attempt = 0
 
@@ -298,16 +313,7 @@ export async function adamGetConversation(id: string): Promise<ActiveConversatio
   })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   const raw = (await res.json()) as { conversation_id: string; messages: RawActiveMessage[] }
-  return {
-    conversation_id: raw.conversation_id,
-    messages: raw.messages.map((m) => ({
-      role: m.role,
-      content: m.content,
-      id: m.id,
-      feedback: m.rating ?? null,
-      ...(m.attachments && m.attachments.length > 0 ? { attachments: m.attachments } : {}),
-    })),
-  }
+  return { conversation_id: raw.conversation_id, messages: raw.messages.map(toChatMessage) }
 }
 
 

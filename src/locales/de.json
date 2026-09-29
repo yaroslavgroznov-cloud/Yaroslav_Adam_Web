@@ -170,7 +170,21 @@
     "interrupt": "unterbrechen",
     "interrupt_marker": " …(von dir unterbrochen)",
     "ptr_pull": "Zieh weiter nach unten…",
-    "ptr_ready": "Loslassen — ich aktualisiere den Faden"
+    "ptr_ready": "Loslassen — ich aktualisiere den Faden",
+    "copy": "Kopieren",
+    "copied": "Kopiert",
+    "copy_code": "Code kopieren",
+    "regenerate": "Andere Fassung",
+    "variant": "Fassung {{n}} von {{total}}",
+    "prev_variant": "Vorherige Fassung",
+    "next_variant": "Nächste Fassung",
+    "actions": "Aktionen zur Antwort",
+    "good": "Gute Antwort",
+    "bad": "Schlechte Antwort",
+    "stop": "Stopp",
+    "scroll_down": "Zur neuesten Nachricht",
+    "role_user": "Du",
+    "role_adam": "Adam"
   },
   "frozen": {
     "title": "Adam ruht",
@@ -350,7 +364,9 @@
     "theme_light": "Design: Tag",
     "notifications_open_settings": "Anleitung öffnen",
     "new_chat_started": "Neuer Dialog eröffnet.",
-    "history_opened": "Früherer Dialog geöffnet — nur Lesen."
+    "history_opened": "Früherer Dialog geöffnet — nur Lesen.",
+    "dialog_copied": "Gespräch in die Zwischenablage kopiert",
+    "copy_failed": "Kopieren fehlgeschlagen"
   },
   "stol": {
     "adam_listens_silently": "hört still zu",
@@ -1065,7 +1081,9 @@
     "font_size": "Schriftgröße",
     "font_normal": "Normal",
     "font_large": "Groß",
-    "font_xl": "Sehr groß"
+    "font_xl": "Sehr groß",
+    "copy_dialog": "Gespräch kopieren",
+    "download_dialog": "Gespräch herunterladen (.md)"
   },
   "history": {
     "title": "Chat-Verlauf",

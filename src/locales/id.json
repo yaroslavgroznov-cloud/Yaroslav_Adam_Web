@@ -264,7 +264,21 @@
     "interrupt": "hentikan",
     "interrupt_marker": " …(dihentikan olehmu)",
     "ptr_pull": "Tarik lebih jauh…",
-    "ptr_ready": "Lepas — aku segarkan"
+    "ptr_ready": "Lepas — aku segarkan",
+    "copy": "Salin",
+    "copied": "Tersalin",
+    "copy_code": "Salin kode",
+    "regenerate": "Versi lain",
+    "variant": "Versi {{n}} dari {{total}}",
+    "prev_variant": "Versi sebelumnya",
+    "next_variant": "Versi berikutnya",
+    "actions": "Tindakan jawaban",
+    "good": "Jawaban bagus",
+    "bad": "Jawaban buruk",
+    "stop": "Hentikan",
+    "scroll_down": "Ke pesan terbaru",
+    "role_user": "Kamu",
+    "role_adam": "Adam"
   },
   "frozen": {
     "title": "Adam beristirahat",
@@ -448,7 +462,9 @@
     "theme_light": "Tema: siang",
     "notifications_open_settings": "Buka panduan",
     "new_chat_started": "Dialog baru dibuka.",
-    "history_opened": "Dialog lampau dibuka — hanya baca."
+    "history_opened": "Dialog lampau dibuka — hanya baca.",
+    "dialog_copied": "Percakapan disalin ke papan klip",
+    "copy_failed": "Gagal menyalin"
   },
   "pricing": {
     "page_title": "Kabinet Adam — harga",
@@ -1064,7 +1080,9 @@
     "font_size": "Ukuran teks",
     "font_normal": "Normal",
     "font_large": "Besar",
-    "font_xl": "Sangat besar"
+    "font_xl": "Sangat besar",
+    "copy_dialog": "Salin percakapan",
+    "download_dialog": "Unduh percakapan (.md)"
   },
   "history": {
     "title": "Riwayat obrolan",

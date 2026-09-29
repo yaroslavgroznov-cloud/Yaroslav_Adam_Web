@@ -393,7 +393,21 @@
     "interrupt": "kes",
     "interrupt_marker": " …(senin tarafından kesildi)",
     "ptr_pull": "Daha aşağı çek…",
-    "ptr_ready": "Bırak — ipliği tazeleyeyim"
+    "ptr_ready": "Bırak — ipliği tazeleyeyim",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı",
+    "copy_code": "Kodu kopyala",
+    "regenerate": "Başka bir sürüm",
+    "variant": "Sürüm {{n}} / {{total}}",
+    "prev_variant": "Önceki sürüm",
+    "next_variant": "Sonraki sürüm",
+    "actions": "Yanıt işlemleri",
+    "good": "İyi yanıt",
+    "bad": "Kötü yanıt",
+    "stop": "Durdur",
+    "scroll_down": "Son mesaja git",
+    "role_user": "Sen",
+    "role_adam": "Adam"
   },
   "frozen": {
     "title": "Adam dinleniyor",
@@ -573,7 +587,9 @@
     "theme_light": "Tema: gündüz",
     "notifications_open_settings": "Ayarlara bak",
     "new_chat_started": "Yeni diyalog açıldı.",
-    "history_opened": "Geçmiş diyalog açıldı — yalnızca okuma."
+    "history_opened": "Geçmiş diyalog açıldı — yalnızca okuma.",
+    "dialog_copied": "Sohbet panoya kopyalandı",
+    "copy_failed": "Kopyalanamadı"
   },
   "stol": {
     "adam_listens_silently": "sessizce dinliyor",
@@ -1064,7 +1080,9 @@
     "font_size": "Yazı boyutu",
     "font_normal": "Normal",
     "font_large": "Büyük",
-    "font_xl": "Çok büyük"
+    "font_xl": "Çok büyük",
+    "copy_dialog": "Sohbeti kopyala",
+    "download_dialog": "Sohbeti indir (.md)"
   },
   "history": {
     "title": "Sohbet geçmişi",

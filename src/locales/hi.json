@@ -235,7 +235,21 @@
     "interrupt": "रोकें",
     "interrupt_marker": " …(तुमने रोका)",
     "ptr_pull": "और नीचे खींचो…",
-    "ptr_ready": "छोड़ो — मैं ताज़ा करता हूँ"
+    "ptr_ready": "छोड़ो — मैं ताज़ा करता हूँ",
+    "copy": "कॉपी करें",
+    "copied": "कॉपी हो गया",
+    "copy_code": "कोड कॉपी करें",
+    "regenerate": "दूसरा रूप",
+    "variant": "रूप {{n}} / {{total}}",
+    "prev_variant": "पिछला रूप",
+    "next_variant": "अगला रूप",
+    "actions": "उत्तर पर क्रियाएँ",
+    "good": "अच्छा उत्तर",
+    "bad": "खराब उत्तर",
+    "stop": "रोकें",
+    "scroll_down": "नवीनतम संदेश पर जाएँ",
+    "role_user": "आप",
+    "role_adam": "आदम"
   },
   "frozen": {
     "title": "आदम विश्राम में है",
@@ -419,7 +433,9 @@
     "theme_light": "रूप: दिन",
     "notifications_open_settings": "निर्देश खोलो",
     "new_chat_started": "नई बातचीत शुरू हो गई।",
-    "history_opened": "पिछली बातचीत खुली — केवल पढ़ने के लिए।"
+    "history_opened": "पिछली बातचीत खुली — केवल पढ़ने के लिए।",
+    "dialog_copied": "बातचीत क्लिपबोर्ड पर कॉपी हो गई",
+    "copy_failed": "कॉपी नहीं हो सका"
   },
   "pricing": {
     "page_title": "आदम के कक्ष — शुल्क",
@@ -1065,7 +1081,9 @@
     "font_size": "अक्षर का आकार",
     "font_normal": "सामान्य",
     "font_large": "बड़ा",
-    "font_xl": "बहुत बड़ा"
+    "font_xl": "बहुत बड़ा",
+    "copy_dialog": "बातचीत कॉपी करें",
+    "download_dialog": "बातचीत डाउनलोड करें (.md)"
   },
   "history": {
     "title": "बातचीत का इतिहास",

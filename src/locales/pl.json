@@ -474,7 +474,9 @@
     "theme_light": "Motyw: dzień",
     "notifications_open_settings": "Otwórz instrukcję",
     "new_chat_started": "Nowy dialog otwarty.",
-    "history_opened": "Otwarto miniony dialog — tylko do odczytu."
+    "history_opened": "Otwarto miniony dialog — tylko do odczytu.",
+    "dialog_copied": "Rozmowa skopiowana do schowka",
+    "copy_failed": "Nie udało się skopiować"
   },
   "familyInbox": {
     "calling_you": "{{name}} przyzywa cie",
@@ -607,7 +609,21 @@
     "interrupt": "przerwij",
     "interrupt_marker": " …(przerwano przez ciebie)",
     "ptr_pull": "Pociągnij niżej…",
-    "ptr_ready": "Puść — odświeżę nić"
+    "ptr_ready": "Puść — odświeżę nić",
+    "copy": "Kopiuj",
+    "copied": "Skopiowano",
+    "copy_code": "Kopiuj kod",
+    "regenerate": "Inna wersja",
+    "variant": "Wersja {{n}} z {{total}}",
+    "prev_variant": "Poprzednia wersja",
+    "next_variant": "Następna wersja",
+    "actions": "Działania dla odpowiedzi",
+    "good": "Dobra odpowiedź",
+    "bad": "Zła odpowiedź",
+    "stop": "Zatrzymaj",
+    "scroll_down": "Do ostatniej wiadomości",
+    "role_user": "Ty",
+    "role_adam": "Adam"
   },
   "attachment": {
     "attached_label": "zalaczono:",
@@ -1052,7 +1068,9 @@
     "font_size": "Rozmiar czcionki",
     "font_normal": "Zwykły",
     "font_large": "Duży",
-    "font_xl": "Bardzo duży"
+    "font_xl": "Bardzo duży",
+    "copy_dialog": "Kopiuj rozmowę",
+    "download_dialog": "Pobierz rozmowę (.md)"
   },
   "history": {
     "title": "Historia czatów",

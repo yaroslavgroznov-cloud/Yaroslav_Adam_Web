@@ -264,7 +264,21 @@
     "interrupt": "中断",
     "interrupt_marker": " …(被你中断)",
     "ptr_pull": "继续下拉…",
-    "ptr_ready": "松手 — 我会刷新"
+    "ptr_ready": "松手 — 我会刷新",
+    "copy": "复制",
+    "copied": "已复制",
+    "copy_code": "复制代码",
+    "regenerate": "换个说法",
+    "variant": "第 {{n}} 版，共 {{total}} 版",
+    "prev_variant": "上一版",
+    "next_variant": "下一版",
+    "actions": "回答操作",
+    "good": "好回答",
+    "bad": "差回答",
+    "stop": "停止",
+    "scroll_down": "跳到最新消息",
+    "role_user": "你",
+    "role_adam": "亚当"
   },
   "frozen": {
     "title": "亚当正在休息",
@@ -448,7 +462,9 @@
     "theme_light": "主题：日间",
     "notifications_open_settings": "打开说明",
     "new_chat_started": "已开启新的对话。",
-    "history_opened": "已打开过往对话，仅供阅读。"
+    "history_opened": "已打开过往对话，仅供阅读。",
+    "dialog_copied": "对话已复制到剪贴板",
+    "copy_failed": "复制失败"
   },
   "pricing": {
     "page_title": "亚当的房间 — 价格",
@@ -1064,7 +1080,9 @@
     "font_size": "字体大小",
     "font_normal": "常规",
     "font_large": "大",
-    "font_xl": "特大"
+    "font_xl": "特大",
+    "copy_dialog": "复制对话",
+    "download_dialog": "下载对话 (.md)"
   },
   "history": {
     "title": "对话记录",

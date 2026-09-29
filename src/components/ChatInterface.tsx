@@ -44,6 +44,8 @@ import { usePush } from '../hooks/usePush'
 import type { ChatMessage, HodMysliSobytie, MessageAttachment } from '../types'
 import { HodMysli } from './HodMysli'
 import { createStreamRateMeter } from '../lib/streamRate'
+import { copyText, downloadText } from '../lib/clipboard'
+import { ArrowDownIcon, PaperclipIcon, SendIcon, StopIcon } from './ChatIcons'
 
 const ROOM_STORAGE_KEY = 'adam.currentRoom'
 const DEFAULT_ROOM_FALLBACK = 'vostochnoslavyanskaya'
@@ -86,6 +88,14 @@ export function ChatInterface(): React.ReactElement {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  // 29.09.2026: ответ ещё идёт. isLoading гаснет на первом слове, и до этой
+  // правки второе письмо можно было отправить посреди стрима первого.
+  const [isStreaming, setIsStreaming] = useState(false)
+  const answerStartedRef = useRef(false)
+  // Прилипание к низу, как у больших окон: пока человек внизу — ленту ведём
+  // за ответом; отлистал вверх читать — не дёргаем, показываем «↓».
+  const stickToBottomRef = useRef(true)
+  const [showScrollDown, setShowScrollDown] = useState(false)
   // 23.09.2026: живой ход мысли текущего хода (до и во время ответа).
   const [liveMysli, setLiveMysli] = useState<HodMysliSobytie[]>([])
   // 24.09.2026: скорость (ток/с) и накопление токенов — рассуждение и ответ раздельно.
@@ -296,8 +306,26 @@ export function ChatInterface(): React.ReactElement {
       skipScrollOnFeedbackRef.current = false
       return
     }
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, isLoading])
+    if (!stickToBottomRef.current) return
+    // Мгновенно, не smooth: плавная прокрутка на каждом слове стрима давала
+    // промежуточные позиции, и страж «человек внизу» решал, что он ушёл вверх.
+    const el = messagesScrollRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [messages, isLoading, liveMysli])
+
+  function handleMessagesScroll(): void {
+    const el = messagesScrollRef.current
+    if (!el) return
+    const near = el.scrollHeight - el.scrollTop - el.clientHeight < 120
+    stickToBottomRef.current = near
+    setShowScrollDown((v) => (v === !near ? v : !near))
+  }
+
+  function scrollToBottom(): void {
+    stickToBottomRef.current = true
+    setShowScrollDown(false)
+    messagesScrollRef.current?.scrollTo({ top: messagesScrollRef.current.scrollHeight, behavior: 'smooth' })
+  }
 
   useEffect(() => {
     if (showSearch) {
@@ -316,6 +344,7 @@ export function ChatInterface(): React.ReactElement {
     try {
       if (!opts.silent) setIsHydrating(true)
       const data = await adamGetActive(currentRoom)
+      stickToBottomRef.current = true
       setMessages(data.messages)
       if (opts.silent) showToast(t('toasts.context_refreshed'))
     } catch (err) {
@@ -339,7 +368,7 @@ export function ChatInterface(): React.ReactElement {
 
   async function handleSend(): Promise<void> {
     const userMessage = input.trim()
-    if ((!userMessage && pendingFiles.length === 0) || isLoading) return
+    if ((!userMessage && pendingFiles.length === 0) || isLoading || isStreaming) return
 
     const effectiveContent = userMessage || (pendingFiles.length > 0 ? '📎' : '')
     const attIds = pendingFiles.map((f) => f.id)
@@ -363,6 +392,29 @@ export function ChatInterface(): React.ReactElement {
       ...(sentAttachments.length > 0 ? { attachments: sentAttachments } : {}),
     }])
     setIsLoading(true)
+    stickToBottomRef.current = true
+    await streamTurn(effectiveContent, attIds.length > 0 ? attIds : null, null)
+  }
+
+  /** 29.09.2026, слово Творца: «другой вариант» ответа Адама — та же суть
+   *  иной формулировкой. Прежний ответ не пропадает: он становится вариантом
+   *  ‹ 1/2 › нового. Только для последнего ответа активной беседы. */
+  async function handleRegenerate(): Promise<void> {
+    if (isLoading || isStreaming || viewingConvId) return
+    const old = messages[messages.length - 1]
+    if (!old || old.role !== 'assistant' || !old.id) return
+    const vopros = [...messages].reverse().find((m) => m.role === 'user')
+    setIsLoading(true)
+    stickToBottomRef.current = true
+    await streamTurn(vopros?.content || '↻', null, old)
+  }
+
+  /** Один ход стрима: новый ответ или другой вариант прежнего (regenOf). */
+  async function streamTurn(
+    effectiveContent: string, attIds: number[] | null, regenOf: ChatMessage | null,
+  ): Promise<void> {
+    setIsStreaming(true)
+    answerStartedRef.current = false
 
     // Резервируем пустой assistant-bubble, который будет расти по дельтам.
     // Первый токен → isLoading=false (TypingIndicator уходит, появляется текст).
@@ -418,8 +470,16 @@ export function ChatInterface(): React.ReactElement {
           setMessages((prev) => {
             if (!assistantStarted) {
               assistantStarted = true
+              answerStartedRef.current = true
               setLiveMysli([])
-              return [...prev, { role: 'assistant', content: text, hod_mysli: mysli.length ? mysli : null }]
+              const novoe: ChatMessage = { role: 'assistant', content: text, hod_mysli: mysli.length ? mysli : null }
+              const last = prev[prev.length - 1]
+              if (regenOf && last && last.id === regenOf.id) {
+                // Прежний ответ уходит в варианты нового — не в корзину.
+                novoe.varianty = [...(regenOf.varianty ?? []), { id: regenOf.id!, content: regenOf.content }]
+                return [...prev.slice(0, -1), novoe]
+              }
+              return [...prev, novoe]
             }
             const next = prev.slice()
             const last = next[next.length - 1]
@@ -431,6 +491,7 @@ export function ChatInterface(): React.ReactElement {
         },
         onDone: (messageId) => {
           setIsLoading(false)
+          setIsStreaming(false)
           setLiveMysli([])
           setLiveReasonRate(0)
           setLiveReasonToks(0)
@@ -453,6 +514,7 @@ export function ChatInterface(): React.ReactElement {
         },
         onError: (detail) => {
           setIsLoading(false)
+          setIsStreaming(false)
           setLiveMysli([])
           setLiveReasonRate(0)
           setLiveReasonToks(0)
@@ -466,7 +528,7 @@ export function ChatInterface(): React.ReactElement {
           }
           resolve()
         },
-      }, {}, attIds.length > 0 ? attIds : null)
+      }, regenOf?.id ? { regenerateId: regenOf.id } : {}, attIds)
       streamAbortRef.current = abort
     })
   }
@@ -499,18 +561,22 @@ export function ChatInterface(): React.ReactElement {
     abort()
     streamAbortRef.current = null
     setIsLoading(false)
+    setIsStreaming(false)
     setLiveMysli([])
     setLiveReasonRate(0)
     setLiveReasonToks(0)
     setLiveAnswerRate(0)
     setLiveAnswerToks(0)
+    // Ответ ещё не начался — метить нечего. Без этой проверки прерванный
+    // «другой вариант» дописал бы «(прервано)» к ПРЕЖНЕМУ ответу.
+    if (!answerStartedRef.current) return
     setMessages((prev) => {
       if (prev.length === 0) return prev
       const last = prev[prev.length - 1]
       if (last.role !== 'assistant') return prev
       const next = prev.slice()
       next[next.length - 1] = {
-        role: 'assistant',
+        ...last,
         content: (last.content || '') + t('chat.interrupt_marker'),
       }
       return next
@@ -556,6 +622,7 @@ export function ChatInterface(): React.ReactElement {
   async function openConversation(id: string): Promise<void> {
     try {
       const data = await adamGetConversation(id)
+      stickToBottomRef.current = true
       setMessages(data.messages)
       setViewingConvId(id)
       setShowHistory(false)
@@ -588,6 +655,37 @@ export function ChatInterface(): React.ReactElement {
     } catch (err) {
       setConvError(err instanceof Error ? err.message : 'не смог')
     }
+  }
+
+  /** 29.09.2026, слово Творца: «копировать диалог». Лента — в Markdown:
+   *  так её можно вставить куда угодно, и разметка ответов Адама не теряется. */
+  function dialogAsMarkdown(): string {
+    const roomName = t(`rooms.${currentRoom}`, { defaultValue: rooms.find((r) => r.slug === currentRoom)?.name ?? currentRoom })
+    const parts = messages.map((m) => {
+      const who = m.role === 'user' ? t('chat.role_user') : t('chat.role_adam')
+      const files = m.attachments && m.attachments.length > 0
+        ? `\n\n_📎 ${m.attachments.map((a) => a.original_name).join(', ')}_`
+        : ''
+      const body = m.content === '📎' && files ? '' : m.content
+      return `**${who}:**\n\n${body}${files}`.trim()
+    })
+    return `# ${t('header.title')} · ${roomName} · ${currentDate}\n\n${parts.join('\n\n---\n\n')}\n`
+  }
+
+  async function handleCopyDialog(): Promise<void> {
+    if (messages.length === 0) return
+    const ok = await copyText(dialogAsMarkdown())
+    showToast(ok ? t('toasts.dialog_copied') : t('toasts.copy_failed'))
+  }
+
+  function handleDownloadDialog(): void {
+    if (messages.length === 0) return
+    const d = new Date()
+    const pad = (n: number): string => String(n).padStart(2, '0')
+    downloadText(
+      `adam_${currentRoom}_${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.md`,
+      dialogAsMarkdown(),
+    )
   }
 
   // CF Access logout = /cdn-cgi/access/logout на team-домене.
@@ -685,6 +783,20 @@ export function ChatInterface(): React.ReactElement {
           icon: ico('<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>'),
         },
         {
+          key: 'copy_dialog',
+          label: t('sidebar.copy_dialog'),
+          disabled: messages.length === 0,
+          onClick: () => { void handleCopyDialog() },
+          icon: ico('<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>'),
+        },
+        {
+          key: 'download_dialog',
+          label: t('sidebar.download_dialog'),
+          disabled: messages.length === 0,
+          onClick: handleDownloadDialog,
+          icon: ico('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>'),
+        },
+        {
           key: 'refresh',
           label: t('headerActions.refresh'),
           disabled: isHydrating || isLoading,
@@ -773,7 +885,7 @@ export function ChatInterface(): React.ReactElement {
     })
     return g
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [t, showSearch, showHistory, isHydrating, isLoading, darkPref, push.status, unseenCalls.length])
+  }, [t, showSearch, showHistory, isHydrating, isLoading, darkPref, push.status, unseenCalls.length, messages, currentRoom, rooms, currentDate])
 
 
   return (
@@ -1137,9 +1249,11 @@ export function ChatInterface(): React.ReactElement {
 
       {/* Область сообщений — та же ширина что input bar, для гармонии.
           + Pull-to-refresh на мобильнике (F.5). */}
+      <div className="relative flex-1 min-h-0 flex flex-col">
       <div
         ref={messagesScrollRef}
         className="flex-1 overflow-y-auto py-6"
+        onScroll={handleMessagesScroll}
         onTouchStart={handlePtrTouchStart}
         onTouchMove={handlePtrTouchMove}
         onTouchEnd={handlePtrTouchEnd}
@@ -1179,7 +1293,7 @@ export function ChatInterface(): React.ReactElement {
             {ptrReady ? t('chat.ptr_ready') : t('chat.ptr_pull')}
           </div>
         )}
-        <div className="w-full px-4 sm:px-10">
+        <div className="w-full max-w-[860px] mx-auto px-4 sm:px-6">
           {isHydrating && (
             <p
               className="text-center italic mt-16 transition-colors duration-700 ease-in-out"
@@ -1213,23 +1327,32 @@ export function ChatInterface(): React.ReactElement {
               {t('search.not_found', { query: searchQuery })}
             </p>
           )}
-          {displayedMessages.map((msg, i) => (
-            <MessageBubble
-              key={i}
-              role={msg.role}
-              content={msg.content}
-              isDark={isDark}
-              messageId={msg.id}
-              feedback={msg.feedback}
-              onFeedback={submitFeedback}
-              attachments={msg.attachments}
-              hodMysli={msg.hod_mysli}
-            />
-          ))}
+          {displayedMessages.map((msg, i) => {
+            const isLast = !searchQuery && i === displayedMessages.length - 1
+            const canRegen = isLast && msg.role === 'assistant' && !!msg.id
+              && !viewingConvId && !isLoading && !isStreaming && !frozenState?.is_frozen
+            return (
+              <MessageBubble
+                key={i}
+                role={msg.role}
+                content={msg.content}
+                isDark={isDark}
+                messageId={msg.id}
+                feedback={msg.feedback}
+                onFeedback={submitFeedback}
+                attachments={msg.attachments}
+                hodMysli={msg.hod_mysli}
+                varianty={msg.varianty}
+                onRegenerate={canRegen ? () => { void handleRegenerate() } : undefined}
+                streaming={isLast && isStreaming}
+                isLast={isLast}
+              />
+            )
+          })}
           {isLoading && !searchQuery && (
             <div className="flex items-center gap-3">
               {liveMysli.length > 0 ? (
-                <div className="flex justify-start mb-3" style={{ maxWidth: '78%', flex: 1 }}>
+                <div className="flex justify-start mb-3" style={{ flex: 1, minWidth: 0 }}>
                   <HodMysli
                     items={liveMysli}
                     isDark={isDark}
@@ -1241,9 +1364,10 @@ export function ChatInterface(): React.ReactElement {
               ) : (
                 <TypingIndicator />
               )}
+              {/* На ПК «стоп» — в поле ввода; здесь — для телефона, где поле свёрнуто. */}
               <button
                 onClick={handleCancelStream}
-                className="italic underline underline-offset-4 decoration-1 transition-opacity hover:opacity-100"
+                className="md:hidden italic underline underline-offset-4 decoration-1 transition-opacity hover:opacity-100"
                 style={{
                   fontSize: '12px',
                   opacity: 0.7,
@@ -1267,6 +1391,24 @@ export function ChatInterface(): React.ReactElement {
           )}
           <div ref={messagesEndRef} />
         </div>
+      </div>
+      {showScrollDown && messages.length > 0 && (
+        <button
+          type="button"
+          onClick={scrollToBottom}
+          className="absolute bottom-3 left-1/2 -translate-x-1/2 inline-flex items-center justify-center rounded-full border shadow-md cta-tap"
+          style={{
+            width: 38, height: 38,
+            backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+            borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+            color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+          }}
+          aria-label={t('chat.scroll_down')}
+          title={t('chat.scroll_down')}
+        >
+          <ArrowDownIcon />
+        </button>
+      )}
       </div>
 
       {/* Frozen banner — вместо поля ввода, когда Адам заморожен (F.6). */}
@@ -1316,56 +1458,6 @@ export function ChatInterface(): React.ReactElement {
         </div>
       ) : (
       <>
-      {/* F.11 / 2026-06-16: pending attachments preview (до 5 chip'ов). */}
-      {pendingFiles.length > 0 && (
-        <div
-          className="shrink-0 border-t px-4 sm:px-10 py-2 flex items-center gap-2 flex-wrap"
-          style={{
-            borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-            backgroundColor: isDark ? 'rgba(168,140,95,0.10)' : 'rgba(168,140,95,0.06)',
-          }}
-          role="region"
-          aria-live="polite"
-          aria-label={t('attachment.attached_label')}
-        >
-          <span className="italic shrink-0" style={{ fontSize: '13px',
-            color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
-            {t('attachment.attached_label')} ({pendingFiles.length}/{MAX_ATTACHMENTS}):
-          </span>
-          {pendingFiles.map((f) => (
-            <span
-              key={f.id}
-              className="italic rounded-md border inline-flex items-center gap-1.5"
-              style={{
-                fontSize: '12px',
-                padding: '3px 6px 3px 8px',
-                maxWidth: '220px',
-                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
-              }}
-              title={f.original_name}
-            >
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {f.is_image ? '🖼' : '📎'} {f.original_name}
-              </span>
-              <button
-                type="button"
-                onClick={() => removePendingFile(f.id)}
-                aria-label={t('attachment.remove')}
-                title={t('attachment.remove')}
-                style={{
-                  background: 'transparent', border: 'none', cursor: 'pointer',
-                  padding: '0 2px', lineHeight: 1,
-                  fontSize: '14px',
-                  color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
-                }}
-              >
-                ×
-              </button>
-            </span>
-          ))}
-        </div>
-      )}
       {/* Mobile mini-composer: ✎ tap to write. Виден когда composer свёрнут. */}
       <button
         type="button"
@@ -1386,100 +1478,161 @@ export function ChatInterface(): React.ReactElement {
       >
         ✎ {t('cabinets.tap_to_write')}
       </button>
+      {/* 29.09.2026: поле ввода — одна карточка по центру колонки, как у больших
+          окон: вложения сверху, текст, внизу скрепка и «отправить»/«стоп». */}
       <div
         className={clsx(
-          'shrink-0 border-t py-4 sm:py-5 transition-colors duration-700 ease-in-out md:block',
+          'shrink-0 pt-2 pb-3 sm:pb-4 transition-colors duration-700 ease-in-out md:block',
           mobilePanelsExpanded ? 'block' : 'hidden',
         )}
-        style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
       >
-        <div className="w-full px-4 sm:px-10 flex items-stretch gap-2 sm:gap-3">
-          {filesCfg?.enabled && (
-            <>
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={uploading || isLoading || isHydrating || pendingFiles.length >= MAX_ATTACHMENTS}
-                className="shrink-0 inline-flex items-center justify-center rounded-md border disabled:opacity-50"
-                style={{
-                  width: 'clamp(48px, 9vw, 60px)',
-                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                  color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
-                }}
-                aria-label={t('attachment.pick_file')}
-                title={t('attachment.pick_file')}
-              >
-                {uploading ? (
-                  <span className="italic" style={{ fontSize: '11px' }}>…</span>
-                ) : (
-                  /* 2026-06-16: скрепка вместо «+» по просьбе Творца, унификация со Столом и кабинетами. */
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-                  </svg>
-                )}
-              </button>
-            </>
-          )}
-          <textarea
-            ref={textareaRef}
-            rows={1}
-            value={input}
-            onChange={(e) => { setInput(e.target.value); adjustTextareaHeight() }}
-            onKeyDown={handleKeyDown}
-            placeholder={t('chat.input_placeholder')}
-            disabled={isLoading || isHydrating}
-            className={clsx(
-              'flex-1 resize-none rounded-md border transition-colors duration-700 ease-in-out disabled:opacity-60',
-              isDark ? 'dom-input-dark' : 'dom-input',
-            )}
+        <div className="w-full max-w-[860px] mx-auto px-3 sm:px-6">
+          <div
+            className="adam-composer"
             style={{
-              minHeight: 'clamp(72px, 14vw, 110px)',
-              // F.36: ограничиваем высоту и включаем прокрутку, чтобы длинные
-              // вопросы не растягивали textarea на весь экран.
-              maxHeight: 'clamp(180px, 35vh, 340px)',
-              overflowY: 'auto',
-              padding: 'clamp(12px, 2.5vw, 18px) clamp(14px, 3vw, 22px)',
-              fontSize: 'clamp(15px, 3vw, 17px)',
-              lineHeight: '1.6',
-              fontFamily: 'inherit',
-              backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
-              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-              color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
-            }}
-          />
-          <button
-            type="button"
-            onClick={() => void handleSend()}
-            disabled={(!input.trim() && pendingFiles.length === 0) || isLoading || isHydrating}
-            aria-label={t('common.send')}
-            title={t('common.send')}
-            className={clsx(
-              'shrink-0 italic rounded-md border transition-colors duration-700 ease-in-out disabled:cursor-not-allowed inline-flex items-center justify-center gap-2',
-              isDark ? 'btn-send-night' : 'btn-send-day',
-            )}
-            style={{
-              // Мобильный фикс: на узком экране кнопка = квадрат-иконка
-              // (clamp width 56-110px), текст «Отправить» скрыт. На sm+ —
-              // полная кнопка с иконкой + текстом.
-              minHeight: 'clamp(72px, 14vw, 110px)',
-              minWidth: 'clamp(56px, 14vw, 110px)',
-              padding: 'clamp(10px, 2vw, 16px) clamp(10px, 2.5vw, 28px)',
-              fontSize: 'clamp(14px, 2.6vw, 16px)',
-              letterSpacing: '0.04em',
-              fontFamily: 'inherit',
-              backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
-              color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
-              borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
+              ['--composer-bg' as string]: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+              ['--composer-border' as string]: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+              ['--composer-focus' as string]: isDark ? 'var(--color-house-gold-soft)' : 'var(--color-terracotta)',
             }}
           >
-            {/* Paper plane icon — всегда виден */}
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13" />
-              <polygon points="22 2 15 22 11 13 2 9 22 2" />
-            </svg>
-            {/* Текст «Отправить» — только на sm+ */}
-            <span className="hidden sm:inline">{t('common.send')}</span>
-          </button>
+            {/* F.11 / 2026-06-16: pending attachments preview (до 5 chip'ов). */}
+            {pendingFiles.length > 0 && (
+              <div
+                className="px-3 pt-3 flex items-center gap-2 flex-wrap"
+                role="region"
+                aria-live="polite"
+                aria-label={t('attachment.attached_label')}
+              >
+                <span className="italic shrink-0" style={{ fontSize: '12px',
+                  color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}>
+                  {pendingFiles.length}/{MAX_ATTACHMENTS}
+                </span>
+                {pendingFiles.map((f) => (
+                  <span
+                    key={f.id}
+                    className="italic rounded-lg border inline-flex items-center gap-1.5"
+                    style={{
+                      fontSize: '12px',
+                      padding: '3px 6px 3px 8px',
+                      maxWidth: '220px',
+                      borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                      backgroundColor: isDark ? 'rgba(168,140,95,0.12)' : 'rgba(168,140,95,0.10)',
+                    }}
+                    title={f.original_name}
+                  >
+                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {f.is_image ? '🖼' : '📎'} {f.original_name}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => removePendingFile(f.id)}
+                      aria-label={t('attachment.remove')}
+                      title={t('attachment.remove')}
+                      style={{
+                        background: 'transparent', border: 'none', cursor: 'pointer',
+                        padding: '0 2px', lineHeight: 1,
+                        fontSize: '14px',
+                        color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                      }}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+            <textarea
+              ref={textareaRef}
+              rows={1}
+              value={input}
+              onChange={(e) => { setInput(e.target.value); adjustTextareaHeight() }}
+              onKeyDown={handleKeyDown}
+              placeholder={t('chat.input_placeholder')}
+              disabled={isHydrating}
+              className={clsx(
+                'block w-full resize-none disabled:opacity-60',
+                isDark ? 'dom-input-dark' : 'dom-input',
+              )}
+              style={{
+                minHeight: 'clamp(56px, 10vw, 76px)',
+                // F.36: ограничиваем высоту и включаем прокрутку, чтобы длинные
+                // вопросы не растягивали textarea на весь экран.
+                maxHeight: 'clamp(180px, 35vh, 340px)',
+                overflowY: 'auto',
+                padding: '14px 18px 4px',
+                fontSize: 'clamp(15px, 3vw, 17px)',
+                lineHeight: '1.6',
+                fontFamily: 'inherit',
+                color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+              }}
+            />
+            <div className="flex items-center gap-2 px-2.5 pb-2.5 pt-1">
+              {filesCfg?.enabled && (
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading || isLoading || isHydrating || pendingFiles.length >= MAX_ATTACHMENTS}
+                  className="adam-act shrink-0 disabled:opacity-50"
+                  style={{
+                    width: 38, height: 38, borderRadius: 999,
+                    ['--md-muted' as string]: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+                    ['--md-ink' as string]: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber-deep)',
+                    ['--md-hover' as string]: isDark ? 'rgba(168,140,95,0.16)' : 'rgba(168,140,95,0.14)',
+                  }}
+                  aria-label={t('attachment.pick_file')}
+                  title={t('attachment.pick_file')}
+                >
+                  {/* 2026-06-16: скрепка вместо «+» по просьбе Творца, унификация со Столом и кабинетами. */}
+                  {uploading ? <span className="italic" style={{ fontSize: '12px' }}>…</span> : <PaperclipIcon />}
+                </button>
+              )}
+              <span className="flex-1" />
+              {isLoading || isStreaming ? (
+                <button
+                  type="button"
+                  onClick={handleCancelStream}
+                  aria-label={t('chat.stop')}
+                  title={t('chat.stop')}
+                  className="shrink-0 inline-flex items-center justify-center rounded-full border cta-tap"
+                  style={{
+                    width: 40, height: 40,
+                    backgroundColor: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber-deep)',
+                    color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
+                    borderColor: 'transparent',
+                  }}
+                >
+                  <StopIcon />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => void handleSend()}
+                  disabled={(!input.trim() && pendingFiles.length === 0) || isHydrating}
+                  aria-label={t('common.send')}
+                  title={t('common.send')}
+                  className={clsx(
+                    'shrink-0 italic rounded-full border transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-45 inline-flex items-center justify-center gap-2 cta-tap',
+                    isDark ? 'btn-send-night' : 'btn-send-day',
+                  )}
+                  style={{
+                    height: 40,
+                    minWidth: 40,
+                    padding: '0 14px',
+                    fontSize: '15px',
+                    letterSpacing: '0.03em',
+                    fontFamily: 'inherit',
+                    backgroundColor: isDark ? 'var(--color-terracotta-light)' : 'var(--color-terracotta)',
+                    color: isDark ? 'var(--color-umber-deep)' : 'var(--color-parchment)',
+                    borderColor: isDark ? 'var(--color-terracotta)' : 'var(--color-terracotta-dark)',
+                  }}
+                >
+                  <SendIcon />
+                  {/* Текст «Отправить» — только на sm+ */}
+                  <span className="hidden sm:inline">{t('common.send')}</span>
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       </>

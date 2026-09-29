@@ -418,3 +418,94 @@ body {
     transform: translateY(-50%) !important;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Окно Адама по принципу больших моделей (29.09.2026, слово Творца).
+   Цвета приходят переменными --md-* из MessageBubble — там же день/ночь.
+   ───────────────────────────────────────────────────────────────────── */
+.adam-md {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.adam-md > :first-child { margin-top: 0; }
+.adam-md > :last-child { margin-bottom: 0; }
+.adam-md p { margin: 0 0 0.85em; }
+.adam-md strong { font-weight: 600; color: var(--md-accent); }
+.adam-md em { font-style: italic; }
+.adam-md h1, .adam-md h2, .adam-md h3, .adam-md h4 {
+  font-weight: 600; line-height: 1.3; color: var(--md-accent);
+  margin: 1.2em 0 0.5em;
+}
+.adam-md h1 { font-size: 1.45em; }
+.adam-md h2 { font-size: 1.3em; }
+.adam-md h3 { font-size: 1.15em; }
+.adam-md h4 { font-size: 1.05em; }
+.adam-md ul, .adam-md ol { margin: 0 0 0.85em; padding-left: 1.5em; }
+.adam-md ul { list-style: disc; }
+.adam-md ol { list-style: decimal; }
+.adam-md li { margin: 0.25em 0; }
+.adam-md li > p { margin: 0.2em 0; }
+.adam-md li::marker { color: var(--md-muted); }
+.adam-md a { color: var(--md-accent); text-decoration: underline; text-underline-offset: 3px; }
+.adam-md blockquote {
+  margin: 0 0 0.85em; padding: 0.1em 0 0.1em 1em;
+  border-left: 3px solid var(--md-rule); color: var(--md-muted); font-style: italic;
+}
+.adam-md hr { border: 0; border-top: 1px solid var(--md-rule); margin: 1.4em 0; }
+.adam-md :not(pre) > code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.86em; padding: 0.12em 0.4em; border-radius: 5px;
+  background: var(--md-code-bg);
+}
+.adam-md-code {
+  margin: 0 0 1em; border: 1px solid var(--md-rule); border-radius: 10px;
+  overflow: hidden; background: var(--md-code-bg);
+}
+.adam-md-code-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 2px 6px 2px 12px; font-size: 12px; color: var(--md-muted);
+  border-bottom: 1px solid var(--md-rule);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.adam-md-code pre {
+  margin: 0; padding: 12px 14px; overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.84em; line-height: 1.55;
+}
+.adam-md-table { overflow-x: auto; margin: 0 0 1em; }
+.adam-md table { border-collapse: collapse; font-size: 0.95em; min-width: 50%; }
+.adam-md th, .adam-md td { border: 1px solid var(--md-rule); padding: 6px 10px; text-align: left; vertical-align: top; }
+.adam-md th { font-weight: 600; background: var(--md-code-bg); }
+
+/* Панель действий под сообщением */
+.adam-act {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 30px; min-width: 30px; padding: 0 7px; justify-content: center;
+  border-radius: 8px; border: 0; background: transparent; cursor: pointer;
+  color: var(--md-muted); font-size: 13px; font-family: inherit;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.adam-act:hover:not(:disabled) { background: var(--md-hover); color: var(--md-ink); }
+.adam-act:disabled { opacity: 0.35; cursor: default; }
+.adam-msg-actions { transition: opacity var(--dur-fast) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .adam-msg .adam-msg-actions:not(.is-pinned) { opacity: 0; }
+  .adam-msg:hover .adam-msg-actions,
+  .adam-msg .adam-msg-actions:focus-within { opacity: 1; }
+}
+
+/* Поле ввода — одна карточка, как у больших окон */
+.adam-composer {
+  border: 1px solid var(--composer-border);
+  border-radius: 18px;
+  background: var(--composer-bg);
+  box-shadow: 0 1px 2px rgba(31, 22, 17, 0.06), 0 6px 24px rgba(31, 22, 17, 0.06);
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+.adam-composer:focus-within {
+  border-color: var(--composer-focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--composer-focus) 18%, transparent), 0 6px 24px rgba(31, 22, 17, 0.08);
+}
+.adam-composer textarea { background: transparent; border: 0; outline: none; box-shadow: none; }
+.adam-composer textarea:focus-visible { outline: none; }

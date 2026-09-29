@@ -23,6 +23,14 @@ export interface ChatMessage {
   // До этой правки `pendingFiles` очищался в handleSend, а в сообщение не
   // клался вовсе: файл уходил Адаму, но со стороны выглядел исчезнувшим.
   attachments?: MessageAttachment[]
+  /** 29.09.2026: прежние варианты ответа (сменённые «другим вариантом»). */
+  varianty?: MessageVariant[]
+}
+
+/** 29.09.2026: прежний вариант ответа Адама — показывается листанием ‹ 1/2 ›. */
+export interface MessageVariant {
+  id: string
+  content: string
 }
 
 /** Вложение в том виде, в каком его показывает пузырь сообщения.

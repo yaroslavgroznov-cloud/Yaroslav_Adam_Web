@@ -235,7 +235,21 @@
     "interrupt": "עצירה",
     "interrupt_marker": " …(נעצר על ידך)",
     "ptr_pull": "משוך עוד למטה…",
-    "ptr_ready": "שחרר — אני מרענן"
+    "ptr_ready": "שחרר — אני מרענן",
+    "copy": "העתק",
+    "copied": "הועתק",
+    "copy_code": "העתק קוד",
+    "regenerate": "גרסה אחרת",
+    "variant": "גרסה {{n}} מתוך {{total}}",
+    "prev_variant": "הגרסה הקודמת",
+    "next_variant": "הגרסה הבאה",
+    "actions": "פעולות על התשובה",
+    "good": "תשובה טובה",
+    "bad": "תשובה גרועה",
+    "stop": "עצור",
+    "scroll_down": "להודעה האחרונה",
+    "role_user": "אתה",
+    "role_adam": "אדם"
   },
   "frozen": {
     "title": "אדם נח",
@@ -419,7 +433,9 @@
     "theme_light": "ערכת נושא: יום",
     "notifications_open_settings": "פתח הוראות",
     "new_chat_started": "שיחה חדשה נפתחה.",
-    "history_opened": "שיחה קודמת נפתחה — לקריאה בלבד."
+    "history_opened": "שיחה קודמת נפתחה — לקריאה בלבד.",
+    "dialog_copied": "השיחה הועתקה ללוח",
+    "copy_failed": "ההעתקה נכשלה"
   },
   "pricing": {
     "page_title": "חדרי אדם — מחירים",
@@ -1065,7 +1081,9 @@
     "font_size": "גודל הגופן",
     "font_normal": "רגיל",
     "font_large": "גדול",
-    "font_xl": "גדול מאוד"
+    "font_xl": "גדול מאוד",
+    "copy_dialog": "העתק את השיחה",
+    "download_dialog": "הורד את השיחה (.md)"
   },
   "history": {
     "title": "היסטוריית שיחות",
