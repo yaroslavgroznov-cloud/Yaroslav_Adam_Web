@@ -167,7 +167,7 @@ export function PricingPage(): React.ReactElement {
       id: 'session',
       eyebrowKey: 'tiers.session_eyebrow',
       titleKey: 'tiers.session_title',
-      priceUsd: 9,
+      priceUsd: 11.99,
       priceLaunchKey: 'tiers.session_price_launch',
       priceWasKey: 'tiers.session_price_was',
       perksKeys: ['tiers.session_perks_l1', 'tiers.session_perks_l2', 'tiers.session_perks_l3'],
@@ -179,7 +179,7 @@ export function PricingPage(): React.ReactElement {
       id: 'topic',
       eyebrowKey: 'tiers.topic_eyebrow',
       titleKey: 'tiers.topic_title',
-      priceUsd: 19,
+      priceUsd: 14.99,
       priceLaunchKey: 'tiers.topic_price_launch',
       priceWasKey: 'tiers.topic_price_was',
       perksKeys: ['tiers.topic_perks_l1', 'tiers.topic_perks_l2', 'tiers.topic_perks_l3'],
@@ -192,7 +192,7 @@ export function PricingPage(): React.ReactElement {
       id: 'all_access',
       eyebrowKey: 'tiers.all_eyebrow',
       titleKey: 'tiers.all_title',
-      priceUsd: 39,
+      priceUsd: 24.99,
       priceLaunchKey: 'tiers.all_price_launch',
       priceWasKey: 'tiers.all_price_was',
       perksKeys: ['tiers.all_perks_l1', 'tiers.all_perks_l2', 'tiers.all_perks_l3'],
@@ -222,6 +222,12 @@ export function PricingPage(): React.ReactElement {
   ]
 
   const openBuy = (def: typeof tierDefs[number]): void => {
+    // 29.09.2026: «Тема» — подписка на ОДИН кабинет, её оформляют у выбранного
+    // кабинета. Абстрактный slug 'topic' бэкенд не продаёт (404) — ведём к списку.
+    if (def.id === 'topic') {
+      document.getElementById('sessions')?.scrollIntoView({ behavior: 'smooth' })
+      return
+    }
     setBuyTarget({
       id: def.id,
       label: t(def.titleKey),
@@ -317,13 +323,8 @@ export function PricingPage(): React.ReactElement {
           <p className="text-center opacity-60 italic" style={{ fontSize: '14px' }}>{t('pricing.loading')}</p>
         )}
 
-        {/* Launch banner — спасибо первым */}
-        <p
-          className="italic text-center mb-12 opacity-85"
-          style={{ fontSize: '14px', letterSpacing: '0.06em', color: goldText }}
-        >
-          {t('tiers.launch_banner')}
-        </p>
+        {/* 29.09.2026: стартовый баннер «цена до 30 сентября» снят — цены приведены
+            к среднему мировому уровню (Совет b7afbf42), стартовой лестницы больше нет. */}
 
         {/* SECTION 1 — Три способа (4 tier-карточки) */}
         <section className="mb-20">
@@ -627,7 +628,11 @@ function TierCard(p: TierCardProps): React.ReactElement {
       {p.priceLaunchLocal && (
         <div className="opacity-65 mb-1" style={{ fontSize: '13px' }}>{p.priceLaunchLocal}</div>
       )}
-      <div className="italic opacity-55 mb-4" style={{ fontSize: '12px' }}>{p.priceWas}</div>
+      {p.priceWas ? (
+        <div className="italic opacity-55 mb-4" style={{ fontSize: '12px' }}>{p.priceWas}</div>
+      ) : (
+        <div className="mb-4" />
+      )}
       <ul className="space-y-2 mb-5" style={{ fontSize: '14px', listStyle: 'none', paddingLeft: 0 }}>
         {p.perks.map((perk, i) => (
           <li key={i} className="italic opacity-85">
