@@ -195,6 +195,8 @@
     "closed_eyebrow": "by personal invitation of the creator",
     "others_eyebrow": "others",
     "thinking": "Adam is thinking",
+    "thinking_long": "Adam is working with his tools — a deep answer can take a few minutes. No need to wait at the screen: the answer will be saved in the session.",
+    "stream_lost": "The connection dropped, but Adam is still working — refresh the page in a minute and the answer will be in the session.",
     "expand_panels": "Expand panels",
     "collapse_panels": "Collapse panels",
     "tap_to_write": "Tap to write",

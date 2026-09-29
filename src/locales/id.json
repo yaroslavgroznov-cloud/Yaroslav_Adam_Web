@@ -195,6 +195,8 @@
     "closed_eyebrow": "dengan undangan pribadi sang pencipta",
     "others_eyebrow": "lainnya",
     "thinking": "Adam sedang berpikir",
+    "thinking_long": "Adam sedang bekerja dengan alat-alatnya — jawaban yang mendalam bisa memakan beberapa menit. Tidak perlu menunggu di layar: jawaban akan tersimpan di sesi.",
+    "stream_lost": "Koneksi terputus, tetapi Adam masih bekerja — muat ulang halaman dalam satu menit, jawabannya akan ada di sesi.",
     "expand_panels": "Buka panel",
     "collapse_panels": "Tutup panel",
     "tap_to_write": "Ketuk untuk menulis",

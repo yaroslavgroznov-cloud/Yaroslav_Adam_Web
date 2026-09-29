@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 
 import {
-  cabinetsList, cabinetSessionCreate, cabinetChat,
+  cabinetsList, cabinetSessionCreate, cabinetChatStream, CabinetStreamLost,
   cabinetSessionGet, cabinetSessionActive, cabinetSessionMessages,
   cabinetSessionClose, paymentInitiate, startAllAccessSubscription,
 } from '../api/cabinets'
@@ -55,6 +55,8 @@ export function CabinetSessionPage(): React.ReactElement {
   const [messages, setMessages] = useState<ChatLine[]>([])
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
+  // Ход дольше ~40 с (4 статуса «working») — Адам в петле инструментов; говорим об этом.
+  const [dolgo, setDolgo] = useState(false)
   const [error, setError] = useState('')
   // F.66.5 (2026-06-19): inline TRC20-only UI замінено на BuyModal — єдиний
   // UX з 3-рівневими попередженнями (global + per-method + per-detail) + TON
@@ -384,8 +386,13 @@ export function CabinetSessionPage(): React.ReactElement {
     setPendingFiles([])
     setMessages((prev) => [...prev, { role: 'user', content: userMsg, attachments: sentAttachments }])
     setBusy(true)
+    setDolgo(false)
+    let working = 0
     try {
-      const r = await cabinetChat(session.id, userMsg, attIds.length > 0 ? attIds : null)
+      const r = await cabinetChatStream(
+        session.id, userMsg, attIds.length > 0 ? attIds : null,
+        (status) => { if (status === 'working' && ++working >= 4) setDolgo(true) },
+      )
       // Ring 4 (2026-06-24): defensive UX-страховка от leak'а litellm-санитайзера.
       // Backend tool_registry._strip_sanitize_marker уже фильтрует, но если в
       // будущем чейн обхода поломается — пустая строка лучше «[System: Empty
@@ -394,12 +401,13 @@ export function CabinetSessionPage(): React.ReactElement {
       const cleanReply = (r.reply || '').replace(SANITIZE_MARKER, '').trim()
       setMessages((prev) => [...prev, { role: 'assistant', content: cleanReply }])
     } catch (e) {
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', content: `⚠ ${e instanceof Error ? e.message : 'error'}` },
-      ])
+      const text = e instanceof CabinetStreamLost
+        ? t('cabinets.stream_lost')
+        : (e instanceof Error ? e.message : 'error')
+      setMessages((prev) => [...prev, { role: 'assistant', content: `⚠ ${text}` }])
     } finally {
       setBusy(false)
+      setDolgo(false)
     }
   }
 
@@ -949,7 +957,9 @@ export function CabinetSessionPage(): React.ReactElement {
                   aria-live="polite"
                 >
                   <span style={{ fontSize: '15px' }}>✦</span>
-                  <span>{t('cabinets.thinking') || 'Адам обдумывает ответ'}</span>
+                  <span>{dolgo
+                    ? (t('cabinets.thinking_long') || 'Адам работает с инструментами')
+                    : (t('cabinets.thinking') || 'Адам обдумывает ответ')}</span>
                   <span aria-hidden="true" style={{ display: 'inline-flex', gap: '2px', marginLeft: '4px' }}>
                     <span className="adam-bounce" style={{ animationDelay: '0s' }}>•</span>
                     <span className="adam-bounce" style={{ animationDelay: '0.16s' }}>•</span>

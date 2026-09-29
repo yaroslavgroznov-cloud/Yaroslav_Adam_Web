@@ -113,6 +113,63 @@ export async function cabinetChat(
   return jsonOrError<CabinetChatResponse>(res)
 }
 
+/** Связь оборвалась до итога — ход на сервере продолжается и сохранит ответ. */
+export class CabinetStreamLost extends Error {
+  constructor() { super('cabinet stream lost') }
+}
+
+/**
+ * Потоковая дверь кабинета (29.09.2026). Непоточную /chat Cloudflare режет на
+ * 100 с — долгий ход с инструментами туда не помещался. Здесь сервер держит
+ * соединение статусами и отдаёт итог событием `done`; отказ рубежа — `error`
+ * со статусом (в той же форме «HTTP 402: …», что и у cabinetChat).
+ */
+export async function cabinetChatStream(
+  sessionId: number, content: string,
+  attachmentIds?: number[] | null,
+  onStatus?: (status: string) => void,
+): Promise<CabinetChatResponse> {
+  const body: Record<string, unknown> = { content }
+  if (attachmentIds && attachmentIds.length > 0) {
+    body.attachment_ids = attachmentIds
+  }
+  const res = await fetch(`${BASE}/cabinets/sessions/${sessionId}/chat/stream`, {
+    method: 'POST', credentials: 'include',
+    headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
+    body: JSON.stringify(body),
+  })
+  if (!res.ok || !res.body) return jsonOrError<CabinetChatResponse>(res)
+  const reader = res.body.pipeThrough(new TextDecoderStream()).getReader()
+  let buffer = ''
+  try {
+    while (true) {
+      const { value, done } = await reader.read()
+      if (done) break
+      buffer += value
+      let sep: number
+      while ((sep = buffer.indexOf('\n\n')) !== -1) {
+        const frame = buffer.slice(0, sep)
+        buffer = buffer.slice(sep + 2)
+        if (!frame.startsWith('data: ')) continue
+        let evt: { type?: string; status?: string | number; reply?: string; session_id?: number; detail?: unknown }
+        try { evt = JSON.parse(frame.slice(6)) } catch { continue }
+        if (evt.type === 'status') {
+          onStatus?.(String(evt.status ?? ''))
+        } else if (evt.type === 'done') {
+          return { reply: evt.reply ?? '', session_id: evt.session_id ?? sessionId }
+        } else if (evt.type === 'error') {
+          const d = typeof evt.detail === 'string' ? evt.detail : 'error'
+          throw new Error(`HTTP ${evt.status ?? 503}: ${d}`)
+        }
+      }
+    }
+  } catch (e) {
+    if (e instanceof Error && e.message.startsWith('HTTP ')) throw e
+    throw new CabinetStreamLost()
+  }
+  throw new CabinetStreamLost()
+}
+
 export async function paymentInitiate(opts: {
   kind: 'task' | 'cabinet_session' | 'subscription' | 'topup'
   provider: 'lemon_squeezy' | 'paddle' | 'liqpay' | 'crypto_trc20' | 'crypto_sol' | 'crypto_btc' | 'ton_pay'

@@ -195,6 +195,8 @@
     "closed_eyebrow": "na osobiste zaproszenie twórcy",
     "others_eyebrow": "inne",
     "thinking": "Adam myśli",
+    "thinking_long": "Adam pracuje z narzędziami — głęboka odpowiedź może zająć kilka minut. Nie trzeba czekać przy ekranie: odpowiedź zapisze się w sesji.",
+    "stream_lost": "Połączenie zostało przerwane, ale Adam dalej pracuje — odśwież stronę za minutę, odpowiedź będzie w sesji.",
     "expand_panels": "Rozwiń panele",
     "collapse_panels": "Zwiń panele",
     "tap_to_write": "Dotknij, aby pisać",

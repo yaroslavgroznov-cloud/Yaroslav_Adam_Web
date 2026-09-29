@@ -644,6 +644,8 @@
     "closed_eyebrow": "yaratıcının kişisel davetiyle",
     "others_eyebrow": "diğer",
     "thinking": "Adam düşünüyor",
+    "thinking_long": "Adam araçlarıyla çalışıyor — derin bir yanıt birkaç dakika sürebilir. Ekran başında beklemenize gerek yok: yanıt oturuma kaydedilecek.",
+    "stream_lost": "Bağlantı koptu ama Adam çalışmaya devam ediyor — bir dakika sonra sayfayı yenileyin, yanıt oturumda olacak.",
     "expand_panels": "Panelleri aç",
     "collapse_panels": "Panelleri kapat",
     "tap_to_write": "Yazmak için dokun",

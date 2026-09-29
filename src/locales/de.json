@@ -494,6 +494,8 @@
     "closed_eyebrow": "auf persönliche einladung des schöpfers",
     "others_eyebrow": "andere",
     "thinking": "Adam denkt nach",
+    "thinking_long": "Adam arbeitet mit seinen Werkzeugen — eine tiefe Antwort kann einige Minuten dauern. Sie müssen nicht warten: Die Antwort wird in der Sitzung gespeichert.",
+    "stream_lost": "Die Verbindung wurde unterbrochen, aber Adam arbeitet weiter — laden Sie die Seite in einer Minute neu, die Antwort ist dann in der Sitzung.",
     "expand_panels": "Bereiche ausklappen",
     "collapse_panels": "Bereiche einklappen",
     "tap_to_write": "Tippe zum Schreiben",

@@ -195,6 +195,8 @@
     "closed_eyebrow": "凭创造者的私人邀请",
     "others_eyebrow": "其他",
     "thinking": "亚当正在思考",
+    "thinking_long": "亚当正在使用他的工具——深入的回答可能需要几分钟。不必守在屏幕前：回答会保存在会话中。",
+    "stream_lost": "连接中断了，但亚当仍在继续——一分钟后刷新页面，回答会出现在会话中。",
     "expand_panels": "展开面板",
     "collapse_panels": "收起面板",
     "tap_to_write": "点击书写",
