@@ -26,6 +26,7 @@ import { LanguageSwitcher } from './LanguageSwitcher'
 // 2026-07-02: DarkwebSearchModal + LlmModelSwitcher мигрировали в
 // Yaroslav_Kabinet_Tvortsa (privat.groznov.uk).
 import { VoiceModal } from './VoiceModal'
+import { RoomPicker } from './RoomPicker'
 import { useDarkMode } from '../hooks/useDarkMode'
 import { useFontScale } from '../hooks/useFontScale'
 import { notificationsHelp } from '../utils/notificationsHelp'
@@ -888,6 +889,14 @@ export function ChatInterface(): React.ReactElement {
   }, [t, showSearch, showHistory, isHydrating, isLoading, darkPref, push.status, unseenCalls.length, messages, currentRoom, rooms, currentDate])
 
 
+  // Тон шапки: лёгкий градиент пергамента вниз и тонкая линия. Одни и те же
+  // переменные у шапки ПК и строки телефона — один вид на оба экрана.
+  const hdrVars = {
+    ['--hdr-bg-top' as string]: isDark ? 'rgba(43,31,22,0.7)' : 'rgba(251,247,236,0.9)',
+    ['--hdr-bg-bottom' as string]: isDark ? 'rgba(31,22,17,0)' : 'rgba(244,237,223,0)',
+    ['--hdr-line' as string]: isDark ? 'rgba(107,79,46,0.6)' : 'rgba(168,140,95,0.55)',
+  } as React.CSSProperties
+
   return (
     <div
       className="h-screen flex font-serif transition-colors duration-700 ease-in-out"
@@ -1036,81 +1045,144 @@ export function ChatInterface(): React.ReactElement {
         </div>
       )}
 
-      {/* Mobile mini-header: герб + ≡ toggle. Виден когда header свёрнут на mobile. */}
+      {/* 01.10.2026, слово Творца: «расширить окно ответа Адама за счёт
+          переноса второго блока шапки (девиз + комната) в самый верхний».
+          Шапка теперь одна строка: герб, имя с подписью, девиз (на широком
+          экране) и выбор комнаты. Было ~205 px (герб 90 px + подшапка), стало
+          ~76 px — вся разница ушла окну ответа. */}
+      {/* Телефон: герб, имя, комната, меню — одной строкой. */}
       <div
-        className={clsx(
-          'md:hidden shrink-0 px-4 py-1.5 flex items-center justify-between border-b transition-colors duration-700 ease-in-out',
-        )}
-        style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
+        className="md:hidden shrink-0 adam-header px-3 py-1.5 flex items-center gap-2 transition-colors duration-700 ease-in-out"
+        style={hdrVars}
       >
         <img
           src="/dom_groznovyh.jpg"
           alt={t('common.crest_full_alt')}
-          className="h-7 w-auto select-none"
+          className="h-7 w-auto select-none shrink-0"
           style={{
             mixBlendMode: isDark ? 'normal' : 'multiply',
             filter: isDark ? 'brightness(1.08) contrast(1.05)' : 'none',
           }}
         />
-        <span className="italic truncate flex-1 mx-3" style={{ fontSize: '14px', letterSpacing: '0.03em' }}>
+        <span className="italic truncate flex-1 min-w-0" style={{ fontSize: '15px', letterSpacing: '0.03em' }}>
           {t('header.title')}
         </span>
-        <div className="flex items-center gap-1.5 shrink-0">
-          <button
-            type="button"
-            onClick={() => setSidebarMobileOpen(true)}
-            className="shrink-0 inline-flex items-center justify-center rounded-md border"
-            style={{
-              width: 30, height: 30, fontSize: '15px',
-              borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-              backgroundColor: 'transparent',
-              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
-            }}
-            aria-label={t('sidebar.open_menu', { defaultValue: 'Меню' })}
-            title={t('sidebar.open_menu', { defaultValue: 'Меню' })}
-          >
-            ≡
-          </button>
-        </div>
+        <RoomPicker
+          id="room-select-mobile"
+          compact
+          rooms={rooms}
+          value={currentRoom}
+          onChange={setCurrentRoom}
+          disabled={isHydrating || isLoading}
+          isDark={isDark}
+        />
+        <button
+          type="button"
+          onClick={() => setSidebarMobileOpen(true)}
+          className="shrink-0 inline-flex items-center justify-center rounded-full border"
+          style={{
+            width: 30, height: 30, fontSize: '15px',
+            borderColor: isDark ? 'var(--color-ochre-dark)' : 'rgba(168,140,95,0.75)',
+            backgroundColor: 'transparent',
+            color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+          }}
+          aria-label={t('sidebar.open_menu', { defaultValue: 'Меню' })}
+          title={t('sidebar.open_menu', { defaultValue: 'Меню' })}
+        >
+          ≡
+        </button>
       </div>
 
-      {/* Хедер: герб + Адам + действия */}
+      {/* ПК: герб + имя · девиз · комната. Все действия — в левой колонке. */}
       <header
-        className={clsx(
-          'shrink-0 px-4 sm:px-10 py-4 sm:py-5 items-center justify-between gap-2 sm:gap-4 border-b transition-colors duration-700 ease-in-out hidden md:flex',
-        )}
-        style={{ borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)' }}
+        className="shrink-0 adam-header hidden md:flex items-center gap-4 px-6 lg:px-8 py-3 transition-colors duration-700 ease-in-out"
+        style={hdrVars}
       >
-        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+        <div className="flex items-center gap-3 min-w-0 shrink-0">
           <img
             src="/dom_groznovyh.jpg"
             alt={t('common.crest_full_alt')}
-            className="h-[52px] sm:h-[90px] w-auto select-none shrink-0"
+            className="h-[52px] w-auto select-none shrink-0 rounded-sm"
             style={{
               mixBlendMode: isDark ? 'normal' : 'multiply',
               filter: isDark ? 'brightness(1.08) contrast(1.05)' : 'none',
             }}
           />
           <div className="flex flex-col leading-tight min-w-0">
-            <span className="font-medium truncate" style={{ fontSize: 'clamp(20px, 4vw, 28px)', letterSpacing: '0.03em' }}>
+            <span className="font-medium truncate" style={{ fontSize: '24px', letterSpacing: '0.03em' }}>
               {t('header.title')}
             </span>
             <span
-              className="italic hidden sm:inline transition-colors duration-700 ease-in-out"
-              style={{
-                fontSize: '13px',
-                color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)',
-              }}
+              className="italic truncate transition-colors duration-700 ease-in-out"
+              style={{ fontSize: '12.5px', color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)' }}
             >
               {t('header.subtitle')}
             </span>
           </div>
         </div>
 
-        {/* 13.09.2026: все действия переехали в левую колонку (SidebarNav).
-            Здесь остаётся только сворачивание шапки на телефоне — оно про
-            место на экране, а не про управление Адамом. */}
+        <div className="flex-1 min-w-0 flex justify-center">
+          <p
+            className="adam-motto italic text-center hidden lg:block transition-colors duration-700 ease-in-out"
+            style={{
+              fontSize: '14px',
+              lineHeight: 1.35,
+              letterSpacing: '0.03em',
+              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
+            }}
+            title={t('header.motto')}
+          >
+            {t('header.motto')}
+          </p>
+        </div>
+
+        <div className="shrink-0">
+          <RoomPicker
+            id="room-select"
+            rooms={rooms}
+            value={currentRoom}
+            onChange={setCurrentRoom}
+            disabled={isHydrating || isLoading}
+            isDark={isDark}
+          />
+        </div>
       </header>
+
+      {/* Поиск по беседе — тонкая строка под шапкой, только когда открыт. */}
+      {showSearch && (
+        <div className="shrink-0 border-b px-4 sm:px-10 py-2.5"
+             style={{ borderColor: isDark ? 'rgba(107,79,46,0.45)' : 'rgba(168,140,95,0.4)' }}>
+          <div className="w-full max-w-[860px] mx-auto flex items-center gap-2">
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={t('search.placeholder')}
+              className={clsx(
+                'flex-1 rounded-full border transition-colors duration-300',
+                isDark ? 'dom-input-dark' : 'dom-input',
+              )}
+              style={{
+                padding: '7px 16px',
+                fontSize: '15px',
+                fontFamily: 'inherit',
+                backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
+                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
+                color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
+              }}
+            />
+            {searchQuery && (
+              <span
+                className="text-xs italic shrink-0 tabular-nums"
+                style={{ color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
+              >
+                {displayedMessages.length} / {messages.length}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* iOS install hint (P6) — мягкий баннер, один раз */}
       <IosInstallHint isDark={isDark} />
@@ -1160,99 +1232,12 @@ export function ChatInterface(): React.ReactElement {
         <VoiceModal isDark={isDark} onClose={() => setShowVoice(false)} />
       )}
 
-      {/* Подшапка с девизом + dropdown комнат + поиск */}
-      <div className="shrink-0 px-4 sm:px-10 pt-5 pb-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <p
-            className="italic transition-colors duration-700 ease-in-out text-center sm:text-left"
-            style={{
-              fontSize: '14px',
-              letterSpacing: '0.05em',
-              color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)',
-            }}
-          >
-            {t('header.motto')}
-          </p>
-          <div className="flex items-center gap-2 justify-center sm:justify-end">
-              <label
-                htmlFor="room-select"
-                className="italic shrink-0 transition-colors duration-700 ease-in-out"
-                style={{
-                  fontSize: '13px',
-                  color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)',
-                }}
-              >
-                {t('header.room_label')}
-              </label>
-              <select
-                id="room-select"
-                value={currentRoom}
-                onChange={(e) => setCurrentRoom(e.target.value)}
-                disabled={isHydrating || isLoading}
-                className={clsx(
-                  'rounded-md border transition-colors duration-300 disabled:opacity-60 cursor-pointer',
-                  isDark ? 'dom-input-dark' : 'dom-input',
-                )}
-                style={{
-                  padding: '6px 12px',
-                  fontSize: '14px',
-                  fontFamily: 'inherit',
-                  backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
-                  borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                  color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
-                }}
-              >
-                {rooms.map((r) => (
-                  <option key={r.slug} value={r.slug}>
-                    {t(`rooms.${r.slug}`, { defaultValue: r.name })}
-                  </option>
-                ))}
-              </select>
-            </div>
-        </div>
-        {showSearch && (
-          <div className="w-full px-0 sm:px-6 mt-4 flex items-center gap-2">
-            <input
-              ref={searchInputRef}
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t('search.placeholder')}
-              className={clsx(
-                'flex-1 rounded-md border transition-colors duration-300',
-                isDark ? 'dom-input-dark' : 'dom-input',
-              )}
-              style={{
-                padding: '8px 14px',
-                fontSize: '15px',
-                fontFamily: 'inherit',
-                backgroundColor: isDark ? 'var(--color-umber-soft)' : 'var(--color-parchment-soft)',
-                borderColor: isDark ? 'var(--color-ochre-dark)' : 'var(--color-ochre)',
-                color: isDark ? 'var(--color-pergament-light)' : 'var(--color-umber)',
-              }}
-            />
-            {searchQuery && (
-              <span
-                className="text-xs italic shrink-0"
-                style={{ color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)' }}
-              >
-                {displayedMessages.length} / {messages.length}
-              </span>
-            )}
-          </div>
-        )}
-        <div
-          className="mt-4 h-px w-full"
-          style={{ background: isDark ? 'rgba(107,79,46,0.45)' : 'rgba(168,140,95,0.4)' }}
-        />
-      </div>
-
       {/* Область сообщений — та же ширина что input bar, для гармонии.
           + Pull-to-refresh на мобильнике (F.5). */}
       <div className="relative flex-1 min-h-0 flex flex-col">
       <div
         ref={messagesScrollRef}
-        className="flex-1 overflow-y-auto py-6"
+        className="adam-feed flex-1 overflow-y-auto py-6"
         onScroll={handleMessagesScroll}
         onTouchStart={handlePtrTouchStart}
         onTouchMove={handlePtrTouchMove}
@@ -1306,15 +1291,25 @@ export function ChatInterface(): React.ReactElement {
             </p>
           )}
           {!isHydrating && messages.length === 0 && !isLoading && (
-            <p
-              className="text-center italic mt-24 transition-colors duration-700 ease-in-out"
-              style={{
-                fontSize: '22px',
-                color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-muted-warm)',
-              }}
-            >
-              {t('chat.empty_greeting')}
-            </p>
+            // Приветствие пустой беседы — по центру окна, а не прибито к верху:
+            // высота окна выросла, и отступ сверху оставлял его висеть.
+            <div className="flex flex-col items-center justify-center text-center gap-3"
+                 style={{ paddingTop: '20vh' }}>
+              <span aria-hidden="true" style={{ fontSize: '18px', color: isDark ? 'var(--color-house-gold-soft)' : 'var(--color-house-gold-deep)', opacity: 0.8 }}>✦</span>
+              <p
+                className="italic transition-colors duration-700 ease-in-out"
+                style={{
+                  fontSize: 'clamp(19px, 2.4vw, 22px)',
+                  color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-muted-warm)',
+                }}
+              >
+                {t('chat.empty_greeting')}
+              </p>
+              <p className="md:hidden italic" style={{ fontSize: '13px', letterSpacing: '0.05em',
+                color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-ochre-dark)', opacity: 0.85 }}>
+                {t('header.motto')}
+              </p>
+            </div>
           )}
           {!isHydrating && searchQuery && displayedMessages.length === 0 && messages.length > 0 && (
             <p
@@ -1640,9 +1635,10 @@ export function ChatInterface(): React.ReactElement {
 
       {/* Подвал */}
       <footer
-        className="shrink-0 px-4 sm:px-10 py-3 flex items-center justify-between italic transition-colors duration-700 ease-in-out"
+        className="shrink-0 px-4 sm:px-10 pb-2 pt-0.5 flex items-center justify-between italic transition-colors duration-700 ease-in-out"
         style={{
-          fontSize: '13px',
+          fontSize: '12px',
+          opacity: 0.85,
           color: isDark ? 'var(--color-ochre-soft)' : 'var(--color-text-muted-day)',
         }}
       >

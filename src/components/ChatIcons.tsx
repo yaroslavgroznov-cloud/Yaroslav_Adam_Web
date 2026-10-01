@@ -44,3 +44,6 @@ export const SendIcon = (): React.ReactElement => (
 export const PaperclipIcon = (): React.ReactElement => (
   <Ico size={20}><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" /></Ico>
 )
+export const ChevronDown = (): React.ReactElement => (
+  <Ico size={14}><polyline points="6 9 12 15 18 9" /></Ico>
+)
